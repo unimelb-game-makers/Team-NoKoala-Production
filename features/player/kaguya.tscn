@@ -13,6 +13,9 @@ script = ExtResource("1_mgr46")
 
 [node name="Player" type="Sprite3D" parent="." unique_id=86973518]
 transform = Transform3D(0.35, 0, 0, 0, 0.24748737, 0.24748737, 0, -0.24748737, 0.24748737, 0, -0.49262607, 0)
+cast_shadow = 0
+billboard = 1
+alpha_cut = 1
 texture_filter = 0
 texture = ExtResource("1_58itm")
 
@@ -27,7 +30,7 @@ hit_from_inside = true
 hit_back_faces = false
 
 [node name="Shadow" type="Sprite3D" parent="." unique_id=1924183870]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.025779575, -1, 0.5058514)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.026, -1, 0.3)
 modulate = Color(1, 1, 1, 0)
 texture_filter = 0
 texture = ExtResource("3_dogj6")
