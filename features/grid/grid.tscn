@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://liaync3vttmf"]
+
+[ext_resource type="Script" uid="uid://ckjloesk7ibqm" path="res://features/grid/grid.gd" id="1_uis8d"]
+
+[node name="Grid" type="GridMap" unique_id=1048428204]
+cell_size = Vector3(1, 1, 1)
+script = ExtResource("1_uis8d")
