@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b2qu2t13if65m"]
+
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_bvkfh"]
+
+[node name="DemoBlock" type="Node3D" unique_id=1151288400]
+script = ExtResource("1_bvkfh")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(1, 0, 1)])
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1903094071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+size = Vector3(2, 1, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1696727609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
