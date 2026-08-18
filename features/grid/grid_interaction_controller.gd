@@ -5,11 +5,9 @@ extends Node
 
 var _placement_hint_block: Block
 
-var grid_data: GridData = GridData.new()
-
 func _ready() -> void:
 	_placement_hint_block = BlockFactory.create_block()
-	add_child(_placement_hint_block)
+	grid.add_block_visual(_placement_hint_block)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -17,7 +15,7 @@ func _process(_delta: float) -> void:
 	
 	if _placement_hint_block != null:
 		var cell = cell_at_mouse_position()
-		grid.move_block_to_cell(_placement_hint_block, cell, false)
+		grid.move_block_visual(_placement_hint_block, cell)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -28,9 +26,9 @@ func _place_block():
 	if _placement_hint_block != null:
 		var cell = cell_at_mouse_position()
 		print(cell)
-		if grid.move_block_to_cell(_placement_hint_block, cell):
+		if grid.move_block(_placement_hint_block, cell):
 			_placement_hint_block = BlockFactory.create_block()
-			add_child(_placement_hint_block)
+			grid.add_block_visual(_placement_hint_block)
 
 func _rotate_block():
 	if _placement_hint_block != null:
