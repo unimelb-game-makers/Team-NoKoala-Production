@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@export var can_jump: bool = true
 var target_move_direction: Vector3 = Vector3(0,0,0)
 var move_direction: Vector3 = Vector3(0,0,0) 
 var player_speed: float = 125.0
@@ -58,5 +59,5 @@ func _physics_process(delta: float) -> void:
 		target_y_velocity = 0.0
 
 func jump() -> void:
-	if is_on_floor():
+	if is_on_floor() and can_jump:
 		target_y_velocity = JUMP_STRENGTH
