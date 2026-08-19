@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bqa6hikk47yp4" path="res://features/player/shadow.gd" id="4_471q3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
-size = Vector3(0.6431885, 1.0671701, 1.071579)
+size = Vector3(0.6431885, 1.0671701, 0.8967986)
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
 script = ExtResource("1_mgr46")
@@ -17,7 +17,7 @@ texture_filter = 0
 texture = ExtResource("1_58itm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=624202998]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.095581055, -0.4792183, -0.00015260978)
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.095581055, -0.4792183, -0.08754279)
 shape = SubResource("BoxShape3D_q205w")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1981081155]
