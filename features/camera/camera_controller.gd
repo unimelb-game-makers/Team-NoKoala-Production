@@ -2,6 +2,7 @@ extends Camera3D
 
 @export var drag_sensitivity: float = 0.05
 var dragging: bool = false
+var player: Player
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

@@ -1,15 +1,17 @@
 extends CharacterBody3D
+class_name Player
 
+@export var camera: Camera3D
 @export var can_jump: bool = true
-var target_move_direction: Vector3 = Vector3(0,0,0)
-var move_direction: Vector3 = Vector3(0,0,0) 
-var player_speed: float = 1.5
-var target_y_velocity: float = 0.0
 const GRAVITY_SCALE: float = 1.0
 const JUMP_STRENGTH: float = 2.075
 const MAX_GROUND_PLAYER_SPEED = 4.0
 const MAX_AIR_PLAYER_SPEED = 5.0
 const MIN_PLAYER_SPEED = 1.5
+var target_move_direction: Vector3 = Vector3(0,0,0)
+var move_direction: Vector3 = Vector3(0,0,0) 
+var player_speed: float = 1.5
+var target_y_velocity: float = 0.0
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return
@@ -19,11 +21,8 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	target_move_direction = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
-	#1 - exp(-FOLLOW_SPEED * delta)
 	
 	if is_on_floor():
-		#move_direction = lerp(move_direction, target_move_direction, 0.03)
-		#move_direction = lerp(move_direction, target_move_direction, 1 - exp(-0.03 * delta))
 		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.25, delta))
 	else:
 		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.4, delta))

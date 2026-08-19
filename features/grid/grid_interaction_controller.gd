@@ -14,6 +14,7 @@ func _process(_delta: float) -> void:
 		_rotate_block()
 	
 	if _placement_hint_block != null:
+		if not camera: return 
 		var cell = cell_at_mouse_position()
 		grid.move_block_visual(_placement_hint_block, cell)
 

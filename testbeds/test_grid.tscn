@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://pfnkky6pvxe5"]
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_vssav"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_4ywll"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_f40ho"]
 [ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_bi1pw"]
-[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_62vut"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -52,12 +50,5 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=1206433849 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_bi1pw")
-camera = NodePath("../Kaguya/Camera3D")
+camera = NodePath("")
 grid = NodePath("../GridMap")
-
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_62vut")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Kaguya" unique_id=1021673209]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
-script = ExtResource("2_4ywll")
