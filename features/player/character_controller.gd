@@ -10,30 +10,14 @@ const MAX_GROUND_PLAYER_SPEED = 325.0
 const MAX_AIR_PLAYER_SPEED = 375.0
 const MIN_PLAYER_SPEED = 125.0
 
-# for camera rotation
+# for relative movement to camera
 @onready var spring_arm = $SpringArm3D
-var mouse_sensitivity := 0.005
-var dragging := false
-const MAX_ZOOM := 5.0
-const MIN_ZOOM := -3.0
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return
 	
 	if event.is_action_pressed("jump"):
 		jump()
-
-func _unhandled_input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_MIDDLE:
-			dragging = event.pressed
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			spring_arm.spring_length = clamp(spring_arm.spring_length - 0.5, MIN_ZOOM, MAX_ZOOM)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			spring_arm.spring_length = clamp(spring_arm.spring_length + 0.5, MIN_ZOOM, MAX_ZOOM)
-			
-	elif event is InputEventMouseMotion and dragging:
-		rotate_y(event.relative.x * mouse_sensitivity)
 
 func _physics_process(delta: float) -> void:
 	# movement relative to spring arm rotation
