@@ -1,9 +1,9 @@
 @abstract
-class_name FactoryDefinition
+class_name MachineDefinition
 extends Resource
 
 
-@export var ports: Array[FactoryPortDefinition] = []
+@export var ports: Array[MachineBlockDefinition] = []
 
 @abstract func accepts_input(
 	port_id: StringName, 
@@ -11,7 +11,7 @@ extends Resource
 ) -> bool
 
 
-func get_port_definition(port_id: StringName) -> FactoryPortDefinition:
+func get_port_definition(port_id: StringName) -> MachineBlockDefinition:
 	if port_id == &"":
 		return null
 
@@ -19,4 +19,3 @@ func get_port_definition(port_id: StringName) -> FactoryPortDefinition:
 		if port != null and port.port_id == port_id:
 			return port
 	return null
-

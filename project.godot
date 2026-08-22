@@ -17,8 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-FactoryManager="*uid://bnmxs6s8koskj"
-
 [display]
 
 window/stretch/mode="canvas_items"
