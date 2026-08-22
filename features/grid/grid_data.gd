@@ -6,7 +6,7 @@ class GridTileData:
 	}
 
 	var type: Type
-	var block: Block
+	var block: BlockData
 	
 	func _init(p_type: Type):
 		type = p_type
@@ -39,7 +39,7 @@ func get_cells_by_type(tile_type: GridTileData.Type) -> Array[Vector3i]:
 func get_tile_data(cell: Vector3i) -> GridTileData:
 	return _grid.get(cell)
 
-func add_block(block: Block) -> bool:
+func add_block(block: BlockData) -> bool:
 	var can_place := true
 	var occupied_cells := block.occupied_cells()
 
@@ -60,7 +60,7 @@ func add_block(block: Block) -> bool:
 
 	return true
 				
-func remove_block(block: Block) -> void:
+func remove_block(block: BlockData) -> void:
 	if not block.is_placed:
 		return
 

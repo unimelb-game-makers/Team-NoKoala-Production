@@ -43,7 +43,7 @@ func _place_block():
 func _rotate_block():
 	if _placement_hint_block != null:
 		_placement_hint_block.switch_rotation()
-		print(_placement_hint_block.block_rotation)
+		print(_placement_hint_block.block_data.block_rotation)
 
 func cell_at_mouse_position() -> Vector3i:
 	var mouse_pos := get_viewport().get_mouse_position()

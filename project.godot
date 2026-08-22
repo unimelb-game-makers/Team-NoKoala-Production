@@ -15,8 +15,6 @@ run/main_scene="uid://nd6tr2mmnxrb"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[autoload]
-
 [display]
 
 window/stretch/mode="canvas_items"
