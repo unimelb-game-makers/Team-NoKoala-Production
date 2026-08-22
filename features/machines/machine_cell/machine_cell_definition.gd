@@ -1,4 +1,4 @@
-class_name MachineBlockDefinition
+class_name MachineCellDefinition
 extends Resource
 
 enum Role {

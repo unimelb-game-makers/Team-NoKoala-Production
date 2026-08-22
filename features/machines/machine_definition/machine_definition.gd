@@ -3,7 +3,7 @@ class_name MachineDefinition
 extends Resource
 
 
-@export var ports: Array[MachineBlockDefinition] = []
+@export var ports: Array[MachineCellDefinition] = []
 
 @abstract func accepts_input(
 	port_id: StringName, 
@@ -11,7 +11,7 @@ extends Resource
 ) -> bool
 
 
-func get_port_definition(port_id: StringName) -> MachineBlockDefinition:
+func get_port_definition(port_id: StringName) -> MachineCellDefinition:
 	if port_id == &"":
 		return null
 
