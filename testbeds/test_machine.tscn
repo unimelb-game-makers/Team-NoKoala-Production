@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_camera"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
-[ext_resource type="Script" uid="uid://bnmxs6s8koskj" path="res://features/machines/machine_manager.gd" id="4_manager"]
+[ext_resource type="Script" uid="uid://bnmxs6s8koskj" path="res://features/machines/factory_manager.gd" id="4_manager"]
 [ext_resource type="Script" uid="uid://m6tmakwc4u6p" path="res://features/machines/machine_placement_controller.gd" id="5_placement"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/machines/machine_mouse_placement_controller.gd" id="6_mouse"]
 
@@ -51,14 +51,14 @@ mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." instance=ExtResource("3_grid")]
 
-[node name="MachineManager" type="Node" parent="." node_paths=PackedStringArray("grid")]
+[node name="FactoryManager" type="Node" parent="." node_paths=PackedStringArray("grid")]
 script = ExtResource("4_manager")
 grid = NodePath("../GridMap")
 
-[node name="MachinePlacementController" type="Node" parent="." node_paths=PackedStringArray("grid", "machine_manager")]
+[node name="MachinePlacementController" type="Node" parent="." node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("5_placement")
 grid = NodePath("../GridMap")
-machine_manager = NodePath("../MachineManager")
+factory_manager = NodePath("../FactoryManager")
 
 [node name="MachineMousePlacementController" type="Node" parent="." node_paths=PackedStringArray("camera", "grid", "placement_controller")]
 script = ExtResource("6_mouse")

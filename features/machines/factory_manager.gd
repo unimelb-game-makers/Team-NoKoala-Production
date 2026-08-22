@@ -1,4 +1,4 @@
-class_name MachineManager
+class_name FactoryManager
 extends Node
 
 

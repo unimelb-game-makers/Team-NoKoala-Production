@@ -2,7 +2,7 @@ class_name MachinePlacementController
 extends Node
 
 @export var grid: Grid
-@export var machine_manager: MachineManager
+@export var factory_manager: FactoryManager
 
 var _floating_assembly: MachineAssembly
 
@@ -36,7 +36,7 @@ func confirm_placement(cell: Vector3i) -> bool:
 		return false
 
 	_floating_assembly.machine.center_position = cell
-	if not machine_manager.register_machine(_floating_assembly.machine):
+	if not factory_manager.register_machine(_floating_assembly):
 		grid.remove_block(_floating_assembly.block)
 		return false
 
