@@ -1,6 +1,6 @@
 @abstract
 class_name Machine
-extends Block
+extends Node
 
 @export var definition: MachineDefinition
 

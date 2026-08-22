@@ -41,9 +41,9 @@ func get_cell_data(cell: Vector3i) -> GridCellData:
 
 func add_block(block: BlockData) -> bool:
 	var can_place := true
-	var occupied_cells := block.occupied_cells()
+	var blocking_cells := block.blocking_cells()
 
-	for cell in occupied_cells:
+	for cell in blocking_cells:
 		var cell_data := get_cell_data(cell)
 		if cell_data != null and cell_data.block != null:
 			can_place = false
@@ -51,7 +51,7 @@ func add_block(block: BlockData) -> bool:
 	if not can_place:
 		return false
 
-	for cell in occupied_cells:
+	for cell in blocking_cells:
 		var cell_data := get_cell_data(cell)
 		if cell_data != null:
 			cell_data.block = block
@@ -64,8 +64,8 @@ func remove_block(block: BlockData) -> void:
 	if not block.is_placed:
 		return
 
-	var occupied_cells := block.occupied_cells()
-	for cell in occupied_cells:
+	var blocking_cells := block.blocking_cells()
+	for cell in blocking_cells:
 		var cell_data := get_cell_data(cell)
 		if cell_data != null and cell_data.block == block:
 			cell_data.block = null

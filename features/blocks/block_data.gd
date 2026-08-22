@@ -13,6 +13,7 @@ enum Rotation {
 }
 
 @export var footprint: Array[Vector3i]
+@export var overlap_cells: Array[Vector3i] = []
 var block_rotation: Rotation = Rotation.DEG0
 var is_placed: bool
 var root_cell: Vector3i
@@ -21,6 +22,14 @@ func occupied_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
 	for delta in footprint:
 		result.append(root_cell + _rotate_footprint_delta(delta))
+	return result
+
+#returns cells that does not allow overlap
+func blocking_cells() -> Array[Vector3i]:
+	var result: Array[Vector3i] = []
+	for delta in footprint:
+		if not overlap_cells.has(delta):
+			result.append(root_cell + _rotate_footprint_delta(delta))
 	return result
 
 func _rotate_footprint_delta(delta: Vector3i) -> Vector3i:
