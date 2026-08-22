@@ -3,11 +3,26 @@
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
 [ext_resource type="Script" uid="uid://d382g6x7551yi" path="res://features/machines/machine_runtime/machine.gd" id="3_machine"]
 [ext_resource type="Script" path="res://features/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
-[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/machines/machine_cell/machine_cell_definition.gd" id="4_kn4hu"]
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/machines/machine_definition/machine_cell_definition.gd" id="4_kn4hu"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/machines/machine_definition/machine_definition.gd" id="5_8gif8"]
+
+[sub_resource type="Resource" id="Resource_cell_0"]
+script = ExtResource("4_kn4hu")
+role = 2
+
+[sub_resource type="Resource" id="Resource_cell_1"]
+script = ExtResource("4_kn4hu")
+role = 2
+local_cell_offset = Vector3i(1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_cell_2"]
+script = ExtResource("4_kn4hu")
+role = 2
+local_cell_offset = Vector3i(1, 0, 1)
 
 [sub_resource type="Resource" id="Resource_kt1g6"]
 script = ExtResource("5_8gif8")
+cells = Array[ExtResource("4_kn4hu")]([SubResource("Resource_cell_0"), SubResource("Resource_cell_1"), SubResource("Resource_cell_2")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
 [node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]

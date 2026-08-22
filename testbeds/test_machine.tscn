@@ -1,0 +1,71 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
+[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_camera"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
+[ext_resource type="Script" uid="uid://bnmxs6s8koskj" path="res://features/machines/machine_manager.gd" id="4_manager"]
+[ext_resource type="Script" uid="uid://m6tmakwc4u6p" path="res://features/machines/machine_placement_controller.gd" id="5_placement"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/machines/machine_mouse_placement_controller.gd" id="6_mouse"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_machine"]
+sky_material = SubResource("ProceduralSkyMaterial_machine")
+
+[sub_resource type="Environment" id="Environment_machine"]
+background_mode = 2
+sky = SubResource("Sky_machine")
+
+[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
+points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
+albedo_texture = ExtResource("1_texture")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
+material = SubResource("GroundMaterial_machine")
+size = Vector2(1000, 1000)
+
+[node name="TestMachine" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_machine")
+
+[node name="StaticWorld" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D"]
+shape = SubResource("GroundShape_machine")
+
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D"]
+mesh = SubResource("GroundMesh_machine")
+
+[node name="GridMap" parent="." instance=ExtResource("3_grid")]
+
+[node name="MachineManager" type="Node" parent="." node_paths=PackedStringArray("grid")]
+script = ExtResource("4_manager")
+grid = NodePath("../GridMap")
+
+[node name="MachinePlacementController" type="Node" parent="." node_paths=PackedStringArray("grid", "machine_manager")]
+script = ExtResource("5_placement")
+grid = NodePath("../GridMap")
+machine_manager = NodePath("../MachineManager")
+
+[node name="MachineMousePlacementController" type="Node" parent="." node_paths=PackedStringArray("camera", "grid", "placement_controller")]
+script = ExtResource("6_mouse")
+camera = NodePath("../Camera3D")
+grid = NodePath("../GridMap")
+placement_controller = NodePath("../MachinePlacementController")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 2.31901)
+script = ExtResource("2_camera")
