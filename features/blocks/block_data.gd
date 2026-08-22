@@ -21,7 +21,7 @@ var root_cell: Vector3i
 func occupied_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
 	for delta in footprint:
-		result.append(root_cell + _rotate_footprint_delta(delta))
+		result.append(world_cell_for_offset(delta))
 	return result
 
 #returns cells that does not allow overlap
@@ -29,8 +29,11 @@ func blocking_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
 	for delta in footprint:
 		if not overlap_cells.has(delta):
-			result.append(root_cell + _rotate_footprint_delta(delta))
+			result.append(world_cell_for_offset(delta))
 	return result
+
+func world_cell_for_offset(offset: Vector3i) -> Vector3i:
+	return root_cell + _rotate_footprint_delta(offset)
 
 func _rotate_footprint_delta(delta: Vector3i) -> Vector3i:
 	match block_rotation:
