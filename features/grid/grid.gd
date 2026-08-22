@@ -27,6 +27,12 @@ func add_block(block: Block, visual_root: Node3D = null) -> bool:
 func remove_block(block: Block):
 	grid_data.remove_block(block.block_data)
 
+func world_to_cell(world_position: Vector3) -> Vector3i:
+	return local_to_map(to_local(world_position))
+
+func cell_to_world(cell: Vector3i) -> Vector3:
+	return to_global(map_to_local(cell))
+
 ## Updates the visual position of a block to match grid coordinates.
 ## This function doesn't update grid data
 func move_block_visual(visual_root: Node3D, cell: Vector3i):
