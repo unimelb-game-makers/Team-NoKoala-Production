@@ -17,8 +17,6 @@ signal claim_changed(processable: Processable, claimant: Object)
 var _available_for_processing := false
 var _claimant: Object
 
-
-
 # --- Claim processable when pickup or carried by any logistics ---
 
 func try_claim(consumer: Object) -> bool:
@@ -48,7 +46,13 @@ func get_claimant() -> Object:
 	return _claimant
 
 
-# --- helper functions --- 
+# --- internal functions --- 
+
+func _enter_tree() -> void:
+	FactoryManager.register_processable(self)
+
+func _exit_tree() -> void:
+	FactoryManager.unregister_processable(self)
 
 func is_available_for_processing() -> bool:
 	_clear_invalid_claimant()
