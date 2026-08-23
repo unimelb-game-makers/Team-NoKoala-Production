@@ -1,0 +1,36 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://qiyo3mkiwndc"]
+
+[sub_resource type="Shader" id="Shader_76qn0"]
+code = "shader_type spatial;
+
+uniform vec3 character_position;
+uniform float fade_distance = 3.0;
+
+varying vec3 world_vertex;
+
+uniform vec4 color : source_color = vec4(0.94, 0.54, 0.15, 1.0);
+void vertex() {
+	world_vertex = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
+
+void fragment() {
+// Calculate the distance between the fragment and the character
+	float chardistance = length(character_position - world_vertex);
+    
+// Calculate the alpha value based on the distance
+	float alpha = 1.0 - smoothstep(0.0, fade_distance, chardistance);
+	ALBEDO = color.rgb;
+	ALPHA = alpha;
+// Discard the fragment if the alpha is zero
+	if (alpha <= 0.0) {
+		discard;
+	}
+}
+"
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_76qn0")
+shader_parameter/character_position = Vector3(0, 0, 0)
+shader_parameter/fade_distance = 0.0
+shader_parameter/color = Color(0.94, 0.54, 0.15, 1)
