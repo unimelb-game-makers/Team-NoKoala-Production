@@ -20,5 +20,3 @@ texture = ExtResource("2_1bsx1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D/Area3D" unique_id=550586974]
 transform = Transform3D(1, 0, 0, 0, -8.940697e-08, -1, 0, 1, -8.940697e-08, -0.0038146973, 0.010070726, -0.0008774251)
 shape = SubResource("CylinderShape3D_nwpmh")
-
-[connection signal="input_event" from="Sprite3D/Area3D" to="." method="_on_area_3d_input_event"]

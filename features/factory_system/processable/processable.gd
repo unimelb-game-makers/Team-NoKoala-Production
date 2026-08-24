@@ -78,5 +78,3 @@ func _clear_invalid_claimant() -> void:
 	if _claimant != null and not is_instance_valid(_claimant):
 		_claimant = null
 		claim_changed.emit(self, null)
-
-

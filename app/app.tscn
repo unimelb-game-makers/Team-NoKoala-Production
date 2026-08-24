@@ -6,4 +6,4 @@
 [node name="App" type="Node3D" unique_id=539687628]
 script = ExtResource("1_fx3ps")
 
-[node name="TestGrid" parent="." unique_id=194163689 instance=ExtResource("2_e0wx5")]
+[node name="TestFactoryItem" parent="." unique_id=194163689 instance=ExtResource("2_e0wx5")]
