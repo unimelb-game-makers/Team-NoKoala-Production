@@ -1,13 +1,8 @@
 class_name FactoryItemSpawnController
 extends Node
 
-const FACTORY_ITEM_SCENE = preload(
-	"res://features/factory_system/factory_items/factory_item.tscn"
-)
-
 @export var grid_controller: GridInteractionController
 @export var factory_manager: FactoryManager
-@export var factory_item_container: Node
 @export var spawn_height := 0.167
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -17,7 +12,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func spawn_factory_item_at_mouse(
 	item_id: FactoryItemDefinition.FactoryItemID,
 ) -> FactoryItem:
-	if grid_controller == null or factory_item_container == null:
+	if grid_controller == null or factory_manager == null:
 		return null
 
 	var cell := grid_controller.cell_at_mouse_position()
@@ -33,22 +28,15 @@ func spawn_factory_item(
 		item_id,
 		"",
 	)
-	if definition_path.is_empty() or factory_item_container == null:
+	if definition_path.is_empty() or factory_manager == null:
 		return null
 
 	var definition := load(definition_path) as FactoryItemDefinition
 	if definition == null:
 		return null
 
-	var factory_item := FACTORY_ITEM_SCENE.instantiate() as FactoryItem
-	if factory_item == null:
-		return null
-
-	if factory_manager != null:
-		factory_manager.register_processable(factory_item)
-		
-	factory_item.definition = definition
-	factory_item_container.add_child(factory_item)
-	factory_item.set(&"position", world_position)
-	factory_item.drop_at(world_position)
-	return factory_item
+	return FactoryItemFactory.spawn_factory_item(
+		definition,
+		world_position,
+		factory_manager,
+	)
