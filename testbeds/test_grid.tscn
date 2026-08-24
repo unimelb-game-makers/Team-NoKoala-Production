@@ -62,6 +62,13 @@ uniform float fade_distance = 10.0;
 varying vec3 world_vertex;
 uniform vec4 color : source_color = vec4(0.94, 0.54, 0.15, 1.0);
 
+// time based
+uniform float start_time = 0;
+uniform float end_time = 5;
+uniform float fade_progress : hint_range(0.0, 1.0) = 1.0;
+uniform float min_alpha = 0.3;
+uniform float max_alpha = 1.0;
+
 void vertex() {
 	UV = UV * uv1_scale.xy + uv1_offset.xy;
 	// for fading
@@ -80,13 +87,10 @@ void fragment() {
 	ROUGHNESS = roughness_tex * roughness;
 	
 	// for fading
-	float alpha = 1.0;
-	if (is_faded) {
-		// Calculate the distance between the fragment and the character
-		float chardistance = length(character_position - world_vertex);
-		// Fade OUT (transparent) when character is CLOSE, fade IN (opaque) far away
-		alpha = smoothstep(0.0, fade_distance, chardistance);
-	}
+	//float alpha = 1.0;
+	//if (is_faded) {
+	float alpha = mix(max_alpha, min_alpha, fade_progress);
+	//}
 	ALPHA = albedo_tex.a * alpha;
 	if (alpha <= 0.0) {
 		discard;
@@ -114,6 +118,11 @@ shader_parameter/character_position = Vector3(0, 0, 0)
 shader_parameter/is_faded = false
 shader_parameter/fade_distance = 3.0
 shader_parameter/color = Color(0.94, 0.54, 0.15, 1)
+shader_parameter/start_time = 0.0
+shader_parameter/end_time = 5.0
+shader_parameter/fade_progress = 0.0
+shader_parameter/min_alpha = 0.3
+shader_parameter/max_alpha = 1.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_fjo35"]
 _surfaces = [{
