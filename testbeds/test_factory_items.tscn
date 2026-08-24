@@ -56,7 +56,7 @@ script = ExtResource("3_2nodk")
 camera = NodePath("../Kaguya/Camera3D2")
 grid = NodePath("../GridMap")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." node_paths=PackedStringArray("grid_controller", "factory_item_container")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("grid_controller", "factory_item_container")]
 script = ExtResource("6_spawn")
 grid_controller = NodePath("../GridInteractionController")
 factory_item_container = NodePath("../Processables")

@@ -1,21 +1,19 @@
 class_name MachineMousePlacementController
-extends Node
+extends MachinePlacementController
 
 @export var camera: Camera3D
-@export var grid: Grid
-@export var placement_controller: MachinePlacementController
 
 func _ready() -> void:
-	placement_controller.begin_placement()
+	begin_placement()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
-		placement_controller.rotate_preview()
+		rotate_preview()
 
 	if camera == null:
 		return
 
-	placement_controller.update_preview(cell_at_mouse_position())
+	update_preview(cell_at_mouse_position())
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -23,8 +21,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_place_machine()
 
 func _place_machine() -> void:
-	if placement_controller.confirm_placement(cell_at_mouse_position()):
-		placement_controller.begin_placement()
+	if confirm_placement(cell_at_mouse_position()):
+		begin_placement()
 
 func cell_at_mouse_position() -> Vector3i:
 	var mouse_pos := get_viewport().get_mouse_position()

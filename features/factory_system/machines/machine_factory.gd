@@ -1,6 +1,6 @@
 class_name MachineFactory
 
-const MACHINE = preload("res://features/machines/machine_runtime/demo_machine.tscn")
+const MACHINE = preload("res://features/factory_system/machines/machine_runtime/demo_machine.tscn")
 
 const machine_scene: Dictionary = {
 }
