@@ -3,15 +3,21 @@ class_name Player
 
 @export var camera: Camera3D
 @export var can_jump: bool = true
+@onready var item_manager = $ItemManager
 const GRAVITY_SCALE: float = 1.0
 const JUMP_STRENGTH: float = 2.075
 const MAX_GROUND_PLAYER_SPEED = 4.0
 const MAX_AIR_PLAYER_SPEED = 5.0
 const MIN_PLAYER_SPEED = 1.5
+const PICKUP_DISTANCE = 4.0
 var target_move_direction: Vector3 = Vector3(0,0,0)
 var move_direction: Vector3 = Vector3(0,0,0) 
 var player_speed: float = 1.5
 var target_y_velocity: float = 0.0
+static var player_instance: CharacterBody3D = null
+
+func _enter_tree() -> void:
+	player_instance = self
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return

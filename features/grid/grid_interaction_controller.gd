@@ -1,4 +1,5 @@
 extends Node
+class_name GridInteractionController
 
 @export var camera: Camera3D
 @export var grid: Grid
@@ -6,9 +7,11 @@ extends Node
 const DEBUG_PROCESSABLE = preload("res://features/machines/processables/processable.tscn")
 @onready var processable_container = $"../Processables"
 
+static var grid_controller_instance: Node = null
 var _placement_hint_block: Block
 
 func _ready() -> void:
+	grid_controller_instance = self
 	_placement_hint_block = BlockFactory.create_block()
 	grid.add_block_visual(_placement_hint_block)
 
@@ -59,9 +62,13 @@ func cell_at_mouse_position() -> Vector3i:
 	else:
 		return Vector3i()
 
+func position_at_cell(cell: Vector3i) -> Vector3:
+	return grid.map_to_local(cell)
+
 func debug_spawn_processable():
 	var processable = DEBUG_PROCESSABLE.instantiate()
 	processable.definition = load(ProcessableDefinition.processable_definitions[ProcessableDefinition.ProcessableID.IRON_ORE])
 	processable_container.add_child(processable)
-	processable.position = cell_at_mouse_position()
+	processable.position = position_at_cell(cell_at_mouse_position())
+	processable.position.y = 0.167
 	processable.drop_at(processable.position)
