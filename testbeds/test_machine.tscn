@@ -52,12 +52,11 @@ mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
 
-[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid", "processables_container")]
+[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid")]
 script = ExtResource("3_on3ec")
 grid = NodePath("../GridMap")
-processables_container = NodePath("../Processables")
 
-[node name="FactoryTickManager" type="Node" parent="." node_paths=PackedStringArray("factory_manager")]
+[node name="FactoryTickManager" type="Node" parent="." unique_id=296686219 node_paths=PackedStringArray("factory_manager")]
 script = ExtResource("6_tick")
 factory_manager = NodePath("../FactoryManager")
 
