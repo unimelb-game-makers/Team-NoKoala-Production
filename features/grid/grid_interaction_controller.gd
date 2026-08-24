@@ -4,8 +4,8 @@ class_name GridInteractionController
 @export var camera: Camera3D
 @export var grid: Grid
 
-const DEBUG_PROCESSABLE = preload("res://features/machines/processables/processable.tscn")
-@onready var processable_container = $"../Processables"
+const DEBUG_PROCESSABLE = preload("res://features/factory_system/factory_items/factory_item.tscn")
+@export var factory_item_container : Node
 
 static var grid_controller_instance: Node = null
 var _placement_hint_block: Block
@@ -29,8 +29,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			_place_block()
 	
-	if event.is_action_pressed("spawn_processable"):
-		debug_spawn_processable()
+	if event.is_action_pressed("spawn_factory_item"):
+		debug_spawn_factory_item()
 
 func _place_block():
 	if _placement_hint_block != null:
@@ -65,10 +65,10 @@ func cell_at_mouse_position() -> Vector3i:
 func position_at_cell(cell: Vector3i) -> Vector3:
 	return grid.map_to_local(cell)
 
-func debug_spawn_processable():
-	var processable = DEBUG_PROCESSABLE.instantiate()
-	processable.definition = load(ProcessableDefinition.processable_definitions[ProcessableDefinition.ProcessableID.IRON_ORE])
-	processable_container.add_child(processable)
-	processable.position = position_at_cell(cell_at_mouse_position())
-	processable.position.y = 0.167
-	processable.drop_at(processable.position)
+func debug_spawn_factory_item():
+	var factory_item = DEBUG_PROCESSABLE.instantiate()
+	factory_item.definition = load(FactoryItemDefinition.factory_item_definitions[FactoryItemDefinition.FactoryItemID.IRON_ORE])
+	factory_item_container.add_child(factory_item)
+	factory_item.position = position_at_cell(cell_at_mouse_position())
+	factory_item.position.y = 0.167
+	factory_item.drop_at(factory_item.position)

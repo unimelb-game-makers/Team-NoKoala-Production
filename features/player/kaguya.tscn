@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://b0m0mbfc6vlwp" path="res://features/player/character_controller.gd" id="1_mgr46"]
 [ext_resource type="Texture2D" uid="uid://bmbc5q8f1npny" path="res://assets/developer_art/kaguya_shadow.png" id="3_dogj6"]
 [ext_resource type="Script" uid="uid://bqa6hikk47yp4" path="res://features/player/shadow.gd" id="4_471q3"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_471q3"]
 [ext_resource type="Script" uid="uid://ckv6y85wcqpag" path="res://features/player/player_item_manager.gd" id="6_2ohs6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
@@ -12,7 +11,7 @@ size = Vector3(0.6431885, 1.0671701, 0.8967986)
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859 node_paths=PackedStringArray("camera")]
 script = ExtResource("1_mgr46")
-camera = NodePath("Camera3D")
+camera = NodePath("")
 
 [node name="Player" type="Sprite3D" parent="." unique_id=86973518]
 transform = Transform3D(0.35, 0, 0, 0, 0.24748737, 0.24748737, 0, -0.24748737, 0.24748737, 0, -0.49262607, 0)
@@ -36,10 +35,6 @@ texture_filter = 0
 texture = ExtResource("3_dogj6")
 script = ExtResource("4_471q3")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=432504461]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
-script = ExtResource("5_471q3")
-
-[node name="ItemManager" type="Node3D" parent="." unique_id=883569830]
+[node name="ItemManager" type="Node3D" parent="." unique_id=1521403847]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29148108, 0, 0.34704602)
 script = ExtResource("6_2ohs6")

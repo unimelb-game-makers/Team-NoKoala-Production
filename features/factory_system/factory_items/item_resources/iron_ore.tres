@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://ys7p1dumi3c"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/factory_item_definition.gd" id="1_r54ht"]
+[ext_resource type="Texture2D" uid="uid://bol3u7wag2eo1" path="res://assets/developer_art/processables/iron_ore.png" id="2_ww31g"]
+
+[resource]
+script = ExtResource("1_r54ht")
+item_name = "Iron Ore"
+texture = ExtResource("2_ww31g")
+metadata/_custom_type_script = "uid://ds6k1xkxh4efn"

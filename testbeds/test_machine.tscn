@@ -1,9 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ctxet2raipe6u"]
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_camera"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
-[ext_resource type="Script" uid="uid://bnmxs6s8koskj" path="res://features/machines/factory_manager.gd" id="4_manager"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="Script" uid="uid://m6tmakwc4u6p" path="res://features/machines/machine_placement_controller.gd" id="5_placement"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/machines/machine_mouse_placement_controller.gd" id="6_mouse"]
 
@@ -30,42 +30,41 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D"]
+[node name="TestMachine" type="Node3D" unique_id=1256172161]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
 environment = SubResource("Environment_machine")
 
-[node name="StaticWorld" type="Node3D" parent="."]
+[node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld"]
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
 shape = SubResource("GroundShape_machine")
 
-[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D"]
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="GridMap" parent="." instance=ExtResource("3_grid")]
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
 
-[node name="FactoryManager" type="Node" parent="." node_paths=PackedStringArray("grid")]
-script = ExtResource("4_manager")
-grid = NodePath("../GridMap")
+[node name="FactoryManager" type="Node" parent="." unique_id=1499061308]
+script = ExtResource("3_on3ec")
 
-[node name="MachinePlacementController" type="Node" parent="." node_paths=PackedStringArray("grid", "factory_manager")]
+[node name="MachinePlacementController" type="Node" parent="." unique_id=1326547146 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("5_placement")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="MachineMousePlacementController" type="Node" parent="." node_paths=PackedStringArray("camera", "grid", "placement_controller")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "placement_controller")]
 script = ExtResource("6_mouse")
 camera = NodePath("../Camera3D")
 grid = NodePath("../GridMap")
 placement_controller = NodePath("../MachinePlacementController")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1197131493]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 2.31901)
 script = ExtResource("2_camera")

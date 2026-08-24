@@ -2,7 +2,7 @@ extends Node3D
 
 const PLAYER = preload("res://features/player/kaguya.tscn")
 @onready var test_grid = $TestGrid
-@export var spawn_player: bool = true
+@export var spawn_player: bool = false
 
 func _ready() -> void:
 	if spawn_player:

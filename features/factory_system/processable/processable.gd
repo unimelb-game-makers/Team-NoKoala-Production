@@ -5,8 +5,6 @@ signal availability_changed(processable: Processable, is_available: bool)
 signal claim_changed(processable: Processable, claimant: Object)
 signal dropped(processable: Processable, world_position: Vector3)
 
-@export var definition: ProcessableDefinition
-
 # use to determine whether the resource is ready for process
 # only ready when no claimant has claimed it and no set _available_for_processing to false
 @export var available_for_processing: bool :
@@ -18,11 +16,7 @@ signal dropped(processable: Processable, world_position: Vector3)
 var _available_for_processing := false
 var _claimant: Object
 var _is_dropped := false
-var _drop_world_position := Vector3.ZERO
-@onready var sprite: Sprite3D = $Sprite3D
 
-func _ready() -> void:
-	sprite.texture = definition.texture
 
 # --- Claim processable when pickup or carried by any logistics ---
 
@@ -41,15 +35,11 @@ func try_claim(consumer: Object) -> bool:
 func drop_at(world_position: Vector3) -> void:
 	release_claim()
 	_is_dropped = true
-	_drop_world_position = world_position
 	set_available_for_processing(true)
 	dropped.emit(self, world_position)
 
 func is_dropped() -> bool:
 	return _is_dropped
-
-func get_drop_world_position() -> Vector3:
-	return _drop_world_position
 
 
 func release_claim() -> bool:
@@ -74,7 +64,6 @@ func is_available_for_processing() -> bool:
 	_clear_invalid_claimant()
 	return (
 		_available_for_processing
-		and definition != null
 		and _claimant == null
 	)
 
