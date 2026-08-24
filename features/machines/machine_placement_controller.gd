@@ -36,7 +36,7 @@ func confirm_placement(cell: Vector3i) -> bool:
 		return false
 
 	_floating_assembly.machine.center_position = cell
-	if not factory_manager.register_machine(_floating_assembly):
+	if not factory_manager.register_machine(_floating_assembly.machine):
 		grid.remove_block(_floating_assembly.block)
 		return false
 
