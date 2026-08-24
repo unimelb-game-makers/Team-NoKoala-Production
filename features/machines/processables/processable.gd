@@ -38,8 +38,6 @@ func try_claim(consumer: Object) -> bool:
 	claim_changed.emit(self, _claimant)
 	return true
 
-
-
 func drop_at(world_position: Vector3) -> void:
 	release_claim()
 	_is_dropped = true
