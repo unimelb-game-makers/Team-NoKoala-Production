@@ -12,6 +12,13 @@ static func create_machine() -> MachineAssembly:
 	assert(assembly != null, "Machine assembly scene must have a MachineAssembly root")
 	assert(assembly.block != null, "MachineAssembly requires a Block component")
 	assert(assembly.machine != null, "MachineAssembly requires a Machine component")
+	assert(assembly.machine.definition != null, "Machine requires a MachineDefinition")
+
+	var validation_errors := assembly.machine.definition.get_validation_errors()
+	assert(
+		validation_errors.is_empty(),
+		"Invalid machine definition:\n- %s" % "\n- ".join(validation_errors),
+	)
 
 	assembly.block.block_data = create_block_data(assembly.machine.definition)
 	return assembly
