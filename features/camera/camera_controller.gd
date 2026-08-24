@@ -10,6 +10,7 @@ var isFreeEdit: bool = false
 var mouse_sensitivity := 0.005
 const MAX_ZOOM := 5.0
 const MIN_ZOOM := -3.0
+var player: Player
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

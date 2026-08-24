@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://pfnkky6pvxe5"]
+[gd_scene format=3 uid="uid://ddxvikh0c6lhw"]
 
-[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_vssav"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_4ywll"]
-[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_f40ho"]
-[ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_bi1pw"]
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_bsixm"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_fyxhr"]
+[ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_o7auy"]
+[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="4_nmjd8"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="5_fyxhr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -20,7 +21,7 @@ sky = SubResource("Sky_fbnme")
 points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pr4p8"]
-albedo_texture = ExtResource("1_vssav")
+albedo_texture = ExtResource("1_bsixm")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
@@ -31,10 +32,8 @@ size = Vector2(1000, 1000)
 [node name="TestGrid" type="Node3D" unique_id=194163689]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479210000]
-transform = Transform3D(0.93472004, 0.26040262, 0.24184474, -0.35355338, 0.6123724, 0.70710677, 0.036033392, -0.7464519, 0.664463, 10, 4, 0)
-light_indirect_energy = 0.0
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
-shadow_bias = 0.01
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1161051596]
 environment = SubResource("Environment_pr4p8")
@@ -49,20 +48,16 @@ shape = SubResource("ConvexPolygonShape3D_fbnme")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1686413422]
 mesh = SubResource("PlaneMesh_hly03")
 
-[node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_f40ho")]
+[node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_fyxhr")]
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=1206433849 node_paths=PackedStringArray("camera", "grid")]
-script = ExtResource("3_bi1pw")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
+script = ExtResource("3_o7auy")
+camera = NodePath("../Kaguya/Camera3D2")
 grid = NodePath("../GridMap")
 
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_62vut")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("5_fyxhr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=1594393964]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
-
-[node name="Camera3D" type="Camera3D" parent="Kaguya/SpringArm3D" unique_id=1021673209]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-size = 10.0
-script = ExtResource("2_4ywll")
+[node name="Camera3D2" type="Camera3D" parent="Kaguya" unique_id=1549382403]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4.5, 2.319012)
+script = ExtResource("4_nmjd8")
