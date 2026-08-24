@@ -85,6 +85,9 @@ func unregister_processable(
 func get_processables() -> Array[Processable]:
 	return _processables.duplicate()
 
+func is_processable_registered(processable: Processable) -> bool:
+	return _processables.has(processable)
+
 func get_processables_at(cell: Vector3i) -> Array[Processable]:
 	var result: Array[Processable] = []
 	for processable: Processable in _processables_by_cell.get(cell, []):

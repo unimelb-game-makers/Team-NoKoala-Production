@@ -16,6 +16,7 @@ signal dropped(processable: Processable, world_position: Vector3)
 var _available_for_processing := false
 var _claimant: Object
 var _is_dropped := false
+var _drop_world_position := Vector3.ZERO
 
 
 # --- Claim processable when pickup or carried by any logistics ---
@@ -35,11 +36,15 @@ func try_claim(consumer: Object) -> bool:
 func drop_at(world_position: Vector3) -> void:
 	release_claim()
 	_is_dropped = true
+	_drop_world_position = world_position
 	set_available_for_processing(true)
 	dropped.emit(self, world_position)
 
 func is_dropped() -> bool:
 	return _is_dropped
+
+func get_drop_world_position() -> Vector3:
+	return _drop_world_position
 
 
 func release_claim() -> bool:

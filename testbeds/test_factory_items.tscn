@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_rmc3w"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_spawn"]
 [ext_resource type="Script" uid="uid://whob5vilplfq" path="res://features/player/player_item_controller.gd" id="7_l4pfl"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="8_manager"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -57,10 +58,15 @@ script = ExtResource("3_2nodk")
 camera = NodePath("../Kaguya/Camera3D2")
 grid = NodePath("../GridMap")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("grid_controller", "factory_item_container")]
+[node name="FactoryManager" type="Node" parent="." node_paths=PackedStringArray("grid", "processables_container")]
+script = ExtResource("8_manager")
+grid = NodePath("../GridMap")
+processables_container = NodePath("../Processables")
+
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("grid_controller", "factory_manager")]
 script = ExtResource("6_spawn")
 grid_controller = NodePath("../GridInteractionController")
-factory_item_container = NodePath("../Processables")
+factory_manager = NodePath("../FactoryManager")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_l4pfl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

@@ -27,7 +27,6 @@ static func spawn_factory_item(
 ) -> FactoryItem:
 	if (
 		factory_manager == null
-		or factory_manager.processables_container == null
 	):
 		return null
 
@@ -35,7 +34,7 @@ static func spawn_factory_item(
 	if factory_item == null:
 		return null
 
-	factory_manager.processables_container.add_child(factory_item)
+	factory_manager.add_child(factory_item)
 	factory_item.set(&"global_position", world_position)
 	if not factory_manager.register_processable(factory_item):
 		factory_item.queue_free()

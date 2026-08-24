@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dt6eaahia1xnc"]
 
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
-[ext_resource type="Script" uid="uid://d382g6x7551yi" path="res://features/factory_system/machines/machine_runtime/machine.gd" id="3_machine"]
+[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
 [ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definition/demo_machine.tres" id="4_vg41c"]
 
