@@ -1,15 +1,16 @@
 extends Node3D
-class_name PlayerItemManager
+class_name PlayerItemController
 
 var held_factory_item: FactoryItem = null
+@export var grid_controller: Node 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			if held_factory_item == null: return
 
-			var drop_cell = GridInteractionController.grid_controller_instance.cell_at_mouse_position()
-			var drop_position = GridInteractionController.grid_controller_instance.position_at_cell(drop_cell)
+			var drop_cell = grid_controller.cell_at_mouse_position()
+			var drop_position = grid_controller.position_at_cell(drop_cell)
 			drop_position.y = 0.167
 			
 			if global_position.distance_to(drop_position) > Player.PICKUP_DISTANCE: return

@@ -80,11 +80,3 @@ func _clear_invalid_claimant() -> void:
 		claim_changed.emit(self, null)
 
 
-func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.is_pressed():
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			if Player.player_instance.global_position.distance_to(self.global_position) > Player.PICKUP_DISTANCE: return
-			if Player.player_instance.item_manager.held_processable != null: return
-			
-			try_claim(Player.player_instance)
-			Player.player_instance.item_manager.held_processable = self

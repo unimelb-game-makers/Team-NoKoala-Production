@@ -4,11 +4,9 @@ class_name GridInteractionController
 @export var camera: Camera3D
 @export var grid: Grid
 
-static var grid_controller_instance: Node = null
 var _placement_hint_block: Block
 
 func _ready() -> void:
-	grid_controller_instance = self
 	_placement_hint_block = BlockFactory.create_block()
 	grid.add_block_visual(_placement_hint_block)
 
