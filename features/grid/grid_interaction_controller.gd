@@ -3,6 +3,9 @@ extends Node
 @export var camera: Camera3D
 @export var grid: Grid
 
+const DEBUG_PROCESSABLE = preload("res://features/machines/processables/processable.tscn")
+@onready var processable_container = $"../Processables"
+
 var _placement_hint_block: Block
 
 func _ready() -> void:
@@ -22,6 +25,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			_place_block()
+	
+	if event.is_action_pressed("spawn_processable"):
+		debug_spawn_processable()
 
 func _place_block():
 	if _placement_hint_block != null:
@@ -52,3 +58,10 @@ func cell_at_mouse_position() -> Vector3i:
 		return cell
 	else:
 		return Vector3i()
+
+func debug_spawn_processable():
+	var processable = DEBUG_PROCESSABLE.instantiate()
+	processable.definition = load(ProcessableDefinition.processable_definitions[ProcessableDefinition.ProcessableID.IRON_ORE])
+	processable_container.add_child(processable)
+	processable.position = cell_at_mouse_position()
+	processable.drop_at(processable.position)
