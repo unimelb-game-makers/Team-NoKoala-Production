@@ -67,9 +67,10 @@ camera = NodePath("../Camera3D2")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("grid_controller", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("5_u0wh0")
-grid_controller = NodePath("")
+camera = NodePath("../Camera3D2")
+grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
