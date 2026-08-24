@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cp8bwysvgwv3u"]
+
+[ext_resource type="Script" uid="uid://cktihgocf33si" path="res://features/mob/vision/mob_vision.gd" id="1_yvaww"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p8qh3"]
+radius = 5.0
+
+[node name="MobVision" type="Area3D" unique_id=1942902542]
+script = ExtResource("1_yvaww")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=40531659]
+shape = SubResource("SphereShape3D_p8qh3")
