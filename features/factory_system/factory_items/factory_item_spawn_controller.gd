@@ -6,6 +6,7 @@ const FACTORY_ITEM_SCENE = preload(
 )
 
 @export var grid_controller: GridInteractionController
+@export var factory_manager: FactoryManager
 @export var factory_item_container: Node
 @export var spawn_height := 0.167
 
@@ -43,6 +44,9 @@ func spawn_factory_item(
 	if factory_item == null:
 		return null
 
+	if factory_manager != null:
+		factory_manager.register_processable(factory_item)
+		
 	factory_item.definition = definition
 	factory_item_container.add_child(factory_item)
 	factory_item.set(&"position", world_position)

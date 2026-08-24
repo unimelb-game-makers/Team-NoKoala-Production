@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://cpytbocm28kb8"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definition/machine_cell_definition.gd" id="1_2vlft"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_77js0"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="3_77js0"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definition/machine_definition.gd" id="3_h0hwv"]
+
+[sub_resource type="Resource" id="Resource_input_1"]
+script = ExtResource("1_2vlft")
+port_id = &"input_1"
+
+[sub_resource type="Resource" id="Resource_structure"]
+script = ExtResource("1_2vlft")
+port_id = &""
+role = 2
+local_cell_offset = Vector3i(1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_output"]
+script = ExtResource("1_2vlft")
+port_id = &"output_1"
+role = 1
+local_cell_offset = Vector3i(2, 0, 0)
+can_overlap = true
+
+[resource]
+script = ExtResource("3_h0hwv")
+cells = Array[ExtResource("1_2vlft")]([SubResource("Resource_input_1"), SubResource("Resource_structure"), SubResource("Resource_output")])
+recipes = Array[ExtResource("2_77js0")]([ExtResource("3_77js0")])

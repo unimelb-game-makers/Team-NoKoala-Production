@@ -1,42 +1,15 @@
 [gd_scene format=3 uid="uid://dt6eaahia1xnc"]
 
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
-[ext_resource type="Script" uid="uid://d382g6x7551yi" path="res://features/machines/machine_runtime/machine.gd" id="3_machine"]
-[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
-[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/machines/machine_definition/machine_cell_definition.gd" id="4_kn4hu"]
-[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/machines/machine_definition/machine_definition.gd" id="5_8gif8"]
+[ext_resource type="Script" uid="uid://d382g6x7551yi" path="res://features/factory_system/machines/machine_runtime/machine.gd" id="3_machine"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
+[ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definition/demo_machine.tres" id="4_vg41c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
 albedo_color = Color(1, 0.19, 0.19, 1)
-
-[sub_resource type="Resource" id="Resource_input_1"]
-script = ExtResource("4_kn4hu")
-port_id = &"input_1"
-
-[sub_resource type="Resource" id="Resource_input_2"]
-script = ExtResource("4_kn4hu")
-port_id = &"input_2"
-local_cell_offset = Vector3i(1, 0, 1)
-
-[sub_resource type="Resource" id="Resource_structure"]
-script = ExtResource("4_kn4hu")
-port_id = &""
-role = 2
-local_cell_offset = Vector3i(1, 0, 0)
-
-[sub_resource type="Resource" id="Resource_output"]
-script = ExtResource("4_kn4hu")
-port_id = &"output"
-role = 1
-local_cell_offset = Vector3i(2, 0, 0)
-can_overlap = true
-
-[sub_resource type="Resource" id="Resource_5gudi"]
-script = ExtResource("5_8gif8")
-cells = Array[ExtResource("4_kn4hu")]([SubResource("Resource_input_1"), SubResource("Resource_input_2"), SubResource("Resource_structure"), SubResource("Resource_output")])
 
 [node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("4_assembly")
@@ -51,18 +24,12 @@ use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_5gudi")
 
-[node name="Input2" type="CSGBox3D" parent="Block" unique_id=1696727609]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
-use_collision = true
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
-
 [node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.25, 0)
 use_collision = true
 size = Vector3(1, 0.5, 1)
 
-[node name="Output" type="CSGBox3D" parent="Block" unique_id=1892564374]
+[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 use_collision = true
 size = Vector3(1, 0.1, 1)
@@ -70,4 +37,4 @@ material = SubResource("StandardMaterial3D_q0umq")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522]
 script = ExtResource("3_machine")
-definition = SubResource("Resource_5gudi")
+definition = ExtResource("4_vg41c")
