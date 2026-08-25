@@ -10,6 +10,7 @@ size = Vector3(0.6431885, 1.0671701, 0.8967986)
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
 script = ExtResource("1_mgr46")
+camera = NodePath("")
 
 [node name="Player" type="Sprite3D" parent="." unique_id=86973518]
 transform = Transform3D(0.35, 0, 0, 0, 0.24748737, 0.24748737, 0, -0.24748737, 0.24748737, 0, -0.49262607, 0)
