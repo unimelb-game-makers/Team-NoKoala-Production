@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c8bqxghflf0pt"]
+
+[ext_resource type="PackedScene" uid="uid://dseoa6too187m" path="res://assets/developer_art/models/mason_bench_draft.glb" id="1_m2jxa"]
+[ext_resource type="Shader" uid="uid://bjeem1ulc520r" path="res://shaders/cel_shader/cel-shader-base.gdshader" id="2_slwqx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_slwqx"]
+render_priority = 0
+shader = ExtResource("2_slwqx")
+shader_parameter/color = Color(0.41, 0.41, 0.41, 1)
+shader_parameter/specular = Color(0.3, 0.3, 0.3, 0.6862745)
+shader_parameter/fresnel = Color(0.2, 0.2, 0.2, 0.20784314)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+
+[node name="mason_bench_draft" unique_id=1811743288 instance=ExtResource("1_m2jxa")]
+
+[node name="mason_bench" parent="." index="0" unique_id=688670745]
+material_override = SubResource("ShaderMaterial_slwqx")
