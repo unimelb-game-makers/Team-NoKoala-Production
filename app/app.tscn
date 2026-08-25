@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://nd6tr2mmnxrb"]
 
 [ext_resource type="Script" uid="uid://btp56cxpinviy" path="res://app/app.gd" id="1_fx3ps"]
-[ext_resource type="PackedScene" uid="uid://qw0jsac7biqn" path="res://testbeds/test_npc.tscn" id="2_e0wx5"]
+[ext_resource type="PackedScene" uid="uid://pfnkky6pvxe5" path="res://testbeds/test_grid.tscn" id="2_e0wx5"]
 
 [node name="App" type="Node3D" unique_id=539687628]
 script = ExtResource("1_fx3ps")
