@@ -57,6 +57,10 @@ jump={
 ]
 }
 
+[limbo_ai]
+
+behavior_tree/behavior_tree_default_dir="res://features/mob/ai/tasks"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

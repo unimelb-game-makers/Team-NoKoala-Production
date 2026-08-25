@@ -3,9 +3,13 @@
 [ext_resource type="Script" uid="uid://t3hlsxi6p5wx" path="res://features/mob/demo_npc/demo_npc.gd" id="1_apstx"]
 [ext_resource type="Script" uid="uid://bo20lmlkmr6yp" path="res://features/mob/ai/brain.gd" id="2_wi7yx"]
 [ext_resource type="Script" uid="uid://cuofnsnkpm7sf" path="res://features/mob/ai/sensors/sensor.gd" id="3_s8qk0"]
-[ext_resource type="Resource" uid="uid://dlqsohg52mk4k" path="res://features/mob/demo_npc/demo_npc_behaviour.tres" id="3_wi7yx"]
 [ext_resource type="Script" uid="uid://ccxm3o72maek2" path="res://features/mob/ai/sensors/player_in_sight_sensor.gd" id="4_4dm7y"]
+[ext_resource type="Script" uid="uid://e6wlm5tujkhh" path="res://ai/tasks/actions/random_target_position.gd" id="5_6y2kh"]
+[ext_resource type="Script" uid="uid://c7uin1qpcl646" path="res://ai/tasks/conditions/player_in_sight.gd" id="5_rqsnf"]
+[ext_resource type="Script" uid="uid://ci82rabr3bw3u" path="res://ai/tasks/conditions/in_game_time_range.gd" id="5_t0kbt"]
 [ext_resource type="PackedScene" uid="uid://cp8bwysvgwv3u" path="res://features/mob/vision/mob_vision.tscn" id="6_av2p0"]
+[ext_resource type="Script" uid="uid://bvvmbkjlnwswl" path="res://ai/tasks/actions/follow_player.gd" id="6_rqsnf"]
+[ext_resource type="Script" uid="uid://cdug4wbtwfgma" path="res://ai/tasks/actions/move_to_target_position.gd" id="7_t0kbt"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hly03"]
 
@@ -17,6 +21,60 @@ size = Vector3(0.1, 0.1, 1)
 [sub_resource type="Resource" id="Resource_a8bim"]
 script = ExtResource("4_4dm7y")
 metadata/_custom_type_script = "uid://ccxm3o72maek2"
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_p8qh3"]
+
+[sub_resource type="BTComment" id="BTComment_t0kbt"]
+custom_name = "43,200 seconds is 12:00pm"
+
+[sub_resource type="BTCondition" id="BTCondition_nxk3g"]
+children = [SubResource("BTComment_t0kbt")]
+script = ExtResource("5_t0kbt")
+end_seconds = 43200.0
+
+[sub_resource type="BTCondition" id="BTCondition_t0kbt"]
+script = ExtResource("5_rqsnf")
+
+[sub_resource type="BTAction" id="BTAction_5oxr0"]
+script = ExtResource("6_rqsnf")
+
+[sub_resource type="BTRepeat" id="BTRepeat_6y2kh"]
+forever = true
+children = [SubResource("BTAction_5oxr0")]
+
+[sub_resource type="BTAction" id="BTAction_rqsnf"]
+script = ExtResource("7_t0kbt")
+
+[sub_resource type="BTParallel" id="BTParallel_t0kbt"]
+children = [SubResource("BTRepeat_6y2kh"), SubResource("BTAction_rqsnf")]
+
+[sub_resource type="BTSequence" id="BTSequence_nxk3g"]
+children = [SubResource("BTCondition_t0kbt"), SubResource("BTParallel_t0kbt")]
+
+[sub_resource type="BTAction" id="BTAction_nxk3g"]
+script = ExtResource("5_6y2kh")
+
+[sub_resource type="BTAction" id="BTAction_6y2kh"]
+script = ExtResource("7_t0kbt")
+
+[sub_resource type="BTSequence" id="BTSequence_rqsnf"]
+children = [SubResource("BTAction_nxk3g"), SubResource("BTAction_6y2kh")]
+
+[sub_resource type="BTDynamicSelector" id="BTDynamicSelector_6y2kh"]
+children = [SubResource("BTSequence_nxk3g"), SubResource("BTSequence_rqsnf")]
+
+[sub_resource type="BTDynamicSequence" id="BTDynamicSequence_t0kbt"]
+children = [SubResource("BTCondition_nxk3g"), SubResource("BTDynamicSelector_6y2kh")]
+
+[sub_resource type="BTRepeat" id="BTRepeat_nxk3g"]
+forever = true
+children = [SubResource("BTDynamicSequence_t0kbt")]
+
+[sub_resource type="BehaviorTree" id="BehaviorTree_lq373"]
+blackboard_plan = SubResource("BlackboardPlan_p8qh3")
+root_task = SubResource("BTRepeat_nxk3g")
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_av2p0"]
 
 [node name="DemoNpc" type="Node3D" unique_id=1636180239]
 script = ExtResource("1_apstx")
@@ -36,6 +94,10 @@ mesh = SubResource("BoxMesh_hly03")
 [node name="Brain" type="Node" parent="." unique_id=1858991192]
 script = ExtResource("2_wi7yx")
 sensors = Array[ExtResource("3_s8qk0")]([SubResource("Resource_a8bim")])
-behaviour_tree = ExtResource("3_wi7yx")
+
+[node name="BTPlayer" type="BTPlayer" parent="Brain" unique_id=986771953]
+behavior_tree = SubResource("BehaviorTree_lq373")
+agent_node = NodePath("../..")
+blackboard_plan = SubResource("BlackboardPlan_av2p0")
 
 [node name="MobVision" parent="." unique_id=1942902542 instance=ExtResource("6_av2p0")]

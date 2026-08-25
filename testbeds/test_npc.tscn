@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_xhcly"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="4_c7ky2"]
 [ext_resource type="PackedScene" uid="uid://doq8u3pawd21l" path="res://features/mob/demo_npc/demo_npc.tscn" id="5_6ktx7"]
+[ext_resource type="Script" uid="uid://byyi17oppc1we" path="res://features/world_state/world_state.gd" id="6_xhcly"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -37,6 +38,9 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1161051596]
 environment = SubResource("Environment_pr4p8")
+
+[node name="WorldState" type="Node" parent="." unique_id=1862331662]
+script = ExtResource("6_xhcly")
 
 [node name="StaticWorld" type="Node3D" parent="." unique_id=2125212707]
 

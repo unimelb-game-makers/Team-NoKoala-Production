@@ -21,4 +21,4 @@ func _on_process(brain: Brain, _delta: float) -> void:
 		player = _get_player(brain)
 
 	if vision.is_in_sight(player):
-		brain.remember_memory_value(Brain.MemoryModuleType.LAST_KNOWN_PLAYER_POSITION, player.global_position)
+		brain.remember_memory_value(Brain.LAST_KNOWN_PLAYER_POSITION, player.global_position)
