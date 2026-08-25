@@ -2,8 +2,20 @@
 
 [ext_resource type="Script" uid="uid://btp56cxpinviy" path="res://app/app.gd" id="1_fx3ps"]
 [ext_resource type="PackedScene" uid="uid://pfnkky6pvxe5" path="res://testbeds/test_grid.tscn" id="2_e0wx5"]
+[ext_resource type="PackedScene" uid="uid://cn7hgp6atba8s" path="res://assets/developer_art/models/carpenter_bench_draft.glb" id="3_gmj5t"]
+[ext_resource type="PackedScene" uid="uid://dseoa6too187m" path="res://assets/developer_art/models/mason_bench_draft.glb" id="5_gmj5t"]
+[ext_resource type="PackedScene" uid="uid://cbnnww6rxtydg" path="res://assets/developer_art/models/smith_bench_draft.glb" id="5_oehog"]
 
 [node name="App" type="Node3D" unique_id=539687628]
 script = ExtResource("1_fx3ps")
 
 [node name="TestGrid" parent="." unique_id=194163689 instance=ExtResource("2_e0wx5")]
+
+[node name="carpenter_bench_draft" parent="." unique_id=799355723 instance=ExtResource("3_gmj5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5221888, 0, 0.009578586)
+
+[node name="smith_bench_draft" parent="." unique_id=1822405971 instance=ExtResource("5_oehog")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4955618, 0, -0.61304116)
+
+[node name="mason_bench_draft" parent="." unique_id=1811743288 instance=ExtResource("5_gmj5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4803078, 0, 0.026936173)

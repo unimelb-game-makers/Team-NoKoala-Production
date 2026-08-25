@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt0iamu1jeg10"
 path.s3tc="res://.godot/imported/Kaguya.png-e6d6a7b9ff85122a0f4632dc3a6b48bf.s3tc.ctex"
+path.etc2="res://.godot/imported/Kaguya.png-e6d6a7b9ff85122a0f4632dc3a6b48bf.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/developer_art/Kaguya.png"
-dest_files=["res://.godot/imported/Kaguya.png-e6d6a7b9ff85122a0f4632dc3a6b48bf.s3tc.ctex"]
+dest_files=["res://.godot/imported/Kaguya.png-e6d6a7b9ff85122a0f4632dc3a6b48bf.s3tc.ctex", "res://.godot/imported/Kaguya.png-e6d6a7b9ff85122a0f4632dc3a6b48bf.etc2.ctex"]
 
 [params]
 
