@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://7bud6pcrwsj7"]
+
+[ext_resource type="PackedScene" uid="uid://cbnnww6rxtydg" path="res://assets/developer_art/models/smith_bench_draft.glb" id="1_002sr"]
+[ext_resource type="Shader" uid="uid://bjeem1ulc520r" path="res://shaders/cel_shader/cel-shader-base.gdshader" id="2_c0pwp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0w7gj"]
+render_priority = 0
+shader = ExtResource("2_c0pwp")
+shader_parameter/color = Color(0.24, 0.24, 0.24, 1)
+shader_parameter/specular = Color(0.3, 0.3, 0.3, 0.5647059)
+shader_parameter/fresnel = Color(0.2, 0.2, 0.2, 0.20784314)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+
+[node name="smith_bench_draft" unique_id=1822405971 instance=ExtResource("1_002sr")]
+
+[node name="Plane" parent="." index="0" unique_id=1100953649]
+material_override = SubResource("ShaderMaterial_0w7gj")
