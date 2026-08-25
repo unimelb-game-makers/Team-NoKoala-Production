@@ -14,6 +14,8 @@ var move_direction: Vector3 = Vector3(0,0,0)
 var player_speed: float = 1.5
 var target_y_velocity: float = 0.0
 
+# for relative movement to camera
+@onready var spring_arm = $SpringArm3D
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return
@@ -22,7 +24,10 @@ func _input(event: InputEvent) -> void:
 		jump()
 
 func _physics_process(delta: float) -> void:
-	target_move_direction = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
+	# movement relative to spring arm rotation
+	var input_vec = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
+	var cam_basis = spring_arm.global_transform.basis
+	target_move_direction = (cam_basis.x * input_vec.x + cam_basis.z * input_vec.z)
 	
 	if is_on_floor():
 		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.25, delta))
