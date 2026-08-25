@@ -57,7 +57,7 @@ camera = NodePath("../Kaguya/Camera3D2")
 grid = NodePath("../GridMap")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("5_fyxhr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(0.9999986, 4.9438328e-05, -0.0016215506, 4.9438328e-05, 0.99814254, 0.06092186, 0.0016215508, -0.06092186, 0.9981412, 0, 1.26, 0)
 
 [node name="Camera3D2" type="Camera3D" parent="Kaguya" unique_id=1549382403]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4.5, 2.319012)

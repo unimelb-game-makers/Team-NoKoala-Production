@@ -58,10 +58,9 @@ script = ExtResource("3_2nodk")
 camera = NodePath("../Kaguya/Camera3D2")
 grid = NodePath("../GridMap")
 
-[node name="FactoryManager" type="Node" parent="." node_paths=PackedStringArray("grid", "processables_container")]
+[node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid")]
 script = ExtResource("8_manager")
 grid = NodePath("../GridMap")
-processables_container = NodePath("../Processables")
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("6_spawn")
@@ -70,7 +69,7 @@ grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_l4pfl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
 
 [node name="Camera3D2" type="Camera3D" parent="Kaguya" unique_id=1929021204]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4.5, 2.319012)
