@@ -55,7 +55,7 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=683852017 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_2nodk")
-camera = NodePath("../Kaguya/Camera3D2")
+camera = NodePath("")
 grid = NodePath("../GridMap")
 
 [node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid")]
@@ -64,20 +64,24 @@ grid = NodePath("../GridMap")
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("6_spawn")
-camera = NodePath("../Kaguya/Camera3D2")
+camera = NodePath("")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_l4pfl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
 
-[node name="Camera3D2" type="Camera3D" parent="Kaguya" unique_id=1929021204]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4.5, 2.319012)
+[node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=1364525824]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
+
+[node name="Camera3D" type="Camera3D" parent="Kaguya/SpringArm3D" unique_id=1848269678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+size = 10.0
 script = ExtResource("5_rmc3w")
 
 [node name="PlayerItemController" type="Node3D" parent="Kaguya" unique_id=1837032866 node_paths=PackedStringArray("camera", "grid_controller")]
 script = ExtResource("7_l4pfl")
-camera = NodePath("../Camera3D2")
+camera = NodePath("")
 grid_controller = NodePath("../../GridInteractionController")
 
 [node name="Processables" type="Node3D" parent="." unique_id=1675194942]
