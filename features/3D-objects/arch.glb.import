@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bv6vttys5331r"
-path="res://.godot/imported/arch.glb-127c9b470d27c12782cd098c6d1a3e2d.scn"
+path="res://.godot/imported/arch.glb-cb59345d3b9e94534861127bf1fa43b4.scn"
 
 [deps]
 
-source_file="res://assets/3D/arch.glb"
-dest_files=["res://.godot/imported/arch.glb-127c9b470d27c12782cd098c6d1a3e2d.scn"]
+source_file="res://features/3D-objects/arch.glb"
+dest_files=["res://.godot/imported/arch.glb-cb59345d3b9e94534861127bf1fa43b4.scn"]
 
 [params]
 

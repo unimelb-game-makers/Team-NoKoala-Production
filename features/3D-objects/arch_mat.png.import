@@ -3,10 +3,9 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlt4mhr7g81e5"
-path.s3tc="res://.godot/imported/arch_mat.png-2846867d3ddae0a7ecc8a11a60fe256c.s3tc.ctex"
-path.etc2="res://.godot/imported/arch_mat.png-2846867d3ddae0a7ecc8a11a60fe256c.etc2.ctex"
+path.s3tc="res://.godot/imported/arch_mat.png-869c2fd69553dee716ced08f21d409e9.s3tc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://assets/3D/arch_mat.png"
-dest_files=["res://.godot/imported/arch_mat.png-2846867d3ddae0a7ecc8a11a60fe256c.s3tc.ctex", "res://.godot/imported/arch_mat.png-2846867d3ddae0a7ecc8a11a60fe256c.etc2.ctex"]
+source_file="res://features/3D-objects/arch_mat.png"
+dest_files=["res://.godot/imported/arch_mat.png-869c2fd69553dee716ced08f21d409e9.s3tc.ctex"]
 
 [params]
 

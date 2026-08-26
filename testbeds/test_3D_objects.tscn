@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_yikp2"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_lpg4p"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_4r7wx"]
-[ext_resource type="Texture2D" uid="uid://dlt4mhr7g81e5" path="res://assets/3D/arch_mat.png" id="6_4at8n"]
-[ext_resource type="Script" uid="uid://b6evtso80bqxk" path="res://testbeds/3d_mesh.gd" id="7_8dof2"]
+[ext_resource type="Texture2D" uid="uid://dlt4mhr7g81e5" path="res://features/3D-objects/arch_mat.png" id="6_4at8n"]
+[ext_resource type="Script" uid="uid://b6evtso80bqxk" path="res://features/3D-objects/fade_object.gd" id="7_8dof2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
