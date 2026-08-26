@@ -57,9 +57,9 @@ script = ExtResource("3_bi1pw")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_62vut")]
+[node name="Kaguya" parent="." unique_id=21341859 node_paths=PackedStringArray("camera") instance=ExtResource("4_62vut")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)
-collision_mask = 5
+camera = NodePath("SpringArm3D/Camera3D")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=1594393964]
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)

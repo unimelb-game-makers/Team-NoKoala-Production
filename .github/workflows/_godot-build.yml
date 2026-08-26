@@ -1,0 +1,95 @@
+name: Reusable Godot build
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        description: Export platform (web, windows, linux, or macos)
+        required: true
+        type: string
+      godot_version:
+        description: Godot editor and export-template version
+        default: "4.7.1"
+        type: string
+      project_name:
+        description: Base filename for exported builds
+        default: ci_example
+        type: string
+      project_path:
+        description: Directory containing project.godot
+        default: .
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ inputs.platform }}
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:${{ inputs.godot_version }}
+    env:
+      PROJECT_NAME: ${{ inputs.project_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Install export templates
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.local/share/godot/export_templates"
+          cp -a /root/.local/share/godot/export_templates/. "$HOME/.local/share/godot/export_templates/"
+
+      - name: Import assets
+        working-directory: ${{ inputs.project_path }}
+        shell: bash
+        run: godot --headless --import
+
+      - name: Export ${{ inputs.platform }}
+        working-directory: ${{ inputs.project_path }}
+        shell: bash
+        run: |
+          case "${{ inputs.platform }}" in
+            web)
+              preset='Web'
+              output='build/web/index.html'
+              ;;
+            windows)
+              preset='Windows Desktop'
+              output="build/windows/${PROJECT_NAME}_windows.exe"
+              ;;
+            linux)
+              preset='Linux/X11'
+              output="build/linux/${PROJECT_NAME}_linux.x86_64"
+              ;;
+            macos)
+              preset='macOS'
+              output="build/macos/${PROJECT_NAME}_macos.zip"
+              ;;
+            *)
+              echo "Unsupported platform: ${{ inputs.platform }}" >&2
+              exit 1
+              ;;
+          esac
+
+          mkdir -p "build/${{ inputs.platform }}"
+          godot --headless --export-release "$preset" "$output"
+
+      - name: Add cross-origin isolation service worker
+        if: inputs.platform == 'web'
+        working-directory: ${{ inputs.project_path }}
+        run: |
+          git clone --depth 1 https://github.com/gzuidhof/coi-serviceworker.git
+          mv coi-serviceworker/coi-serviceworker.js build/web/
+          sed -i 's#</head>#<script src="coi-serviceworker.js"></script>\n</head>#' build/web/index.html
+
+      - name: Upload ${{ inputs.platform }} artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ inputs.platform }}
+          path: ${{ inputs.project_path }}/build/${{ inputs.platform }}
+          if-no-files-found: error
