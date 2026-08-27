@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_sr4kc"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_rmc3w"]
-[ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_2nodk"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_l4pfl"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_rmc3w"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_spawn"]
@@ -53,11 +52,6 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_rmc3w")]
 
-[node name="GridInteractionController" type="Node" parent="." unique_id=683852017 node_paths=PackedStringArray("camera", "grid")]
-script = ExtResource("3_2nodk")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
-grid = NodePath("../GridMap")
-
 [node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid")]
 script = ExtResource("8_manager")
 grid = NodePath("../GridMap")
@@ -80,9 +74,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 size = 10.0
 script = ExtResource("5_rmc3w")
 
-[node name="PlayerItemController" type="Node3D" parent="Kaguya" unique_id=1837032866 node_paths=PackedStringArray("camera", "grid_controller")]
+[node name="PlayerItemController" type="Node3D" parent="Kaguya" unique_id=1837032866 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("7_l4pfl")
 camera = NodePath("../SpringArm3D/Camera3D")
-grid_controller = NodePath("../../GridInteractionController")
+grid = NodePath("../../GridMap")
 
 [node name="Processables" type="Node3D" parent="." unique_id=1675194942]
