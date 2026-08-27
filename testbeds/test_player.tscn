@@ -53,7 +53,7 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=1206433849 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_o7auy")
-camera = NodePath("")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("5_fyxhr")]

@@ -11,6 +11,6 @@ enum FactoryItemID {
 }
 
 static var factory_item_definitions = {
-	FactoryItemID.IRON_ORE: "res://features/factory_system/factory_items/item_resources/iron_ore.tres",
-	FactoryItemID.BAMBOO_LOG: "res://features/factory_system/factory_items/item_resources/bamboo_log.tres"
+	FactoryItemID.IRON_ORE: "res://features/factory_system/factory_items/item_definitions/iron_ore.tres",
+	FactoryItemID.BAMBOO_LOG: "res://features/factory_system/factory_items/item_definitions/bamboo_log.tres"
 }
