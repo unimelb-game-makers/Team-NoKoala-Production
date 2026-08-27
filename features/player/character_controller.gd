@@ -8,6 +8,7 @@ const JUMP_STRENGTH: float = 2.075
 const MAX_GROUND_PLAYER_SPEED = 4.0
 const MAX_AIR_PLAYER_SPEED = 5.0
 const MIN_PLAYER_SPEED = 1.5
+const PICKUP_DISTANCE = 4.0
 var target_move_direction: Vector3 = Vector3(0,0,0)
 var move_direction: Vector3 = Vector3(0,0,0) 
 var player_speed: float = 1.5

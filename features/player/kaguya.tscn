@@ -8,7 +8,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
 size = Vector3(0.6431885, 1.0671701, 0.8967986)
 
-[node name="Kaguya" type="CharacterBody3D" unique_id=21341859 node_paths=PackedStringArray("camera")]
+[node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
 script = ExtResource("1_mgr46")
 camera = NodePath("")
 

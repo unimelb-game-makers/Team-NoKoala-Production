@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dt6eaahia1xnc"]
+
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
+[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
+[ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
+albedo_color = Color(1, 0.19, 0.19, 1)
+
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+script = ExtResource("4_assembly")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="." unique_id=1151288400]
+script = ExtResource("1_lqbl5")
+
+[node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+use_collision = true
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.25, 0)
+use_collision = true
+size = Vector3(1, 0.5, 1)
+
+[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
+use_collision = true
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_q0umq")
+
+[node name="Machine" type="Node" parent="." unique_id=971752522]
+script = ExtResource("3_machine")
+definition = ExtResource("4_vg41c")

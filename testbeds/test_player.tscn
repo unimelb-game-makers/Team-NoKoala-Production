@@ -29,7 +29,8 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_pr4p8")
 size = Vector2(1000, 1000)
 
-[node name="TestGrid" type="Node3D" unique_id=194163689]
+[node name="TestPlayer" type="Node3D" unique_id=194163689]
+transform = Transform3D(0.99964595, 0.026607472, 0, -0.026607472, 0.99964595, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479210000]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -52,12 +53,16 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=1206433849 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_o7auy")
-camera = NodePath("../Kaguya/Camera3D2")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("5_fyxhr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(0.9999986, 4.9438328e-05, -0.0016215506, 4.9438328e-05, 0.99814254, 0.06092186, 0.0016215508, -0.06092186, 0.9981412, 0, 1.26, 0)
 
-[node name="Camera3D2" type="Camera3D" parent="Kaguya" unique_id=1549382403]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4.5, 2.319012)
+[node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=188688356]
+transform = Transform3D(0.99999875, -0.0011116513, 0.0011815676, 4.9438328e-05, 0.74887156, 0.6627151, -0.001621551, -0.6627141, 0.7488706, 0.004925948, 1.0549314, 3.0699668)
+
+[node name="Camera3D" type="Camera3D" parent="Kaguya/SpringArm3D" unique_id=307569443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+size = 10.0
 script = ExtResource("4_nmjd8")

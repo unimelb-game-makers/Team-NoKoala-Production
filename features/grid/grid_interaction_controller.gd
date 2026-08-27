@@ -1,4 +1,5 @@
 extends Node
+class_name GridInteractionController
 
 @export var camera: Camera3D
 @export var grid: Grid
@@ -22,7 +23,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			_place_block()
-
+	
 func _place_block():
 	if _placement_hint_block != null:
 		var cell = cell_at_mouse_position()
@@ -34,7 +35,7 @@ func _place_block():
 func _rotate_block():
 	if _placement_hint_block != null:
 		_placement_hint_block.switch_rotation()
-		print(_placement_hint_block.block_rotation)
+		print(_placement_hint_block.block_data.block_rotation)
 
 func cell_at_mouse_position() -> Vector3i:
 	var mouse_pos := get_viewport().get_mouse_position()
@@ -52,3 +53,6 @@ func cell_at_mouse_position() -> Vector3i:
 		return cell
 	else:
 		return Vector3i()
+
+func position_at_cell(cell: Vector3i) -> Vector3:
+	return grid.map_to_local(cell)

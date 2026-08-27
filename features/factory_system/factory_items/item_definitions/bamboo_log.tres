@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://b0lgfvmfrlodi"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_db7fj"]
+[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_logs.png" id="2_4xy5d"]
+
+[resource]
+script = ExtResource("1_db7fj")
+item_key = 1
+item_name = "Bamboo Log"
+texture = ExtResource("2_4xy5d")

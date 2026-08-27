@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://ctxet2raipe6u"]
+
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
+[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_camera"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_on3ec"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
+[ext_resource type="Script" uid="uid://bm8o8yj15wy17" path="res://features/factory_system/factory_tick_manager.gd" id="6_tick"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_machine"]
+sky_material = SubResource("ProceduralSkyMaterial_machine")
+
+[sub_resource type="Environment" id="Environment_machine"]
+background_mode = 2
+sky = SubResource("Sky_machine")
+
+[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
+points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
+albedo_texture = ExtResource("1_texture")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
+material = SubResource("GroundMaterial_machine")
+size = Vector2(1000, 1000)
+
+[node name="TestMachine" type="Node3D" unique_id=1256172161]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
+environment = SubResource("Environment_machine")
+
+[node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
+shape = SubResource("GroundShape_machine")
+
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
+mesh = SubResource("GroundMesh_machine")
+
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
+
+[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid")]
+script = ExtResource("3_on3ec")
+grid = NodePath("../GridMap")
+
+[node name="FactoryTickManager" type="Node" parent="." unique_id=296686219 node_paths=PackedStringArray("factory_manager")]
+script = ExtResource("6_tick")
+factory_manager = NodePath("../FactoryManager")
+
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+script = ExtResource("5_on3ec")
+camera = NodePath("../Camera3D2")
+grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
+
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+script = ExtResource("5_u0wh0")
+camera = NodePath("../Camera3D2")
+grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
+script = ExtResource("2_camera")
+
+[node name="Processables" type="Node3D" parent="." unique_id=973865482]

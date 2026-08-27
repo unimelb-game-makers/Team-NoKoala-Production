@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://nm1hf5e1f8xw"]
+
+[ext_resource type="Script" uid="uid://d1gqeqxg6h155" path="res://features/factory_system/factory_items/factory_item.gd" id="1_wp3jb"]
+[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_logs.png" id="2_1bsx1"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nwpmh"]
+height = 0.03501892
+radius = 0.22021484
+
+[node name="FactoryItem" type="Node3D" unique_id=1287793470]
+script = ExtResource("1_wp3jb")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=560607239]
+transform = Transform3D(2, 0, 0, 0, 1.4142135, 1.4142135, 0, -1.4142135, 1.4142135, 0, 0.167, 0)
+texture_filter = 2
+texture = ExtResource("2_1bsx1")
+
+[node name="Area3D" type="Area3D" parent="Sprite3D" unique_id=1334922171]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D/Area3D" unique_id=550586974]
+transform = Transform3D(1, 0, 0, 0, -8.940697e-08, -1, 0, 1, -8.940697e-08, -0.0038146973, 0.010070726, -0.0008774251)
+shape = SubResource("CylinderShape3D_nwpmh")
