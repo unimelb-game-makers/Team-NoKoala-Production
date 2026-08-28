@@ -1,0 +1,71 @@
+[gd_scene format=4 uid="uid://bhwdm7kxqsbfm"]
+
+[ext_resource type="Texture2D" uid="uid://b4dw26fyw0wbj" path="res://features/conveyor_belt/conveyor_Image.png" id="1_t8oeg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gsff"]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_t8oeg")
+roughness = 0.5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_02r3x"]
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 2, 2),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwACAAEAAAAEAAEAAwAFAAIABQAAAAIABgAEAAAABQAGAAAABwABAAQABwADAAEABgAHAAQABQADAAcABQAHAAYA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("/////wAAAAAAAP////8AAAAA//8AAAAAAAAAAP//AAD///////8AAAAAAAAAAAAA//8AAAAAAAD//wAA//8AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_36ggh"]
+resource_name = "conveyor_Cube"
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 2, 2),
+"attribute_data": PackedByteArray("/5//f//f/z//3/9//5//P/9f/z//nwAA/5//P/9fAAD/X////5//v/+f////X/+//x//f/9f/z//X/9//x//P/9f/3//n/8//5//f/9f/z//X/+//5//f/+f/7//X/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_5gsff"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/////wAA//8AAP///////wAA//8AAP///////////////wAA////vwAA//////+//////////78AAAAA////vwAAAAD//1TVAAD//wAAVNUAAP////9U1QAAAAAAAFTVAAAAAAAA/7///wAA////v///AAAAAP+/AAAAAP///7///wAAAABU1f///////1TV/////wAAVNX//wAA//9U1QAAAAAAAP///////wAA//8AAP//AAD/////AAAAAP///3//v/9//7//f/+//3//v/////////////////////9U1VTVVNVU1VTVVNVU1VTVAAD/fwAA/38AAP9/AAD/f6oqqiqqKqoqqiqqKqoqqir/v/+//7//v/+//7//v/+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_02r3x")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
+size = Vector3(1, 0.5019531, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_3rim7"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.5020303, 0.013137519, -0.0024230182, 0, 0, 0, 0, 0, 0, -0.51449317, 0.022467256, 2.0593405e-05),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="DemoConveyorBelt" type="Node3D" unique_id=558609150]
+
+[node name="Block" type="MeshInstance3D" parent="." unique_id=32563562]
+transform = Transform3D(0.5, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("ArrayMesh_36ggh")
+
+[node name="ItemDetector" type="Area3D" parent="." unique_id=1950045965]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemDetector" unique_id=480424695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24902344, 0)
+shape = SubResource("BoxShape3D_8ts2w")
+
+[node name="Path3D" type="Path3D" parent="." unique_id=919599293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
+curve = SubResource("Curve3D_3rim7")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1536908667]
+transform = Transform3D(-0.002403893, 0.009177605, 0.9999515, -9.313211e-10, 0.9999534, -0.009177639, -0.9999956, -2.2063008e-05, -0.002403787, 0.5020303, 0.013137519, -0.0024230182)
