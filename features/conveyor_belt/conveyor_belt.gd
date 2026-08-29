@@ -14,14 +14,15 @@ var is_placed: bool = false
 var grid: Grid
 
 func _ready() -> void:
+	# TODO: fix this -> not great practice I don't think
 	if grid == null:
 		grid = get_tree().get_first_node_in_group("grid") as Grid
 
 func _physics_process(delta: float) -> void:
 	tick(delta)
 
-func add_item(item: FactoryItem) -> void:
-	items_on_belt.append({"item": item, "progress": 0.0})
+func add_item(item: FactoryItem, progress: float = 0.0) -> void:
+	items_on_belt.append({"item": item, "progress": progress})
 
 func tick(delta: float) -> void:
 	for item in items_on_belt:
@@ -36,16 +37,8 @@ func tick(delta: float) -> void:
 	
 	for item in finished:
 		items_on_belt.erase(item)
-		#_hand_off_to_next_segment(item.item)
-		_hand_off(item.item)
-		#_hand_off_to_neighbour(item.item)
-
-func _hand_off_to_neighbour(item: FactoryItem) -> void:
-	if neighbour:
-		neighbour.add_item(item)
-
-func set_neighbour(next: ConveyorBelt) -> void:
-	neighbour = next
+		var overflow: float = item.progress - path.curve.get_baked_length()
+		_hand_off(item.item, overflow)
 
 func _on_item_detector_area_entered(area: Area3D) -> void:
 	var item := area.owner as FactoryItem
@@ -55,10 +48,10 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 		print("added item")
 		add_item(item)
 
-func _hand_off(item: FactoryItem) -> void:
+func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
 	if next:
-		next.add_item(item)
+		next.add_item(item, overflow)
 	else:
 		_drop_item(item)
 
@@ -66,7 +59,28 @@ func _get_next_belt() -> ConveyorBelt:
 	if grid == null:
 		return null
 	var forward_cell := block_data.root_cell + _forward_direction()
-	return grid.get_block_node_at(forward_cell) as ConveyorBelt
+	var forward_belt := grid.get_block_node_at(forward_cell) as ConveyorBelt
+	# TODO: fix this so it can't accept something coming from the opposite dir
+	if forward_belt:
+		return forward_belt
+	# TODO: fix this so turning corner gets it to start at progress 50%
+	# no belt straight -> check for a belt to either side that can accept it
+	for side_dir in _side_directions():
+		var side_cell = block_data.root_cell + side_dir
+		var side_belt = grid.get_block_node_at(side_cell) as ConveyorBelt
+		if side_belt and _accepts_from(side_belt, side_dir):
+			return side_belt
+	return null
+
+func _side_directions() -> Array[Vector3i]:
+	var fwd = _forward_direction()
+	# perpendicular to forward: rotate 90 degrees either way
+	return [Vector3i(-fwd.z, fwd.y, fwd.x), Vector3i(fwd.z, fwd.y, -fwd.x)]
+
+## Only accept the side belt as "next" if continues away (not back to the same)
+func _accepts_from(other: ConveyorBelt, direction_to_other: Vector3i) -> bool:
+	var incoming_dir = -direction_to_other
+	return other._forward_direction() != incoming_dir
 
 func _forward_direction() -> Vector3i:
 	const DIRECTIONS := {
