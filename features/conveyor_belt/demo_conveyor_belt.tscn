@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://bhwdm7kxqsbfm"]
 
+[ext_resource type="Script" uid="uid://uq3ig52hcpyb" path="res://features/conveyor_belt/conveyor_belt.gd" id="1_3rim7"]
 [ext_resource type="Texture2D" uid="uid://b4dw26fyw0wbj" path="res://features/conveyor_belt/conveyor_Image.png" id="1_t8oeg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gsff"]
@@ -42,7 +43,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_02r3x")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
-size = Vector3(1, 0.5019531, 1)
+size = Vector3(0.22741699, 0.7060547, 1)
 
 [sub_resource type="Curve3D" id="Curve3D_3rim7"]
 _data = {
@@ -51,16 +52,21 @@ _data = {
 }
 point_count = 2
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
+size = Vector3(1, 0.50097656, 1)
+
 [node name="DemoConveyorBelt" type="Node3D" unique_id=558609150]
+script = ExtResource("1_3rim7")
 
 [node name="Block" type="MeshInstance3D" parent="." unique_id=32563562]
 transform = Transform3D(0.5, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0.25, 0)
 mesh = SubResource("ArrayMesh_36ggh")
 
-[node name="ItemDetector" type="Area3D" parent="." unique_id=1950045965]
+[node name="ExitArea" type="Area3D" parent="." unique_id=1950045965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9983624, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemDetector" unique_id=480424695]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24902344, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea" unique_id=480424695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3862915, 0.35490793, 0)
 shape = SubResource("BoxShape3D_8ts2w")
 
 [node name="Path3D" type="Path3D" parent="." unique_id=919599293]
@@ -68,4 +74,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
 curve = SubResource("Curve3D_3rim7")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1536908667]
-transform = Transform3D(-0.002403893, 0.009177605, 0.9999515, -9.313211e-10, 0.9999534, -0.009177639, -0.9999956, -2.2063008e-05, -0.002403787, 0.5020303, 0.013137519, -0.0024230182)
+transform = Transform3D(-0.002403893, 0.0091776, 0.9999515, -9.313211e-10, 0.99995285, -0.009177639, -0.9999956, -2.2062995e-05, -0.002403787, 0.5020303, 0.013137519, -0.0024230182)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1320480007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
+shape = SubResource("BoxShape3D_owhf0")
