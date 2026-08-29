@@ -79,7 +79,7 @@ func _get_next_belt() -> ConveyorBelt:
 	var forward_belt := forward_node as ConveyorBelt
 	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
-		if forward_node.block_data.block_rotation == self.block_data.block_rotation:
+		if _same_direction(forward_belt):
 			is_corner = false
 			is_straight_corner = false
 		else:
@@ -91,7 +91,7 @@ func _get_next_belt() -> ConveyorBelt:
 	for side_dir in _side_directions():
 		var side_cell = block_data.root_cell + side_dir
 		var side_belt = grid.get_block_node_at(side_cell) as ConveyorBelt
-		if side_belt:
+		if side_belt and not _same_direction(side_belt):
 			is_corner = true
 			is_straight_corner = false
 			return side_belt
@@ -101,6 +101,9 @@ func _side_directions() -> Array[Vector3i]:
 	var fwd = _forward_direction()
 	# perpendicular to forward: rotate 90 degrees either way
 	return [Vector3i(-fwd.z, fwd.y, fwd.x), Vector3i(fwd.z, fwd.y, -fwd.x)]
+
+func _same_direction(next: ConveyorBelt) -> bool:
+	return next.block_data.block_rotation == self.block_data.block_rotation
 
 ## Only accept the side belt as "next" if continues away (not back to the same)
 func _accepts_from(other: ConveyorBelt, direction_to_other: Vector3i) -> bool:
