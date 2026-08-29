@@ -74,7 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
 curve = SubResource("Curve3D_3rim7")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1536908667]
-transform = Transform3D(0.99998903, 3.4829056e-05, 0.0036541992, -1.8189816e-12, 0.99994457, -0.009530792, -0.003654371, 0.00953069, 0.99994206, -0.00048595667, 0.013137519, 0.49613637)
+transform = Transform3D(0.99998814, 3.4829023e-05, 0.0036541955, -1.81898e-12, 0.9999436, -0.009530783, -0.0036543678, 0.00953068, 0.99994105, -0.00048595667, 0.013137519, 0.49613637)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1320480007]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)

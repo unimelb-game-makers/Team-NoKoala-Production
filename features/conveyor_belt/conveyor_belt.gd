@@ -21,38 +21,43 @@ func _physics_process(delta: float) -> void:
 	tick(delta)
 
 func add_item(item: FactoryItem, progress: float = 0.0) -> void:
-	items_on_belt.append({"item": item, "progress": progress})
+	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
 func tick(delta: float) -> void:
 	for item in items_on_belt:
+		if item.get("waiting", false):
+			continue
 		item.progress += speed * delta
 		follow.progress = item.progress
 		item.item.global_transform = follow.global_transform
 	
 	var finished: Array[Dictionary] = []
 	for item in items_on_belt:
+		if item.get("waiting", false):
+			continue
 		var progress = item.progress
 		# only check this halfway progress once
 		if progress >= path.curve.get_baked_length() / 2:
 			var _next := _get_next_belt()
 			if is_corner:
 				_process_end(item)
-			if is_straight_corner:
-				_process_end(item, 0.5, false)
 		if progress >= path.curve.get_baked_length():
 			finished.append(item)
 	
 	for item in finished:
 		_process_end(item)
 
-func _process_end(item: Dictionary, extra: float = 0.0, from_full_length: bool = true) -> void:
+func _process_end(item: Dictionary, extra: float = 0.0) -> void:
+	var next := _get_next_belt()
+	if next == null and _forward_has_conflict():
+		item.progress = path.curve.get_baked_length()
+		follow.progress = item.progress
+		item.item.global_transform = follow.global_transform
+		item["waiting"] = true
+		return
+
 	items_on_belt.erase(item)
-	var overflow: float
-	if from_full_length:
-		overflow = item.progress - path.curve.get_baked_length() + extra
-	else:
-		overflow = extra
-	_hand_off(item.item, overflow)
+	_hand_off(item.item, extra)
 
 func _on_item_detector_area_entered(area: Area3D) -> void:
 	var item := area.owner as FactoryItem
@@ -62,10 +67,23 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 		print("added item")
 		add_item(item)
 
+func _forward_has_conflict() -> bool:
+	if grid == null:
+		return false
+	var forward_cell := block_data.root_cell + _forward_direction()
+	var forward_belt := grid.get_block_node_at(forward_cell) as ConveyorBelt
+	return forward_belt != null and _conflicting_direction(forward_belt)
+
 func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
 	if next:
-		if (is_corner):
+		if is_corner:
+			overflow += 0.5
+			var target_pos: Vector3 = next.follow.global_position
+			var tween = create_tween()
+			tween.tween_property(item, "global_position", target_pos, 0.5)
+			await tween.finished
+		if is_straight_corner:
 			overflow += 0.5
 		next.add_item(item, overflow)
 	else:
@@ -79,11 +97,12 @@ func _get_next_belt() -> ConveyorBelt:
 	var forward_belt := forward_node as ConveyorBelt
 	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
+		if _conflicting_direction(forward_belt):
+			return null
 		if _same_direction(forward_belt):
 			is_corner = false
 			is_straight_corner = false
 		else:
-			print("case 2")
 			is_corner = false
 			is_straight_corner = true
 		return forward_belt
@@ -104,6 +123,9 @@ func _side_directions() -> Array[Vector3i]:
 
 func _same_direction(next: ConveyorBelt) -> bool:
 	return next.block_data.block_rotation == self.block_data.block_rotation
+
+func _conflicting_direction(next: ConveyorBelt) -> bool:
+	return next._forward_direction() + self._forward_direction() == Vector3i.ZERO
 
 ## Only accept the side belt as "next" if continues away (not back to the same)
 func _accepts_from(other: ConveyorBelt, direction_to_other: Vector3i) -> bool:
