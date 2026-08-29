@@ -4,12 +4,20 @@ class_name ConveyorManager
 @export var camera: Camera3D
 @export var grid: Grid
 
-var _placement_hint_block: Block
-var previous_roation: BlockData.Rotation # store rotation for cleaner placement
+var _placement_hint_block: ConveyorBelt
+var previous_rotation: BlockData.Rotation # store rotation for cleaner placement
+
+const DIRECTIONS = {
+	BlockData.Rotation.DEG0:   Vector3i(0, 0, -1),
+	BlockData.Rotation.DEG90:  Vector3i(-1, 0, 0),
+	BlockData.Rotation.DEG180: Vector3i(0, 0, 1),
+	BlockData.Rotation.DEG270: Vector3i(1, 0, 0),
+}
 
 func _ready() -> void:
 	_placement_hint_block = ConveyorFactory.create_conveyor_belt()
 	grid.add_block_visual(_placement_hint_block)
+	_placement_hint_block.set_areas_enabled(false)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -22,17 +30,19 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			previous_roation = _placement_hint_block.block_data.block_rotation
+			previous_rotation = _placement_hint_block.block_data.block_rotation
 			_place_block()
 	
 func _place_block():
 	if _placement_hint_block != null:
 		var cell = cell_at_mouse_position()
-		print(cell)
+		_placement_hint_block.is_placed = true
 		if grid.move_block(_placement_hint_block, cell):
+			_placement_hint_block.set_areas_enabled(true)
 			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
-			_placement_hint_block.set_rotation_data(previous_roation)
+			_placement_hint_block.set_rotation_data(previous_rotation)
 			grid.add_block_visual(_placement_hint_block)
+			_placement_hint_block.set_areas_enabled(false)
 
 func _rotate_block():
 	if _placement_hint_block != null:
