@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c2er2mffyxett"]
+
+[ext_resource type="Texture2D" uid="uid://cdmbm6du1ppqy" path="res://assets/developer_art/demo_npc.png" id="1_265ex"]
+[ext_resource type="Script" uid="uid://b3wo3jleh8jbk" path="res://features/mob/ai/job/job_consumer.gd" id="2_3v4j7"]
+[ext_resource type="Script" uid="uid://c8p3sixfla6lw" path="res://features/mob/movement/movement.gd" id="3_23j5d"]
+[ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="3_qwa8x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hly03"]
+
+[node name="DemoNpc" type="CharacterBody3D" unique_id=670937746]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1362271164]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+texture = ExtResource("1_265ex")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1010080115]
+shape = SubResource("CapsuleShape3D_hly03")
+
+[node name="JobConsumer" type="Node" parent="." unique_id=1296019535]
+script = ExtResource("2_3v4j7")
+job_priorities = Dictionary[StringName, int]({
+&"haul": 5
+})
+metadata/_custom_type_script = "uid://b3wo3jleh8jbk"
+
+[node name="Movement" type="Node" parent="." unique_id=1419771016]
+script = ExtResource("3_23j5d")
+metadata/_custom_type_script = "uid://c8p3sixfla6lw"
+
+[node name="InventoryOwner" type="Node" parent="." unique_id=182432514]
+script = ExtResource("3_qwa8x")
+metadata/_custom_type_script = "uid://cfhdxwnq6250f"

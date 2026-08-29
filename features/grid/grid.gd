@@ -3,6 +3,12 @@ extends GridMap
 
 var grid_data: GridData = GridData.new()
 
+signal grid_changed(affected_cells: Array)
+
+func _ready() -> void:
+	add_to_group("grid")
+
+
 ## Moves a block to a new cell position if placement is valid.
 func move_block(
 	block: Block,
@@ -14,6 +20,7 @@ func move_block(
 	var can_place = grid_data.add_block(block.block_data)
 	if can_place:
 		move_block_visual(visual_root if visual_root != null else block, cell)
+		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Adds a block to the grid if placement is valid.
@@ -21,11 +28,16 @@ func add_block(block: Block, visual_root: Node3D = null) -> bool:
 	var can_place = grid_data.add_block(block.block_data)
 	if can_place:
 		add_block_visual(visual_root if visual_root != null else block)
+		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Removes a block from the grid data.
 func remove_block(block: Block):
+	if not block.block_data.is_placed:
+		return
+	var freed_cells := block.block_data.blocking_cells()
 	grid_data.remove_block(block.block_data)
+	grid_changed.emit(freed_cells)
 
 func world_to_cell(world_position: Vector3) -> Vector3i:
 	return local_to_map(to_local(world_position))

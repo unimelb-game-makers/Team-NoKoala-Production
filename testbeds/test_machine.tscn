@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://ctxet2raipe6u"]
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="2_camera"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
+[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_on3ec"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
-[ext_resource type="Script" uid="uid://bm8o8yj15wy17" path="res://features/factory_system/factory_tick_manager.gd" id="6_tick"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -52,28 +52,30 @@ mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
 
-[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid")]
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
+
+[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid", "fixed_clock")]
 script = ExtResource("3_on3ec")
 grid = NodePath("../GridMap")
+fixed_clock = NodePath("../FixedClock")
 
-[node name="FactoryTickManager" type="Node" parent="." unique_id=296686219 node_paths=PackedStringArray("factory_manager")]
-script = ExtResource("6_tick")
-factory_manager = NodePath("../FactoryManager")
+[node name="FixedClock" type="Node" parent="." unique_id=1063321843]
+script = ExtResource("5_na4ej")
+metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("5_on3ec")
-camera = NodePath("../Camera3D2")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("5_u0wh0")
-camera = NodePath("../Camera3D2")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
-script = ExtResource("2_camera")
-
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[editable path="Kaguya"]

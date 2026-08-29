@@ -1,8 +1,13 @@
-[gd_scene format=3 uid="uid://liaync3vttmf"]
+[gd_scene load_steps=3 format=3 uid="uid://liaync3vttmf"]
 
 [ext_resource type="Script" uid="uid://ckjloesk7ibqm" path="res://features/grid/grid.gd" id="1_uis8d"]
+[ext_resource type="Script" uid="uid://dw3p8n0mxq3wk" path="res://features/mob/movement/pathfinder.gd" id="2_pf1nd"]
 
 [node name="Grid" type="GridMap" unique_id=1048428204]
 cell_size = Vector3(1, 1, 1)
 cell_center_y = false
 script = ExtResource("1_uis8d")
+
+[node name="Pathfinder" type="Node" parent="." unique_id=1048428205]
+script = ExtResource("2_pf1nd")
+metadata/_custom_type_script = "uid://dw3p8n0mxq3wk"
