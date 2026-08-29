@@ -49,8 +49,10 @@ mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_tkm83")]
 
-[node name="ConveyorBeltPlacer" type="Node" parent="." unique_id=1499061308]
+[node name="GridInteractionController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_hkuxf")
+camera = NodePath("../Camera3D2")
+grid = NodePath("../GridMap")
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
