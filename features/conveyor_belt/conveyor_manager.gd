@@ -38,13 +38,12 @@ func _place_block():
 		_placement_hint_block.is_placed = true
 		if grid.move_block(_placement_hint_block, cell):
 			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
-			_placement_hint_block.block_data.block_rotation = previous_rotation
+			_placement_hint_block.set_rotation_data(previous_rotation)
 			grid.add_block_visual(_placement_hint_block)
 
 func _rotate_block():
 	if _placement_hint_block != null:
 		_placement_hint_block.switch_rotation()
-		print(_placement_hint_block.block_data.block_rotation)
 
 func cell_at_mouse_position() -> Vector3i:
 	var mouse_pos := get_viewport().get_mouse_position()
