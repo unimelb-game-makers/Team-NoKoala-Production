@@ -13,6 +13,8 @@ var neighbour: ConveyorBelt = null
 var is_placed: bool = false
 var grid: Grid
 
+var is_corner: bool = false
+
 func _ready() -> void:
 	# TODO: fix this -> not great practice I don't think
 	if grid == null:
@@ -32,13 +34,22 @@ func tick(delta: float) -> void:
 	
 	var finished: Array[Dictionary] = []
 	for item in items_on_belt:
-		if item.progress >= path.curve.get_baked_length():
+		var progress = item.progress
+		# only check this halfway progress once
+		if progress >= path.curve.get_baked_length() / 2:
+			var next := _get_next_belt()
+			if (is_corner):
+				_process_end(item)
+		if progress >= path.curve.get_baked_length():
 			finished.append(item)
 	
 	for item in finished:
-		items_on_belt.erase(item)
-		var overflow: float = item.progress - path.curve.get_baked_length()
-		_hand_off(item.item, overflow)
+		_process_end(item)
+
+func _process_end(item: Dictionary) -> void:
+	items_on_belt.erase(item)
+	var overflow: float = item.progress - path.curve.get_baked_length()
+	_hand_off(item.item, overflow)
 
 func _on_item_detector_area_entered(area: Area3D) -> void:
 	var item := area.owner as FactoryItem
@@ -51,6 +62,8 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
 	if next:
+		if (is_corner):
+			overflow += 0.5
 		next.add_item(item, overflow)
 	else:
 		_drop_item(item)
@@ -62,13 +75,14 @@ func _get_next_belt() -> ConveyorBelt:
 	var forward_belt := grid.get_block_node_at(forward_cell) as ConveyorBelt
 	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
+		is_corner = false
 		return forward_belt
-	# TODO: fix this so turning corner gets it to start at progress 50%
 	# no belt straight -> check for a belt to either side that can accept it
 	for side_dir in _side_directions():
 		var side_cell = block_data.root_cell + side_dir
 		var side_belt = grid.get_block_node_at(side_cell) as ConveyorBelt
-		if side_belt and _accepts_from(side_belt, side_dir):
+		if side_belt:
+			is_corner = true
 			return side_belt
 	return null
 
