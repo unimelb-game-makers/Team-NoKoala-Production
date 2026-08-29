@@ -4,16 +4,13 @@ extends Block
 @export var speed: float = 1.0
 @onready var path: Path3D = $Path3D
 @onready var follow: PathFollow3D = $Path3D/PathFollow3D
-@onready var exit_area: Area3D = $ExitArea
-@onready var forward_area: Area3D = $ForwardArea
-@onready var back_area: Area3D = $BackArea
 
 var items_on_belt: Array[Dictionary] = []
-var neighbour: ConveyorBelt = null
 var is_placed: bool = false
 var grid: Grid
 
-var is_corner: bool = false
+var is_corner: bool = false # case 1: forwards leads to empty
+var is_straight_corner: bool = false # case 2: forwards leads to belt w/ diff rotation
 
 func _ready() -> void:
 	# TODO: fix this -> not great practice I don't think
@@ -37,18 +34,24 @@ func tick(delta: float) -> void:
 		var progress = item.progress
 		# only check this halfway progress once
 		if progress >= path.curve.get_baked_length() / 2:
-			var next := _get_next_belt()
-			if (is_corner):
+			var _next := _get_next_belt()
+			if is_corner:
 				_process_end(item)
+			if is_straight_corner:
+				_process_end(item, 0.5, false)
 		if progress >= path.curve.get_baked_length():
 			finished.append(item)
 	
 	for item in finished:
 		_process_end(item)
 
-func _process_end(item: Dictionary) -> void:
+func _process_end(item: Dictionary, extra: float = 0.0, from_full_length: bool = true) -> void:
 	items_on_belt.erase(item)
-	var overflow: float = item.progress - path.curve.get_baked_length()
+	var overflow: float
+	if from_full_length:
+		overflow = item.progress - path.curve.get_baked_length() + extra
+	else:
+		overflow = extra
 	_hand_off(item.item, overflow)
 
 func _on_item_detector_area_entered(area: Area3D) -> void:
@@ -72,10 +75,17 @@ func _get_next_belt() -> ConveyorBelt:
 	if grid == null:
 		return null
 	var forward_cell := block_data.root_cell + _forward_direction()
-	var forward_belt := grid.get_block_node_at(forward_cell) as ConveyorBelt
+	var forward_node := grid.get_block_node_at(forward_cell)
+	var forward_belt := forward_node as ConveyorBelt
 	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
-		is_corner = false
+		if forward_node.block_data.block_rotation == self.block_data.block_rotation:
+			is_corner = false
+			is_straight_corner = false
+		else:
+			print("case 2")
+			is_corner = false
+			is_straight_corner = true
 		return forward_belt
 	# no belt straight -> check for a belt to either side that can accept it
 	for side_dir in _side_directions():
@@ -83,6 +93,7 @@ func _get_next_belt() -> ConveyorBelt:
 		var side_belt = grid.get_block_node_at(side_cell) as ConveyorBelt
 		if side_belt:
 			is_corner = true
+			is_straight_corner = false
 			return side_belt
 	return null
 
