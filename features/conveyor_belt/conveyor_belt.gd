@@ -11,6 +11,11 @@ extends Block
 var items_on_belt: Array[Dictionary] = []
 var neighbour: ConveyorBelt = null
 var is_placed: bool = false
+var grid: Grid
+
+func _ready() -> void:
+	if grid == null:
+		grid = get_tree().get_first_node_in_group("grid") as Grid
 
 func _physics_process(delta: float) -> void:
 	tick(delta)
@@ -32,11 +37,11 @@ func tick(delta: float) -> void:
 	for item in finished:
 		items_on_belt.erase(item)
 		#_hand_off_to_next_segment(item.item)
-		_hand_off_to_neighbour(item.item)
+		_hand_off(item.item)
+		#_hand_off_to_neighbour(item.item)
 
 func _hand_off_to_neighbour(item: FactoryItem) -> void:
 	if neighbour:
-		print("handing off, neighbour = ", neighbour, " self = ", self)
 		neighbour.add_item(item)
 
 func set_neighbour(next: ConveyorBelt) -> void:
@@ -50,33 +55,32 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 		print("added item")
 		add_item(item)
 
-func _on_back_area_area_entered(area: Area3D) -> void:
-	pass # Replace with function body.
+func _hand_off(item: FactoryItem) -> void:
+	var next := _get_next_belt()
+	if next:
+		next.add_item(item)
+	else:
+		_drop_item(item)
 
+func _get_next_belt() -> ConveyorBelt:
+	if grid == null:
+		return null
+	var forward_cell := block_data.root_cell + _forward_direction()
+	return grid.get_block_node_at(forward_cell) as ConveyorBelt
 
-func _on_forward_area_area_entered(area: Area3D) -> void:
-	var other = area.get_parent() as ConveyorBelt
-	if other == null or other == self:
-		return
-	set_neighbour(other)
+func _forward_direction() -> Vector3i:
+	const DIRECTIONS := {
+		BlockData.Rotation.DEG0:   Vector3i(0, 0, -1),
+		BlockData.Rotation.DEG90:  Vector3i(-1, 0, 0),
+		BlockData.Rotation.DEG180: Vector3i(0, 0, 1),
+		BlockData.Rotation.DEG270: Vector3i(1, 0, 0),
+	}
+	return DIRECTIONS[block_data.block_rotation]
 
-
-func _on_left_area_area_entered(area: Area3D) -> void:
-	pass # Replace with function body.
-
-
-func _on_right_area_area_entered(area: Area3D) -> void:
-	pass # Replace with function body.
-
-
-func _on_forward_area_area_exited(area: Area3D) -> void:
-	if not area.is_in_group("belt_edge"):
-		return
-	var other = area.get_parent() as ConveyorBelt
-	if other == neighbour:
-		set_neighbour(null)
-
-func set_areas_enabled(enabled: bool) -> void:
-	for area in [forward_area, back_area]:
-		area.monitoring = enabled
-		area.monitorable = enabled
+func _drop_item(item: FactoryItem) -> void:
+	item.release_claim()
+	var forward_cell := block_data.root_cell + _forward_direction()
+	if grid:
+		item.global_position = grid.cell_to_world(forward_cell)
+	else:
+		item.global_position = follow.global_transform.origin

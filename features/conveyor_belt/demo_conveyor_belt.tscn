@@ -48,15 +48,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_35t02")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_130qg"]
-size = Vector3(0.80981445, 0.6736145, 0.27111816)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
-size = Vector3(0.86496747, 0.7060547, 0.2919951)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3mpr8"]
-size = Vector3(0.18554688, 0.697876, 1)
-
 [sub_resource type="Curve3D" id="Curve3D_3rim7"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.00048595667, 0.013137519, 0.49613637, 0, 0, 0, 0, 0, 0, -0.00406307, 0.022467256, -0.48271155),
@@ -78,31 +69,6 @@ block_data = SubResource("Resource_c2e4d")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
 mesh = SubResource("ArrayMesh_02cbg")
 
-[node name="BackArea" type="Area3D" parent="." unique_id=689532357 groups=["belt_edge"]]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BackArea" unique_id=696383622]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.044799805, 0.33766174, 0.64056396)
-shape = SubResource("BoxShape3D_130qg")
-
-[node name="ForwardArea" type="Area3D" parent="." unique_id=1950045965 groups=["belt_edge"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2677693)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ForwardArea" unique_id=480424695]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01612252, 0.35490793, 0.6164707)
-shape = SubResource("BoxShape3D_8ts2w")
-
-[node name="LeftArea" type="Area3D" parent="." unique_id=453785430 groups=["belt_edge"]]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftArea" unique_id=480850049]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5966797, 0.3435669, 0)
-shape = SubResource("BoxShape3D_3mpr8")
-
-[node name="RightArea" type="Area3D" parent="." unique_id=1692202567 groups=["belt_edge"]]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightArea" unique_id=2061415793]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5643145, 0.3435669, 0)
-shape = SubResource("BoxShape3D_3mpr8")
-
 [node name="Path3D" type="Path3D" parent="." unique_id=919599293]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
 curve = SubResource("Curve3D_3rim7")
@@ -120,9 +86,4 @@ shape = SubResource("BoxShape3D_owhf0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24414063, 0)
 shape = SubResource("BoxShape3D_voy0p")
 
-[connection signal="area_entered" from="BackArea" to="." method="_on_back_area_area_entered"]
-[connection signal="area_entered" from="ForwardArea" to="." method="_on_forward_area_area_entered"]
-[connection signal="area_exited" from="ForwardArea" to="." method="_on_forward_area_area_exited"]
-[connection signal="area_entered" from="LeftArea" to="." method="_on_left_area_area_entered"]
-[connection signal="area_entered" from="RightArea" to="." method="_on_right_area_area_entered"]
 [connection signal="area_entered" from="ItemDetector" to="." method="_on_item_detector_area_entered"]

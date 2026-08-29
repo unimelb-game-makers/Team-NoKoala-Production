@@ -7,6 +7,7 @@ class GridCellData:
 
 	var type: Type
 	var block: BlockData
+	var node: Block
 	
 	func _init(p_type: Type):
 		type = p_type
@@ -39,7 +40,7 @@ func get_cells_by_type(cell_type: GridCellData.Type) -> Array[Vector3i]:
 func get_cell_data(cell: Vector3i) -> GridCellData:
 	return _grid.get(cell)
 
-func add_block(block: BlockData) -> bool:
+func add_block(block: BlockData, node: Block = null) -> bool:
 	var can_place := true
 	var blocking_cells := block.blocking_cells()
 
@@ -55,6 +56,7 @@ func add_block(block: BlockData) -> bool:
 		var cell_data := get_cell_data(cell)
 		if cell_data != null:
 			cell_data.block = block
+			cell_data.node = node
 	 
 	block.is_placed = true
 	
@@ -69,5 +71,6 @@ func remove_block(block: BlockData) -> void:
 		var cell_data := get_cell_data(cell)
 		if cell_data != null and cell_data.block == block:
 			cell_data.block = null
+			cell_data.node = null
 
 	block.is_placed = false

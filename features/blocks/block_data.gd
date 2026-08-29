@@ -18,6 +18,7 @@ enum Rotation {
 var block_rotation: Rotation = Rotation.DEG0
 var is_placed: bool
 var root_cell: Vector3i
+var type: BlockType
 
 func occupied_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []

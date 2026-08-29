@@ -11,14 +11,14 @@ func move_block(
 ) -> bool:
 	remove_block(block)
 	block.block_data.root_cell = cell
-	var can_place = grid_data.add_block(block.block_data)
+	var can_place = grid_data.add_block(block.block_data, block)
 	if can_place:
 		move_block_visual(visual_root if visual_root != null else block, cell)
 	return can_place
 
 ## Adds a block to the grid if placement is valid.
 func add_block(block: Block, visual_root: Node3D = null) -> bool:
-	var can_place = grid_data.add_block(block.block_data)
+	var can_place = grid_data.add_block(block.block_data, block)
 	if can_place:
 		add_block_visual(visual_root if visual_root != null else block)
 	return can_place
@@ -43,3 +43,7 @@ func move_block_visual(visual_root: Node3D, cell: Vector3i):
 ## This function doesn't update grid data
 func add_block_visual(visual_root: Node3D):
 	add_child(visual_root)
+
+func get_block_node_at(cell: Vector3i) -> Block:
+	var cell_data := grid_data.get_cell_data(cell)
+	return cell_data.node if cell_data != null else null

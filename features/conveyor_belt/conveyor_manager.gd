@@ -17,7 +17,6 @@ const DIRECTIONS = {
 func _ready() -> void:
 	_placement_hint_block = ConveyorFactory.create_conveyor_belt()
 	grid.add_block_visual(_placement_hint_block)
-	_placement_hint_block.set_areas_enabled(false)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -38,11 +37,8 @@ func _place_block():
 		var cell = cell_at_mouse_position()
 		_placement_hint_block.is_placed = true
 		if grid.move_block(_placement_hint_block, cell):
-			_placement_hint_block.set_areas_enabled(true)
 			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
-			_placement_hint_block.set_rotation_data(previous_rotation)
 			grid.add_block_visual(_placement_hint_block)
-			_placement_hint_block.set_areas_enabled(false)
 
 func _rotate_block():
 	if _placement_hint_block != null:

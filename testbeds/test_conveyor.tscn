@@ -49,7 +49,7 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_tkm83")]
+[node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_tkm83")]
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("6_gw463")
