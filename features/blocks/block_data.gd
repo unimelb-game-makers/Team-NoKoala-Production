@@ -3,7 +3,6 @@ extends Resource
 
 enum BlockType { 
 	NORMAL,
-	CONVEYOR,
 }
 
 enum Rotation {

@@ -38,6 +38,7 @@ func _place_block():
 		_placement_hint_block.is_placed = true
 		if grid.move_block(_placement_hint_block, cell):
 			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
+			_placement_hint_block.block_data.block_rotation = previous_rotation
 			grid.add_block_visual(_placement_hint_block)
 
 func _rotate_block():
