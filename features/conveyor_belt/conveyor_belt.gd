@@ -8,7 +8,7 @@ extends Block
 
 var items_on_belt: Array[Dictionary] = []
 
-func add_item(item: Node3D) -> void:
+func add_item(item: FactoryItem) -> void:
 	items_on_belt.append({"item": item, "progress": 0.0})
 
 func tick(delta: float) -> void:
@@ -33,3 +33,12 @@ func _hand_off_to_next_segment(item: Node3D) -> void:
 		if next_segment is ConveyorBelt:
 			next_segment.add_item(item)
 			return
+
+func _on_item_detector_area_entered(area: Area3D) -> void:
+	var item := area.owner as FactoryItem
+	if item == null:
+		print("null")
+		return
+	if item.try_claim(self):
+		print("added item")
+		add_item(item)

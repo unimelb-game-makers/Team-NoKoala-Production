@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_ahpsf"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_tkm83"]
 [ext_resource type="Script" uid="uid://bmk3dy5mnhblm" path="res://features/conveyor_belt/conveyor_manager.gd" id="3_hkuxf"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_oronm"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_gw463"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="7_qqsrh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -48,6 +50,16 @@ shape = SubResource("GroundShape_machine")
 mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_tkm83")]
+
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+script = ExtResource("6_gw463")
+camera = NodePath("../Camera3D2")
+grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
+
+[node name="FactoryManager" type="Node" parent="." unique_id=356444170 node_paths=PackedStringArray("grid")]
+script = ExtResource("3_oronm")
+grid = NodePath("../GridMap")
 
 [node name="GridInteractionController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid")]
 script = ExtResource("3_hkuxf")
