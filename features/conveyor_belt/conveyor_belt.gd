@@ -78,7 +78,6 @@ func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
 	if next:
 		if is_corner:
-			overflow += 0.5
 			var target_pos: Vector3 = next.follow.global_position
 			var tween = create_tween()
 			tween.tween_property(item, "global_position", target_pos, 0.5)
