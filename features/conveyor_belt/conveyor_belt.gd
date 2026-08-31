@@ -38,10 +38,10 @@ func tick(delta: float) -> void:
 			continue
 		var progress = item.progress
 		# only check this halfway progress once
-		if progress >= path.curve.get_baked_length() / 2:
-			var _next := _get_next_belt()
-			if is_corner:
-				_process_end(item)
+		#if progress >= path.curve.get_baked_length() / 2:
+			#var _next := _get_next_belt()
+			#if is_corner:
+				#_process_end(item)
 		if progress >= path.curve.get_baked_length():
 			finished.append(item)
 	
@@ -65,7 +65,7 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 	if item == null || not is_placed:
 		return
 	if item.try_claim(self):
-		#print("added item")
+		print("added item")
 		add_item(item)
 
 func _forward_has_conflict() -> bool:
@@ -77,12 +77,15 @@ func _forward_has_conflict() -> bool:
 
 func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
-	if next and is_straight_corner:
-		#var target_pos: Vector3 = next.middle.global_position
-		#var tween = create_tween()
-		#tween.tween_property(item, "global_position", target_pos, 0.5)
-		#await tween.finished
-		overflow += 0.5
+	if next:
+		if is_straight_corner:
+			#var target_pos: Vector3 = next.middle.global_position
+			#var tween = create_tween()
+			#tween.tween_property(item, "global_position", target_pos, 0.5)
+			#await tween.finished
+			overflow += 0.5
+			next.add_item(item, overflow)
+			# tween goes here
 		next.add_item(item, overflow)
 	else:
 		_drop_item(item)
@@ -140,6 +143,7 @@ func _forward_direction() -> Vector3i:
 	return DIRECTIONS[block_data.block_rotation]
 
 func _drop_item(item: FactoryItem) -> void:
+	print("dropping")
 	item.release_claim()
 	var forward_cell := block_data.root_cell + _forward_direction()
 	if grid:
