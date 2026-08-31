@@ -65,6 +65,9 @@ size = Vector3(1, 0.51171875, 1)
 script = ExtResource("1_3rim7")
 block_data = SubResource("Resource_c2e4d")
 
+[node name="Middle" type="Node3D" parent="." unique_id=1433237119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
 [node name="Cube" type="MeshInstance3D" parent="." unique_id=219634003]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
 mesh = SubResource("ArrayMesh_02cbg")

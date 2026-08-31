@@ -4,6 +4,7 @@ extends Block
 @export var speed: float = 1.0
 @onready var path: Path3D = $Path3D
 @onready var follow: PathFollow3D = $Path3D/PathFollow3D
+@onready var middle: Node3D = $Middle
 
 var items_on_belt: Array[Dictionary] = []
 var is_placed: bool = false
@@ -64,7 +65,7 @@ func _on_item_detector_area_entered(area: Area3D) -> void:
 	if item == null || not is_placed:
 		return
 	if item.try_claim(self):
-		print("added item")
+		#print("added item")
 		add_item(item)
 
 func _forward_has_conflict() -> bool:
@@ -76,14 +77,12 @@ func _forward_has_conflict() -> bool:
 
 func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
-	if next:
-		if is_corner:
-			var target_pos: Vector3 = next.follow.global_position
-			var tween = create_tween()
-			tween.tween_property(item, "global_position", target_pos, 0.5)
-			await tween.finished
-		if is_straight_corner:
-			overflow += 0.5
+	if next and is_straight_corner:
+		#var target_pos: Vector3 = next.middle.global_position
+		#var tween = create_tween()
+		#tween.tween_property(item, "global_position", target_pos, 0.5)
+		#await tween.finished
+		overflow += 0.5
 		next.add_item(item, overflow)
 	else:
 		_drop_item(item)
