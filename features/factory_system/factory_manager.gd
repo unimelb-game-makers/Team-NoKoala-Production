@@ -12,6 +12,8 @@ signal processable_unregistered(processable: Processable)
 
 var _machines: Array[Machine] = []
 var _conveyors: Array[ConveyorBelt] = []
+var _conveyors_by_block: Dictionary = {}
+var _conveyor_blocks: Dictionary = {}
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
@@ -58,10 +60,18 @@ func get_machines() -> Array[Machine]:
 # --- conveyor apis ---
 
 func register_conveyor(conveyor: ConveyorBelt) -> bool:
-	if conveyor == null or _conveyors.has(conveyor):
+	if (
+		conveyor == null
+		or conveyor.block == null
+		or conveyor.block.block_data == null
+		or _conveyors.has(conveyor)
+		or _conveyors_by_block.has(conveyor.block.block_data)
+	):
 		return false
 
 	_conveyors.append(conveyor)
+	_conveyors_by_block[conveyor.block.block_data] = conveyor
+	_conveyor_blocks[conveyor] = conveyor.block.block_data
 
 	var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
 	if not conveyor.tree_exiting.is_connected(exit_callback):
@@ -79,6 +89,11 @@ func unregister_conveyor(
 		return false
 
 	_conveyors.remove_at(index)
+	var block_data: BlockData = _conveyor_blocks.get(conveyor)
+	if block_data != null and _conveyors_by_block.get(block_data) == conveyor:
+		_conveyors_by_block.erase(block_data)
+	_conveyor_blocks.erase(conveyor)
+
 	if disconnect_exit_signal and is_instance_valid(conveyor):
 		var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
 		if conveyor.tree_exiting.is_connected(exit_callback):
@@ -92,6 +107,23 @@ func is_conveyor_registered(conveyor: ConveyorBelt) -> bool:
 
 func get_conveyors() -> Array[ConveyorBelt]:
 	return _conveyors.duplicate()
+
+func get_conveyor_at(cell: Vector3i) -> ConveyorBelt:
+	if grid == null:
+		return null
+
+	var cell_data := grid.grid_data.get_cell_data(cell)
+	if cell_data == null or cell_data.block == null:
+		return null
+
+	var conveyor := _conveyors_by_block.get(cell_data.block) as ConveyorBelt
+	if not is_instance_valid(conveyor) or conveyor.is_queued_for_deletion():
+		return null
+	return conveyor
+
+func cell_to_world(cell: Vector3i) -> Vector3:
+	assert(grid != null, "FactoryManager requires a Grid")
+	return grid.cell_to_world(cell)
 
 # --- processable apis ---
 

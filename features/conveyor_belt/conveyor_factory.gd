@@ -6,8 +6,7 @@ const conveyor_scenes: Dictionary = {
 }
 
 
-static func create_conveyor_belt(grid: Grid) -> ConveyorBelt:
-
-	var belt := DEMO_CONVEYOR_SCENE.instantiate() as ConveyorBelt
-	belt.initialize(grid)
-	return belt
+static func create_conveyor_belt() -> ConveyorBelt:
+	var conveyor := DEMO_CONVEYOR_SCENE.instantiate() as ConveyorBelt
+	assert(conveyor.block != null, "ConveyorBelt requires a Block component")
+	return conveyor

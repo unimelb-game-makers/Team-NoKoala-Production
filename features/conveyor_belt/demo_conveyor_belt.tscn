@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://uq3ig52hcpyb" path="res://features/conveyor_belt/conveyor_belt.gd" id="1_3rim7"]
 [ext_resource type="Texture2D" uid="uid://b4dw26fyw0wbj" path="res://features/conveyor_belt/conveyor_Image.png" id="1_t8oeg"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="2_02cbg"]
+[ext_resource type="Script" path="res://features/blocks/block.gd" id="3_block"]
 
 [sub_resource type="Resource" id="Resource_c2e4d"]
 resource_local_to_scene = true
@@ -58,9 +59,14 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
 size = Vector3(1, 0.50097656, 1)
 
-[node name="DemoConveyorBelt" type="StaticBody3D" unique_id=1444147165]
+[node name="DemoConveyorBelt" type="StaticBody3D" unique_id=1444147165 node_paths=PackedStringArray("block")]
 script = ExtResource("1_3rim7")
+block = NodePath("Block")
+
+[node name="Block" type="Node3D" parent="." node_paths=PackedStringArray("transform_root")]
+script = ExtResource("3_block")
 block_data = SubResource("Resource_c2e4d")
+transform_root = NodePath("..")
 
 [node name="Middle" type="Node3D" parent="." unique_id=1433237119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

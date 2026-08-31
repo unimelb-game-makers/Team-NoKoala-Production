@@ -9,14 +9,14 @@ var _floating_assembly: MachineAssembly
 func begin_placement() -> MachineAssembly:
 	cancel_placement()
 	_floating_assembly = MachineFactory.create_machine()
-	grid.add_block_visual(_floating_assembly)
+	grid.add_block_visual(_floating_assembly.block)
 	return _floating_assembly
 
 func update_preview(cell: Vector3i) -> void:
 	if _floating_assembly == null:
 		return
 
-	grid.move_block_visual(_floating_assembly, cell)
+	grid.move_block_visual(_floating_assembly.block, cell)
 
 func rotate_preview() -> void:
 	if _floating_assembly == null:
@@ -28,11 +28,7 @@ func confirm_placement(cell: Vector3i) -> bool:
 	if _floating_assembly == null:
 		return false
 
-	if not grid.move_block(
-		_floating_assembly.block,
-		cell,
-		_floating_assembly,
-	):
+	if not grid.move_block(_floating_assembly.block, cell):
 		return false
 
 	_floating_assembly.machine.center_position = cell
