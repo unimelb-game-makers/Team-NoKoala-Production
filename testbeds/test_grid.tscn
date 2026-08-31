@@ -63,6 +63,7 @@ camera = NodePath("SpringArm3D/Camera3D")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=1594393964]
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
+collision_mask = 5
 
 [node name="Camera3D" type="Camera3D" parent="Kaguya/SpringArm3D" unique_id=1021673209]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
