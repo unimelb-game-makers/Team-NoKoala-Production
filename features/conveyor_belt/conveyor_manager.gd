@@ -3,6 +3,7 @@ class_name ConveyorManager
 
 @export var camera: Camera3D
 @export var grid: Grid
+@export var factory_manager: FactoryManager
 
 var _placement_hint_block: ConveyorBelt
 var previous_rotation: BlockData.Rotation # store rotation for cleaner placement
@@ -15,7 +16,7 @@ const DIRECTIONS = {
 }
 
 func _ready() -> void:
-	_placement_hint_block = ConveyorFactory.create_conveyor_belt()
+	_placement_hint_block = ConveyorFactory.create_conveyor_belt(grid)
 	grid.add_block_visual(_placement_hint_block)
 
 func _process(_delta: float) -> void:
@@ -37,9 +38,12 @@ func _place_block():
 		var cell = cell_at_mouse_position()
 		_placement_hint_block.is_placed = true
 		if grid.move_block(_placement_hint_block, cell):
-			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
+			factory_manager.register_conveyor(_placement_hint_block)
+			_placement_hint_block = ConveyorFactory.create_conveyor_belt(grid)
 			_placement_hint_block.set_rotation_data(previous_rotation)
 			grid.add_block_visual(_placement_hint_block)
+		else:
+			_placement_hint_block.is_placed = false
 
 func _rotate_block():
 	if _placement_hint_block != null:

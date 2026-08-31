@@ -3,12 +3,15 @@ extends Node
 
 signal machine_registered(machine: Machine)
 signal machine_unregistered(machine: Machine)
+signal conveyor_registered(conveyor: ConveyorBelt)
+signal conveyor_unregistered(conveyor: ConveyorBelt)
 signal processable_registered(processable: Processable)
 signal processable_unregistered(processable: Processable)
 
 @export var grid: Grid
 
 var _machines: Array[Machine] = []
+var _conveyors: Array[ConveyorBelt] = []
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
@@ -51,6 +54,44 @@ func is_machine_registered(machine: Machine) -> bool:
 
 func get_machines() -> Array[Machine]:
 	return _machines.duplicate()
+
+# --- conveyor apis ---
+
+func register_conveyor(conveyor: ConveyorBelt) -> bool:
+	if conveyor == null or _conveyors.has(conveyor):
+		return false
+
+	_conveyors.append(conveyor)
+
+	var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
+	if not conveyor.tree_exiting.is_connected(exit_callback):
+		conveyor.tree_exiting.connect(exit_callback)
+
+	conveyor_registered.emit(conveyor)
+	return true
+
+func unregister_conveyor(
+	conveyor: ConveyorBelt,
+	disconnect_exit_signal: bool = true,
+) -> bool:
+	var index := _conveyors.find(conveyor)
+	if index == -1:
+		return false
+
+	_conveyors.remove_at(index)
+	if disconnect_exit_signal and is_instance_valid(conveyor):
+		var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
+		if conveyor.tree_exiting.is_connected(exit_callback):
+			conveyor.tree_exiting.disconnect(exit_callback)
+
+	conveyor_unregistered.emit(conveyor)
+	return true
+
+func is_conveyor_registered(conveyor: ConveyorBelt) -> bool:
+	return _conveyors.has(conveyor)
+
+func get_conveyors() -> Array[ConveyorBelt]:
+	return _conveyors.duplicate()
 
 # --- processable apis ---
 
@@ -149,6 +190,9 @@ func _remove_processable_from_index(processable: Processable) -> void:
 # --- wired signal receiver functions --- 
 func _on_machine_tree_exiting(machine: Machine) -> void:
 	unregister_machine(machine, false)
+
+func _on_conveyor_tree_exiting(conveyor: ConveyorBelt) -> void:
+	unregister_conveyor(conveyor, false)
 
 func _on_processable_dropped(
 	processable: Processable,

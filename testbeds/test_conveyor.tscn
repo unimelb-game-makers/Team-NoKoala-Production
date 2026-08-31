@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_tkm83"]
 [ext_resource type="Script" uid="uid://bmk3dy5mnhblm" path="res://features/conveyor_belt/conveyor_manager.gd" id="3_hkuxf"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_oronm"]
+[ext_resource type="Script" path="res://features/factory_system/factory_tick_manager.gd" id="4_tick_manager"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_gw463"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="7_qqsrh"]
 
@@ -61,10 +62,15 @@ factory_manager = NodePath("../FactoryManager")
 script = ExtResource("3_oronm")
 grid = NodePath("../GridMap")
 
-[node name="GridInteractionController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid")]
+[node name="GridInteractionController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("3_hkuxf")
 camera = NodePath("../Camera3D2")
 grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
+
+[node name="FactoryTickManager" type="Node" parent="." node_paths=PackedStringArray("factory_manager")]
+script = ExtResource("4_tick_manager")
+factory_manager = NodePath("../FactoryManager")
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)

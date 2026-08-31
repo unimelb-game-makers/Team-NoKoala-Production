@@ -13,18 +13,16 @@ var grid: Grid
 
 var is_straight_corner: bool = false # case 2: forwards leads to belt w/ diff rotation
 
-func _ready() -> void:
-	# TODO: fix this -> not great practice I don't think
-	if grid == null:
-		grid = get_tree().get_first_node_in_group("grid") as Grid
-
-func _physics_process(delta: float) -> void:
-	tick(delta)
+func initialize(p_grid: Grid) -> void:
+	assert(p_grid != null, "ConveyorBelt requires a Grid")
+	grid = p_grid
 
 func add_item(item: FactoryItem, progress: float = 0.0) -> void:
 	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
-func tick(delta: float) -> void:
+func tick(delta: float, factory_manager: FactoryManager) -> void:
+	_detect_indexed_items(factory_manager)
+
 	for item in items_on_belt:
 		if item.get("waiting", false):
 			continue
@@ -55,13 +53,16 @@ func _process_end(item: Dictionary, extra: float = 0.0) -> void:
 	items_on_belt.erase(item)
 	_hand_off(item.item, extra)
 
-func _on_item_detector_area_entered(area: Area3D) -> void:
-	var item := area.owner as FactoryItem
-	if item == null || not is_placed:
+func _detect_indexed_items(factory_manager: FactoryManager) -> void:
+	if not is_placed or factory_manager == null:
 		return
-	if item.try_claim(self):
-		print("added item")
-		add_item(item)
+
+	for processable in factory_manager.get_processables_at(
+		block_data.root_cell
+	):
+		var item := processable as FactoryItem
+		if item != null and item.try_claim(self):
+			add_item(item)
 
 func _forward_has_conflict() -> bool:
 	if grid == null:
@@ -115,9 +116,9 @@ func _forward_direction() -> Vector3i:
 	return DIRECTIONS[block_data.block_rotation]
 
 func _drop_item(item: FactoryItem) -> void:
-	item.release_claim()
 	var forward_cell := block_data.root_cell + _forward_direction()
+	var drop_position := follow.global_transform.origin
 	if grid:
-		item.global_position = grid.cell_to_world(forward_cell)
-	else:
-		item.global_position = follow.global_transform.origin
+		drop_position = grid.cell_to_world(forward_cell)
+	item.global_position = drop_position
+	item.drop_at(drop_position)

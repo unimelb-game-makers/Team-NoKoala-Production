@@ -58,9 +58,6 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
 size = Vector3(1, 0.50097656, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_voy0p"]
-size = Vector3(1, 0.51171875, 1)
-
 [node name="DemoConveyorBelt" type="StaticBody3D" unique_id=1444147165]
 script = ExtResource("1_3rim7")
 block_data = SubResource("Resource_c2e4d")
@@ -83,11 +80,3 @@ loop = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1320480007]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
 shape = SubResource("BoxShape3D_owhf0")
-
-[node name="ItemDetector" type="Area3D" parent="." unique_id=1839125298]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemDetector" unique_id=1504739348]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24414063, 0)
-shape = SubResource("BoxShape3D_voy0p")
-
-[connection signal="area_entered" from="ItemDetector" to="." method="_on_item_detector_area_entered"]
