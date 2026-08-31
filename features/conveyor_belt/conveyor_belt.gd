@@ -10,7 +10,6 @@ var items_on_belt: Array[Dictionary] = []
 var is_placed: bool = false
 var grid: Grid
 
-var is_corner: bool = false # case 1: forwards leads to empty
 var is_straight_corner: bool = false # case 2: forwards leads to belt w/ diff rotation
 
 func _ready() -> void:
@@ -37,11 +36,6 @@ func tick(delta: float) -> void:
 		if item.get("waiting", false):
 			continue
 		var progress = item.progress
-		# only check this halfway progress once
-		#if progress >= path.curve.get_baked_length() / 2:
-			#var _next := _get_next_belt()
-			#if is_corner:
-				#_process_end(item)
 		if progress >= path.curve.get_baked_length():
 			finished.append(item)
 	
@@ -79,13 +73,12 @@ func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
 	var next := _get_next_belt()
 	if next:
 		if is_straight_corner:
-			#var target_pos: Vector3 = next.middle.global_position
-			#var tween = create_tween()
-			#tween.tween_property(item, "global_position", target_pos, 0.5)
-			#await tween.finished
 			overflow += 0.5
-			next.add_item(item, overflow)
 			# tween goes here
+			var target_pos: Vector3 = next.middle.global_position
+			var tween = create_tween()
+			tween.tween_property(item, "global_position", target_pos, 0.5)
+			await tween.finished
 		next.add_item(item, overflow)
 	else:
 		_drop_item(item)
@@ -99,39 +92,22 @@ func _get_next_belt() -> ConveyorBelt:
 	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
 		if _conflicting_direction(forward_belt):
+			print("conflicting")
 			return null
 		if _same_direction(forward_belt):
-			is_corner = false
+			print("conflicting")
 			is_straight_corner = false
 		else:
-			is_corner = false
+			print("straight corner")
 			is_straight_corner = true
 		return forward_belt
-	# no belt straight -> check for a belt to either side that can accept it
-	for side_dir in _side_directions():
-		var side_cell = block_data.root_cell + side_dir
-		var side_belt = grid.get_block_node_at(side_cell) as ConveyorBelt
-		if side_belt and not _same_direction(side_belt):
-			is_corner = true
-			is_straight_corner = false
-			return side_belt
 	return null
-
-func _side_directions() -> Array[Vector3i]:
-	var fwd = _forward_direction()
-	# perpendicular to forward: rotate 90 degrees either way
-	return [Vector3i(-fwd.z, fwd.y, fwd.x), Vector3i(fwd.z, fwd.y, -fwd.x)]
 
 func _same_direction(next: ConveyorBelt) -> bool:
 	return next.block_data.block_rotation == self.block_data.block_rotation
 
 func _conflicting_direction(next: ConveyorBelt) -> bool:
 	return next._forward_direction() + self._forward_direction() == Vector3i.ZERO
-
-## Only accept the side belt as "next" if continues away (not back to the same)
-func _accepts_from(other: ConveyorBelt, direction_to_other: Vector3i) -> bool:
-	var incoming_dir = -direction_to_other
-	return other._forward_direction() != incoming_dir
 
 func _forward_direction() -> Vector3i:
 	const DIRECTIONS := {
