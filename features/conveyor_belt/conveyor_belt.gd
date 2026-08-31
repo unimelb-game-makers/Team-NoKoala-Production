@@ -6,6 +6,7 @@ extends Block
 @onready var follow: PathFollow3D = $Path3D/PathFollow3D
 @onready var middle: Node3D = $Middle
 
+var next: ConveyorBelt = null
 var items_on_belt: Array[Dictionary] = []
 var is_placed: bool = false
 var grid: Grid
@@ -43,7 +44,7 @@ func tick(delta: float) -> void:
 		_process_end(item)
 
 func _process_end(item: Dictionary, extra: float = 0.0) -> void:
-	var next := _get_next_belt()
+	next = _get_next_belt()
 	if next == null and _forward_has_conflict():
 		item.progress = path.curve.get_baked_length()
 		follow.progress = item.progress
@@ -70,14 +71,13 @@ func _forward_has_conflict() -> bool:
 	return forward_belt != null and _conflicting_direction(forward_belt)
 
 func _hand_off(item: FactoryItem, overflow: float = 0.0) -> void:
-	var next := _get_next_belt()
+	next = _get_next_belt()
 	if next:
 		if is_straight_corner:
 			overflow += 0.5
-			# tween goes here
 			var target_pos: Vector3 = next.middle.global_position
 			var tween = create_tween()
-			tween.tween_property(item, "global_position", target_pos, 0.5)
+			tween.tween_property(item, "global_position", target_pos, 0.6)
 			await tween.finished
 		next.add_item(item, overflow)
 	else:
@@ -89,25 +89,21 @@ func _get_next_belt() -> ConveyorBelt:
 	var forward_cell := block_data.root_cell + _forward_direction()
 	var forward_node := grid.get_block_node_at(forward_cell)
 	var forward_belt := forward_node as ConveyorBelt
-	# TODO: fix this so it can't accept something coming from the opposite dir
 	if forward_belt:
 		if _conflicting_direction(forward_belt):
-			print("conflicting")
 			return null
 		if _same_direction(forward_belt):
-			print("conflicting")
 			is_straight_corner = false
 		else:
-			print("straight corner")
 			is_straight_corner = true
 		return forward_belt
 	return null
 
-func _same_direction(next: ConveyorBelt) -> bool:
-	return next.block_data.block_rotation == self.block_data.block_rotation
+func _same_direction(other: ConveyorBelt) -> bool:
+	return other.block_data.block_rotation == self.block_data.block_rotation
 
-func _conflicting_direction(next: ConveyorBelt) -> bool:
-	return next._forward_direction() + self._forward_direction() == Vector3i.ZERO
+func _conflicting_direction(other: ConveyorBelt) -> bool:
+	return other._forward_direction() + self._forward_direction() == Vector3i.ZERO
 
 func _forward_direction() -> Vector3i:
 	const DIRECTIONS := {
@@ -119,7 +115,6 @@ func _forward_direction() -> Vector3i:
 	return DIRECTIONS[block_data.block_rotation]
 
 func _drop_item(item: FactoryItem) -> void:
-	print("dropping")
 	item.release_claim()
 	var forward_cell := block_data.root_cell + _forward_direction()
 	if grid:
