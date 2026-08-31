@@ -1,5 +1,5 @@
 extends Node
-class_name ConveyorManager
+class_name ConveyorController
 
 @export var camera: Camera3D
 @export var grid: Grid
