@@ -41,6 +41,7 @@ texture = ExtResource("3_dogj6")
 script = ExtResource("4_471q3")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=250538204]
+collision_mask = 5
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=1433362386]
