@@ -2,7 +2,6 @@ class_name FactoryTickManager
 extends Node
 
 @export var factory_manager: FactoryManager
-@export var conveyor_manager: ConveyorManager
 @export_range(1.0, 60.0, 1.0) var tick_rate := 20
 @export_range(1, 20) var max_catch_up_ticks := 4
 
@@ -35,6 +34,7 @@ func _tick_all(delta: float) -> void:
 	tick_count += 1
 
 	var machines := factory_manager.get_machines().duplicate()
+	var conveyors := factory_manager.get_conveyors().duplicate()
 
 	for machine in machines:
 		if not _can_tick(machine):
@@ -42,12 +42,26 @@ func _tick_all(delta: float) -> void:
 
 		machine.factory_tick(delta, factory_manager)
 
+	for conveyor in conveyors:
+		if not _can_tick_conveyor(conveyor):
+			continue
+
+		conveyor.tick(delta, factory_manager)
+
 
 func _can_tick(machine: Node) -> bool:
 	return (
 		is_instance_valid(machine)
 		and not machine.is_queued_for_deletion()
 		and factory_manager.is_machine_registered(machine)
+	)
+
+
+func _can_tick_conveyor(conveyor: ConveyorBelt) -> bool:
+	return (
+		is_instance_valid(conveyor)
+		and not conveyor.is_queued_for_deletion()
+		and factory_manager.is_conveyor_registered(conveyor)
 	)
 
 

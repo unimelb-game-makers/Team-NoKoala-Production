@@ -1,8 +1,9 @@
 extends Node
-class_name ConveyorManager
+class_name ConveyorController
 
 @export var camera: Camera3D
 @export var grid: Grid
+@export var factory_manager: FactoryManager
 
 var _placement_hint_block: ConveyorBelt
 var previous_rotation: BlockData.Rotation # store rotation for cleaner placement
@@ -16,7 +17,7 @@ const DIRECTIONS = {
 
 func _ready() -> void:
 	_placement_hint_block = ConveyorFactory.create_conveyor_belt()
-	grid.add_block_visual(_placement_hint_block)
+	grid.add_block_visual(_placement_hint_block.block)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -24,26 +25,26 @@ func _process(_delta: float) -> void:
 	if _placement_hint_block != null:
 		if not camera: return 
 		var cell = cell_at_mouse_position()
-		grid.move_block_visual(_placement_hint_block, cell)
+		grid.move_block_visual(_placement_hint_block.block, cell)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			previous_rotation = _placement_hint_block.block_data.block_rotation
+			previous_rotation = _placement_hint_block.block.block_data.block_rotation
 			_place_block()
 	
 func _place_block():
 	if _placement_hint_block != null:
 		var cell = cell_at_mouse_position()
-		_placement_hint_block.is_placed = true
-		if grid.move_block(_placement_hint_block, cell):
+		if grid.move_block(_placement_hint_block.block, cell):
+			factory_manager.register_conveyor(_placement_hint_block)
 			_placement_hint_block = ConveyorFactory.create_conveyor_belt()
-			_placement_hint_block.set_rotation_data(previous_rotation)
-			grid.add_block_visual(_placement_hint_block)
+			_placement_hint_block.block.set_rotation_data(previous_rotation)
+			grid.add_block_visual(_placement_hint_block.block)
 
 func _rotate_block():
 	if _placement_hint_block != null:
-		_placement_hint_block.switch_rotation()
+		_placement_hint_block.block.switch_rotation()
 
 func cell_at_mouse_position() -> Vector3i:
 	var mouse_pos := get_viewport().get_mouse_position()

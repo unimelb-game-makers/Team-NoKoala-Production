@@ -16,8 +16,9 @@ script = ExtResource("4_assembly")
 block = NodePath("Block")
 machine = NodePath("Machine")
 
-[node name="Block" type="Node3D" parent="." unique_id=1151288400]
+[node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_lqbl5")
+transform_root = NodePath("..")
 
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
