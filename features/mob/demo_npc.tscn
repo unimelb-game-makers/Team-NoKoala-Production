@@ -34,4 +34,5 @@ metadata/_custom_type_script = "uid://c8p3sixfla6lw"
 
 [node name="InventoryOwner" type="Node" parent="." unique_id=182432514]
 script = ExtResource("3_qwa8x")
+pickup_distance = 2.0
 metadata/_custom_type_script = "uid://cfhdxwnq6250f"

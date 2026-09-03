@@ -42,3 +42,15 @@ func try_drop_held_item() -> bool:
 	inventory.hand_slot.global_position = drop_position
 	inventory.hand_slot = null
 	return true
+
+
+func try_place_held_item(target_position: Vector3) -> bool:
+	if inventory.hand_slot == null:
+		return false
+	if actor.global_position.distance_to(target_position) > pickup_distance:
+		return false
+
+	inventory.hand_slot.drop_at(target_position)
+	inventory.hand_slot.global_position = target_position
+	inventory.hand_slot = null
+	return true

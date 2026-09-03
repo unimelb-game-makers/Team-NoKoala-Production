@@ -5,7 +5,7 @@ enum State {
 	MOVE_TO_ITEM,
 	PICK_UP_ITEM,
 	MOVE_TO_DESTINATION,
-	DROP_ITEM,
+	PLACE_ITEM,
 }
 
 var inventory_owner: InventoryOwner
@@ -56,10 +56,10 @@ func tick(delta: float) -> Status:
 			state = State.MOVE_TO_DESTINATION
 
 		State.MOVE_TO_DESTINATION:
-			return _drive_to(ground_target(grid.cell_to_world(job.storage)), State.DROP_ITEM)
+			return _drive_to(ground_target(grid.cell_to_world(job.storage)), State.PLACE_ITEM)
 
-		State.DROP_ITEM:
-			drop_item()
+		State.PLACE_ITEM:
+			place_item()
 			return Status.SUCCESS
 
 	return Status.RUNNING
@@ -90,8 +90,8 @@ func pickup_item() -> bool:
 	return inventory_owner.try_pick_up_item(job.item)
 
 
-func drop_item() -> void:
-	inventory_owner.try_drop_held_item()
+func place_item() -> void:
+	inventory_owner.try_place_held_item(grid.cell_to_world(job.storage))
 
 
 func _abort() -> Status:
