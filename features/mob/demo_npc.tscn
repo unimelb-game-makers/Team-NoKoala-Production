@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b3wo3jleh8jbk" path="res://features/mob/ai/job/job_consumer.gd" id="2_3v4j7"]
 [ext_resource type="Script" uid="uid://c8p3sixfla6lw" path="res://features/mob/movement/movement.gd" id="3_23j5d"]
 [ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="3_qwa8x"]
+[ext_resource type="Script" uid="uid://byobdql8wp8yt" path="res://features/mob/ai/job/providers/wander_job_provider.gd" id="4_wander"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hly03"]
 
@@ -19,9 +20,13 @@ shape = SubResource("CapsuleShape3D_hly03")
 [node name="JobConsumer" type="Node" parent="." unique_id=1296019535]
 script = ExtResource("2_3v4j7")
 job_priorities = Dictionary[StringName, int]({
-&"haul": 5
+&"haul": 5,
+&"wander": 1
 })
 metadata/_custom_type_script = "uid://b3wo3jleh8jbk"
+
+[node name="WanderJobProvider" type="Node" parent="." unique_id=1296019536]
+script = ExtResource("4_wander")
 
 [node name="Movement" type="Node" parent="." unique_id=1419771016]
 script = ExtResource("3_23j5d")

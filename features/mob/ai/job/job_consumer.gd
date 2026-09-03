@@ -33,11 +33,11 @@ func find_new_job() -> void:
 	var job := _select_job()
 
 	if job == null:
-		job = WanderJob.new(10)
+		return
 
 	current_job = job
 	current_driver = job.create_driver(self)
-	
+
 	var result = current_driver.start()
 	if result == JobDriver.Status.FAILURE:
 		print("Start job driver failed: ", current_driver)
