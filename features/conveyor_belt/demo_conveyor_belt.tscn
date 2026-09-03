@@ -1,0 +1,88 @@
+[gd_scene format=4 uid="uid://bhwdm7kxqsbfm"]
+
+[ext_resource type="Script" uid="uid://uq3ig52hcpyb" path="res://features/conveyor_belt/conveyor_belt.gd" id="1_3rim7"]
+[ext_resource type="Texture2D" uid="uid://b4dw26fyw0wbj" path="res://features/conveyor_belt/conveyor_Image.png" id="1_t8oeg"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="2_02cbg"]
+[ext_resource type="Script" path="res://features/blocks/block.gd" id="3_block"]
+
+[sub_resource type="Resource" id="Resource_c2e4d"]
+resource_local_to_scene = true
+script = ExtResource("2_02cbg")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxuw8"]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_t8oeg")
+roughness = 0.5
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_35t02"]
+_surfaces = [{
+"aabb": AABB(-1, -0.5, -1, 2, 1, 2),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwACAAEAAAAEAAEAAwAFAAIABQAAAAIABgAEAAAABQAGAAAABwABAAQABwADAAEABgAHAAQABQADAAcABQAHAAYA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("////////AAAAAP//AAAAAP////8AAAAAAAAAAAAAAAAAAP////8AAP//AAAAAAAA//8AAP//AAAAAAAA//8AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_02cbg"]
+resource_name = "conveyor_Cube"
+_surfaces = [{
+"aabb": AABB(-1, -0.5, -1, 2, 1, 2),
+"attribute_data": PackedByteArray("/5//f//f/z//3/9//5//P/9f/z//nwAA/5//P/9fAAD/X////5//v/+f////X/+//x//f/9f/z//X/9//x//P/9f/3//n/8//5//f/9f/z//X/+//5//f/+f/7//X/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_gxuw8"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("////////VNUAAP//AABU1f////8AAFTVAAD/////VNUAAAAA//9U1QAA//8AAFTVAAD/////VNUAAAAAAABU1QAAAAAAAP///////wAA//8AAP//AAD/////AAAAAP////8AAAAAVNUAAAAA//9U1f//AAD//1TVAAAAAAAAVNX//wAA////vwAA//////+//////////78AAAAA////v///AAAAAFTV////////VNX/////AABU1f//AAD//1TVVNWqKlTVqipU1aoqVNWqKlTVVNVU1VTVVNVU1VTVVNX/v/+//7//v/+//7//v/+/qipU1aoqVNWqKlTVqipU1f////////////////////+qKqoqqiqqKqoqqiqqKqoq")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_35t02")
+
+[sub_resource type="Curve3D" id="Curve3D_3rim7"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.00048595667, 0.013137519, 0.49613637, 0, 0, 0, 0, 0, 0, -0.00406307, 0.022467256, -0.48271155),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
+size = Vector3(1, 0.50097656, 1)
+
+[node name="DemoConveyorBelt" type="StaticBody3D" unique_id=1444147165 node_paths=PackedStringArray("block")]
+script = ExtResource("1_3rim7")
+block = NodePath("Block")
+
+[node name="Block" type="Node3D" parent="." node_paths=PackedStringArray("transform_root")]
+script = ExtResource("3_block")
+block_data = SubResource("Resource_c2e4d")
+transform_root = NodePath("..")
+
+[node name="Middle" type="Node3D" parent="." unique_id=1433237119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Cube" type="MeshInstance3D" parent="." unique_id=219634003]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("ArrayMesh_02cbg")
+
+[node name="Path3D" type="Path3D" parent="." unique_id=919599293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
+curve = SubResource("Curve3D_3rim7")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1536908667]
+transform = Transform3D(0.99998814, 3.4829023e-05, 0.0036541955, -1.81898e-12, 0.9999436, -0.009530783, -0.0036543678, 0.00953068, 0.99994105, -0.00048595667, 0.013137519, 0.49613637)
+loop = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1320480007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
+shape = SubResource("BoxShape3D_owhf0")

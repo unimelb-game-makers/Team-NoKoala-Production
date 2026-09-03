@@ -132,5 +132,3 @@ func _get_recipe_entry_errors(
 			seen_entries[entry_key] = true
 
 	return errors
-
-

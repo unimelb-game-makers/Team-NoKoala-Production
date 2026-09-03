@@ -2,6 +2,7 @@ class_name Grid
 extends GridMap
 
 var grid_data: GridData = GridData.new()
+var _blocks_by_cell: Dictionary[Vector3i, Block] = {}
 
 signal grid_changed(affected_cells: Array)
 
@@ -13,31 +14,45 @@ func _ready() -> void:
 func move_block(
 	block: Block,
 	cell: Vector3i,
-	visual_root: Node3D = null,
 ) -> bool:
 	remove_block(block)
 	block.block_data.root_cell = cell
 	var can_place = grid_data.add_block(block.block_data)
 	if can_place:
-		move_block_visual(visual_root if visual_root != null else block, cell)
+		_index_block(block)
+		move_block_visual(block, cell)
 		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Adds a block to the grid if placement is valid.
-func add_block(block: Block, visual_root: Node3D = null) -> bool:
+func add_block(block: Block) -> bool:
 	var can_place = grid_data.add_block(block.block_data)
 	if can_place:
-		add_block_visual(visual_root if visual_root != null else block)
+		_index_block(block)
+		add_block_visual(block)
 		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Removes a block from the grid data.
-func remove_block(block: Block):
+func remove_block(block: Block) -> void:
+	var blocking_cells := block.block_data.blocking_cells()
 	if not block.block_data.is_placed:
 		return
-	var freed_cells := block.block_data.blocking_cells()
 	grid_data.remove_block(block.block_data)
-	grid_changed.emit(freed_cells)
+	for cell in blocking_cells:
+		if _blocks_by_cell.get(cell) == block:
+			_blocks_by_cell.erase(cell)
+	grid_changed.emit(blocking_cells)
+
+## Returns the placed block instance at a blocking cell, or null.
+func get_block_at(cell: Vector3i) -> Block:
+	return _blocks_by_cell.get(cell)
+
+func _index_block(block: Block) -> void:
+	for cell in block.block_data.blocking_cells():
+		var cell_data := grid_data.get_cell_data(cell)
+		if cell_data != null and cell_data.block == block.block_data:
+			_blocks_by_cell[cell] = block
 
 func world_to_cell(world_position: Vector3) -> Vector3i:
 	return local_to_map(to_local(world_position))
@@ -47,11 +62,11 @@ func cell_to_world(cell: Vector3i) -> Vector3:
 
 ## Updates the visual position of a block to match grid coordinates.
 ## This function doesn't update grid data
-func move_block_visual(visual_root: Node3D, cell: Vector3i):
+func move_block_visual(block: Block, cell: Vector3i):
 	var local_pos = map_to_local(cell)
-	visual_root.position = local_pos
+	block.get_transform_root().position = local_pos
 
 ## Adds a block as a child node for visual rendering.
 ## This function doesn't update grid data
-func add_block_visual(visual_root: Node3D):
-	add_child(visual_root)
+func add_block_visual(block: Block):
+	add_child(block.get_transform_root())
