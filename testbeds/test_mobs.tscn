@@ -6,10 +6,8 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_o1jy6"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_o1jy6"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_whoxn"]
-[ext_resource type="Script" uid="uid://ldw8qghts20a" path="res://features/mob/ai/job/job_manager.gd" id="8_3a7lv"]
 [ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="8_fjn7m"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="9_3a7lv"]
-[ext_resource type="Script" uid="uid://dx24hfgbgpyyj" path="res://features/mob/ai/job/world_jobs.gd" id="9_vor3r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -78,16 +76,6 @@ script = ExtResource("6_whoxn")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
-
-[node name="JobManager" type="Node" parent="." unique_id=1016080270 node_paths=PackedStringArray("world_jobs")]
-script = ExtResource("8_3a7lv")
-world_jobs = NodePath("../WorldJobs")
-metadata/_custom_type_script = "uid://ldw8qghts20a"
-
-[node name="WorldJobs" type="Node" parent="." unique_id=100974511 node_paths=PackedStringArray("factory_manager")]
-script = ExtResource("9_vor3r")
-factory_manager = NodePath("../FactoryManager")
-metadata/_custom_type_script = "uid://dx24hfgbgpyyj"
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 

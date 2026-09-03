@@ -30,7 +30,7 @@ func _on_tick(delta: float, _ticks_due: int, _tick_count: int) -> void:
 
 
 func find_new_job() -> void:
-	var job := JobManager.find_best_job(self)
+	var job := _select_job()
 
 	if job == null:
 		job = WanderJob.new(10)
@@ -42,6 +42,31 @@ func find_new_job() -> void:
 	if result == JobDriver.Status.FAILURE:
 		print("Start job driver failed: ", current_driver)
 		cancel_job()
+
+
+func _select_job() -> Job:
+	var job_types := job_priorities.keys()
+	job_types.sort_custom(
+		func(a: StringName, b: StringName) -> bool:
+			return job_priorities[a] > job_priorities[b]
+	)
+
+	for job_type in job_types:
+		if job_priorities[job_type] <= 0:
+			continue
+
+		var providers := JobBoard.get_providers(job_type)
+		providers.sort_custom(
+			func(a: JobProvider, b: JobProvider) -> bool:
+				return a.score(self) < b.score(self)
+		)
+
+		for provider in providers:
+			var job := provider.find_job(self)
+			if job:
+				return job
+
+	return null
 
 
 func finish_job() -> void:
