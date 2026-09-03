@@ -37,14 +37,18 @@ func find_job(consumer: JobConsumer) -> Job:
 	if _factory_manager == null or _machine == null:
 		return null
 
-	var origin: Vector3 = consumer.actor.global_position
-
-	var cell = _nearest_free_input_cell(origin)
-	if cell == null:
+	var demand := _input_demand()
+	if demand.is_empty():
 		return null
 
-	var item := _find_nearest_haulable_item(origin)
+	var origin: Vector3 = consumer.actor.global_position
+
+	var item := _nearest_wanted_item(origin, demand)
 	if item == null:
+		return null
+
+	var cell = _nearest_cell(demand[item.definition], origin)
+	if cell == null:
 		return null
 
 	if not ReservationManager.try_reserve(consumer, item):
@@ -57,36 +61,60 @@ func score(consumer: JobConsumer) -> float:
 	if _factory_manager == null or _machine == null:
 		return INF
 
+	var demand := _input_demand()
+	if demand.is_empty():
+		return INF
+
 	var origin: Vector3 = consumer.actor.global_position
 	var best := INF
-	for input_cell in _machine.get_input_cells():
-		if not _factory_manager.get_processables_at(input_cell).is_empty():
-			continue
-		var distance := origin.distance_squared_to(
-			_factory_manager.grid.cell_to_world(input_cell)
-		)
-		best = min(best, distance)
+	for cells in demand.values():
+		var cell = _nearest_cell(cells, origin)
+		if cell != null:
+			best = min(
+				best,
+				origin.distance_squared_to(_factory_manager.grid.cell_to_world(cell)),
+			)
 	return best
 
 
-## The empty input cell of this machine nearest to `origin`, or null if every
-## input cell already holds an item.
-func _nearest_free_input_cell(origin: Vector3) -> Variant:
-	var best: Variant = null
-	var best_distance := INF
-	for input_cell in _machine.get_input_cells():
-		if not _factory_manager.get_processables_at(input_cell).is_empty():
+## Returns a map from `FactoryItemDefinition` to input cells
+func _input_demand() -> Dictionary:
+	var demand: Dictionary = {}
+
+	var definition := _machine.definition
+	if definition == null:
+		return demand
+
+	for recipe in definition.recipes:
+		if recipe == null:
 			continue
-		var distance := origin.distance_squared_to(
-			_factory_manager.grid.cell_to_world(input_cell)
-		)
-		if distance < best_distance:
-			best_distance = distance
-			best = input_cell
-	return best
+
+		for requirement in recipe.inputs:
+			if requirement == null or requirement.item == null:
+				continue
+
+			var free_cells: Array[Vector3i] = []
+			for input_cell in _machine.get_cells_for_port(
+				MachineCellDefinition.Role.INPUT,
+				requirement.port_id,
+			):
+				if _factory_manager.get_processables_at(input_cell).is_empty():
+					free_cells.append(input_cell)
+
+			if free_cells.is_empty():
+				continue
+
+			if demand.has(requirement.item):
+				for input_cell in free_cells:
+					if not demand[requirement.item].has(input_cell):
+						demand[requirement.item].append(input_cell)
+			else:
+				demand[requirement.item] = free_cells
+
+	return demand
 
 
-func _find_nearest_haulable_item(origin: Vector3) -> FactoryItem:
+func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 	var best_item: FactoryItem = null
 	var best_distance := INF
 
@@ -98,10 +126,17 @@ func _find_nearest_haulable_item(origin: Vector3) -> FactoryItem:
 		if not item.is_dropped() or not item.available_for_processing:
 			continue
 
+		if not demand.has(item.definition):
+			continue
+
 		if ReservationManager.is_reserved(item):
 			continue
 
-		if _item_on_input_cell(item):
+		# Already delivered onto some machine's input cell, awaiting consumption.
+		var item_cell := _factory_manager.grid.world_to_cell(
+			item.get_drop_world_position()
+		)
+		if _is_input_cell(item_cell):
 			continue
 
 		var distance := origin.distance_squared_to(item.global_position)
@@ -112,9 +147,26 @@ func _find_nearest_haulable_item(origin: Vector3) -> FactoryItem:
 	return best_item
 
 
-func _item_on_input_cell(item: FactoryItem) -> bool:
-	var cell := _factory_manager.grid.world_to_cell(item.get_drop_world_position())
-	for machine in _factory_manager.get_machines():
-		if cell in machine.get_input_cells():
-			return true
-	return false
+func _is_input_cell(cell: Vector3i) -> bool:
+	var block := _factory_manager.grid.get_block_at(cell)
+	if block == null:
+		return false
+
+	var assembly := block.get_parent() as MachineAssembly
+	if assembly == null or assembly.machine == null:
+		return false
+
+	return assembly.machine.get_input_cells().has(cell)
+
+
+func _nearest_cell(cells: Array, origin: Vector3) -> Variant:
+	var best: Variant = null
+	var best_distance := INF
+	for cell in cells:
+		var distance := origin.distance_squared_to(
+			_factory_manager.grid.cell_to_world(cell)
+		)
+		if distance < best_distance:
+			best_distance = distance
+			best = cell
+	return best
