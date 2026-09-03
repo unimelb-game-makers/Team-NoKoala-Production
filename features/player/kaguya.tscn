@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://whob5vilplfq" path="res://features/player/player_interaction_controller.gd" id="5_2ohs6"]
 [ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="5_471q3"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_dkhme"]
+[ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="8_path"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
 size = Vector3(0.6431885, 1.0671701, 0.8967986)
@@ -57,3 +58,7 @@ metadata/_custom_type_script = "uid://cfhdxwnq6250f"
 script = ExtResource("5_2ohs6")
 camera = NodePath("../SpringArm3D/Camera3D")
 metadata/_custom_type_script = "uid://whob5vilplfq"
+
+[node name="PathAgent" type="Node" parent="." unique_id=1743538726]
+script = ExtResource("8_path")
+metadata/_custom_type_script = "uid://pu03676qi1ub"

@@ -96,7 +96,12 @@ func _refresh_port_cells() -> void:
 
 ## Returns an empty array when the goal is unreachable (walled off, goal cell
 ## solid, or the mob boxed in) so the caller can fail the move.
-func find_path(from_world: Vector3, to_world: Vector3) -> PackedVector3Array:
+##
+## `ignore_agent` is the body requesting the path; it is left out of the
+## other-agent avoidance so a mob never routes around itself.
+func find_path(
+	from_world: Vector3, to_world: Vector3, ignore_agent: Node = null
+) -> PackedVector3Array:
 	if not _ready_ok:
 		return PackedVector3Array()
 
@@ -112,9 +117,15 @@ func find_path(from_world: Vector3, to_world: Vector3) -> PackedVector3Array:
 	# make the mob unable to path out.
 	var from_was_solid := _astar.is_point_solid(from_id)
 	_astar.set_point_solid(from_id, false)
+	# Make cells other agents occupy expensive to cross so the route bends away
+	# from them. The start and goal cells are skipped: the mob is already on the
+	# former, and the latter is where it has been told to go.
+	var reweighted := _apply_agent_avoidance(ignore_agent, from_id, to_id)
 	# No partial paths: an unreachable goal (walled off, or the mob boxed in)
 	# comes back as an empty array, which the caller treats as a failed move.
 	var id_path := _astar.get_id_path(from_id, to_id, false)
+	for id: Vector2i in reweighted:
+		_astar.set_point_weight_scale(id, 1.0)
 	_astar.set_point_solid(from_id, from_was_solid)
 
 	if id_path.is_empty():
@@ -130,3 +141,32 @@ func find_path(from_world: Vector3, to_world: Vector3) -> PackedVector3Array:
 	out[out.size() - 1] = to_world
 
 	return out
+
+
+## Bumps the A* weight of every cell a `PathAgent` (other than the one on
+## `ignore_agent`) is standing on, so paths curve around crowds. `from_id` /
+## `to_id` are left at their normal weight. When agents share a cell the
+## heaviest `avoid_weight` wins. Returns the touched cell ids so the caller can
+## restore them once the path is computed.
+func _apply_agent_avoidance(
+	ignore_agent: Node, from_id: Vector2i, to_id: Vector2i
+) -> Array[Vector2i]:
+	var weights: Dictionary = {}
+	for agent: PathAgent in get_tree().get_nodes_in_group("path_agent"):
+		if not agent.active or agent.body == ignore_agent:
+			continue
+		if not is_instance_valid(agent.body):
+			continue
+		var cell := grid.world_to_cell(agent.body.global_position)
+		var id := Vector2i(cell.x, cell.z)
+		if id == from_id or id == to_id:
+			continue
+		if not _astar.is_in_boundsv(id) or _astar.is_point_solid(id):
+			continue
+		weights[id] = maxf(weights.get(id, 1.0), agent.avoid_weight)
+
+	var reweighted: Array[Vector2i] = []
+	for id: Vector2i in weights:
+		_astar.set_point_weight_scale(id, weights[id])
+		reweighted.append(id)
+	return reweighted

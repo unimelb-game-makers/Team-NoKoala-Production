@@ -11,6 +11,11 @@ extends Node
 ## Re-run pathfinding this often (seconds) while moving, so a mob reacts to
 ## machines placed after it set out. Set to 0 to disable periodic replanning.
 @export var replan_interval: float = 0.5
+## How hard nearby `PathAgent`s deflect the travel direction, relative to the
+## pull toward the next waypoint. Kept below 1 so forward progress stays
+## dominant. Set to 0 to disable local avoidance; per-agent clearance lives on
+## each `PathAgent.avoid_radius`.
+@export var avoid_strength: float = 0.6
 
 var status: Status = Status.STOPPED
 
@@ -61,9 +66,14 @@ func _physics_process(delta: float) -> void:
 		next_node = _flatten(_path[_path_index])
 
 	var direction := character_body.global_position.direction_to(next_node)
+	direction = _steer_around_agents(direction)
+	var target_y_velocity := character_body.velocity.y
+	if character_body.is_on_floor():
+		target_y_velocity = 0.0
+	else:
+		target_y_velocity += character_body.get_gravity().y * delta
 	character_body.velocity = direction * move_speed
-	if not character_body.is_on_floor():
-		character_body.velocity.y = character_body.velocity.y + (character_body.get_gravity().y * delta)
+	character_body.velocity.y = target_y_velocity
 	character_body.move_and_slide()
 
 	var look_target = Vector3(next_node.x, character_body.global_position.y, next_node.z)
@@ -118,7 +128,9 @@ func _recompute_path(p_destination: Vector3) -> bool:
 
 	var new_path: PackedVector3Array
 	if _pathfinder != null:
-		new_path = _pathfinder.find_path(character_body.global_position, p_destination)
+		new_path = _pathfinder.find_path(
+			character_body.global_position, p_destination, character_body
+		)
 	else:
 		new_path = PackedVector3Array([p_destination])  # Fallback: straight line.
 
@@ -133,3 +145,34 @@ func _recompute_path(p_destination: Vector3) -> bool:
 
 func _flatten(v: Vector3) -> Vector3:
 	return Vector3(v.x, character_body.global_position.y, v.z)
+
+
+## Deflects `desired` (a unit vector toward the next waypoint) away from every
+## other `PathAgent` whose `avoid_radius` this body is inside. Nearer agents
+## push harder; the push falls off to zero at the rim. `avoid_strength` stays
+## below 1 so the body keeps heading for its waypoint rather than fleeing, which
+## is enough to break up the face-to-face shoving that leaves mobs stuck.
+func _steer_around_agents(desired: Vector3) -> Vector3:
+	if avoid_strength <= 0.0:
+		return desired
+
+	var push := Vector3.ZERO
+	var pos := character_body.global_position
+	for agent: PathAgent in character_body.get_tree().get_nodes_in_group("path_agent"):
+		if not agent.active or agent.body == character_body:
+			continue
+		if not is_instance_valid(agent.body):
+			continue
+		var away := pos - agent.body.global_position
+		away.y = 0.0
+		var dist := away.length()
+		if dist > 0.001 and dist < agent.avoid_radius:
+			push += (away / dist) * (1.0 - dist / agent.avoid_radius)
+
+	if push == Vector3.ZERO:
+		return desired
+
+	if push.length() > 1.0:
+		push = push.normalized()
+	var steered := desired + push * avoid_strength
+	return steered.normalized() if steered.length() > 0.01 else desired
