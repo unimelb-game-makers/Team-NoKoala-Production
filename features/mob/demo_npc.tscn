@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="3_qwa8x"]
 [ext_resource type="Script" uid="uid://byobdql8wp8yt" path="res://features/mob/ai/job/providers/wander_job_provider.gd" id="4_wander"]
 [ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="5_path"]
+[ext_resource type="Script" uid="uid://84aunrfvor0l" path="res://features/mob/movement/path_debug_draw.gd" id="6_pathdbg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hly03"]
 
@@ -36,6 +37,10 @@ metadata/_custom_type_script = "uid://c8p3sixfla6lw"
 [node name="PathAgent" type="Node" parent="." unique_id=1419771017]
 script = ExtResource("5_path")
 metadata/_custom_type_script = "uid://pu03676qi1ub"
+
+[node name="PathDebugDraw" type="MeshInstance3D" parent="." unique_id=1419771018]
+script = ExtResource("6_pathdbg")
+metadata/_custom_type_script = "uid://84aunrfvor0l"
 
 [node name="InventoryOwner" type="Node" parent="." unique_id=182432514]
 script = ExtResource("3_qwa8x")

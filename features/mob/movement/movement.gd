@@ -122,6 +122,15 @@ func within_stop_distance(position: Vector3):
 	return distance <= stop_distance
 
 
+func get_remaining_path() -> PackedVector3Array:
+	if status != Status.MOVING or _path.is_empty():
+		return PackedVector3Array()
+	var out := PackedVector3Array([character_body.global_position])
+	for i in range(_path_index, _path.size()):
+		out.append(_path[i])
+	return out
+
+
 func _recompute_path(p_destination: Vector3) -> bool:
 	if _pathfinder == null:
 		_pathfinder = get_tree().get_first_node_in_group("pathfinder")
