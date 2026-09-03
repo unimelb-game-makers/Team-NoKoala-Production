@@ -62,6 +62,8 @@ func _physics_process(delta: float) -> void:
 
 	var direction := character_body.global_position.direction_to(next_node)
 	character_body.velocity = direction * move_speed
+	if not character_body.is_on_floor():
+		character_body.velocity.y = character_body.velocity.y + (character_body.get_gravity().y * delta)
 	character_body.move_and_slide()
 
 	var look_target = Vector3(next_node.x, character_body.global_position.y, next_node.z)
