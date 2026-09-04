@@ -2,7 +2,7 @@ class_name Grid
 extends GridMap
 
 var grid_data: GridData = GridData.new()
-var _blocks_by_cell: Dictionary[Vector3i, Block] = {}
+var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 
 ## Moves a block to a new cell position if placement is valid.
 func move_block(
@@ -25,23 +25,45 @@ func add_block(block: Block) -> bool:
 		add_block_visual(block)
 	return can_place
 
-## Removes a block from the grid data.
+## Removes a block from the grid data and the coordinate index.
 func remove_block(block: Block) -> void:
-	var blocking_cells := block.block_data.blocking_cells()
 	grid_data.remove_block(block.block_data)
-	for cell in blocking_cells:
-		if _blocks_by_cell.get(cell) == block:
+	for cell in block.block_data.occupied_cells():
+		var blocks: Array = _blocks_by_cell.get(cell, [])
+		blocks.erase(block)
+		if blocks.is_empty():
 			_blocks_by_cell.erase(cell)
+		else:
+			_blocks_by_cell[cell] = blocks
 
-## Returns the placed block instance at a blocking cell, or null.
-func get_block_at(cell: Vector3i) -> Block:
-	return _blocks_by_cell.get(cell)
+func get_blocks_at(cell: Vector3i) -> Array[Block]:
+	if not _blocks_by_cell.has(cell):
+		return []
+
+	var result: Array[Block] = []
+	var pruned := false
+	for entry in _blocks_by_cell[cell]:
+		if is_instance_valid(entry):
+			result.append(entry)
+		else:
+			pruned = true
+
+	if pruned:
+		if result.is_empty():
+			_blocks_by_cell.erase(cell)
+		else:
+			_blocks_by_cell[cell] = result
+
+	return result
 
 func _index_block(block: Block) -> void:
-	for cell in block.block_data.blocking_cells():
-		var cell_data := grid_data.get_cell_data(cell)
-		if cell_data != null and cell_data.block == block.block_data:
-			_blocks_by_cell[cell] = block
+	for cell in block.block_data.occupied_cells():
+		if grid_data.get_cell_data(cell) == null:
+			continue
+		var blocks: Array = _blocks_by_cell.get(cell, [])
+		if not blocks.has(block):
+			blocks.append(block)
+		_blocks_by_cell[cell] = blocks
 
 func world_to_cell(world_position: Vector3) -> Vector3i:
 	return local_to_map(to_local(world_position))

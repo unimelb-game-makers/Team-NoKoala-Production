@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4dw26fyw0wbj"
-path.s3tc="res://.godot/imported/conveyor_Image.png-a20a0340a798f6f6343151152b28d4fe.s3tc.ctex"
-path.etc2="res://.godot/imported/conveyor_Image.png-a20a0340a798f6f6343151152b28d4fe.etc2.ctex"
+path.s3tc="res://.godot/imported/conveyor_Image.png-ea79e151d7e018e082a168a1fbc4c687.s3tc.ctex"
+path.etc2="res://.godot/imported/conveyor_Image.png-ea79e151d7e018e082a168a1fbc4c687.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -15,8 +15,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://features/conveyor_belt/conveyor_Image.png"
-dest_files=["res://.godot/imported/conveyor_Image.png-a20a0340a798f6f6343151152b28d4fe.s3tc.ctex", "res://.godot/imported/conveyor_Image.png-a20a0340a798f6f6343151152b28d4fe.etc2.ctex"]
+source_file="res://assets/developer_art/conveyor_belt/conveyor_Image.png"
+dest_files=["res://.godot/imported/conveyor_Image.png-ea79e151d7e018e082a168a1fbc4c687.s3tc.ctex", "res://.godot/imported/conveyor_Image.png-ea79e151d7e018e082a168a1fbc4c687.etc2.ctex"]
 
 [params]
 
