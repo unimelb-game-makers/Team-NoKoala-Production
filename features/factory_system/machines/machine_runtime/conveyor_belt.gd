@@ -1,12 +1,11 @@
 class_name ConveyorBelt
-extends Node3D
+extends Machine
 
 @export var speed: float = 1.0
 @export var block: Block
-
-@onready var path: Path3D = $Path3D
-@onready var follow: PathFollow3D = $Path3D/PathFollow3D
-@onready var middle: Node3D = $Middle
+@export var path: Path3D
+@export var follow: PathFollow3D
+@export var middle: Node3D
 
 var items_on_belt: Array[Dictionary] = []
 
@@ -21,7 +20,7 @@ func is_straight_corner(other: ConveyorBelt) -> bool:
 func add_item(item: FactoryItem, progress: float = 0.5) -> void:
 	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
-func tick(delta: float, factory_manager: FactoryManager) -> void:
+func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_detect_indexed_items(factory_manager)
 
 	for item in items_on_belt:
@@ -80,8 +79,11 @@ func _get_next_belt(factory_manager: FactoryManager) -> ConveyorBelt:
 	if factory_manager == null:
 		return null
 
-	var next_belt := factory_manager.get_conveyor_at(_forward_cell())
-	return null if next_belt == self else next_belt
+	for machine in factory_manager.get_machines_at(_forward_cell()):
+		var belt := machine as ConveyorBelt
+		if belt != null and belt != self:
+			return belt
+	return null
 
 
 func _same_direction(other: ConveyorBelt) -> bool:

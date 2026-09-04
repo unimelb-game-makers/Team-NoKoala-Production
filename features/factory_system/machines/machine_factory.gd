@@ -1,14 +1,23 @@
 class_name MachineFactory
 
-const MACHINE = preload("res://features/factory_system/machines/machine_runtime/demo_machine.tscn")
+enum MachineType {
+	DEMO,
+	CONVEYOR,
+}
 
-const machine_scene: Dictionary = {
+const _SCENES: Dictionary = {
+	MachineType.DEMO: preload(
+		"res://features/factory_system/machines/machine_runtime/demo_machine.tscn"
+	),
+	MachineType.CONVEYOR: preload(
+		"res://features/factory_system/machines/machine_runtime/demo_conveyor_belt.tscn"
+	),
 }
 
 
-static func create_machine() -> MachineAssembly:
-
-	var assembly := MACHINE.instantiate() as MachineAssembly
+static func create_machine(type: MachineType) -> MachineAssembly:
+	var scene: PackedScene = _SCENES[type]
+	var assembly := scene.instantiate() as MachineAssembly
 	assert(assembly != null, "Machine assembly scene must have a MachineAssembly root")
 	assert(assembly.block != null, "MachineAssembly requires a Block component")
 	assert(assembly.machine != null, "MachineAssembly requires a Machine component")
@@ -22,7 +31,6 @@ static func create_machine() -> MachineAssembly:
 
 	assembly.block.block_data = create_block_data(assembly.machine.definition)
 	return assembly
-
 
 
 static func create_block_data(definition: MachineDefinition) -> BlockData:

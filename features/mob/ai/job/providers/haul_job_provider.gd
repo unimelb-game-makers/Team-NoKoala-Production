@@ -148,15 +148,14 @@ func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 
 
 func _is_input_cell(cell: Vector3i) -> bool:
-	var block := _factory_manager.grid.get_block_at(cell)
-	if block == null:
-		return false
-
-	var assembly := block.get_parent() as MachineAssembly
-	if assembly == null or assembly.machine == null:
-		return false
-
-	return assembly.machine.get_input_cells().has(cell)
+	var blocks := _factory_manager.grid.get_blocks_at(cell)
+	for block in blocks:
+		var assembly := block.get_parent() as MachineAssembly
+		if assembly == null or assembly.machine == null:
+			continue
+		if assembly.machine.get_input_cells().has(cell):
+			return true
+	return false
 
 
 func _nearest_cell(cells: Array, origin: Vector3) -> Variant:

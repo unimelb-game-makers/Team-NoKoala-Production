@@ -3,13 +3,20 @@ extends Node
 
 @export var grid: Grid
 @export var factory_manager: FactoryManager
+@export var default_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 
 var _floating_assembly: MachineAssembly
+var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
+var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
+
+func _ready() -> void:
+	_selected_machine = default_machine
 
 func begin_placement() -> MachineAssembly:
 	cancel_placement()
-	_floating_assembly = MachineFactory.create_machine()
+	_floating_assembly = MachineFactory.create_machine(_selected_machine)
 	grid.add_block_visual(_floating_assembly.block)
+	_floating_assembly.block.set_rotation_data(_last_rotation)
 	return _floating_assembly
 
 func update_preview(cell: Vector3i) -> void:
@@ -23,6 +30,7 @@ func rotate_preview() -> void:
 		return
 
 	_floating_assembly.block.switch_rotation()
+	_last_rotation = _floating_assembly.block.block_data.block_rotation
 
 func confirm_placement(cell: Vector3i) -> bool:
 	if _floating_assembly == null:
@@ -46,3 +54,12 @@ func cancel_placement() -> void:
 
 func has_active_placement() -> bool:
 	return _floating_assembly != null
+
+func select_machine(machine: MachineFactory.MachineType) -> void:
+	_selected_machine = machine
+	if has_active_placement():
+		begin_placement()
+
+func select_next_machine() -> void:
+	var count := MachineFactory.MachineType.size()
+	select_machine(wrapi(_selected_machine + 1, 0, count) as MachineFactory.MachineType)
