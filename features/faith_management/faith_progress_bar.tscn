@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cym1682grgdqy"]
+
+[ext_resource type="Script" uid="uid://bpmmfjweq28f2" path="res://features/faith_management/faith_progress_bar.gd" id="1_xm60s"]
+[ext_resource type="Texture2D" uid="uid://cfx1pqde3jypi" path="res://assets/developer_art/faith_bar/faith-bar-bg.png" id="2_7ty4g"]
+[ext_resource type="Texture2D" uid="uid://0b0lh8kon3cu" path="res://assets/developer_art/faith_bar/faith-bar-overlay.png" id="3_sx6k8"]
+[ext_resource type="Texture2D" uid="uid://bcnal8638et1i" path="res://assets/developer_art/faith_bar/faith-bar-progress.png" id="4_i0l0s"]
+
+[node name="FaithProgressBar" type="Control" unique_id=575448352]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xm60s")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1819195803]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+value = 50.0
+texture_under = ExtResource("2_7ty4g")
+texture_over = ExtResource("3_sx6k8")
+texture_progress = ExtResource("4_i0l0s")
+tint_progress = Color(0.37254903, 0.37254903, 0.6039216, 1)
