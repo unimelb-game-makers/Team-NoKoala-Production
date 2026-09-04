@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8bqxghflf0pt"]
 
-[ext_resource type="PackedScene" uid="uid://dseoa6too187m" path="res://assets/developer_art/models/mason_bench_draft.glb" id="1_m2jxa"]
+[ext_resource type="PackedScene" uid="uid://dseoa6too187m" path="res://assets/developer_art/models/machines/old/mason_bench_draft.glb" id="1_m2jxa"]
 [ext_resource type="Shader" uid="uid://bjeem1ulc520r" path="res://shaders/cel_shader/cel-shader-base.gdshader" id="2_slwqx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_slwqx"]

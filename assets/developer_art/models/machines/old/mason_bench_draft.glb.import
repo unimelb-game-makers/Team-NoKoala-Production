@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cn7hgp6atba8s"
-path="res://.godot/imported/carpenter_bench_draft.glb-f4ca16f03e3d371cd5a65dc41932f0b3.scn"
+uid="uid://dseoa6too187m"
+path="res://.godot/imported/mason_bench_draft.glb-eae9d292dd1c37d53cea7d16c7556cbb.scn"
 
 [deps]
 
-source_file="res://assets/developer_art/models/carpenter_bench_draft.glb"
-dest_files=["res://.godot/imported/carpenter_bench_draft.glb-f4ca16f03e3d371cd5a65dc41932f0b3.scn"]
+source_file="res://assets/developer_art/models/machines/old/mason_bench_draft.glb"
+dest_files=["res://.godot/imported/mason_bench_draft.glb-eae9d292dd1c37d53cea7d16c7556cbb.scn"]
 
 [params]
 

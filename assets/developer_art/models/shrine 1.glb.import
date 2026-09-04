@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cbnnww6rxtydg"
-path="res://.godot/imported/smith_bench_draft.glb-e843ea259bc8bca60bb38a8ee1967f67.scn"
+uid="uid://dlfypmx8p1vii"
+path="res://.godot/imported/shrine 1.glb-8515d1dc4decbe305354c062298938e5.scn"
 
 [deps]
 
-source_file="res://assets/developer_art/models/smith_bench_draft.glb"
-dest_files=["res://.godot/imported/smith_bench_draft.glb-e843ea259bc8bca60bb38a8ee1967f67.scn"]
+source_file="res://assets/developer_art/models/shrine 1.glb"
+dest_files=["res://.godot/imported/shrine 1.glb-8515d1dc4decbe305354c062298938e5.scn"]
 
 [params]
 
