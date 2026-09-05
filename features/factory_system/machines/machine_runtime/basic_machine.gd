@@ -28,6 +28,11 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 	_consume_claimed_inputs(factory_manager)
 	_clear_processing_state()
+	
+	# immediately try again, if not then it must be idle
+	_try_start_processing(factory_manager)
+	if _processing_recipe == null:
+		unregister_active()
 
 
 func _exit_tree() -> void:
@@ -69,6 +74,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
+	register_active()
 
 
 #try to search for the input item in the factory manager
@@ -193,6 +199,7 @@ func _cancel_processing() -> void:
 		_factory_manager,
 	)
 	_clear_processing_state()
+	unregister_active()
 
 
 func _restore_claimed_inputs(

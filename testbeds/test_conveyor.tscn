@@ -68,7 +68,6 @@ camera = NodePath("../Camera3D2")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 default_machine = 1
-keep_rotation_between_placements = true
 
 [node name="FactoryTickManager" type="Node" parent="." unique_id=1835285552 node_paths=PackedStringArray("factory_manager")]
 script = ExtResource("4_tick_manager")

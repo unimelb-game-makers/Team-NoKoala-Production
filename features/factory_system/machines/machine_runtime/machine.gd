@@ -5,6 +5,8 @@ extends Node
 
 var center_position: Vector3i = Vector3i.ZERO
 
+var is_active: bool = false
+
 func get_input_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.INPUT)
 
@@ -43,6 +45,17 @@ func _get_cells_for_role(
 			)
 	return result
 
+func register_active(drain_rate: float = 0.0) -> void:
+	if not is_active:
+		print("register active")
+		FaithManager._register_active(self, drain_rate)
+		is_active = true
+	
+func unregister_active() -> void:
+	if is_active:
+		print("deregister active")
+		FaithManager._unregister_active(self)
+		is_active = false
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 	pass
