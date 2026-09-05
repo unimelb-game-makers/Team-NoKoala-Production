@@ -24,6 +24,16 @@ func move_block(
 		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
+## Returns true if the block can be placed at the given cell (using its current
+## rotation) without overlapping another block or leaving the play space.
+## Does not modify the grid or the block.
+func can_place_block_at(block: Block, cell: Vector3i) -> bool:
+	var previous_cell := block.block_data.root_cell
+	block.block_data.root_cell = cell
+	var result := grid_data.can_place_block(block.block_data)
+	block.block_data.root_cell = previous_cell
+	return result
+
 ## Adds a block to the grid if placement is valid.
 func add_block(block: Block) -> bool:
 	var can_place = grid_data.add_block(block.block_data)

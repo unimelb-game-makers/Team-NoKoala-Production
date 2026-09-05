@@ -3,9 +3,6 @@ extends MachinePlacementController
 
 @export var camera: Camera3D
 
-func _ready() -> void:
-	super()
-	begin_placement()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -13,6 +10,9 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("switch_machine"):
 		select_next_machine()
+	
+	if Input.is_action_just_pressed("toggle_edit"):
+		place_mode = !place_mode
 
 	if camera == null:
 		return
