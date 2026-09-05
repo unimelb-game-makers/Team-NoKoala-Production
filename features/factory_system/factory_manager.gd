@@ -7,11 +7,17 @@ signal processable_registered(processable: Processable)
 signal processable_unregistered(processable: Processable)
 
 @export var grid: Grid
+@export var fixed_clock: FixedClock
 
 var _machines: Array[Machine] = []
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
+
+
+func _ready() -> void:
+	add_to_group("factory_manager")
+	fixed_clock.tick.connect(_on_tick)
 
 
 # --- machine apis ---
@@ -195,3 +201,20 @@ func _on_processable_claim_changed(
 
 func _on_processable_tree_exiting(processable: Processable) -> void:
 	unregister_processable(processable, false)
+
+
+# --- factory tick handlers --- 
+
+func _on_tick(delta: float, ticks_due: int, _tick_count: int):
+	var machines := get_machines().duplicate()
+	for _t in ticks_due:
+		for m in machines:
+			if _can_tick(m): m.factory_tick(delta, self)
+
+
+func _can_tick(machine: Node) -> bool:
+	return (
+		is_instance_valid(machine)
+		and not machine.is_queued_for_deletion()
+		and is_machine_registered(machine)
+	)
