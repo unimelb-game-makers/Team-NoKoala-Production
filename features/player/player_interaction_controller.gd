@@ -1,9 +1,17 @@
-extends Node3D
-class_name PlayerItemController
+class_name PlayerInteractionController
+extends Node
 
-var held_factory_item: FactoryItem = null
 @export var camera: Camera3D
-@export var grid: Grid
+
+var player: Node3D
+var grid: Grid
+var _inventory_owner: InventoryOwner
+
+func _ready() -> void:
+	player = get_parent()
+	grid = get_tree().get_first_node_in_group("grid")
+	_inventory_owner = NodeUtils.get_child_by_type(player, InventoryOwner)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
@@ -11,42 +19,23 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.pressed or event.button_index != MOUSE_BUTTON_RIGHT:
 		return
 
-	if held_factory_item != null:
+	if _inventory_owner.inventory.hand_slot != null:
 		_try_drop_held_item()
 	else:
 		_try_pick_up_item_at_mouse()
 
-func _process(_delta: float) -> void:
-	if held_factory_item != null:
-		held_factory_item.global_position = global_position
 
 func _try_pick_up_item_at_mouse() -> void:
 	var factory_item := _factory_item_at_mouse()
-	if factory_item == null:
-		return
-	if global_position.distance_to(factory_item.global_position) > Player.PICKUP_DISTANCE:
-		return
-	if not factory_item.try_claim(get_parent()):
-		return
+	print(factory_item)
+	if _inventory_owner.try_pick_up_item(factory_item):
+		get_viewport().set_input_as_handled()
 
-	held_factory_item = factory_item
-	get_viewport().set_input_as_handled()
 
-func _try_drop_held_item() -> void:
-	if grid == null:
-		return
+func _try_drop_held_item() -> void:	
+	if _inventory_owner.try_drop_held_item():
+		get_viewport().set_input_as_handled()
 
-	var drop_cell := cell_at_mouse_position()
-	var drop_position := grid.map_to_local(drop_cell)
-	drop_position.y = 0.167
-
-	if global_position.distance_to(drop_position) > Player.PICKUP_DISTANCE:
-		return
-
-	held_factory_item.drop_at(drop_position)
-	held_factory_item.global_position = drop_position
-	held_factory_item = null
-	get_viewport().set_input_as_handled()
 
 func _factory_item_at_mouse() -> FactoryItem:
 	if camera == null:
@@ -59,7 +48,7 @@ func _factory_item_at_mouse() -> FactoryItem:
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
 
-	var result := get_world_3d().direct_space_state.intersect_ray(query)
+	var result := player.get_world_3d().direct_space_state.intersect_ray(query)
 	var node := result.get("collider") as Node
 	while node != null:
 		if node is FactoryItem:

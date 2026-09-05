@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_bsixm"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_fyxhr"]
 [ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_o7auy"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="4_nmjd8"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="5_fyxhr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
@@ -58,11 +57,3 @@ grid = NodePath("../GridMap")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("5_fyxhr")]
 transform = Transform3D(0.9999986, 4.9438328e-05, -0.0016215506, 4.9438328e-05, 0.99814254, 0.06092186, 0.0016215508, -0.06092186, 0.9981412, 0, 1.26, 0)
-
-[node name="SpringArm3D" type="SpringArm3D" parent="Kaguya" unique_id=188688356]
-transform = Transform3D(0.99999875, -0.0011116513, 0.0011815676, 4.9438328e-05, 0.74887156, 0.6627151, -0.001621551, -0.6627141, 0.7488706, 0.004925948, 1.0549314, 3.0699668)
-
-[node name="Camera3D" type="Camera3D" parent="Kaguya/SpringArm3D" unique_id=307569443]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-size = 10.0
-script = ExtResource("4_nmjd8")

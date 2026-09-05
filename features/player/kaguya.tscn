@@ -4,6 +4,10 @@
 [ext_resource type="Script" uid="uid://b0m0mbfc6vlwp" path="res://features/player/character_controller.gd" id="1_mgr46"]
 [ext_resource type="Texture2D" uid="uid://bmbc5q8f1npny" path="res://assets/developer_art/kaguya_shadow.png" id="3_dogj6"]
 [ext_resource type="Script" uid="uid://bqa6hikk47yp4" path="res://features/player/shadow.gd" id="4_471q3"]
+[ext_resource type="Script" uid="uid://whob5vilplfq" path="res://features/player/player_interaction_controller.gd" id="5_2ohs6"]
+[ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="5_471q3"]
+[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_dkhme"]
+[ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="8_path"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
 size = Vector3(0.6431885, 1.0671701, 0.8967986)
@@ -36,3 +40,25 @@ modulate = Color(1, 1, 1, 0)
 texture_filter = 0
 texture = ExtResource("3_dogj6")
 script = ExtResource("4_471q3")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=250538204]
+collision_mask = 5
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=1433362386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+size = 10.0
+script = ExtResource("5_dkhme")
+
+[node name="InventoryOwner" type="Node" parent="." unique_id=660145004]
+script = ExtResource("5_471q3")
+metadata/_custom_type_script = "uid://cfhdxwnq6250f"
+
+[node name="PlayerInteractionController" type="Node" parent="." unique_id=1743538725 node_paths=PackedStringArray("camera")]
+script = ExtResource("5_2ohs6")
+camera = NodePath("../SpringArm3D/Camera3D")
+metadata/_custom_type_script = "uid://whob5vilplfq"
+
+[node name="PathAgent" type="Node" parent="." unique_id=1743538726]
+script = ExtResource("8_path")
+metadata/_custom_type_script = "uid://pu03676qi1ub"
