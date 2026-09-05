@@ -78,6 +78,7 @@ path = NodePath("../Path3D")
 follow = NodePath("../Path3D/PathFollow3D")
 middle = NodePath("../Middle")
 definition = ExtResource("5_def")
+faith_drain_rate = 10.0
 
 [node name="Middle" type="Node3D" parent="." unique_id=1433237119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

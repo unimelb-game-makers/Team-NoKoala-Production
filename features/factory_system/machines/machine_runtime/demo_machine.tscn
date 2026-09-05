@@ -40,3 +40,4 @@ material = SubResource("StandardMaterial3D_q0umq")
 [node name="Machine" type="Node" parent="." unique_id=971752522]
 script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
+faith_drain_rate = 5.0

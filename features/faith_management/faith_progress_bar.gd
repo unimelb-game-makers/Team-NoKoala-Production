@@ -8,7 +8,7 @@ class_name FaithProgressBar
 
 func _ready() -> void:
 	FaithManager.faith_changed.connect(on_faith_changed)
-	#on_faith_changed(FaithManager.current_faith, FaithManager.max_faith)
+	on_faith_changed(FaithManager.current_faith, FaithManager.max_faith)
 
 func on_faith_changed(new: float, max: float) -> void:
 	progress_bar.max_value = max # allows new max to be set later in game progression

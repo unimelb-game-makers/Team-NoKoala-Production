@@ -74,7 +74,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
-	register_active()
+	register_active(faith_drain_rate)
 
 
 #try to search for the input item in the factory manager

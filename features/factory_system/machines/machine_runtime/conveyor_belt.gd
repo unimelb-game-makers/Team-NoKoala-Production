@@ -19,7 +19,7 @@ func is_straight_corner(other: ConveyorBelt) -> bool:
 
 func add_item(item: FactoryItem, progress: float = 0.5) -> void:
 	if items_on_belt.is_empty():
-		register_active()
+		register_active(faith_drain_rate)
 	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
 func factory_tick(delta: float, factory_manager: FactoryManager) -> void:

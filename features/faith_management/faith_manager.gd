@@ -2,7 +2,7 @@ extends Node
 
 var registered_active: Dictionary[Machine, float] = {} # float = drain rate
 var max_faith: float = 100.0
-var current_faith: float = 0.0
+var current_faith: float = 100.0
 
 signal faith_changed(current_faith, max_faith)
 
