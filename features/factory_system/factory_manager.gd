@@ -3,17 +3,12 @@ extends Node
 
 signal machine_registered(machine: Machine)
 signal machine_unregistered(machine: Machine)
-signal conveyor_registered(conveyor: ConveyorBelt)
-signal conveyor_unregistered(conveyor: ConveyorBelt)
 signal processable_registered(processable: Processable)
 signal processable_unregistered(processable: Processable)
 
 @export var grid: Grid
 
 var _machines: Array[Machine] = []
-var _conveyors: Array[ConveyorBelt] = []
-var _conveyors_by_block: Dictionary = {}
-var _conveyor_blocks: Dictionary = {}
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
@@ -57,69 +52,31 @@ func is_machine_registered(machine: Machine) -> bool:
 func get_machines() -> Array[Machine]:
 	return _machines.duplicate()
 
-# --- conveyor apis ---
-
-func register_conveyor(conveyor: ConveyorBelt) -> bool:
-	if (
-		conveyor == null
-		or conveyor.block == null
-		or conveyor.block.block_data == null
-		or _conveyors.has(conveyor)
-		or _conveyors_by_block.has(conveyor.block.block_data)
-	):
-		return false
-
-	_conveyors.append(conveyor)
-	_conveyors_by_block[conveyor.block.block_data] = conveyor
-	_conveyor_blocks[conveyor] = conveyor.block.block_data
-
-	var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
-	if not conveyor.tree_exiting.is_connected(exit_callback):
-		conveyor.tree_exiting.connect(exit_callback)
-
-	conveyor_registered.emit(conveyor)
-	return true
-
-func unregister_conveyor(
-	conveyor: ConveyorBelt,
-	disconnect_exit_signal: bool = true,
-) -> bool:
-	var index := _conveyors.find(conveyor)
-	if index == -1:
-		return false
-
-	_conveyors.remove_at(index)
-	var block_data: BlockData = _conveyor_blocks.get(conveyor)
-	if block_data != null and _conveyors_by_block.get(block_data) == conveyor:
-		_conveyors_by_block.erase(block_data)
-	_conveyor_blocks.erase(conveyor)
-
-	if disconnect_exit_signal and is_instance_valid(conveyor):
-		var exit_callback := _on_conveyor_tree_exiting.bind(conveyor)
-		if conveyor.tree_exiting.is_connected(exit_callback):
-			conveyor.tree_exiting.disconnect(exit_callback)
-
-	conveyor_unregistered.emit(conveyor)
-	return true
-
-func is_conveyor_registered(conveyor: ConveyorBelt) -> bool:
-	return _conveyors.has(conveyor)
-
-func get_conveyors() -> Array[ConveyorBelt]:
-	return _conveyors.duplicate()
-
-func get_conveyor_at(cell: Vector3i) -> ConveyorBelt:
+func get_machines_at(cell: Vector3i) -> Array[Machine]:
+	var result: Array[Machine] = []
 	if grid == null:
-		return null
+		return result
 
-	var cell_data := grid.grid_data.get_cell_data(cell)
-	if cell_data == null or cell_data.block == null:
-		return null
+	for block in grid.get_blocks_at(cell):
+		var assembly := block.get_parent() as MachineAssembly
+		if assembly == null:
+			continue
 
-	var conveyor := _conveyors_by_block.get(cell_data.block) as ConveyorBelt
-	if not is_instance_valid(conveyor) or conveyor.is_queued_for_deletion():
-		return null
-	return conveyor
+		var machine := assembly.machine
+		if (
+			is_instance_valid(machine)
+			and not machine.is_queued_for_deletion()
+			and is_machine_registered(machine)
+			and not result.has(machine)
+		):
+			result.append(machine)
+
+	return result
+
+## The first registered machine occupying a cell, if any.
+func get_machine_at(cell: Vector3i) -> Machine:
+	var machines := get_machines_at(cell)
+	return machines[0] if not machines.is_empty() else null
 
 func cell_to_world(cell: Vector3i) -> Vector3:
 	assert(grid != null, "FactoryManager requires a Grid")
@@ -222,9 +179,6 @@ func _remove_processable_from_index(processable: Processable) -> void:
 # --- wired signal receiver functions --- 
 func _on_machine_tree_exiting(machine: Machine) -> void:
 	unregister_machine(machine, false)
-
-func _on_conveyor_tree_exiting(conveyor: ConveyorBelt) -> void:
-	unregister_conveyor(conveyor, false)
 
 func _on_processable_dropped(
 	processable: Processable,
