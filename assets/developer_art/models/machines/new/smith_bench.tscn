@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://caebijsdmqbw6"]
+
+[ext_resource type="PackedScene" uid="uid://bex5365ajcpup" path="res://assets/developer_art/models/machines/new/smith_bench.glb" id="1_4hiu3"]
+
+[node name="smith_bench" unique_id=1249032816 instance=ExtResource("1_4hiu3")]
+
+[node name="accordion" parent="." index="0" unique_id=38528939]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="anvil" parent="." index="1" unique_id=573345866]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="chimney1" parent="." index="2" unique_id=888146846]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
