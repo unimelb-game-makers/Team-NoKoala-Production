@@ -18,6 +18,8 @@ func is_straight_corner(other: ConveyorBelt) -> bool:
 
 
 func add_item(item: FactoryItem, progress: float = 0.5) -> void:
+	if items_on_belt.is_empty():
+		register_active()
 	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
 func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
@@ -55,6 +57,9 @@ func _process_end(item: Dictionary, factory_manager: FactoryManager, extra: floa
 		_hand_off(item.item, next, extra)
 	else:
 		_drop_item(item.item, factory_manager)
+	
+	if items_on_belt.is_empty():
+		unregister_active()
 
 func _detect_indexed_items(factory_manager: FactoryManager) -> void:
 	if not block.block_data.is_placed or factory_manager == null:
