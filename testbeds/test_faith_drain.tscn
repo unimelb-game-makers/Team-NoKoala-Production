@@ -1,12 +1,13 @@
-[gd_scene format=3 uid="uid://dwr14rmnm7ucu"]
+[gd_scene format=3 uid="uid://dilqufvrg6d2o"]
 
-[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_ahpsf"]
-[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_tkm83"]
-[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_oronm"]
-[ext_resource type="Script" uid="uid://bm8o8yj15wy17" path="res://features/factory_system/factory_tick_manager.gd" id="4_tick_manager"]
-[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_ahpsf"]
-[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_gw463"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="7_qqsrh"]
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_vj0br"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_gu6qo"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="3_1vr5x"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_bp5ps"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_dqx0x"]
+[ext_resource type="Script" uid="uid://bm8o8yj15wy17" path="res://features/factory_system/factory_tick_manager.gd" id="6_yjetv"]
+[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="7_7sxol"]
+[ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="8_gu6qo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -23,7 +24,7 @@ sky = SubResource("Sky_machine")
 points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
 
 [sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
-albedo_texture = ExtResource("1_ahpsf")
+albedo_texture = ExtResource("1_vj0br")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
@@ -50,31 +51,36 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_tkm83")]
+[node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_gu6qo")]
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
-script = ExtResource("6_gw463")
+script = ExtResource("3_1vr5x")
 camera = NodePath("../Camera3D2")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="FactoryManager" type="Node" parent="." unique_id=356444170 node_paths=PackedStringArray("grid")]
-script = ExtResource("3_oronm")
+script = ExtResource("4_bp5ps")
 grid = NodePath("../GridMap")
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
-script = ExtResource("5_ahpsf")
+script = ExtResource("5_dqx0x")
 camera = NodePath("../Camera3D2")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 default_machine = 1
 
 [node name="FactoryTickManager" type="Node" parent="." unique_id=1835285552 node_paths=PackedStringArray("factory_manager")]
-script = ExtResource("4_tick_manager")
+script = ExtResource("6_yjetv")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
-script = ExtResource("7_qqsrh")
+script = ExtResource("7_7sxol")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="FaithProgressBar" parent="." unique_id=575448352 instance=ExtResource("8_gu6qo")]
+low_faith_threshold = 20.0
+default_faith_colour = Color(0.37254903, 0.37254903, 0.6039216, 1)
+low_faith_colour = Color(0.54509807, 0, 0, 1)
