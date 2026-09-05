@@ -52,6 +52,36 @@ func is_machine_registered(machine: Machine) -> bool:
 func get_machines() -> Array[Machine]:
 	return _machines.duplicate()
 
+func get_machines_at(cell: Vector3i) -> Array[Machine]:
+	var result: Array[Machine] = []
+	if grid == null:
+		return result
+
+	for block in grid.get_blocks_at(cell):
+		var assembly := block.get_parent() as MachineAssembly
+		if assembly == null:
+			continue
+
+		var machine := assembly.machine
+		if (
+			is_instance_valid(machine)
+			and not machine.is_queued_for_deletion()
+			and is_machine_registered(machine)
+			and not result.has(machine)
+		):
+			result.append(machine)
+
+	return result
+
+## The first registered machine occupying a cell, if any.
+func get_machine_at(cell: Vector3i) -> Machine:
+	var machines := get_machines_at(cell)
+	return machines[0] if not machines.is_empty() else null
+
+func cell_to_world(cell: Vector3i) -> Vector3:
+	assert(grid != null, "FactoryManager requires a Grid")
+	return grid.cell_to_world(cell)
+
 # --- processable apis ---
 
 func register_processable(processable: Processable) -> bool:

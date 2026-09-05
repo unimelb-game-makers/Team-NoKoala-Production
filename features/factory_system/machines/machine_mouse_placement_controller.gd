@@ -4,11 +4,15 @@ extends MachinePlacementController
 @export var camera: Camera3D
 
 func _ready() -> void:
+	super()
 	begin_placement()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
 		rotate_preview()
+
+	if Input.is_action_just_pressed("switch_machine"):
+		select_next_machine()
 
 	if camera == null:
 		return

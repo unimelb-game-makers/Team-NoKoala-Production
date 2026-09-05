@@ -57,7 +57,7 @@ func add_block(block: BlockData) -> bool:
 			cell_data.block = block
 	 
 	block.is_placed = true
-
+	
 	return true
 				
 func remove_block(block: BlockData) -> void:
