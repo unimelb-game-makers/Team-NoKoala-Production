@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cowjhy476kxhi"]
+
+[ext_resource type="PackedScene" uid="uid://bulkla8b0ltvd" path="res://assets/developer_art/conveyor_belt/conveyor.glb" id="1_7ongf"]
+
+[node name="conveyor" unique_id=1071492672 instance=ExtResource("1_7ongf")]

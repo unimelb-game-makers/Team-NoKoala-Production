@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bulkla8b0ltvd"
-path="res://.godot/imported/conveyor.glb-d4361fd2ac64c53f0fd4f1f1cbf6cd05.scn"
+path="res://.godot/imported/conveyor.glb-fad49a650acc4d4436738ddf698e3691.scn"
 
 [deps]
 
-source_file="res://features/conveyor_belt/conveyor.glb"
-dest_files=["res://.godot/imported/conveyor.glb-d4361fd2ac64c53f0fd4f1f1cbf6cd05.scn"]
+source_file="res://assets/developer_art/conveyor_belt/conveyor.glb"
+dest_files=["res://.godot/imported/conveyor.glb-fad49a650acc4d4436738ddf698e3691.scn"]
 
 [params]
 
