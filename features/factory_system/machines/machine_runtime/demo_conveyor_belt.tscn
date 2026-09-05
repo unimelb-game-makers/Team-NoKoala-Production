@@ -71,7 +71,7 @@ script = ExtResource("3_block")
 block_data = SubResource("Resource_c2e4d")
 transform_root = NodePath("..")
 
-[node name="ConveyorBelt" type="Node" parent="." unique_id=1005196917 node_paths=PackedStringArray("block", "path", "follow", "middle")]
+[node name="ConveyorBelt" type="Node" parent="." unique_id=1005196917 node_paths=PackedStringArray("block", "path", "follow", "middle", "debug_active_indicator")]
 script = ExtResource("1_3rim7")
 block = NodePath("../Block")
 path = NodePath("../Path3D")
@@ -79,6 +79,7 @@ follow = NodePath("../Path3D/PathFollow3D")
 middle = NodePath("../Middle")
 definition = ExtResource("5_def")
 faith_drain_rate = 10.0
+debug_active_indicator = NodePath("../DebugLight")
 
 [node name="Middle" type="Node3D" parent="." unique_id=1433237119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -100,3 +101,12 @@ loop = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1320480007]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
 shape = SubResource("BoxShape3D_owhf0")
+
+[node name="DebugLight" type="SpotLight3D" parent="." unique_id=121609534]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.5, 0)
+visible = false
+light_energy = 5.0
+light_indirect_energy = 0.0
+spot_range = 1.5
+spot_attenuation = 0.0
+spot_angle = 20.0

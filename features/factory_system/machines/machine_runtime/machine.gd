@@ -3,6 +3,7 @@ extends Node
 
 @export var definition: MachineDefinition
 @export var faith_drain_rate: float = 0.0
+@export var debug_active_indicator: Node3D
 
 var center_position: Vector3i = Vector3i.ZERO
 
@@ -48,15 +49,19 @@ func _get_cells_for_role(
 
 func register_active(drain_rate: float = 0.0) -> void:
 	if not is_active:
-		print("register active")
 		FaithManager._register_active(self, drain_rate)
 		is_active = true
+		_set_debug_indicator(true)
 	
 func unregister_active() -> void:
 	if is_active:
-		print("deregister active")
 		FaithManager._unregister_active(self)
 		is_active = false
+		_set_debug_indicator(false)
+		
+func _set_debug_indicator(active: bool) -> void:
+	if debug_active_indicator:
+		debug_active_indicator.visible = active
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 	pass
