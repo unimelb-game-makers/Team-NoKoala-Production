@@ -1,12 +1,13 @@
-[gd_scene format=3 uid="uid://ctxet2raipe6u"]
+[gd_scene format=3 uid="uid://c1uljghurgk47"]
 
-[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
-[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
-[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
-[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
-[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
-[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_on3ec"]
-[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_xslew"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_fjn7m"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_3a7lv"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_o1jy6"]
+[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_o1jy6"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_whoxn"]
+[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="8_fjn7m"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="9_3a7lv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -23,7 +24,7 @@ sky = SubResource("Sky_machine")
 points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
 
 [sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
-albedo_texture = ExtResource("1_texture")
+albedo_texture = ExtResource("1_xslew")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
@@ -31,7 +32,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161]
+[node name="TestMobs" type="Node3D" unique_id=1256172161]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -50,32 +51,41 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_fjn7m")]
 
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("9_3a7lv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4558794, 0)
 
 [node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid", "fixed_clock")]
-script = ExtResource("3_on3ec")
+script = ExtResource("3_3a7lv")
 grid = NodePath("../GridMap")
 fixed_clock = NodePath("../FixedClock")
 
-[node name="FixedClock" type="Node" parent="." unique_id=1063321843]
-script = ExtResource("5_na4ej")
+[node name="FixedClock" type="Node" parent="." unique_id=1835132735]
+script = ExtResource("6_o1jy6")
 metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
-script = ExtResource("5_on3ec")
+script = ExtResource("5_o1jy6")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
-script = ExtResource("5_u0wh0")
+script = ExtResource("6_whoxn")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="DemoNpc" parent="." unique_id=1739922789 instance=ExtResource("8_fjn7m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1576493, 1.0040001, 0.38231874)
+
+[node name="DemoNpc2" parent="." unique_id=1917852101 instance=ExtResource("8_fjn7m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
+
+[node name="DemoNpc3" parent="." unique_id=1746404977 instance=ExtResource("8_fjn7m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
 
 [editable path="Kaguya"]
