@@ -4,7 +4,7 @@ extends Node
 signal availability_changed(processable: Processable, is_available: bool)
 signal claim_changed(processable: Processable, claimant: Object)
 signal dropped(processable: Processable, world_position: Vector3)
-signal stack_changed(processable: Processable, stack: ItemStack)
+signal stack_changed(processable: Processable, stack: ItemStack) # TO DO: wire this up
 
 # use to determine whether the resource is ready for process
 # only ready when no claimant has claimed it and no set _available_for_processing to false
@@ -69,16 +69,22 @@ func get_claimant() -> Object:
 
 # --- stack management --- 
 func can_merge_with(other: Processable) -> bool:
-	# same as item stack
-	return true
+	return other != null and stack.can_merge_with(other.stack)
 
 func merge_from(other: Processable) -> int:
-	# same as item stack
-	return 1
+	var leftover := stack.merge_from(other.stack)
+	if leftover == 0:
+		other.queue_free() # TO DO: fix this with proper deletion
+	return leftover
 	
 func split(amount: int) -> Processable:
 	# split it off into a new unclaimed processable
-	return self
+	if amount <= 0 or amount >= stack.quantity:
+		return null
+	var new_processable := duplicate() # TO DO: fix this, should be factory job I think
+	new_processable.stack = stack.split(amount)
+	new_processable.release_claim()
+	return new_processable
 
 # --- internal functions --- 
 

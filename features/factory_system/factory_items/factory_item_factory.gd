@@ -15,7 +15,8 @@ static func create_factory_item(
 	var factory_item := FACTORY_ITEM_SCENE.instantiate() as FactoryItem
 	if factory_item == null:
 		return null
-
+		
+	factory_item.stack = ItemStack.create(definition)
 	factory_item.definition = definition
 	return factory_item
 
