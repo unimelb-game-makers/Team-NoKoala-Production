@@ -51,6 +51,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_35t02")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
+size = Vector3(1, 0.50097656, 1)
+
 [sub_resource type="Curve3D" id="Curve3D_3rim7"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.00048595667, 0.013137519, 0.49613637, 0, 0, 0, 0, 0, 0, -0.00406307, 0.022467256, -0.48271155),
@@ -58,33 +61,36 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_owhf0"]
-size = Vector3(1, 0.50097656, 1)
-
 [node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("4_asm")
 block = NodePath("Block")
 machine = NodePath("ConveyorBelt")
 
-[node name="Block" type="Node3D" parent="." node_paths=PackedStringArray("transform_root")]
+[node name="Block" type="Node3D" parent="." unique_id=836771512 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_block")
 block_data = SubResource("Resource_c2e4d")
 transform_root = NodePath("..")
 
-[node name="ConveyorBelt" type="Node" parent="." node_paths=PackedStringArray("block", "path", "follow", "middle")]
+[node name="Cube" type="MeshInstance3D" parent="Block" unique_id=219634003]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("ArrayMesh_02cbg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=81233858]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1320480007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
+shape = SubResource("BoxShape3D_owhf0")
+
+[node name="ConveyorBelt" type="Node" parent="." unique_id=2062583897 node_paths=PackedStringArray("block", "path", "follow", "middle")]
 script = ExtResource("1_3rim7")
-definition = ExtResource("5_def")
 block = NodePath("../Block")
 path = NodePath("../Path3D")
 follow = NodePath("../Path3D/PathFollow3D")
 middle = NodePath("../Middle")
+definition = ExtResource("5_def")
 
 [node name="Middle" type="Node3D" parent="." unique_id=1433237119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="Cube" type="MeshInstance3D" parent="." unique_id=219634003]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
-mesh = SubResource("ArrayMesh_02cbg")
 
 [node name="Path3D" type="Path3D" parent="." unique_id=919599293]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49434358, 0)
@@ -93,9 +99,3 @@ curve = SubResource("Curve3D_3rim7")
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1536908667]
 transform = Transform3D(0.99998814, 3.4829023e-05, 0.0036541955, -1.81898e-12, 0.9999436, -0.009530783, -0.0036543678, 0.00953068, 0.99994105, -0.00048595667, 0.013137519, 0.49613637)
 loop = false
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1320480007]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24951172, 0)
-shape = SubResource("BoxShape3D_owhf0")
