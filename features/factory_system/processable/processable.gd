@@ -4,6 +4,7 @@ extends Node
 signal availability_changed(processable: Processable, is_available: bool)
 signal claim_changed(processable: Processable, claimant: Object)
 signal dropped(processable: Processable, world_position: Vector3)
+signal stack_changed(processable: Processable, stack: ItemStack)
 
 # use to determine whether the resource is ready for process
 # only ready when no claimant has claimed it and no set _available_for_processing to false
@@ -12,6 +13,9 @@ signal dropped(processable: Processable, world_position: Vector3)
 		return is_available_for_processing()
 	set(value):
 		set_available_for_processing(value)
+
+# each processable is it's own stack
+@export var stack: ItemStack
 
 var _available_for_processing := false
 var _claimant: Object
@@ -34,6 +38,7 @@ func try_claim(consumer: Object) -> bool:
 	return true
 
 func drop_at(world_position: Vector3) -> void:
+	# TO DO: add something for visual merging (stack)
 	release_claim()
 	_is_dropped = true
 	_drop_world_position = world_position
@@ -62,6 +67,18 @@ func get_claimant() -> Object:
 	_clear_invalid_claimant()
 	return _claimant
 
+# --- stack management --- 
+func can_merge_with(other: Processable) -> bool:
+	# same as item stack
+	return true
+
+func merge_from(other: Processable) -> int:
+	# same as item stack
+	return 1
+	
+func split(amount: int) -> Processable:
+	# split it off into a new unclaimed processable
+	return self
 
 # --- internal functions --- 
 

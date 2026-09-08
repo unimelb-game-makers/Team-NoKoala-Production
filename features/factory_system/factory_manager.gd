@@ -93,10 +93,11 @@ func cell_to_world(cell: Vector3i) -> Vector3:
 func register_processable(processable: Processable) -> bool:
 	if processable == null or _processables.has(processable):
 		return false
-
+	print("register processable")
 	_processables.append(processable)
 	_connect_processable(processable)
 	if processable.is_dropped():
+		print("dropped processable")
 		_index_processable(processable, processable.get_drop_world_position())
 
 	processable_registered.emit(processable)
