@@ -1,8 +1,8 @@
-@abstract
 class_name JobProvider
 extends Node
 
 var _active := false
+var _queue := JobQueue.new()
 
 
 func _exit_tree() -> void:
@@ -23,15 +23,21 @@ func deactivate() -> void:
 	JobBoard.unregister(self)
 
 
-@abstract
-func job_type() -> StringName
+func enqueue(request: JobRequest) -> void:
+	_queue.enqueue(request)
 
 
-@abstract
-func find_job(_consumer: JobConsumer) -> Job
+func remove(request: JobRequest) -> bool:
+	return _queue.remove(request)
 
 
-## Orders providers of the same job type for a consumer; lower is preferred.
-## Default is no preference.
-func score(_consumer: JobConsumer) -> float:
-	return 0.0
+func get_requests() -> Array[JobRequest]:
+	return _queue.get_requests()
+
+
+func get_available_requests(consumer: JobConsumer) -> Array[JobRequest]:
+	return _queue.get_available_requests(consumer)
+
+
+func try_claim(request: JobRequest, consumer: JobConsumer) -> Job:
+	return _queue.try_claim(request, consumer)

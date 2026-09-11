@@ -45,28 +45,36 @@ func find_new_job() -> void:
 
 
 func _select_job() -> Job:
-	var job_types := job_priorities.keys()
-	job_types.sort_custom(
-		func(a: StringName, b: StringName) -> bool:
-			return job_priorities[a] > job_priorities[b]
+	var candidates: Array[JobCandidate] = []
+	var discovery_order := 0
+
+	for provider in JobBoard.get_providers():
+		for request in provider.get_available_requests(self):
+			candidates.append(
+				JobCandidate.new(
+					provider,
+					request,
+					self,
+					discovery_order,
+				)
+			)
+			discovery_order += 1
+
+	candidates.sort_custom(
+		func(a: JobCandidate, b: JobCandidate) -> bool:
+			return a.is_preferred_to(b)
 	)
 
-	for job_type in job_types:
-		if job_priorities[job_type] <= 0:
-			continue
-
-		var providers := JobBoard.get_providers(job_type)
-		providers.sort_custom(
-			func(a: JobProvider, b: JobProvider) -> bool:
-				return a.score(self) < b.score(self)
-		)
-
-		for provider in providers:
-			var job := provider.find_job(self)
-			if job:
-				return job
+	for candidate in candidates:
+		var job := candidate.provider.try_claim(candidate.request, self)
+		if job != null:
+			return job
 
 	return null
+
+
+func get_job_priority(job_type: StringName) -> int:
+	return job_priorities.get(job_type, 0)
 
 
 func finish_job() -> void:

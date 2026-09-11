@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
 [ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
-[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/haul_job_provider.gd" id="5_haul"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_provider"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
 
@@ -40,11 +40,12 @@ use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider")]
 script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
 active_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
+job_provider = NodePath("MachineJobProvider")
 
-[node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
-script = ExtResource("5_haul")
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"

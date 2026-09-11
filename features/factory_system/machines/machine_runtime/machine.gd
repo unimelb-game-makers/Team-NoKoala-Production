@@ -5,10 +5,9 @@ extends Node
 
 ## Recipes that the player has enabled
 @export var active_recipes: Array[ProductionRecipe] = []
+@export var job_provider: MachineJobProvider
 
 var center_position: Vector3i = Vector3i.ZERO
-
-var _demand_queue: Array[MachineDemand] = []
 
 func is_recipe_active(recipe: ProductionRecipe) -> bool:
 	return recipe != null and active_recipes.has(recipe)
@@ -117,57 +116,6 @@ func _get_input_port_id_for_cell(cell: Vector3i) -> StringName:
 	return &""
 
 
-func get_demands() -> Array[MachineDemand]:
-	return _demand_queue.duplicate()
-
-
-## Returns false if it was already gone (e.g. already consumed by another job provider).
-func consume_demand(demand: MachineDemand) -> bool:
-	var index := _demand_queue.find(demand)
-	if index == -1:
-		return false
-	_demand_queue.remove_at(index)
-	return true
-
-
-func _update_demand(factory_manager: FactoryManager) -> void:
-	var demand_queue: Array[MachineDemand] = []
-
-	if definition == null:
-		_demand_queue = demand_queue
-		return
-
-	for recipe in active_recipes:
-		if recipe == null:
-			continue
-
-		for requirement in recipe.inputs:
-			if requirement == null or requirement.item == null:
-				continue
-
-			for input_cell in get_cells_for_port(
-				MachineCellDefinition.Role.INPUT,
-				requirement.port_id,
-			):
-				if not factory_manager.get_processables_at(input_cell).is_empty():
-					continue
-				# A job provider already committed to filling this cell;
-				# don't offer it again until that reservation is released.
-				if ReservationManager.is_reserved(input_cell):
-					continue
-				if _demand_queue_has(demand_queue, requirement.item, input_cell):
-					continue
-				demand_queue.append(MachineDemand.new(requirement.item, input_cell))
-
-	_demand_queue = demand_queue
-
-
-func _demand_queue_has(
-	demand_queue: Array[MachineDemand],
-	item: FactoryItemDefinition,
-	cell: Vector3i,
-) -> bool:
-	for entry in demand_queue:
-		if entry.item == item and entry.cell == cell:
-			return true
-	return false
+func _update_job_requests() -> void:
+	if job_provider != null:
+		job_provider.refresh()

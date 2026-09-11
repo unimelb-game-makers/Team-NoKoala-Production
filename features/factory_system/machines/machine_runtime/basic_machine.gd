@@ -16,7 +16,7 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 	#start processing if currently has no task running
 	if _processing_recipe == null:
-		_update_demand(factory_manager)
+		_update_job_requests()
 		_try_start_processing(factory_manager)
 		return
 
