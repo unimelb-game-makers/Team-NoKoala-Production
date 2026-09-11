@@ -160,6 +160,7 @@ environment = SubResource("Environment_pr4p8")
 [node name="StaticWorld" type="Node3D" parent="." unique_id=2125212707]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=1418048412]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=712022392]
 shape = SubResource("ConvexPolygonShape3D_fbnme")

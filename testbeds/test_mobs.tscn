@@ -45,6 +45,7 @@ environment = SubResource("Environment_machine")
 [node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
 shape = SubResource("GroundShape_machine")
