@@ -263,20 +263,3 @@ func _on_job_menu_id_pressed(id: int) -> void:
 func _exit_tree() -> void:
 	_clear_consumer_selection()
 
-
-func cell_at_mouse_position() -> Vector3i:
-	var mouse_pos := get_viewport().get_mouse_position()
-	var ray_origin := camera.project_ray_origin(mouse_pos)
-	var ray_dir := camera.project_ray_normal(mouse_pos)
-	var ray_end := ray_origin + ray_dir * 1000.0
-	
-	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-	var result := grid.get_world_3d().direct_space_state.intersect_ray(query)
-	
-	if result:
-		var hit_pos: Vector3 = result.position
-		var cell = grid.local_to_map(hit_pos - (result.normal * (grid.cell_size / 2.0)))
-		cell.y = 0
-		return cell
-	else:
-		return Vector3i()

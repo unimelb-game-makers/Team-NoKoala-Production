@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_7l4kk"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_guvjm"]
-[ext_resource type="Script" uid="uid://bch0bwbc7i18y" path="res://features/grid/grid_interaction_controller.gd" id="3_yikp2"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_lpg4p"]
 [ext_resource type="Texture2D" uid="uid://dlt4mhr7g81e5" path="res://features/3D-objects/arch_mat.png" id="6_4at8n"]
 [ext_resource type="Script" uid="uid://b6evtso80bqxk" path="res://features/3D-objects/fade_object.gd" id="7_8dof2"]
@@ -161,6 +160,7 @@ environment = SubResource("Environment_pr4p8")
 [node name="StaticWorld" type="Node3D" parent="." unique_id=2125212707]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=1418048412]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=712022392]
 shape = SubResource("ConvexPolygonShape3D_fbnme")
@@ -169,11 +169,6 @@ shape = SubResource("ConvexPolygonShape3D_fbnme")
 mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_guvjm")]
-
-[node name="GridInteractionController" type="Node" parent="." unique_id=1206433849 node_paths=PackedStringArray("camera", "grid")]
-script = ExtResource("3_yikp2")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
-grid = NodePath("../GridMap")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_lpg4p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)

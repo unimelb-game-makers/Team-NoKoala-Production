@@ -1,6 +1,8 @@
 class_name MachineMousePlacementController
 extends MachinePlacementController
 
+const GROUND_COLLISION_MASK := 1 << 3
+
 @export var camera: Camera3D
 @export var placement_grid: PlacementGrid
 
@@ -57,6 +59,7 @@ func _raycast_ground() -> Dictionary:
 	var ray_end := ray_origin + ray_dir * 1000.0
 
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.collision_mask = GROUND_COLLISION_MASK
 	return grid.get_world_3d().direct_space_state.intersect_ray(query)
 
 func _cell_from_hit(result: Dictionary) -> Vector3i:

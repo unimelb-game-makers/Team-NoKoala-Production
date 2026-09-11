@@ -13,6 +13,7 @@
 size = Vector3(0.6431885, 1.0671701, 0.8967986)
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
+collision_layer = 3
 script = ExtResource("1_mgr46")
 camera = NodePath("")
 
@@ -42,8 +43,8 @@ texture = ExtResource("3_dogj6")
 script = ExtResource("4_471q3")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=250538204]
-collision_mask = 5
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
+collision_mask = 5
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=1433362386]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)

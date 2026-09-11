@@ -28,7 +28,8 @@ static func _static_init():
 
 
 func _ready() -> void:
-	_cache_shapes()
+	if _collision_shapes.is_empty():
+		_cache_shapes()
 	_cache_materials()
 
 
@@ -51,13 +52,19 @@ func _sync_rotation_visual() -> void:
 
 
 func disable_collisions() -> void:
+	if _collision_shapes.is_empty():
+		_cache_shapes()
+
 	_collision_shapes_disabled = []
 	_collision_shapes_disabled.resize(_collision_shapes.size())
 	for i in range(_collision_shapes.size()):
 		var shape = _collision_shapes[i]
 		if shape is CollisionShape3D:
 			_collision_shapes_disabled[i] = shape.disabled
-			shape.set_deferred("disabled", true)
+			if shape.is_inside_tree():
+				shape.set_deferred("disabled", true)
+			else:
+				shape.disabled = true
 		elif shape is CSGShape3D:
 			_collision_shapes_disabled[i] = !shape.use_collision
 			shape.use_collision = false
