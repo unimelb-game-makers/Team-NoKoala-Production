@@ -37,7 +37,7 @@ func find_job(consumer: JobConsumer) -> Job:
 	if _factory_manager == null or _machine == null:
 		return null
 
-	var demand := _input_demand()
+	var demand := _machine.get_input_demand(_factory_manager)
 	if demand.is_empty():
 		return null
 
@@ -61,7 +61,7 @@ func score(consumer: JobConsumer) -> float:
 	if _factory_manager == null or _machine == null:
 		return INF
 
-	var demand := _input_demand()
+	var demand := _machine.get_input_demand(_factory_manager)
 	if demand.is_empty():
 		return INF
 
@@ -75,42 +75,6 @@ func score(consumer: JobConsumer) -> float:
 				origin.distance_squared_to(_factory_manager.grid.cell_to_world(cell)),
 			)
 	return best
-
-
-## Returns a map from `FactoryItemDefinition` to input cells
-func _input_demand() -> Dictionary:
-	var demand: Dictionary = {}
-
-	if _machine.definition == null:
-		return demand
-
-	for recipe in _machine.active_recipes:
-		if recipe == null:
-			continue
-
-		for requirement in recipe.inputs:
-			if requirement == null or requirement.item == null:
-				continue
-
-			var free_cells: Array[Vector3i] = []
-			for input_cell in _machine.get_cells_for_port(
-				MachineCellDefinition.Role.INPUT,
-				requirement.port_id,
-			):
-				if _factory_manager.get_processables_at(input_cell).is_empty():
-					free_cells.append(input_cell)
-
-			if free_cells.is_empty():
-				continue
-
-			if demand.has(requirement.item):
-				for input_cell in free_cells:
-					if not demand[requirement.item].has(input_cell):
-						demand[requirement.item].append(input_cell)
-			else:
-				demand[requirement.item] = free_cells
-
-	return demand
 
 
 func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
@@ -135,7 +99,7 @@ func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 		var item_cell := _factory_manager.grid.world_to_cell(
 			item.get_drop_world_position()
 		)
-		if _is_input_cell(item_cell):
+		if _factory_manager.accepts_item_at_cell(item_cell, item.definition):
 			continue
 
 		var distance := origin.distance_squared_to(item.global_position)
@@ -144,17 +108,6 @@ func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 			best_item = item
 
 	return best_item
-
-
-func _is_input_cell(cell: Vector3i) -> bool:
-	var blocks := _factory_manager.grid.get_blocks_at(cell)
-	for block in blocks:
-		var assembly := block.get_parent() as MachineAssembly
-		if assembly == null or assembly.machine == null:
-			continue
-		if assembly.machine.get_input_cells().has(cell):
-			return true
-	return false
 
 
 func _nearest_cell(cells: Array, origin: Vector3) -> Variant:
