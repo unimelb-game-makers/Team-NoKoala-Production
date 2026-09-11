@@ -81,11 +81,10 @@ func score(consumer: JobConsumer) -> float:
 func _input_demand() -> Dictionary:
 	var demand: Dictionary = {}
 
-	var definition := _machine.definition
-	if definition == null:
+	if _machine.definition == null:
 		return demand
 
-	for recipe in definition.recipes:
+	for recipe in _machine.active_recipes:
 		if recipe == null:
 			continue
 

@@ -3,7 +3,34 @@ extends Node
 
 @export var definition: MachineDefinition
 
+## Recipes that the player has enabled
+@export var active_recipes: Array[ProductionRecipe] = []
+
 var center_position: Vector3i = Vector3i.ZERO
+
+func is_recipe_active(recipe: ProductionRecipe) -> bool:
+	return recipe != null and active_recipes.has(recipe)
+
+
+func activate_recipe(recipe: ProductionRecipe) -> bool:
+	if definition == null or not definition.has_recipe(recipe):
+		return false
+	if not active_recipes.has(recipe):
+		active_recipes.append(recipe)
+	return true
+
+
+func deactivate_recipe(recipe: ProductionRecipe) -> void:
+	active_recipes.erase(recipe)
+
+
+func set_active_recipes(recipes: Array[ProductionRecipe]) -> void:
+	var result: Array[ProductionRecipe] = []
+	for recipe in recipes:
+		if definition != null and definition.has_recipe(recipe) and not result.has(recipe):
+			result.append(recipe)
+	active_recipes = result
+
 
 func get_input_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.INPUT)
