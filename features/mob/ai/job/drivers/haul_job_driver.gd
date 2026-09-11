@@ -94,6 +94,13 @@ func place_item() -> void:
 	inventory_owner.try_place_held_item(grid.cell_to_world(job.storage))
 
 
+func cancel() -> void:
+	if movement != null:
+		movement.stop_moving()
+	if inventory_owner != null:
+		inventory_owner.try_drop_held_item()
+
+
 func _abort() -> Status:
-	inventory_owner.try_drop_held_item()
+	cancel()
 	return Status.FAILURE

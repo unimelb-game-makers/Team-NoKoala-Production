@@ -15,3 +15,10 @@ func try_claim(request: JobRequest, consumer: JobConsumer) -> Job:
 		# Wander is an inexhaustible idle fallback.
 		enqueue(WanderRequest.new(radius))
 	return job
+
+
+func cancel_request(request: JobRequest, consumer: JobConsumer) -> void:
+	super(request, consumer)
+	# A fresh fallback was enqueued when this wander was claimed, so restoring
+	# the interrupted one would grow the idle queue forever.
+	remove(request)
