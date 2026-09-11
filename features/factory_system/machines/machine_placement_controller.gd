@@ -1,6 +1,8 @@
 class_name MachinePlacementController
 extends Node
 
+signal place_mode_changed(enabled: bool)
+
 @export var grid: Grid
 @export var factory_manager: FactoryManager
 @export var default_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
@@ -9,15 +11,22 @@ var place_mode: bool = false:
 	get:
 		return place_mode
 	set(value):
+		if place_mode == value:
+			return
 		place_mode = value
 		if value:
 			begin_placement()
 		else:
 			cancel_placement()
+		place_mode_changed.emit(value)
 
 var _floating_assembly: MachineAssembly
 var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
+
+func _enter_tree() -> void:
+	add_to_group("machine_placement_controller")
+
 
 func _ready() -> void:
 	_selected_machine = default_machine
