@@ -8,6 +8,8 @@ extends Node
 
 var center_position: Vector3i = Vector3i.ZERO
 
+var _demand_queue: Array[MachineDemand] = []
+
 func is_recipe_active(recipe: ProductionRecipe) -> bool:
 	return recipe != null and active_recipes.has(recipe)
 
@@ -115,13 +117,25 @@ func _get_input_port_id_for_cell(cell: Vector3i) -> StringName:
 	return &""
 
 
-## Returns a map from `FactoryItemDefinition` to free input cells that
-## still need that item, based on the currently active recipes.
-func get_input_demand(factory_manager: FactoryManager) -> Dictionary:
-	var demand: Dictionary = {}
+func get_demands() -> Array[MachineDemand]:
+	return _demand_queue.duplicate()
+
+
+## Returns false if it was already gone (e.g. already consumed by another job provider).
+func consume_demand(demand: MachineDemand) -> bool:
+	var index := _demand_queue.find(demand)
+	if index == -1:
+		return false
+	_demand_queue.remove_at(index)
+	return true
+
+
+func _update_demand(factory_manager: FactoryManager) -> void:
+	var demand_queue: Array[MachineDemand] = []
 
 	if definition == null:
-		return demand
+		_demand_queue = demand_queue
+		return
 
 	for recipe in active_recipes:
 		if recipe == null:
@@ -131,22 +145,29 @@ func get_input_demand(factory_manager: FactoryManager) -> Dictionary:
 			if requirement == null or requirement.item == null:
 				continue
 
-			var free_cells: Array[Vector3i] = []
 			for input_cell in get_cells_for_port(
 				MachineCellDefinition.Role.INPUT,
 				requirement.port_id,
 			):
-				if factory_manager.get_processables_at(input_cell).is_empty():
-					free_cells.append(input_cell)
+				if not factory_manager.get_processables_at(input_cell).is_empty():
+					continue
+				# A job provider already committed to filling this cell;
+				# don't offer it again until that reservation is released.
+				if ReservationManager.is_reserved(input_cell):
+					continue
+				if _demand_queue_has(demand_queue, requirement.item, input_cell):
+					continue
+				demand_queue.append(MachineDemand.new(requirement.item, input_cell))
 
-			if free_cells.is_empty():
-				continue
+	_demand_queue = demand_queue
 
-			if demand.has(requirement.item):
-				for input_cell in free_cells:
-					if not demand[requirement.item].has(input_cell):
-						demand[requirement.item].append(input_cell)
-			else:
-				demand[requirement.item] = free_cells
 
-	return demand
+func _demand_queue_has(
+	demand_queue: Array[MachineDemand],
+	item: FactoryItemDefinition,
+	cell: Vector3i,
+) -> bool:
+	for entry in demand_queue:
+		if entry.item == item and entry.cell == cell:
+			return true
+	return false

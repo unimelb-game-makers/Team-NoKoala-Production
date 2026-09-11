@@ -37,47 +37,50 @@ func find_job(consumer: JobConsumer) -> Job:
 	if _factory_manager == null or _machine == null:
 		return null
 
-	var demand := _machine.get_input_demand(_factory_manager)
-	if demand.is_empty():
+	var demands := _machine.get_demands()
+	if demands.is_empty():
 		return null
 
 	var origin: Vector3 = consumer.actor.global_position
 
-	var item := _nearest_wanted_item(origin, demand)
+	var item := _nearest_wanted_item(origin, demands)
 	if item == null:
 		return null
 
-	var cell = _nearest_cell(demand[item.definition], origin)
-	if cell == null:
+	var matching_demand := _nearest_demand_for_item(demands, item.definition, origin)
+	if matching_demand == null:
 		return null
 
-	if not ReservationManager.try_reserve(consumer, item):
+	if not ReservationManager.try_reserve_all(consumer, [item, matching_demand.cell]):
 		return null
 
-	return HaulJob.new(item, cell)
+	_machine.consume_demand(matching_demand)
+
+	return HaulJob.new(item, matching_demand.cell)
 
 
 func score(consumer: JobConsumer) -> float:
 	if _factory_manager == null or _machine == null:
 		return INF
 
-	var demand := _machine.get_input_demand(_factory_manager)
+	var demand := _machine.get_demands()
 	if demand.is_empty():
 		return INF
 
 	var origin: Vector3 = consumer.actor.global_position
 	var best := INF
-	for cells in demand.values():
-		var cell = _nearest_cell(cells, origin)
-		if cell != null:
-			best = min(
-				best,
-				origin.distance_squared_to(_factory_manager.grid.cell_to_world(cell)),
-			)
+	for entry in demand:
+		best = min(
+			best,
+			origin.distance_squared_to(_factory_manager.grid.cell_to_world(entry.cell)),
+		)
 	return best
 
 
-func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
+func _nearest_wanted_item(
+	origin: Vector3,
+	demands: Array[MachineDemand],
+) -> FactoryItem:
 	var best_item: FactoryItem = null
 	var best_distance := INF
 
@@ -89,7 +92,7 @@ func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 		if not item.is_dropped() or not item.available_for_processing:
 			continue
 
-		if not demand.has(item.definition):
+		if not _demands_wants_item(demands, item.definition):
 			continue
 
 		if ReservationManager.is_reserved(item):
@@ -110,14 +113,30 @@ func _nearest_wanted_item(origin: Vector3, demand: Dictionary) -> FactoryItem:
 	return best_item
 
 
-func _nearest_cell(cells: Array, origin: Vector3) -> Variant:
-	var best: Variant = null
+func _demands_wants_item(
+	demands: Array[MachineDemand],
+	item: FactoryItemDefinition,
+) -> bool:
+	for entry in demands:
+		if entry.item == item:
+			return true
+	return false
+
+
+func _nearest_demand_for_item(
+	demands: Array[MachineDemand],
+	item: FactoryItemDefinition,
+	origin: Vector3,
+) -> MachineDemand:
+	var best: MachineDemand = null
 	var best_distance := INF
-	for cell in cells:
+	for entry in demands:
+		if entry.item != item:
+			continue
 		var distance := origin.distance_squared_to(
-			_factory_manager.grid.cell_to_world(cell)
+			_factory_manager.grid.cell_to_world(entry.cell)
 		)
 		if distance < best_distance:
 			best_distance = distance
-			best = cell
+			best = entry
 	return best
