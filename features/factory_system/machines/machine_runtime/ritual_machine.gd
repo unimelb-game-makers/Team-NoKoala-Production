@@ -1,7 +1,5 @@
-class_name BasicMachine
+class_name RitualMachine
 extends Machine
-
-@export var hide_inputs_while_processing := true
 
 var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
@@ -11,6 +9,8 @@ var _factory_manager: FactoryManager
 
 var _occupied_work_cells: Dictionary[StringName, WorkerCapability] = {}
 
+@export var hide_inputs_while_processing := true
+@export var _faith_regenerate: float = 10
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
@@ -41,8 +41,7 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 	register_active(faith_drain_rate)
 
-	if not _try_spawn_outputs(factory_manager):
-		return
+	FaithManager._apply_delta(delta)
 
 	_consume_claimed_inputs(factory_manager)
 	_clear_processing_state()

@@ -36,13 +36,14 @@ size = Vector2(1000, 1000)
 [sub_resource type="Resource" id="Resource_na4ej"]
 resource_local_to_scene = true
 script = ExtResource("4_u0wh0")
-allowed_work_types = Array[int]([0])
+allowed_work_types = Array[int]([0, 1])
 
 [node name="TestMachine" type="Node3D" unique_id=1256172161]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
+shadow_bias = 4.795
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
 environment = SubResource("Environment_machine")

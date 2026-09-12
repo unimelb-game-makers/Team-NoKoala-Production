@@ -71,8 +71,6 @@ func get_recipe_validation_errors(
 		errors.append("Recipe ID cannot be empty.")
 	if recipe.duration_seconds <= 0.0:
 		errors.append("Recipe duration must be greater than zero.")
-	if recipe.outputs.is_empty():
-		errors.append("Recipe must contain at least one output.")
 
 	errors.append_array(
 		_get_recipe_entry_errors(

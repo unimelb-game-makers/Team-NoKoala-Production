@@ -3,6 +3,7 @@ class_name MachineFactory
 enum MachineType {
 	DEMO,
 	CONVEYOR,
+	RITUAL
 }
 
 const _SCENES: Dictionary = {
@@ -12,6 +13,10 @@ const _SCENES: Dictionary = {
 	MachineType.CONVEYOR: preload(
 		"res://features/factory_system/machines/machine_runtime/demo_conveyor_belt.tscn"
 	),
+	MachineType.RITUAL: preload(
+		"res://features/factory_system/machines/machine_runtime/demo_ritual.tscn"
+	),
+
 }
 
 
