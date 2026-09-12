@@ -1,6 +1,8 @@
 class_name Machine
 extends Node
 
+signal factory_ticked(machine: Machine, delta: float)
+
 @export var definition: MachineDefinition
 
 ## Recipes that the player has enabled
@@ -104,6 +106,10 @@ func _set_debug_indicator(active: bool) -> void:
 
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
+	_factory_tick(_delta, _factory_manager)
+	factory_ticked.emit(self, _delta)
+
+func _factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 	pass
 
 

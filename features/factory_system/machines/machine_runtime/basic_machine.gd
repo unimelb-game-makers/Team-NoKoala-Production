@@ -8,7 +8,8 @@ var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
 
-func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+
 	if factory_manager == null:
 		return
 
@@ -35,6 +36,17 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	if _processing_recipe == null:
 		unregister_active()
 
+
+
+func is_processing_recipe() -> bool:
+	return _processing_recipe != null
+
+func get_processing_progress() -> float:
+	if not is_processing_recipe():
+		return 0.0
+	var duration := _processing_recipe.duration_seconds
+
+	return clampf(_processing_elapsed / duration, 0.0, 1.0)
 
 func _exit_tree() -> void:
 	_cancel_processing()
