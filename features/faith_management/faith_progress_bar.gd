@@ -6,14 +6,18 @@ class_name FaithProgressBar
 @export var low_faith_colour: Color = Color.DARK_RED
 @export var progress_bar: TextureProgressBar
 
+var _tween: Tween
+
 func _ready() -> void:
 	FaithManager.faith_changed.connect(on_faith_changed)
 	on_faith_changed(FaithManager.current_faith, FaithManager.max_faith)
 
 func on_faith_changed(new: float, max: float) -> void:
 	progress_bar.max_value = max # allows new max to be set later in game progression
-	var tween = create_tween()
-	tween.tween_property(progress_bar, "value", new, 0.3)
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(progress_bar, "value", new, 0.3)
 	
 	update_colour(new, max)
 	

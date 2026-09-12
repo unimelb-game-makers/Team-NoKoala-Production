@@ -14,9 +14,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_xm60s")
-low_faith_threshold = null
-default_faith_colour = null
-low_faith_colour = null
 progress_bar = NodePath("CanvasLayer/TextureProgressBar")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=361649485]

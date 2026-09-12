@@ -9,6 +9,9 @@ var center_position: Vector3i = Vector3i.ZERO
 
 var is_active: bool = false
 
+func _exit_tree() -> void:
+	unregister_active()
+
 func get_input_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.INPUT)
 
