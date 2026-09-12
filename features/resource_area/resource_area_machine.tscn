@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="4_h2iij"]
 [ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="4_ibtvi"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="5_av6lk"]
-[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/haul_job_provider.gd" id="5_ssf80"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_ssf80"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="6_ibtvi"]
 [ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_ibtvi"]
 
@@ -52,7 +52,6 @@ size = Vector3(1, 2, 1)
 
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
-use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 

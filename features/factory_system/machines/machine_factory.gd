@@ -3,7 +3,7 @@ class_name MachineFactory
 enum MachineType {
 	DEMO,
 	CONVEYOR,
-	RITUAL
+	RITUAL,
 	RESOURCE_AREA,
 }
 
