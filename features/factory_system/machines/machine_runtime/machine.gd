@@ -7,7 +7,12 @@ extends Node
 @export var active_recipes: Array[ProductionRecipe] = []
 @export var job_provider: MachineJobProvider
 
+@export var faith_drain_rate: float = 0.0
+@export var debug_active_indicator: Node3D
+
 var center_position: Vector3i = Vector3i.ZERO
+var is_active: bool = false
+
 
 func is_recipe_active(recipe: ProductionRecipe) -> bool:
 	return recipe != null and active_recipes.has(recipe)
@@ -32,6 +37,9 @@ func set_active_recipes(recipes: Array[ProductionRecipe]) -> void:
 			result.append(recipe)
 	active_recipes = result
 
+
+func _exit_tree() -> void:
+	unregister_active()
 
 func get_input_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.INPUT)
@@ -71,6 +79,21 @@ func _get_cells_for_role(
 			)
 	return result
 
+func register_active(drain_rate: float = 0.0) -> void:
+	if not is_active:
+		FaithManager._register_active(self, drain_rate)
+		is_active = true
+		_set_debug_indicator(true)
+	
+func unregister_active() -> void:
+	if is_active:
+		FaithManager._unregister_active(self)
+		is_active = false
+		_set_debug_indicator(false)
+		
+func _set_debug_indicator(active: bool) -> void:
+	if debug_active_indicator:
+		debug_active_indicator.visible = active
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 	pass
