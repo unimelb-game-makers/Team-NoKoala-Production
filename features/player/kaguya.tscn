@@ -17,7 +17,7 @@ size = Vector3(0.6431885, 1.0671701, 0.8967986)
 [sub_resource type="Resource" id="Resource_player_work_capability"]
 resource_local_to_scene = true
 script = ExtResource("10_capability")
-allowed_work_types = Array[int]([0])
+allowed_work_types = Array[int]([0, 1])
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
 collision_layer = 3

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_ggs0f"]
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="2_eg25d"]
-[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_c8vjy"]
+[ext_resource type="Script" uid="uid://bvxbvyytysk3v" path="res://features/factory_system/machines/machine_runtime/ritual_machine.gd" id="3_c8vjy"]
 [ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="4_4ee0m"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="5_icykn"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="6_xqmag"]

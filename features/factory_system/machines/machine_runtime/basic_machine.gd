@@ -44,8 +44,12 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	if not _try_spawn_outputs(factory_manager):
 		return
 
+	var completed_recipe := _processing_recipe
 	_consume_claimed_inputs(factory_manager)
 	_clear_processing_state()
+	if not _on_recipe_completed(completed_recipe, factory_manager):
+		unregister_active()
+		return
 	
 	# immediately try again, if not then it must be idle
 	_try_start_processing(factory_manager)
@@ -64,6 +68,16 @@ func get_processing_progress() -> float:
 	if duration <= 0.0:
 		return 1.0
 	return clampf(_processing_elapsed / duration, 0.0, 1.0)
+
+
+## Called after outputs have spawned, inputs have been consumed, and the
+## processing state has been cleared. Return false to prevent another recipe
+## from starting during the same factory tick.
+func _on_recipe_completed(
+	_completed_recipe: ProductionRecipe,
+	_factory_manager: FactoryManager,
+) -> bool:
+	return true
 
 func _exit_tree() -> void:
 	_cancel_processing()
