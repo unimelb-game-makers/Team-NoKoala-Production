@@ -4,7 +4,6 @@ extends Node
 signal availability_changed(processable: Processable, is_available: bool)
 signal claim_changed(processable: Processable, claimant: Object)
 signal dropped(processable: Processable, world_position: Vector3)
-signal stack_changed(processable: Processable, stack: ItemStack) # TO DO: wire this up
 
 # use to determine whether the resource is ready for process
 # only ready when no claimant has claimed it and no set _available_for_processing to false
