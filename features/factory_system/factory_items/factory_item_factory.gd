@@ -16,8 +16,7 @@ static func create_factory_item(
 	if factory_item == null:
 		return null
 	
-	factory_item.stack = ItemStack.create(definition)
-	factory_item.definition = definition
+	factory_item.stack = ItemStack.new(definition)
 	return factory_item
 
 

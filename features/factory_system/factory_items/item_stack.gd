@@ -6,11 +6,9 @@ extends Resource
 @export var stack_size: int = 5
 @export var quantity: int = 1
 
-static func create(definition: FactoryItemDefinition, amount: int = 1) -> ItemStack:
-	var new_stack := ItemStack.new()
-	new_stack.item_id = definition
-	new_stack.quantity = amount
-	return new_stack
+func _init(definition: FactoryItemDefinition = null, amount: int = 1) -> void:
+	item_id = definition
+	quantity = amount
 
 func can_merge_with(other: ItemStack) -> bool:
 	# check if other exists and id compatability
@@ -44,9 +42,6 @@ func split(amount: int) -> ItemStack:
 	if amount <= 0 or amount >= quantity:
 		return null # TO DO: maybe assert an error here
 	# split the amount off into a new stack, reduce this stack, check amount validity
-	var new_stack = ItemStack.new()
-	new_stack.item_id = item_id
-	new_stack.quantity = amount
-	new_stack.stack_size = stack_size
+	var new_stack = ItemStack.new(item_id, amount)
 	quantity -= amount
 	return new_stack
