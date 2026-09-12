@@ -65,25 +65,6 @@ func get_claimant() -> Object:
 	_clear_invalid_claimant()
 	return _claimant
 
-# --- stack management --- 
-func can_merge_with(other: Processable) -> bool:
-	return other != null and stack.can_merge_with(other.stack)
-
-func merge_from(other: Processable) -> int:
-	var leftover := stack.merge_from(other.stack)
-	if leftover == 0:
-		other.queue_free()
-	return leftover
-	
-func split(amount: int) -> Processable:
-	# split it off into a new unclaimed processable
-	if amount <= 0 or amount >= stack.quantity:
-		return null
-	var new_processable := duplicate() # TO DO: fix this, should be factory job I think
-	new_processable.stack = stack.split(amount)
-	new_processable.release_claim()
-	return new_processable
-
 # --- internal functions --- 
 
 func is_available_for_processing() -> bool:
