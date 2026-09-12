@@ -4,6 +4,7 @@ enum MachineType {
 	DEMO,
 	CONVEYOR,
 	RITUAL
+	RESOURCE_AREA,
 }
 
 const _SCENES: Dictionary = {
@@ -17,6 +18,9 @@ const _SCENES: Dictionary = {
 		"res://features/factory_system/machines/machine_runtime/demo_ritual.tscn"
 	),
 
+	MachineType.RESOURCE_AREA: preload(
+		"res://features/resource_area/resource_area_machine.tscn"
+	),
 }
 
 
