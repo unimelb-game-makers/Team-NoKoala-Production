@@ -107,6 +107,6 @@ func _clear_processing_state() -> void:
 	_factory_manager = null
 
 func _detect_items_in_output() -> bool:
-	if len(_factory_manager.get_processables_at(block.block_data.root_cell + Vector3i(0, 0, 1))) > 0:
+	if len(_factory_manager.get_processables_at(block.block_data.world_cell_for_offset(Vector3i(0, 0, 1)))) > 0:
 		return true
 	else: return false
