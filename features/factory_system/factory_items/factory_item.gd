@@ -13,7 +13,7 @@ var _pickup_input_ray_pickable: bool
 func _ready() -> void:
 	if stack == null:
 		return
-	sprite.texture = stack.item_id.texture
+	sprite.texture = stack.item_definition.texture
 	_pickup_collision_layer = pickup_area.collision_layer
 	_pickup_input_ray_pickable = pickup_area.input_ray_pickable
 

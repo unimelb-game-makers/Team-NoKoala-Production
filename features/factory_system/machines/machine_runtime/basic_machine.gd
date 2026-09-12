@@ -98,7 +98,7 @@ func _find_input_items(
 				if (
 					factory_item == null
 					or selected_items.has(factory_item)
-					or factory_item.stack.item_id != requirement.item
+					or factory_item.stack.item_definition != requirement.item
 					or not factory_item.is_available_for_processing()
 				):
 					continue
