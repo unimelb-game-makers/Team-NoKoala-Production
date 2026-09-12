@@ -3,11 +3,16 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_mswqi"]
 [ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_test_world"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_n28u7"]
+[ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="3_lfs7i"]
+[ext_resource type="PackedScene" uid="uid://b15jo53udlsqn" path="res://features/resource_area/resource_area_machine.tscn" id="4_3ugm5"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_kjr54"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_x4mhd"]
 [ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="5_21nps"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="5_ix74w"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_kjr54"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="6_dfq7n"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_lfs7i"]
+[ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="6_rtwa6"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="7_21nps"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="8_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="9_jobs"]
@@ -17,6 +22,13 @@
 resource_local_to_scene = true
 script = ExtResource("5_21nps")
 allowed_work_types = Array[int]([0, 1])
+[ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="7_dfq7n"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="7_mw0w1"]
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="8_mw0w1"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="9_6iysq"]
+[ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="9_21nps"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="10_yf0b0"]
+[ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="11_2xnet"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -41,6 +53,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
+<<<<<<< HEAD
 [node name="TestResourceArea" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "player")]
 script = ExtResource("1_test_world")
 grid = NodePath("GridMap")
@@ -78,6 +91,91 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 capability = SubResource("Resource_rpij7")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
+=======
+[sub_resource type="Resource" id="Resource_rtwa6"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-6, 0, -4)
+
+[sub_resource type="Resource" id="Resource_lfs7i"]
+script = ExtResource("8_mw0w1")
+port_id = &""
+role = 2
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_21nps"]
+script = ExtResource("8_mw0w1")
+port_id = &"output_1"
+role = 1
+local_cell_offset = Vector3i(0, 0, 1)
+can_overlap = true
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_kjr54"]
+script = ExtResource("10_yf0b0")
+cells = Array[ExtResource("8_mw0w1")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
+metadata/_custom_type_script = "uid://cxu884kmx2bg1"
+
+[sub_resource type="Resource" id="Resource_dfq7n"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-5, 0, -4)
+
+[sub_resource type="Resource" id="Resource_mw0w1"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-4, 0, -4)
+
+[sub_resource type="Resource" id="Resource_6iysq"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-1, 0, -4)
+
+[sub_resource type="Resource" id="Resource_yf0b0"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(1, 0, -4)
+
+[sub_resource type="Resource" id="Resource_2xnet"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(3, 0, -4)
+
+[sub_resource type="Resource" id="Resource_t00me"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-6, 0, -7)
+
+[sub_resource type="Resource" id="Resource_ong1f"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-5, 0, -7)
+
+[sub_resource type="Resource" id="Resource_18qoe"]
+script = ExtResource("7_mw0w1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-4, 0, -7)
+
+[node name="TestResourceArea" type="Node3D" unique_id=1256172161]
+>>>>>>> a5293d3 (feat: place resource areas in editor)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -96,7 +194,191 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
+<<<<<<< HEAD
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+=======
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
+mesh_library = ExtResource("3_lfs7i")
+data = {
+"cells": PackedInt32Array(65530, 65532, 524288, 65531, 65532, 524288, 65532, 65532, 524288, 65535, 65532, 524289, 1, 65532, 524289, 3, 65532, 524289, 65530, 65529, 524288, 65531, 65529, 524288, 65532, 65529, 524288)
+}
+
+[node name="ResourceAreaMachine" type="Node3D" parent="GridMap" unique_id=1962970161 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/ResourceAreaMachine" unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_rtwa6")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/ResourceAreaMachine" unique_id=971752522 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42229" type="Node3D" parent="GridMap" unique_id=1468108013 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42229" unique_id=1654701756 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_dfq7n")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42229" unique_id=504021321 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42230" type="Node3D" parent="GridMap" unique_id=382945821 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42230" unique_id=277360854 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_mw0w1")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42230" unique_id=155555598 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42231" type="Node3D" parent="GridMap" unique_id=1379410240 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42231" unique_id=2144021789 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_6iysq")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42231" unique_id=2050125288 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("11_2xnet")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42232" type="Node3D" parent="GridMap" unique_id=1952546471 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42232" unique_id=939869159 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_yf0b0")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42232" unique_id=340916456 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("11_2xnet")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42233" type="Node3D" parent="GridMap" unique_id=196192851 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -3.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42233" unique_id=10885045 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_2xnet")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42233" unique_id=188649975 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("11_2xnet")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42234" type="Node3D" parent="GridMap" unique_id=1666150110 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -6.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42234" unique_id=713634859 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_t00me")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42234" unique_id=1676724970 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42235" type="Node3D" parent="GridMap" unique_id=1436639913 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -6.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42235" unique_id=787705298 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_ong1f")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42235" unique_id=1930619868 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="@Node3D@42236" type="Node3D" parent="GridMap" unique_id=542991669 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -6.5)
+script = ExtResource("5_ix74w")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="GridMap/@Node3D@42236" unique_id=1934003033 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("6_dfq7n")
+block_data = SubResource("Resource_18qoe")
+transform_root = NodePath("..")
+
+[node name="Machine" type="Node" parent="GridMap/@Node3D@42236" unique_id=365008027 node_paths=PackedStringArray("sprite", "block")]
+script = ExtResource("6_rtwa6")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("7_dfq7n")
+definition = SubResource("Resource_kjr54")
+
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_kjr54")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
+
+[node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid", "fixed_clock")]
+script = ExtResource("4_x4mhd")
+grid = NodePath("../GridMap")
+fixed_clock = NodePath("../FixedClock")
+
+[node name="FixedClock" type="Node" parent="." unique_id=1063321843]
+script = ExtResource("5_kjr54")
+metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
+
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+>>>>>>> a5293d3 (feat: place resource areas in editor)
 script = ExtResource("6_lfs7i")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
@@ -110,5 +392,10 @@ script = ExtResource("7_21nps")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
+
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "factory_manager")]
+script = ExtResource("9_21nps")
+grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
 
 [editable path="Kaguya"]

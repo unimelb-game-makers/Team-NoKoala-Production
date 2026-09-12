@@ -1,3 +1,4 @@
+@tool
 class_name MachineFactory
 
 enum MachineType {
@@ -17,13 +18,10 @@ const _SCENES: Dictionary = {
 	MachineType.RITUAL: preload(
 		"res://features/factory_system/machines/machine_runtime/demo_ritual.tscn"
 	),
-
 	MachineType.RESOURCE_AREA: preload(
 		"res://features/resource_area/resource_area_machine.tscn"
 	),
 }
-
-
 static func create_machine(type: MachineType) -> MachineAssembly:
 	var scene: PackedScene = _SCENES[type]
 	var assembly := scene.instantiate() as MachineAssembly

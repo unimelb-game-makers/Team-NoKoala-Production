@@ -14,10 +14,10 @@ enum Rotation {
 
 @export var footprint: Array[Vector3i]
 @export var overlap_cells: Array[Vector3i] = []
-var block_rotation: Rotation = Rotation.DEG0
-var is_placed: bool
-var root_cell: Vector3i
-var type: BlockType
+@export var block_rotation: Rotation = Rotation.DEG0
+@export var is_placed: bool
+@export var root_cell: Vector3i
+@export var type: BlockType
 
 func occupied_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []

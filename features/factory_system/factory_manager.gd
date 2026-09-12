@@ -51,6 +51,10 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 	item.global_position = world_position
 	item.dropped.emit(item, world_position) 
 	return true
+func _ready() -> void:	
+	for machine in grid.get_children():
+		if not machine.is_in_group("resource_area"): continue
+		register_machine(machine.get_node("Machine"))
 
 
 # --- machine apis ---
