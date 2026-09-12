@@ -72,7 +72,7 @@ func can_merge_with(other: Processable) -> bool:
 func merge_from(other: Processable) -> int:
 	var leftover := stack.merge_from(other.stack)
 	if leftover == 0:
-		other.queue_free() # TO DO: fix this with proper deletion
+		other.queue_free()
 	return leftover
 	
 func split(amount: int) -> Processable:
