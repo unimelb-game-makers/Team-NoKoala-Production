@@ -5,6 +5,7 @@ enum Role {
 	INPUT,
 	OUTPUT,
 	STRUCTURE,
+	WORK,
 }
 
 @export var port_id: StringName = 'default'

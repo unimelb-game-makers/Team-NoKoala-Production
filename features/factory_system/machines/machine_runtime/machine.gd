@@ -52,6 +52,10 @@ func get_output_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.OUTPUT)
 
 
+func get_work_cells() -> Array[Vector3i]:
+	return _get_cells_for_role(MachineCellDefinition.Role.WORK)
+
+
 func get_cells_for_port(
 	role: MachineCellDefinition.Role,
 	port_id: StringName,
