@@ -3,7 +3,7 @@ extends Resource
 
 # TO DO: if item stack could ever represent a non-factory item, change this
 @export var item_id : FactoryItemDefinition
-@export var stack_size: int = 64
+@export var stack_size: int = 3
 @export var quantity: int = 1
 
 static func create(definition: FactoryItemDefinition, amount: int = 1) -> ItemStack:
