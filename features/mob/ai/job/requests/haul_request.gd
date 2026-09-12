@@ -62,7 +62,7 @@ func can_take_over(
 		return false
 
 	var item := haul_job.item
-	if item.definition != item_definition:
+	if item.stack.item_definition != item_definition:
 		return false
 	if ReservationManager.is_reserved(item, current_consumer):
 		return false
@@ -107,7 +107,7 @@ func _destination_is_available(ignoring: Object = null) -> bool:
 func _is_available_matching_item(item: FactoryItem) -> bool:
 	if item == null or not is_instance_valid(item):
 		return false
-	if item.definition != item_definition:
+	if item.stack.item_definition != item_definition:
 		return false
 	if not item.is_dropped() or not item.is_available_for_processing():
 		return false
@@ -116,7 +116,7 @@ func _is_available_matching_item(item: FactoryItem) -> bool:
 	var item_cell := _factory_manager.grid.world_to_cell(
 		item.get_drop_world_position(),
 	)
-	return not _factory_manager.accepts_item_at_cell(item_cell, item.definition)
+	return not _factory_manager.accepts_item_at_cell(item_cell, item.stack.item_definition)
 
 
 func _nearest_available_item(origin: Vector3) -> FactoryItem:
