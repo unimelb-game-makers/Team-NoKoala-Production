@@ -4,6 +4,7 @@ extends Processable
 
 @onready var sprite: Sprite3D = $Sprite3D
 @onready var pickup_area: Area3D = $Sprite3D/Area3D
+@onready var debug_label: Label3D = $StackDebugLabel
 
 var _pickup_collision_layer: int
 var _pickup_input_ray_pickable: bool
@@ -13,6 +14,9 @@ func _ready() -> void:
 	_pickup_collision_layer = pickup_area.collision_layer
 	_pickup_input_ray_pickable = pickup_area.input_ray_pickable
 
+func _process(_delta: float) -> void:
+	if debug_label.visible and stack != null:
+		debug_label.text = str(stack.quantity)
 
 func set_in_process_hidden(is_hidden: bool) -> void:
 	sprite.visible = not is_hidden
