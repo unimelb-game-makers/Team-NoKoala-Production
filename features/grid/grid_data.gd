@@ -39,19 +39,22 @@ func get_cells_by_type(cell_type: GridCellData.Type) -> Array[Vector3i]:
 func get_cell_data(cell: Vector3i) -> GridCellData:
 	return _grid.get(cell)
 
-func add_block(block: BlockData) -> bool:
-	var can_place := true
-	var blocking_cells := block.blocking_cells()
-
-	for cell in blocking_cells:
+## Returns true if the block can be placed at its current root_cell / rotation
+## without overlapping another block or leaving the play space.
+func can_place_block(block: BlockData) -> bool:
+	for cell in block.blocking_cells():
 		var cell_data := get_cell_data(cell)
-		if cell_data != null and cell_data.block != null:
-			can_place = false
+		if cell_data == null:
+			return false
+		if cell_data.block != null and cell_data.block != block:
+			return false
+	return true
 
-	if not can_place:
+func add_block(block: BlockData) -> bool:
+	if not can_place_block(block):
 		return false
 
-	for cell in blocking_cells:
+	for cell in block.blocking_cells():
 		var cell_data := get_cell_data(cell)
 		if cell_data != null:
 			cell_data.block = block

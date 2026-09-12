@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_o1jy6"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_o1jy6"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_whoxn"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="8_3a7lv"]
 [ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="8_fjn7m"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="9_3a7lv"]
 
@@ -44,6 +45,7 @@ environment = SubResource("Environment_machine")
 [node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
 shape = SubResource("GroundShape_machine")
@@ -65,9 +67,10 @@ fixed_clock = NodePath("../FixedClock")
 script = ExtResource("6_o1jy6")
 metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager")]
 script = ExtResource("5_o1jy6")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
+placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
@@ -76,6 +79,10 @@ script = ExtResource("6_whoxn")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
+
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=1025621298]
+script = ExtResource("8_3a7lv")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 

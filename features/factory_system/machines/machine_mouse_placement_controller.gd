@@ -1,11 +1,11 @@
 class_name MachineMousePlacementController
 extends MachinePlacementController
 
-@export var camera: Camera3D
+const GROUND_COLLISION_MASK := 1 << 3
 
-func _ready() -> void:
-	super()
-	begin_placement()
+@export var camera: Camera3D
+@export var placement_grid: PlacementGrid
+
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
@@ -14,10 +14,28 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("switch_machine"):
 		select_next_machine()
 
+	if Input.is_action_just_pressed("toggle_edit"):
+		place_mode = !place_mode
+
 	if camera == null:
 		return
 
-	update_preview(cell_at_mouse_position())
+	if not has_active_placement():
+		if placement_grid:
+			placement_grid.hide_grid()
+		return
+
+	var hit := _raycast_ground()
+	if hit.is_empty():
+		if placement_grid:
+			placement_grid.hide_grid()
+		return
+
+	update_preview(_cell_from_hit(hit))
+
+	if placement_grid:
+		placement_grid.show_grid()
+		placement_grid.set_cursor(hit.position)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -29,20 +47,25 @@ func _place_machine() -> void:
 		begin_placement()
 
 func cell_at_mouse_position() -> Vector3i:
+	var result := _raycast_ground()
+	if result.is_empty():
+		return Vector3i()
+	return _cell_from_hit(result)
+
+func _raycast_ground() -> Dictionary:
 	var mouse_pos := get_viewport().get_mouse_position()
 	var ray_origin := camera.project_ray_origin(mouse_pos)
 	var ray_dir := camera.project_ray_normal(mouse_pos)
 	var ray_end := ray_origin + ray_dir * 1000.0
 
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-	var result := grid.get_world_3d().direct_space_state.intersect_ray(query)
+	query.collision_mask = GROUND_COLLISION_MASK
+	return grid.get_world_3d().direct_space_state.intersect_ray(query)
 
-	if result:
-		var hit_pos: Vector3 = result.position
-		var cell := grid.local_to_map(
-			hit_pos - (result.normal * (grid.cell_size / 2.0))
-		)
-		cell.y = 0
-		return cell
-
-	return Vector3i()
+func _cell_from_hit(result: Dictionary) -> Vector3i:
+	var hit_pos: Vector3 = result.position
+	var cell := grid.local_to_map(
+		hit_pos - (result.normal * (grid.cell_size / 2.0))
+	)
+	cell.y = 0
+	return cell
