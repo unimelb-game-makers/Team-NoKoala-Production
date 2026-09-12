@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://wwt5ka88sp2m"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_om2pe"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="2_7725y"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_chiry"]
+
+[sub_resource type="Resource" id="Resource_kpv2k"]
+script = ExtResource("1_om2pe")
+port_id = &"output_1"
+item = ExtResource("2_7725y")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[resource]
+script = ExtResource("4_chiry")
+recipe_id = &"2"
+display_name = "spawner_bamboo_culm"
+duration_seconds = 3.0
+outputs = Array[ExtResource("1_om2pe")]([SubResource("Resource_kpv2k")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

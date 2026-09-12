@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://c0nv3y0rbe1td"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="2_def"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_vfdht"]
+
+[sub_resource type="Resource" id="Resource_structure"]
+script = ExtResource("1_cell")
+port_id = &""
+role = 2
+
+[resource]
+script = ExtResource("2_def")
+cells = Array[ExtResource("1_cell")]([SubResource("Resource_structure")])
