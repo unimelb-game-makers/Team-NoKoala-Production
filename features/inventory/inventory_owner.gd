@@ -47,8 +47,15 @@ func try_drop_held_item() -> bool:
 	var drop_position = actor.global_position
 	drop_position.y = 0
 	
-	inventory.hand_slot.drop_at(drop_position)
-	inventory.hand_slot.global_position = drop_position
+	var dropped_item = inventory.hand_slot
+	
+	if not inventory.hand_slot.try_drop(drop_position):
+		return false
+	
+	if is_instance_valid(dropped_item) and not dropped_item.is_queued_for_deletion():
+		dropped_item.global_position = drop_position
+		dropped_item.release_claim()
+	
 	inventory.hand_slot = null
 	return true
 

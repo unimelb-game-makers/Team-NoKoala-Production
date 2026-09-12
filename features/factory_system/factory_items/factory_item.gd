@@ -6,6 +6,8 @@ extends Processable
 @onready var pickup_area: Area3D = $Sprite3D/Area3D
 @onready var debug_label: Label3D = $StackDebugLabel
 
+var factory_manager: FactoryManager
+
 var _pickup_collision_layer: int
 var _pickup_input_ray_pickable: bool
 
@@ -24,3 +26,12 @@ func set_in_process_hidden(is_hidden: bool) -> void:
 	pickup_area.input_ray_pickable = (
 		false if is_hidden else _pickup_input_ray_pickable
 	)
+
+func try_drop(coordinate: Vector3) -> bool:
+	if factory_manager == null or factory_manager.grid == null:
+		return false
+	if stack == null or stack.is_empty():
+		return false
+
+	var cell := factory_manager.grid.world_to_cell(coordinate)
+	return factory_manager.try_merge_item_at_cell(self, cell)

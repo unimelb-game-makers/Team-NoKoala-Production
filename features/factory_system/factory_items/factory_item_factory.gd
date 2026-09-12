@@ -32,6 +32,7 @@ static func spawn_factory_item(
 		return null
 
 	var factory_item := create_factory_item(definition)
+	factory_item.factory_manager = factory_manager
 	if factory_item == null:
 		return null
 
