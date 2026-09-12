@@ -19,14 +19,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.pressed or event.button_index != MOUSE_BUTTON_RIGHT:
 		return
 
-	if _inventory_owner.inventory.hand_slot != null:
+	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
 		_try_drop_held_item()
-	else:
-		_try_pick_up_item_at_mouse()
-
-
-func _try_pick_up_item_at_mouse() -> void:
+		return
 	var factory_item := _factory_item_at_mouse()
+	if factory_item != null:
+		_try_pick_up_item_at_mouse(factory_item)
+
+
+func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
 	print(factory_item)
 	if _inventory_owner.try_pick_up_item(factory_item):
 		get_viewport().set_input_as_handled()

@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_sr4kc"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_rmc3w"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_l4pfl"]
+[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_2nodk"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_spawn"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="8_manager"]
 
@@ -51,9 +52,10 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_rmc3w")]
 
-[node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid")]
+[node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid", "fixed_clock")]
 script = ExtResource("8_manager")
 grid = NodePath("../GridMap")
+fixed_clock = NodePath("../FixedClock")
 
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("6_spawn")
@@ -66,3 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
 camera = NodePath("SpringArm3D/Camera3D")
 
 [node name="Processables" type="Node3D" parent="." unique_id=1675194942]
+
+[node name="FixedClock" type="Node" parent="." unique_id=884297419]
+script = ExtResource("6_2nodk")
+metadata/_custom_type_script = "uid://dwrjahf6sv6a6"

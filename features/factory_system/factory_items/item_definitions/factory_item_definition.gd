@@ -4,6 +4,7 @@ extends Resource
 @export var item_key: FactoryItemID ## internal identifier like 'iron ore'
 @export var item_name: String
 @export var texture: Texture2D
+@export var max_stack: int = 64
 
 enum FactoryItemID {
 	IRON_ORE,
