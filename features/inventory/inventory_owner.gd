@@ -48,6 +48,7 @@ func try_drop_held_item() -> bool:
 
 	var drop_position = actor.global_position
 	drop_position.y = 0
+	
 	inventory.hand_slot.drop_at(drop_position)
 	inventory.hand_slot.global_position = drop_position
 	inventory.hand_slot = null
