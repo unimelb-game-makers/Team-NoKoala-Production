@@ -22,6 +22,9 @@ func space_remaining() -> int:
 func is_full() -> bool:
 	return quantity >= stack_size
 
+func is_empty() -> bool:
+	return quantity <= 0
+
 func merge_from(other: ItemStack) -> int:
 	if not can_merge_with(other):
 		return other.quantity

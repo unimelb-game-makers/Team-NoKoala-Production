@@ -27,6 +27,16 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 		return false
 	if not item.try_claim(actor):
 		return false
+		
+	if inventory.hand_slot != null:
+		if inventory.hand_slot.stack != null and item.stack != null and inventory.hand_slot.stack.can_merge_with(item.stack):
+			print("Merging into existing item: %d + %d" % [item.stack.quantity, inventory.hand_slot.stack.quantity])
+			inventory.hand_slot.stack.merge_from(item.stack)
+			print("Result: %d" % inventory.hand_slot.stack.quantity)
+			if item.stack.is_empty():
+				item.queue_free()
+			return true
+		return false # holding something incompatible/full, can't pick up
 
 	set_held_item(item)
 	return true
