@@ -16,6 +16,7 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 	#start processing if currently has no task running
 	if _processing_recipe == null:
+		_update_job_requests()
 		_try_start_processing(factory_manager)
 		return
 
@@ -40,17 +41,24 @@ func _exit_tree() -> void:
 
 
 func _try_start_processing(factory_manager: FactoryManager) -> void:
-	if definition == null or definition.recipes.is_empty():
+	if definition == null or enabled_recipes.is_empty():
 		return
 
-	var recipe := definition.recipes[0]
-	if recipe == null:
-		return
+	for recipe in enabled_recipes:
+		if recipe == null:
+			continue
+		if _try_start_recipe(recipe, factory_manager):
+			return
 
+
+func _try_start_recipe(
+	recipe: ProductionRecipe,
+	factory_manager: FactoryManager,
+) -> bool:
 	var required_input_count := _get_required_input_count(recipe)
 	var candidates := _find_input_items(recipe, factory_manager)
 	if candidates.size() != required_input_count:
-		return
+		return false
 
 	var claimed_items: Array[FactoryItem] = []
 	var original_positions: Dictionary[FactoryItem, Vector3] = {}
@@ -62,7 +70,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 				original_positions,
 				factory_manager,
 			)
-			return
+			return false
 
 		claimed_items.append(factory_item)
 		original_positions[factory_item] = original_position
@@ -75,6 +83,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
 	register_active(faith_drain_rate)
+	return true
 
 
 #try to search for the input item in the factory manager
