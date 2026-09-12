@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ResourceAreaDefinition" format=3 uid="uid://cfkivar1brd46"]
+
+[ext_resource type="Script" uid="uid://b0hv3yfr5g24w" path="res://features/resource_area/resource_area_definition.gd" id="1_12qnp"]
+[ext_resource type="Resource" uid="uid://roipviljqaw7" path="res://features/factory_system/recipes/recipe_definitions/resource_area/spawner_iron_ore.tres" id="2_12qnp"]
+[ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="3_864da"]
+
+[resource]
+script = ExtResource("1_12qnp")
+spawner_recipe = ExtResource("2_12qnp")
+texture = ExtResource("3_864da")
+metadata/_custom_type_script = "uid://b54bkkwhtlhed"
