@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
-[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_u0wh0"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
@@ -33,11 +32,6 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[sub_resource type="Resource" id="Resource_na4ej"]
-resource_local_to_scene = true
-script = ExtResource("4_u0wh0")
-allowed_work_types = Array[int]([0, 1])
-
 [node name="TestMachine" type="Node3D" unique_id=1256172161]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
@@ -64,8 +58,7 @@ mesh = SubResource("GroundMesh_machine")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_na4ej")
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../FactoryManager")
 

@@ -41,7 +41,6 @@ hide_inputs_while_processing = false
 definition = ExtResource("4_4ee0m")
 enabled_recipes = Array[ExtResource("5_icykn")]([ExtResource("6_xqmag")])
 job_provider = NodePath("MachineJobProvider")
-faith_drain_rate = 5.0
 debug_active_indicator = NodePath("../DebugLight")
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]

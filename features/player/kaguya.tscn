@@ -71,6 +71,6 @@ metadata/_custom_type_script = "uid://whob5vilplfq"
 script = ExtResource("8_path")
 metadata/_custom_type_script = "uid://pu03676qi1ub"
 
-[node name="PlayerMachineWorkController" type="Node" parent="."]
+[node name="PlayerMachineWorkController" type="Node" parent="." unique_id=2110653408]
 script = ExtResource("9_work_controller")
 capability = SubResource("Resource_player_work_capability")
