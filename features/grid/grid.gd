@@ -4,6 +4,12 @@ extends GridMap
 var grid_data: GridData = GridData.new()
 var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 
+signal grid_changed(affected_cells: Array)
+
+func _ready() -> void:
+	add_to_group("grid")
+
+
 ## Moves a block to a new cell position if placement is valid.
 func move_block(
 	block: Block,
@@ -15,7 +21,18 @@ func move_block(
 	if can_place:
 		_index_block(block)
 		move_block_visual(block, cell)
+		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
+
+## Returns true if the block can be placed at the given cell (using its current
+## rotation) without overlapping another block or leaving the play space.
+## Does not modify the grid or the block.
+func can_place_block_at(block: Block, cell: Vector3i) -> bool:
+	var previous_cell := block.block_data.root_cell
+	block.block_data.root_cell = cell
+	var result := grid_data.can_place_block(block.block_data)
+	block.block_data.root_cell = previous_cell
+	return result
 
 ## Adds a block to the grid if placement is valid.
 func add_block(block: Block) -> bool:
@@ -23,18 +40,23 @@ func add_block(block: Block) -> bool:
 	if can_place:
 		_index_block(block)
 		add_block_visual(block)
+		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Removes a block from the grid data and the coordinate index.
 func remove_block(block: Block) -> void:
+	var occupied_cells := block.block_data.occupied_cells()
+	if not block.block_data.is_placed:
+		return
 	grid_data.remove_block(block.block_data)
-	for cell in block.block_data.occupied_cells():
+	for cell in occupied_cells:
 		var blocks: Array = _blocks_by_cell.get(cell, [])
 		blocks.erase(block)
 		if blocks.is_empty():
 			_blocks_by_cell.erase(cell)
 		else:
 			_blocks_by_cell[cell] = blocks
+	grid_changed.emit(occupied_cells)
 
 func get_blocks_at(cell: Vector3i) -> Array[Block]:
 	if not _blocks_by_cell.has(cell):

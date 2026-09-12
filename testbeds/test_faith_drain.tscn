@@ -3,10 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_vj0br"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_gu6qo"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="3_1vr5x"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_gu6qo"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_bp5ps"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_dqx0x"]
-[ext_resource type="Script" uid="uid://bm8o8yj15wy17" path="res://features/factory_system/factory_tick_manager.gd" id="6_yjetv"]
-[ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="7_7sxol"]
+[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_gu6qo"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="8_1vr5x"]
 [ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="8_gu6qo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -44,6 +45,7 @@ environment = SubResource("Environment_machine")
 [node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
 shape = SubResource("GroundShape_machine")
@@ -53,30 +55,35 @@ mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_gu6qo")]
 
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
+
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("3_1vr5x")
-camera = NodePath("../Camera3D2")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="FactoryManager" type="Node" parent="." unique_id=356444170 node_paths=PackedStringArray("grid")]
+[node name="FactoryManager" type="Node" parent="." unique_id=356444170 node_paths=PackedStringArray("grid", "fixed_clock")]
 script = ExtResource("4_bp5ps")
 grid = NodePath("../GridMap")
+fixed_clock = NodePath("../FixedClock")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager")]
 script = ExtResource("5_dqx0x")
-camera = NodePath("../Camera3D2")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
+placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 default_machine = 1
 
-[node name="FactoryTickManager" type="Node" parent="." unique_id=1835285552 node_paths=PackedStringArray("factory_manager")]
-script = ExtResource("6_yjetv")
-factory_manager = NodePath("../FactoryManager")
+[node name="FixedClock" type="Node" parent="." unique_id=220659657]
+script = ExtResource("6_gu6qo")
+metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
-[node name="Camera3D2" type="Camera3D" parent="." unique_id=36180073]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5, 2.319012)
-script = ExtResource("7_7sxol")
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=1267406637]
+script = ExtResource("8_1vr5x")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 
@@ -84,3 +91,5 @@ script = ExtResource("7_7sxol")
 low_faith_threshold = 20.0
 default_faith_colour = Color(0.37254903, 0.37254903, 0.6039216, 1)
 low_faith_colour = Color(0.54509807, 0, 0, 1)
+
+[editable path="Kaguya"]
