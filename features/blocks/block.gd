@@ -1,3 +1,4 @@
+@tool
 class_name Block
 extends Node3D
 

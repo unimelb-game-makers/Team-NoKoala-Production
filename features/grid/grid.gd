@@ -1,3 +1,4 @@
+@tool
 class_name Grid
 extends GridMap
 
@@ -7,6 +8,7 @@ var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 signal grid_changed(affected_cells: Array)
 
 func _ready() -> void:
+	clear()
 	add_to_group("grid")
 
 
