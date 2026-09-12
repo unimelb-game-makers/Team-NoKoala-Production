@@ -8,9 +8,16 @@
 [ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="5_471q3"]
 [ext_resource type="Script" uid="uid://bwn87ulrdja2q" path="res://features/camera/camera_controller.gd" id="5_dkhme"]
 [ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="8_path"]
+[ext_resource type="Script" uid="uid://mds7yg72ieh7" path="res://features/player/player_machine_work_controller.gd" id="9_work_controller"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="10_capability"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q205w"]
 size = Vector3(0.6431885, 1.0671701, 0.8967986)
+
+[sub_resource type="Resource" id="Resource_player_work_capability"]
+resource_local_to_scene = true
+script = ExtResource("10_capability")
+allowed_work_types = Array[int]([0])
 
 [node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
 collision_layer = 3
@@ -63,3 +70,7 @@ metadata/_custom_type_script = "uid://whob5vilplfq"
 [node name="PathAgent" type="Node" parent="." unique_id=1743538726]
 script = ExtResource("8_path")
 metadata/_custom_type_script = "uid://pu03676qi1ub"
+
+[node name="PlayerMachineWorkController" type="Node" parent="."]
+script = ExtResource("9_work_controller")
+capability = SubResource("Resource_player_work_capability")

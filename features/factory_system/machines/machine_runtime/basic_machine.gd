@@ -7,6 +7,8 @@ var _claimed_inputs: Array[FactoryItem] = []
 var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
+var _occupied_work_cells: Dictionary[StringName, WorkerCapability] = {}
+
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
@@ -21,9 +23,21 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		_try_start_processing(factory_manager)
 		return
 
-	_processing_elapsed += delta
-	if _processing_elapsed < _processing_recipe.duration_seconds:
-		return
+	var duration := maxf(_processing_recipe.duration_seconds, 0.0)
+	if _processing_elapsed < duration:
+		if not _check_workable(_processing_recipe):
+			unregister_active()
+			return
+
+		register_active(faith_drain_rate)
+		_processing_elapsed = minf(_processing_elapsed + delta, duration)
+		if _processing_elapsed < duration:
+			return
+
+		_occupied_work_cells.clear()
+
+
+	register_active(faith_drain_rate)
 
 	if not _try_spawn_outputs(factory_manager):
 		return
@@ -45,7 +59,8 @@ func get_processing_progress() -> float:
 	if not is_processing_recipe():
 		return 0.0
 	var duration := _processing_recipe.duration_seconds
-
+	if duration <= 0.0:
+		return 1.0
 	return clampf(_processing_elapsed / duration, 0.0, 1.0)
 
 func _exit_tree() -> void:
@@ -94,9 +109,117 @@ func _try_start_recipe(
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
-	register_active(faith_drain_rate)
+	if _check_workable(recipe):
+		register_active(faith_drain_rate)
+	else:
+		unregister_active()
 	return true
 
+
+func _check_workable(recipe: ProductionRecipe) -> bool:
+	if recipe == null:
+		return false
+
+	# No work requirements means the recipe remains fully automatic.
+	for requirement in recipe.work_requirements:
+		if (
+			requirement == null
+			or not _occupied_work_cells.has(requirement.port_id)
+		):
+			return false
+
+		var capability := _occupied_work_cells.get(
+			requirement.port_id,
+		) as WorkerCapability
+		if (
+			capability == null
+			or not capability.can_perform(requirement.work_type)
+		):
+			return false
+
+	return true
+
+func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
+	if (
+		capability == null
+		or _processing_recipe == null
+		or get_processing_progress() >= 1.0
+	):
+		return false
+
+	var port_id := _get_work_port_id_at(coord)
+	if (
+		port_id.is_empty()
+		or _occupied_work_cells.has(port_id)
+		or _occupied_work_cells.values().has(capability)
+	):
+		return false
+
+	for requirement in _processing_recipe.work_requirements:
+		if (
+			requirement == null
+			or requirement.port_id != port_id
+			or not capability.can_perform(requirement.work_type)
+		):
+			continue
+
+		_occupied_work_cells[port_id] = capability
+		return true
+
+	return false
+
+
+func try_unallocate_working_port(coord: Vector3i, capability: WorkerCapability) -> bool:
+	var port_id := _get_work_port_id_at(coord)
+	if (
+		port_id.is_empty()
+		or capability == null
+		or _occupied_work_cells.get(port_id) != capability
+	):
+		return false
+
+	_occupied_work_cells.erase(port_id)
+	if (
+		_processing_recipe != null
+		and get_processing_progress() < 1.0
+		and not _check_workable(_processing_recipe)
+	):
+		unregister_active()
+	return true
+
+
+func is_working_at_port(
+	coord: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	if capability == null:
+		return false
+	var port_id := _get_work_port_id_at(coord)
+	return (
+		not port_id.is_empty()
+		and _occupied_work_cells.get(port_id) == capability
+	)
+
+
+func _get_work_port_id_at(coord: Vector3i) -> StringName:
+	if definition == null:
+		return &""
+	var assembly := get_parent() as MachineAssembly
+	if assembly == null or assembly.block == null or assembly.block.block_data == null:
+		return &""
+
+	for cell_definition in definition.cells:
+		if (
+			cell_definition == null
+			or cell_definition.role != MachineCellDefinition.Role.WORK
+		):
+			continue
+		var cell_coord := assembly.block.block_data.world_cell_for_offset(
+			cell_definition.local_cell_offset,
+		)
+		if cell_coord == coord:
+			return cell_definition.port_id
+	return &""
 
 #try to search for the input item in the factory manager
 func _find_input_items(
@@ -247,8 +370,8 @@ func _restore_claimed_inputs(
 
 
 func _clear_processing_state() -> void:
+	_occupied_work_cells.clear()
 	_processing_recipe = null
 	_processing_elapsed = 0.0
 	_claimed_inputs.clear()
 	_claimed_input_positions.clear()
-	_factory_manager = null

@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_u0wh0"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="9_na4ej"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -30,6 +32,11 @@ uv1_world_triplanar = true
 [sub_resource type="PlaneMesh" id="GroundMesh_machine"]
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
+
+[sub_resource type="Resource" id="Resource_na4ej"]
+resource_local_to_scene = true
+script = ExtResource("4_u0wh0")
+allowed_work_types = Array[int]([0])
 
 [node name="TestMachine" type="Node3D" unique_id=1256172161]
 
@@ -56,6 +63,11 @@ mesh = SubResource("GroundMesh_machine")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" node_paths=PackedStringArray("_grid", "_factory_manager")]
+capability = SubResource("Resource_na4ej")
+_grid = NodePath("../../GridMap")
+_factory_manager = NodePath("../../FactoryManager")
+
 [node name="FactoryManager" type="Node" parent="." unique_id=1499061308 node_paths=PackedStringArray("grid", "fixed_clock")]
 script = ExtResource("3_on3ec")
 grid = NodePath("../GridMap")
@@ -65,9 +77,10 @@ fixed_clock = NodePath("../FixedClock")
 script = ExtResource("5_na4ej")
 metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager")]
 script = ExtResource("6_nnvon")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
+placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
@@ -78,5 +91,9 @@ grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
+script = ExtResource("9_na4ej")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [editable path="Kaguya"]
