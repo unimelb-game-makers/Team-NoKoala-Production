@@ -22,3 +22,7 @@ func start() -> Status:
 
 func tick(_delta: float) -> Status:
 	return Status.SUCCESS
+
+
+func cancel() -> void:
+	pass

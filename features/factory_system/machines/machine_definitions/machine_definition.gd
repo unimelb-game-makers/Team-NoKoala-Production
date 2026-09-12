@@ -6,6 +6,11 @@ extends Resource
 
 @export var recipes: Array[ProductionRecipe] = []
 
+
+func has_recipe(recipe: ProductionRecipe) -> bool:
+	return recipe != null and recipes.has(recipe)
+
+
 func _get_ports_for_role(
 	role: MachineCellDefinition.Role,
 ) -> Dictionary[StringName, bool]:
