@@ -1,6 +1,8 @@
 class_name Machine
 extends Node
 
+signal factory_ticked(machine: Machine, delta: float)
+
 @export var definition: MachineDefinition
 
 ## Recipes that the player has enabled
@@ -48,6 +50,10 @@ func get_input_cells() -> Array[Vector3i]:
 
 func get_output_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.OUTPUT)
+
+
+func get_work_cells() -> Array[Vector3i]:
+	return _get_cells_for_role(MachineCellDefinition.Role.WORK)
 
 
 func get_cells_for_port(
@@ -104,6 +110,10 @@ func _set_debug_indicator(active: bool) -> void:
 
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
+	_factory_tick(_delta, _factory_manager)
+	factory_ticked.emit(self, _delta)
+
+func _factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 	pass
 
 
