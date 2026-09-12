@@ -41,8 +41,9 @@ static func spawn_factory_item(
 	if not factory_manager.register_processable(factory_item):
 		factory_item.queue_free()
 		return null
-
-	factory_item.drop_at(world_position)
+	
+	if factory_item.try_drop(world_position):
+		factory_item.drop_at(world_position)
 	return factory_item
 
 
@@ -53,17 +54,6 @@ static func spawn_factory_item_at_cell(
 ) -> FactoryItem:
 	if factory_manager == null or factory_manager.grid == null:
 		return null
-		
-	var existing = factory_manager.get_processables_at(cell)
-	if existing != null:
-		for item in existing:
-			# TO DO: if machine ever makes more than 1 output (i.e can produce stack of size > 1)
-			var incoming_stack = ItemStack.create(definition, 1)
-			if item.stack != null and item.stack.can_merge_with(incoming_stack):
-				#print("Merging into existing item at %s: %d + %d" % [cell, item.stack.quantity, incoming_stack.quantity])
-				item.stack.merge_from(incoming_stack)
-				#print("Result: %d" % item.stack.quantity)
-				return item
 
 	var world_position := factory_manager.grid.cell_to_world(cell)
 	world_position.y = DEFAULT_SPAWN_HEIGHT

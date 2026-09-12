@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
-[ext_resource type="Script" uid="uid://m6tmakwc4u6p" path="res://features/factory_system/machines/machine_placement_controller.gd" id="6_nnvon"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -64,8 +64,9 @@ fixed_clock = NodePath("../FixedClock")
 script = ExtResource("5_na4ej")
 metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("grid", "factory_manager")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("6_nnvon")
+camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 

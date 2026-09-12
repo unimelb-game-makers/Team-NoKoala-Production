@@ -26,19 +26,17 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 
 	if existing != null and not existing.is_empty():
 		for other in existing:
-			if other.stack == null or not other.stack.can_merge_with(item.stack):
-				continue
-			var incoming_qty = item.stack.quantity
-			var leftover = other.stack.merge_from(item.stack)
-			if leftover >= incoming_qty:
-				continue
-			if item.stack.is_empty():
-				item.queue_free()
-				return true
-			else:
-				return false
-		return false
-
+			if other.stack != null and other.stack.can_merge_with(item.stack):
+				var incoming_qty = item.stack.quantity
+				var leftover = other.stack.merge_from(item.stack)
+				if leftover >= incoming_qty:
+					continue
+				if item.stack.is_empty():
+					item.queue_free()
+					return true
+				else:
+					return false
+	
 	var world_position = grid.cell_to_world(cell)
 	item.global_position = world_position
 	item.dropped.emit(item, world_position) 

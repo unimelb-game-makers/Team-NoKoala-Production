@@ -37,7 +37,6 @@ func try_claim(consumer: Object) -> bool:
 	return true
 
 func drop_at(world_position: Vector3) -> void:
-	# TO DO: add something for visual merging (stack)
 	release_claim()
 	_is_dropped = true
 	_drop_world_position = world_position
