@@ -36,7 +36,7 @@ func refresh() -> void:
 		return
 
 	var desired: Array[Dictionary] = []
-	for recipe in _machine.active_recipes:
+	for recipe in _machine.enabled_recipes:
 		if recipe == null:
 			continue
 		for requirement in recipe.inputs:

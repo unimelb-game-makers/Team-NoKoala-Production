@@ -43,7 +43,7 @@ material = SubResource("StandardMaterial3D_q0umq")
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
-active_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
+enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 5.0
 debug_active_indicator = NodePath("../DebugLight")

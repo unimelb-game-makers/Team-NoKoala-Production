@@ -41,10 +41,10 @@ func _exit_tree() -> void:
 
 
 func _try_start_processing(factory_manager: FactoryManager) -> void:
-	if definition == null or active_recipes.is_empty():
+	if definition == null or enabled_recipes.is_empty():
 		return
 
-	for recipe in active_recipes:
+	for recipe in enabled_recipes:
 		if recipe == null:
 			continue
 		if _try_start_recipe(recipe, factory_manager):
