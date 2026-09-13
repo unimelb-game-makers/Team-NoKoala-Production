@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://5esfvqn6ij18"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_jkffj"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="2_jkffj"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_8c5lb"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_ly0cw"]
+
+[sub_resource type="Resource" id="Resource_1lgse"]
+script = ExtResource("1_jkffj")
+port_id = &"input_1"
+item = ExtResource("2_jkffj")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_rwktf"]
+script = ExtResource("4_ly0cw")
+port_id = &"work_1"
+work_type = 1
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("3_8c5lb")
+recipe_id = &"ritual1"
+display_name = "ritual"
+inputs = Array[ExtResource("1_jkffj")]([SubResource("Resource_1lgse")])
+work_requirements = Array[ExtResource("4_ly0cw")]([SubResource("Resource_rwktf")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

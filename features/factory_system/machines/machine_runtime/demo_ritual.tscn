@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="4_4ee0m"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="5_icykn"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="6_xqmag"]
+[ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="7_xqmag"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="11_5hdis"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="12_spksd"]
 [ext_resource type="PackedScene" uid="uid://dhue7p6vhxki0" path="res://assets/developer_art/models/gohei_model_draft_1.glb" id="13_g7rvc"]
@@ -39,7 +40,7 @@ material = SubResource("StandardMaterial3D_work")
 script = ExtResource("3_c8vjy")
 hide_inputs_while_processing = false
 definition = ExtResource("4_4ee0m")
-enabled_recipes = Array[ExtResource("5_icykn")]([ExtResource("6_xqmag")])
+enabled_recipes = Array[ExtResource("5_icykn")]([ExtResource("6_xqmag"), ExtResource("7_xqmag")])
 job_provider = NodePath("MachineJobProvider")
 debug_active_indicator = NodePath("../DebugLight")
 
