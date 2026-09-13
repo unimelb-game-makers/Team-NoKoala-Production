@@ -2,18 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1b7t3lccphwr"
-path.s3tc="res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.s3tc.ctex"
-path.etc2="res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.etc2.ctex"
+uid="uid://ud6eymv23pgb"
+path.s3tc="res://.godot/imported/gohei_model_draft_1_Paper002_1K-JPG_Color.jpg-5d7fcfdc640a1b4b1a3bc22a839c673b.s3tc.ctex"
+path.etc2="res://.godot/imported/gohei_model_draft_1_Paper002_1K-JPG_Color.jpg-5d7fcfdc640a1b4b1a3bc22a839c673b.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "e77e6ee9585c5a8aa237eb0097d22f61"
+}
 
 [deps]
 
-source_file="res://assets/developer_art/processables/bamboo_logs.png"
-dest_files=["res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.s3tc.ctex", "res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.etc2.ctex"]
+source_file="res://assets/developer_art/models/gohei_model_draft_1_Paper002_1K-JPG_Color.jpg"
+dest_files=["res://.godot/imported/gohei_model_draft_1_Paper002_1K-JPG_Color.jpg-5d7fcfdc640a1b4b1a3bc22a839c673b.s3tc.ctex", "res://.godot/imported/gohei_model_draft_1_Paper002_1K-JPG_Color.jpg-5d7fcfdc640a1b4b1a3bc22a839c673b.etc2.ctex"]
 
 [params]
 

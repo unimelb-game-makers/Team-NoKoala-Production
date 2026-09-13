@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_guvjm"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_lpg4p"]
 [ext_resource type="Texture2D" uid="uid://dlt4mhr7g81e5" path="res://features/3D-objects/arch_mat.png" id="6_4at8n"]
+[ext_resource type="PackedScene" uid="uid://dhue7p6vhxki0" path="res://assets/developer_art/models/gohei_model_draft_1.glb" id="7_7l4kk"]
 [ext_resource type="Script" uid="uid://b6evtso80bqxk" path="res://features/3D-objects/fade_object.gd" id="7_8dof2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
@@ -152,7 +153,7 @@ size = Vector3(4.0875244, 3.6217651, 12.704102)
 transform = Transform3D(0.93472004, 0.26040262, 0.24184474, -0.35355338, 0.6123724, 0.70710677, 0.036033392, -0.7464519, 0.664463, 10, 4, 0)
 light_indirect_energy = 0.0
 shadow_enabled = true
-shadow_bias = 0.01
+shadow_bias = 2.985
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1161051596]
 environment = SubResource("Environment_pr4p8")
@@ -166,12 +167,17 @@ collision_layer = 9
 shape = SubResource("ConvexPolygonShape3D_fbnme")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1686413422]
+transform = Transform3D(0.8423778, 0, -0.53888744, 0, 1, 0, 0.53888744, 0, 0.8423778, 0.010020256, 2.3841858e-07, -0.0007266998)
 mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_guvjm")]
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_lpg4p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)
+collision_mask = 5
+
+[node name="SpringArm3D2" type="SpringArm3D" parent="Kaguya" unique_id=1594393964]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
 collision_mask = 5
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=1085173995]
@@ -222,3 +228,6 @@ debug_color = Color(0.9098039, 0, 0.73333335, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3418579, 9.275476, 0.04345894)
 shape = SubResource("BoxShape3D_owhf0")
 debug_color = Color(0.93333334, 0.011764706, 0.63529414, 1)
+
+[node name="gohei_model_draft_1" parent="." unique_id=521892806 instance=ExtResource("7_7l4kk")]
+transform = Transform3D(0.9371114, 0, -0.34903052, 0, 1, 0, 0.34903052, 0, 0.9371114, 1.5010874, 0, 0.8213819)
