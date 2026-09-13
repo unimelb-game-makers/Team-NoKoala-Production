@@ -30,22 +30,10 @@ var machine_mesh_to_resource_definition: Dictionary = {
 }
 
 func _create_machines_from_grid() -> void:
-#	_floating_assembly = null
 	var cells = grid.get_used_cells()
-
-	#print(MACHINE_MESHES)
+	
 	for cell in cells:
 		if grid.get_cell_item(cell) not in MACHINE_MESHES.values(): continue
-		#var resource_area: MachineAssembly = RESOURCE_AREA_SCENE.instantiate()
-		
-		'''
-		add_child(resource_area)
-		resource_area.owner = get_tree().edited_scene_root
-		var machine_node = resource_area.get_node("Machine")
-		machine_node.resource_area_definition = ra_definition
-		machine_node.sprite.texture = ra_definition.texture
-		machine_node._processing_recipe = ra_definition.spawner_recipe
-		'''
 
 		var ra_definition = machine_mesh_to_resource_definition.get(grid.mesh_library.get_item_name(grid.get_cell_item(cell)))
 		_floating_assembly = create_machine()
@@ -60,15 +48,11 @@ func _create_machines_from_grid() -> void:
 		machine_node.owner = get_tree().edited_scene_root
 		_floating_assembly.block.owner = get_tree().edited_scene_root
 		
+		
+		if not confirm_placement(cell): 
+			_floating_assembly.delete_self()
+			continue
 
-		
-		if not confirm_placement(cell): continue
-		
-		
-		#cancel_placement()
-	
-		
-	#grid.clear()
 func cancel_placement() -> void:
 	if _floating_assembly != null:
 		_floating_assembly.queue_free()
@@ -95,8 +79,7 @@ func create_machine() -> MachineAssembly:
 
 func create_block_data(definition: MachineDefinition) -> BlockData:
 	var block_data := BlockData.new()
-
-
+	
 	for machine_cell in definition.cells:
 		block_data.footprint.append(machine_cell.local_cell_offset)
 		if machine_cell.can_overlap:
@@ -112,9 +95,6 @@ func confirm_placement(cell) -> bool:
 		return false
 
 	_floating_assembly.machine.center_position = cell
-	#if not factory_manager.register_machine(_floating_assembly.machine):
-	#	grid.remove_block(_floating_assembly.block)
-		#return false
 	
 	_floating_assembly.block.enable_collisions()
 	_floating_assembly.block.set_appearence(Block.Appearance.NORMAL)
