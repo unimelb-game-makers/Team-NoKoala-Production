@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
+[ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
@@ -32,11 +33,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_5gudi")
 
-[node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.25, 0)
-use_collision = true
-size = Vector3(1, 0.5, 1)
-
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
 size = Vector3(1, 0.1, 1)
@@ -46,6 +42,9 @@ material = SubResource("StandardMaterial3D_q0umq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_work")
+
+[node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
