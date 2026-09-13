@@ -9,7 +9,6 @@ class_name ResourceAreaManager
 var create_machines_button = _create_machines_from_grid
 
 var _floating_assembly: MachineAssembly
-var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
 
 const RESOURCE_AREA_SCENE = preload("res://features/resource_area/resource_area_machine.tscn")
@@ -37,25 +36,25 @@ func _create_machines_from_grid() -> void:
 
 		var ra_definition = machine_mesh_to_resource_definition.get(grid.mesh_library.get_item_name(grid.get_cell_item(cell)))
 		_floating_assembly = create_machine()
-		var machine_node = _floating_assembly.get_node("Machine")
-		machine_node.resource_area_definition = ra_definition
-		machine_node.sprite.texture = ra_definition.texture
-		machine_node._processing_recipe = ra_definition.spawner_recipe
+		_floating_assembly.block_data = _floating_assembly.block.block_data
+		
 		_floating_assembly.block.disable_collisions()
 		grid.add_block_visual(_floating_assembly.block)
 		_floating_assembly.block.set_rotation_data(_last_rotation)
 		_floating_assembly.owner = get_tree().edited_scene_root
-		machine_node.owner = get_tree().edited_scene_root
-		_floating_assembly.block.owner = get_tree().edited_scene_root
+		_floating_assembly.resource_area_definition = ra_definition
+		var machine_node = _floating_assembly.get_node("Machine")
+		machine_node.resource_area_definition = ra_definition
+		machine_node.sprite.texture = ra_definition.texture
+		machine_node._processing_recipe = ra_definition.spawner_recipe
 		
-		
-		if not confirm_placement(cell): 
+		if not confirm_placement(cell):
 			_floating_assembly.delete_self()
 			continue
 
 func cancel_placement() -> void:
 	if _floating_assembly != null:
-		_floating_assembly.queue_free()
+		_floating_assembly.free()
 		_floating_assembly = null
 
 

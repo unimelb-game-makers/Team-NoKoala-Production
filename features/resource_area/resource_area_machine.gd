@@ -2,18 +2,13 @@
 class_name ResourceAreaMachine
 extends Machine
 
-var _processing_recipe: ProductionRecipe
+@export var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _factory_manager: FactoryManager
 @export var sprite: Sprite3D
 @export var block: Block
 @export var resource_area_definition: ResourceAreaDefinition
 @export var _spawn_if_output_present_toggle: bool
-
-func _ready() -> void:
-	if not Engine.is_editor_hint():
-		sprite.texture = resource_area_definition.texture
-		_processing_recipe = resource_area_definition.spawner_recipe
 
 func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	if factory_manager == null:
