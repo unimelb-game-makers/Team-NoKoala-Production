@@ -43,7 +43,6 @@ transform_root = NodePath("..")
 [node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
-use_collision = true
 size = Vector3(1, 2, 1)
 
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]

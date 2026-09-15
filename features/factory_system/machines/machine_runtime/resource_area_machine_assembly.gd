@@ -9,8 +9,10 @@ extends MachineAssembly
 var delete_resource_area_button = delete_self
 
 func _ready() -> void:
+	if resource_area_definition != null:
+		$Sprite3D.texture = resource_area_definition.texture
+	
 	if not Engine.is_editor_hint():
-		machine.sprite.texture = resource_area_definition.texture
 		machine._processing_recipe = resource_area_definition.spawner_recipe
 		machine.resource_area_definition = resource_area_definition
 		block.block_data = block_data

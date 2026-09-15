@@ -21,8 +21,6 @@ enum MACHINE_MESHES {
 	RA_IRON_ORE
 }
 
-#var index_to_machine_mesh
-
 var machine_mesh_to_resource_definition: Dictionary = {
 	"RA_BAMBOO_CULM": BAMBOO_CULM_DEFINITION,
 	"RA_IRON_ORE": IRON_ORE_DEFINITION,
@@ -33,7 +31,7 @@ func _create_machines_from_grid() -> void:
 	
 	for cell in cells:
 		if grid.get_cell_item(cell) not in MACHINE_MESHES.values(): continue
-
+		
 		var ra_definition = machine_mesh_to_resource_definition.get(grid.mesh_library.get_item_name(grid.get_cell_item(cell)))
 		_floating_assembly = create_machine()
 		_floating_assembly.block_data = _floating_assembly.block.block_data
@@ -43,6 +41,7 @@ func _create_machines_from_grid() -> void:
 		_floating_assembly.block.set_rotation_data(_last_rotation)
 		_floating_assembly.owner = get_tree().edited_scene_root
 		_floating_assembly.resource_area_definition = ra_definition
+		
 		var machine_node = _floating_assembly.get_node("Machine")
 		machine_node.resource_area_definition = ra_definition
 		machine_node.sprite.texture = ra_definition.texture
@@ -51,6 +50,9 @@ func _create_machines_from_grid() -> void:
 		if not confirm_placement(cell):
 			_floating_assembly.delete_self()
 			continue
+		
+		# Clear mesh from gridmap cell
+		grid.set_cell_item(cell, -1)
 
 func cancel_placement() -> void:
 	if _floating_assembly != null:
