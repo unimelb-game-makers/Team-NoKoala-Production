@@ -1,14 +1,19 @@
 class_name BasicMachine
 extends Machine
 
+@export var hide_inputs_while_processing := true
+
 var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _claimed_inputs: Array[FactoryItem] = []
 var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
+var _occupied_work_cells: Dictionary[StringName, WorkerCapability] = {}
 
-func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+
+func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+
 	if factory_manager == null:
 		return
 
@@ -16,18 +21,35 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 	#start processing if currently has no task running
 	if _processing_recipe == null:
+		_update_job_requests()
 		_try_start_processing(factory_manager)
 		return
 
-	_processing_elapsed += delta
-	if _processing_elapsed < _processing_recipe.duration_seconds:
-		return
+	var duration := maxf(_processing_recipe.duration_seconds, 0.0)
+	if _processing_elapsed < duration:
+		if not _check_workable(_processing_recipe):
+			unregister_active()
+			return
+
+		register_active(faith_drain_rate)
+		_processing_elapsed = minf(_processing_elapsed + delta, duration)
+		if _processing_elapsed < duration:
+			return
+
+		_occupied_work_cells.clear()
+
+
+	register_active(faith_drain_rate)
 
 	if not _try_spawn_outputs(factory_manager):
 		return
 
+	var completed_recipe := _processing_recipe
 	_consume_claimed_inputs(factory_manager)
 	_clear_processing_state()
+	if not _on_recipe_completed(completed_recipe, factory_manager):
+		unregister_active()
+		return
 	
 	# immediately try again, if not then it must be idle
 	_try_start_processing(factory_manager)
@@ -35,22 +57,51 @@ func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		unregister_active()
 
 
+
+func is_processing_recipe() -> bool:
+	return _processing_recipe != null
+
+func get_processing_progress() -> float:
+	if not is_processing_recipe():
+		return 0.0
+	var duration := _processing_recipe.duration_seconds
+	if duration <= 0.0:
+		return 1.0
+	return clampf(_processing_elapsed / duration, 0.0, 1.0)
+
+
+## Called after outputs have spawned, inputs have been consumed, and the
+## processing state has been cleared. Return false to prevent another recipe
+## from starting during the same factory tick.
+func _on_recipe_completed(
+	_completed_recipe: ProductionRecipe,
+	_factory_manager: FactoryManager,
+) -> bool:
+	return true
+
 func _exit_tree() -> void:
 	_cancel_processing()
 
 
 func _try_start_processing(factory_manager: FactoryManager) -> void:
-	if definition == null or definition.recipes.is_empty():
+	if definition == null or enabled_recipes.is_empty():
 		return
 
-	var recipe := definition.recipes[0]
-	if recipe == null:
-		return
+	for recipe in enabled_recipes:
+		if recipe == null:
+			continue
+		if _try_start_recipe(recipe, factory_manager):
+			return
 
+
+func _try_start_recipe(
+	recipe: ProductionRecipe,
+	factory_manager: FactoryManager,
+) -> bool:
 	var required_input_count := _get_required_input_count(recipe)
 	var candidates := _find_input_items(recipe, factory_manager)
 	if candidates.size() != required_input_count:
-		return
+		return false
 
 	var claimed_items: Array[FactoryItem] = []
 	var original_positions: Dictionary[FactoryItem, Vector3] = {}
@@ -62,20 +113,129 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 				original_positions,
 				factory_manager,
 			)
-			return
+			return false
 
 		claimed_items.append(factory_item)
 		original_positions[factory_item] = original_position
 
 	for factory_item in claimed_items:
-		factory_item.set_in_process_hidden(true)
+		factory_item.set_in_process_hidden(hide_inputs_while_processing)
 
 	_processing_recipe = recipe
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
-	register_active(faith_drain_rate)
+	if _check_workable(recipe):
+		register_active(faith_drain_rate)
+	else:
+		unregister_active()
+	return true
 
+
+func _check_workable(recipe: ProductionRecipe) -> bool:
+	if recipe == null:
+		return false
+
+	# No work requirements means the recipe remains fully automatic.
+	for requirement in recipe.work_requirements:
+		if (
+			requirement == null
+			or not _occupied_work_cells.has(requirement.port_id)
+		):
+			return false
+
+		var capability := _occupied_work_cells.get(
+			requirement.port_id,
+		) as WorkerCapability
+		if (
+			capability == null
+			or not capability.can_perform(requirement.work_type)
+		):
+			return false
+
+	return true
+
+func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
+	if (
+		capability == null
+		or _processing_recipe == null
+		or get_processing_progress() >= 1.0
+	):
+		return false
+
+	var port_id := _get_work_port_id_at(coord)
+	if (
+		port_id.is_empty()
+		or _occupied_work_cells.has(port_id)
+		or _occupied_work_cells.values().has(capability)
+	):
+		return false
+
+	for requirement in _processing_recipe.work_requirements:
+		if (
+			requirement == null
+			or requirement.port_id != port_id
+			or not capability.can_perform(requirement.work_type)
+		):
+			continue
+
+		_occupied_work_cells[port_id] = capability
+		return true
+
+	return false
+
+
+func try_unallocate_working_port(coord: Vector3i, capability: WorkerCapability) -> bool:
+	var port_id := _get_work_port_id_at(coord)
+	if (
+		port_id.is_empty()
+		or capability == null
+		or _occupied_work_cells.get(port_id) != capability
+	):
+		return false
+
+	_occupied_work_cells.erase(port_id)
+	if (
+		_processing_recipe != null
+		and get_processing_progress() < 1.0
+		and not _check_workable(_processing_recipe)
+	):
+		unregister_active()
+	return true
+
+
+func is_working_at_port(
+	coord: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	if capability == null:
+		return false
+	var port_id := _get_work_port_id_at(coord)
+	return (
+		not port_id.is_empty()
+		and _occupied_work_cells.get(port_id) == capability
+	)
+
+
+func _get_work_port_id_at(coord: Vector3i) -> StringName:
+	if definition == null:
+		return &""
+	var assembly := get_parent() as MachineAssembly
+	if assembly == null or assembly.block == null or assembly.block.block_data == null:
+		return &""
+
+	for cell_definition in definition.cells:
+		if (
+			cell_definition == null
+			or cell_definition.role != MachineCellDefinition.Role.WORK
+		):
+			continue
+		var cell_coord := assembly.block.block_data.world_cell_for_offset(
+			cell_definition.local_cell_offset,
+		)
+		if cell_coord == coord:
+			return cell_definition.port_id
+	return &""
 
 #try to search for the input item in the factory manager
 func _find_input_items(
@@ -135,6 +295,12 @@ func _get_required_input_count(recipe: ProductionRecipe) -> int:
 
 
 func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
+	if _processing_recipe == null:
+		return false
+	# An outputless recipe completes successfully without spawning anything.
+	if _processing_recipe.outputs.is_empty():
+		return true
+
 	var spawned_outputs: Array[FactoryItem] = []
 	var next_output_indices: Dictionary[StringName, int] = {}
 
@@ -226,8 +392,8 @@ func _restore_claimed_inputs(
 
 
 func _clear_processing_state() -> void:
+	_occupied_work_cells.clear()
 	_processing_recipe = null
 	_processing_elapsed = 0.0
 	_claimed_inputs.clear()
 	_claimed_input_positions.clear()
-	_factory_manager = null

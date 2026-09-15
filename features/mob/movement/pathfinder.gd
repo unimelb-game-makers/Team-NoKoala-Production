@@ -92,6 +92,8 @@ func _refresh_port_cells() -> void:
 			_port_cells[Vector2i(cell.x, cell.z)] = true
 		for cell in machine.get_output_cells():
 			_port_cells[Vector2i(cell.x, cell.z)] = true
+		for cell in machine.get_work_cells():
+			_port_cells[Vector2i(cell.x, cell.z)] = true
 
 
 ## Returns an empty array when the goal is unreachable (walled off, goal cell

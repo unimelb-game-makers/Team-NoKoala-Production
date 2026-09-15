@@ -58,6 +58,10 @@ mesh = SubResource("GroundMesh_machine")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
+_grid = NodePath("../../GridMap")
+_factory_manager = NodePath("../../FactoryManager")
+
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("3_1vr5x")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")

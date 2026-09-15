@@ -115,6 +115,12 @@ func cell_to_world(cell: Vector3i) -> Vector3:
 	assert(grid != null, "FactoryManager requires a Grid")
 	return grid.cell_to_world(cell)
 
+func accepts_item_at_cell(cell: Vector3i, item: FactoryItemDefinition) -> bool:
+	for machine in get_machines_at(cell):
+		if machine.accepts_item_at_cell(item, cell):
+			return true
+	return false
+
 # --- processable apis ---
 
 func register_processable(processable: Processable) -> bool:

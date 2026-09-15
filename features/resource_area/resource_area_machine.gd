@@ -7,8 +7,12 @@ var _processing_elapsed := 0.0
 var _factory_manager: FactoryManager
 @export var sprite: Sprite3D
 @export var block: Block
-@export var resource_area_definition: ResourceAreaDefinition
+@export var _resource_area_definition : ResourceAreaDefinition
 @export var _spawn_if_output_present_toggle: bool
+
+func _ready() -> void:
+	sprite.texture = _resource_area_definition.texture
+	_processing_recipe = _resource_area_definition.spawner_recipe
 
 func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	if factory_manager == null:
@@ -36,11 +40,11 @@ func _exit_tree() -> void:
 
 
 func _try_start_processing() -> void:
-	if resource_area_definition == null or resource_area_definition.spawner_recipe == null:
+	if _resource_area_definition == null or _resource_area_definition.spawner_recipe == null:
 		return
 	if not _spawn_if_output_present_toggle and _detect_items_in_output(): return
 
-	var recipe := resource_area_definition.spawner_recipe
+	var recipe := _resource_area_definition.spawner_recipe
 	if recipe == null:
 		return
 
