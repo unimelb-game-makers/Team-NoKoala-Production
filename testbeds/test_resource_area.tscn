@@ -5,11 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_n28u7"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="3_lfs7i"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_kjr54"]
+[ext_resource type="PackedScene" uid="uid://b15jo53udlsqn" path="res://features/resource_area/resource_area_machine.tscn" id="4_v2hao"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_x4mhd"]
 [ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="5_21nps"]
 [ext_resource type="Script" uid="uid://dpkuhnia0ybe5" path="res://features/factory_system/machines/machine_runtime/resource_area_machine_assembly.gd" id="5_dfq7n"]
+[ext_resource type="Script" uid="uid://dpkuhnia0ybe5" path="res://features/factory_system/machines/machine_runtime/resource_area_machine_assembly.gd" id="5_6vmk2"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_kjr54"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_lfs7i"]
+[ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="6_rgwlo"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="7_3ugm5"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="7_21nps"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="8_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="9_jobs"]
@@ -22,6 +26,7 @@ allowed_work_types = Array[int]([0, 1])
 [ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="8_yf0b0"]
 [ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="9_2xnet"]
 [ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="9_2xnet"]
+[ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="8_ix74w"]
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="9_21nps"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -47,6 +52,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -121,6 +127,22 @@ root_cell = Vector3i(-1, 0, -7)
 
 =======
 >>>>>>> eac7d23 (bug fixes)
+=======
+[sub_resource type="Resource" id="Resource_rtwa6"]
+script = ExtResource("7_3ugm5")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-10, 0, -2)
+
+[sub_resource type="Resource" id="Resource_dfq7n"]
+script = ExtResource("7_3ugm5")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
+is_placed = true
+root_cell = Vector3i(-7, 0, -1)
+
+>>>>>>> 935aea5 (quick fix)
 [node name="TestResourceArea" type="Node3D" unique_id=1256172161]
 >>>>>>> a5293d3 (feat: place resource areas in editor)
 
@@ -146,6 +168,22 @@ mesh = SubResource("GroundMesh_machine")
 =======
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
 mesh_library = ExtResource("3_lfs7i")
+
+[node name="ResourceAreaMachine" type="Node3D" parent="GridMap" unique_id=1962970161 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_v2hao")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, -1.5)
+script = ExtResource("5_6vmk2")
+resource_area_definition = ExtResource("6_rgwlo")
+block_data = SubResource("Resource_rtwa6")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="@Node3D@23214" type="Node3D" parent="GridMap" unique_id=1107912246 node_paths=PackedStringArray("block", "machine") groups=["resource_area"] instance=ExtResource("4_v2hao")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -0.5)
+script = ExtResource("5_6vmk2")
+resource_area_definition = ExtResource("8_ix74w")
+block_data = SubResource("Resource_dfq7n")
+block = NodePath("Block")
+machine = NodePath("Machine")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_kjr54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
