@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://b15jo53udlsqn"]
+
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_dedhw"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="2_wynfa"]
+[ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="3_xcxxg"]
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="4_h2iij"]
+[ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="4_ibtvi"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="5_av6lk"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_ssf80"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="6_ibtvi"]
+[ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_ibtvi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
+albedo_color = Color(1, 0.19, 0.19, 1)
+
+[sub_resource type="Resource" id="Resource_lfs7i"]
+script = ExtResource("4_h2iij")
+port_id = &""
+role = 2
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_21nps"]
+script = ExtResource("4_h2iij")
+port_id = &"output_1"
+role = 1
+local_cell_offset = Vector3i(0, 0, 1)
+can_overlap = true
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_kjr54"]
+script = ExtResource("6_ibtvi")
+cells = Array[ExtResource("4_h2iij")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
+metadata/_custom_type_script = "uid://cxu884kmx2bg1"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b136p"]
+size = Vector3(0.4411621, 1, 0.4616394)
+
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+script = ExtResource("1_dedhw")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("2_wynfa")
+transform_root = NodePath("..")
+
+[node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+use_collision = true
+size = Vector3(1, 2, 1)
+
+[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_q0umq")
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("sprite", "block") groups=["resource_area"]]
+script = ExtResource("3_xcxxg")
+sprite = NodePath("../Sprite3D")
+block = NodePath("../Block")
+_resource_area_definition = ExtResource("4_ibtvi")
+definition = SubResource("Resource_kjr54")
+
+[node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("5_ssf80")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=17269070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
+texture_filter = 0
+texture = ExtResource("9_ibtvi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=846377872]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1824221520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025, 0, 1)
+shape = SubResource("BoxShape3D_b136p")

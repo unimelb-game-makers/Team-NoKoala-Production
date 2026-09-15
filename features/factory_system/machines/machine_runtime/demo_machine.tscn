@@ -4,13 +4,20 @@
 [ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
 [ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
-[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/haul_job_provider.gd" id="5_haul"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_provider"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
+[ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
 albedo_color = Color(1, 0.19, 0.19, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
+albedo_color = Color(0.1, 0.42, 1, 1)
 
 [node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("4_assembly")
@@ -23,29 +30,32 @@ transform_root = NodePath("..")
 
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_5gudi")
 
-[node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.25, 0)
-use_collision = true
-size = Vector3(1, 0.5, 1)
-
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
-use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("debug_active_indicator")]
+[node name="Work1" type="CSGBox3D" parent="Block" unique_id=129505759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_work")
+
+[node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
+enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
+job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 5.0
 debug_active_indicator = NodePath("../DebugLight")
 
-[node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
-script = ExtResource("5_haul")
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
@@ -55,3 +65,7 @@ light_indirect_energy = 0.0
 spot_range = 2.0
 spot_attenuation = 0.0
 spot_angle = 15.0
+
+[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("8_g1dqn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
+machine = NodePath("../Machine")

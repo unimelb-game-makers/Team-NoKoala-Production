@@ -8,10 +8,10 @@ extends Resource
 
 enum FactoryItemID {
 	IRON_ORE,
-	BAMBOO_LOG
+	BAMBOO_CULM
 }
 
 static var factory_item_definitions = {
 	FactoryItemID.IRON_ORE: "res://features/factory_system/factory_items/item_definitions/iron_ore.tres",
-	FactoryItemID.BAMBOO_LOG: "res://features/factory_system/factory_items/item_definitions/bamboo_log.tres"
+	FactoryItemID.BAMBOO_CULM: "res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres"
 }

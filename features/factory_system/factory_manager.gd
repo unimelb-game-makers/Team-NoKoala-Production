@@ -18,6 +18,10 @@ var _processable_cells: Dictionary = {}
 func _ready() -> void:
 	add_to_group("factory_manager")
 	fixed_clock.tick.connect(_on_tick)
+	
+	for machine in grid.get_children():
+		if not machine.is_in_group("resource_area"): continue
+		register_machine(machine.get_node("Machine"))
 
 # --- stack merging --- #
 
@@ -110,6 +114,12 @@ func get_machine_at(cell: Vector3i) -> Machine:
 func cell_to_world(cell: Vector3i) -> Vector3:
 	assert(grid != null, "FactoryManager requires a Grid")
 	return grid.cell_to_world(cell)
+
+func accepts_item_at_cell(cell: Vector3i, item: FactoryItemDefinition) -> bool:
+	for machine in get_machines_at(cell):
+		if machine.accepts_item_at_cell(item, cell):
+			return true
+	return false
 
 # --- processable apis ---
 

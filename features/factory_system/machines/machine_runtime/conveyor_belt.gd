@@ -22,7 +22,7 @@ func add_item(item: FactoryItem, progress: float = 0.5) -> void:
 		register_active(faith_drain_rate)
 	items_on_belt.append({"item": item, "progress": progress, "waiting": false})
 
-func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_detect_indexed_items(factory_manager)
 
 	for item in items_on_belt:
