@@ -23,9 +23,23 @@ var place_mode: bool = false:
 var _floating_assembly: MachineAssembly
 var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
+var _faith: FaithManager
+var _jobs: JobBoard
+var _reservations: ReservationManager
 
-func _enter_tree() -> void:
-	add_to_group("machine_placement_controller")
+
+func configure(
+	p_grid: Grid,
+	p_factory_manager: FactoryManager,
+	faith: FaithManager,
+	jobs: JobBoard,
+	reservations: ReservationManager,
+) -> void:
+	grid = p_grid
+	factory_manager = p_factory_manager
+	_faith = faith
+	_jobs = jobs
+	_reservations = reservations
 
 
 func _ready() -> void:
@@ -34,6 +48,12 @@ func _ready() -> void:
 func begin_placement() -> MachineAssembly:
 	cancel_placement()
 	_floating_assembly = MachineFactory.create_machine(_selected_machine)
+	_floating_assembly.configure(
+		factory_manager,
+		_faith,
+		_jobs,
+		_reservations,
+	)
 	_floating_assembly.block.disable_collisions()
 	grid.add_block_visual(_floating_assembly.block)
 	_floating_assembly.block.set_appearence(Block.Appearance.TRANSLUCENT)

@@ -9,23 +9,28 @@ var _port_cells: Dictionary = {}
 var _ready_ok := false
 
 
+func configure(p_factory_manager: FactoryManager) -> void:
+	factory_manager = p_factory_manager
+	if is_node_ready():
+		_connect_factory_manager()
+
+
 func _ready() -> void:
-	add_to_group("pathfinder")
 	grid = get_parent() as Grid
+	assert(grid != null, "Pathfinder must be a direct child of Grid")
 	_rebuild()
 	grid.grid_changed.connect(_on_grid_changed)
 	_ready_ok = true
-	# FactoryManager readies after us in the scene tree; wire it up once the
-	# whole tree is ready so machine ports are known.
-	_connect_factory_manager.call_deferred()
+	_connect_factory_manager()
 
 
 func _connect_factory_manager() -> void:
-	factory_manager = get_tree().get_first_node_in_group("factory_manager")
 	if factory_manager == null:
 		return
-	factory_manager.machine_registered.connect(_on_machines_changed)
-	factory_manager.machine_unregistered.connect(_on_machines_changed)
+	if not factory_manager.machine_registered.is_connected(_on_machines_changed):
+		factory_manager.machine_registered.connect(_on_machines_changed)
+	if not factory_manager.machine_unregistered.is_connected(_on_machines_changed):
+		factory_manager.machine_unregistered.connect(_on_machines_changed)
 	_on_machines_changed(null)
 
 

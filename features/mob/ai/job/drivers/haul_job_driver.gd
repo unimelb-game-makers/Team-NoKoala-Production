@@ -23,11 +23,18 @@ var _move_issued_for := -1
 const MAX_DURATION := 60.0
 
 
+func configure(
+	p_inventory_owner: InventoryOwner,
+	p_movement: Movement,
+	p_grid: Grid,
+) -> void:
+	inventory_owner = p_inventory_owner
+	movement = p_movement
+	grid = p_grid
+
+
 func start() -> Status:
-	inventory_owner = NodeUtils.get_child_by_type(consumer.actor, InventoryOwner)
-	movement = NodeUtils.get_child_by_type(consumer.actor, Movement)
-	grid = consumer.get_tree().get_first_node_in_group("grid")
-	if inventory_owner == null:
+	if inventory_owner == null or movement == null or grid == null:
 		return Status.FAILURE
 	else:
 		return Status.SUCCESS

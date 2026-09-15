@@ -6,6 +6,12 @@ extends Node
 @export var factory_manager: FactoryManager
 @export var spawn_height := 0.167
 
+
+func configure(p_grid: Grid, p_factory_manager: FactoryManager) -> void:
+	grid = p_grid
+	factory_manager = p_factory_manager
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("spawn_factory_item"):
 		spawn_factory_item_at_mouse(FactoryItemDefinition.FactoryItemID.IRON_ORE)

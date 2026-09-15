@@ -14,6 +14,11 @@ signal factory_ticked(machine: Machine, delta: float)
 
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
+var faith_manager: FaithManager
+
+
+func configure(p_faith_manager: FaithManager) -> void:
+	faith_manager = p_faith_manager
 
 
 func is_recipe_enabled(recipe: ProductionRecipe) -> bool:
@@ -92,14 +97,15 @@ func _get_cells_for_role(
 
 func register_active(drain_rate: float = 0.0) -> void:
 	if not is_active:
-		FaithManager._register_active(self, drain_rate)
+		faith_manager.register_drain(self, drain_rate)
 		is_active = true
 		_set_debug_indicator(true)
 
 
 func unregister_active() -> void:
 	if is_active:
-		FaithManager._unregister_active(self)
+		if faith_manager != null:
+			faith_manager.unregister_drain(self)
 		is_active = false
 		_set_debug_indicator(false)
 

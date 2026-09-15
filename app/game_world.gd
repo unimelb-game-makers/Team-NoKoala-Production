@@ -18,8 +18,9 @@ var _composed := false
 
 
 func _enter_tree() -> void:
-	assert(_composed, "GameWorld must be composed by App before entering the tree")
-
+	if _composed == false:
+		compose_world_context()
+		configure_dependencies()
 
 # world context is what pass to other components like ui
 func compose_world_context() -> WorldContext:
