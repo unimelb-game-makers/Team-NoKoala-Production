@@ -23,6 +23,29 @@ func _ready() -> void:
 		if not machine.is_in_group("resource_area"): continue
 		register_machine(machine.get_node("Machine"))
 
+# --- stack merging --- #
+
+func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
+	var existing = get_processables_at(cell)
+
+	if existing != null and not existing.is_empty():
+		for other in existing:
+			if other.stack != null and other.stack.can_merge_with(item.stack):
+				var incoming_qty = item.stack.quantity
+				var leftover = other.stack.merge_from(item.stack)
+				if leftover >= incoming_qty:
+					continue
+				if item.stack.is_empty():
+					item.queue_free()
+					return true
+				else:
+					return false
+	
+	var world_position = grid.cell_to_world(cell)
+	item.global_position = world_position
+	item.dropped.emit(item, world_position) 
+	return true
+
 
 # --- machine apis ---
 
@@ -97,7 +120,6 @@ func cell_to_world(cell: Vector3i) -> Vector3:
 func register_processable(processable: Processable) -> bool:
 	if processable == null or _processables.has(processable):
 		return false
-
 	_processables.append(processable)
 	_connect_processable(processable)
 	if processable.is_dropped():

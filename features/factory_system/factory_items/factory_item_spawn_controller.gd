@@ -11,7 +11,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		spawn_factory_item_at_mouse(FactoryItemDefinition.FactoryItemID.IRON_ORE)
 
 func spawn_factory_item_at_mouse(
-	item_id: FactoryItemDefinition.FactoryItemID,
+	item_definition: FactoryItemDefinition.FactoryItemID,
 ) -> FactoryItem:
 	if camera == null or grid == null or factory_manager == null:
 		return null
@@ -19,7 +19,7 @@ func spawn_factory_item_at_mouse(
 	var cell := cell_at_mouse_position()
 	var world_position := grid.cell_to_world(cell)
 	world_position.y = spawn_height
-	return spawn_factory_item(item_id, world_position)
+	return spawn_factory_item(item_definition, world_position)
 
 func cell_at_mouse_position() -> Vector3i:
 	if camera == null or grid == null:
@@ -45,11 +45,11 @@ func cell_at_mouse_position() -> Vector3i:
 	return cell
 
 func spawn_factory_item(
-	item_id: FactoryItemDefinition.FactoryItemID,
+	item_definition: FactoryItemDefinition.FactoryItemID,
 	world_position: Vector3,
 ) -> FactoryItem:
 	var definition_path: String = FactoryItemDefinition.factory_item_definitions.get(
-		item_id,
+		item_definition,
 		"",
 	)
 	if definition_path.is_empty() or factory_manager == null:

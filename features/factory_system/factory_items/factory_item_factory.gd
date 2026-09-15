@@ -15,8 +15,8 @@ static func create_factory_item(
 	var factory_item := FACTORY_ITEM_SCENE.instantiate() as FactoryItem
 	if factory_item == null:
 		return null
-
-	factory_item.definition = definition
+	
+	factory_item.stack = ItemStack.new(definition)
 	return factory_item
 
 
@@ -31,6 +31,7 @@ static func spawn_factory_item(
 		return null
 
 	var factory_item := create_factory_item(definition)
+	factory_item.factory_manager = factory_manager
 	if factory_item == null:
 		return null
 
@@ -39,8 +40,9 @@ static func spawn_factory_item(
 	if not factory_manager.register_processable(factory_item):
 		factory_item.queue_free()
 		return null
-
-	factory_item.drop_at(world_position)
+	
+	if factory_item.try_drop(world_position):
+		factory_item.drop_at(world_position)
 	return factory_item
 
 

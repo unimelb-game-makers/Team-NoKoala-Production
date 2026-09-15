@@ -13,6 +13,9 @@ signal dropped(processable: Processable, world_position: Vector3)
 	set(value):
 		set_available_for_processing(value)
 
+# each processable is it's own stack
+@export var stack: ItemStack
+
 var _available_for_processing := false
 var _claimant: Object
 var _is_dropped := false
@@ -61,7 +64,6 @@ func is_claimed() -> bool:
 func get_claimant() -> Object:
 	_clear_invalid_claimant()
 	return _claimant
-
 
 # --- internal functions --- 
 
