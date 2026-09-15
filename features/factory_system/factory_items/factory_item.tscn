@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://nm1hf5e1f8xw"]
 
 [ext_resource type="Script" uid="uid://d1gqeqxg6h155" path="res://features/factory_system/factory_items/factory_item.gd" id="1_wp3jb"]
-[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_logs.png" id="2_1bsx1"]
+
+[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="2_1bsx1"]
 [ext_resource type="Script" uid="uid://bbbobqqtxwmd2" path="res://features/factory_system/factory_items/item_stack.gd" id="2_klr1v"]
 
 [sub_resource type="Resource" id="Resource_nnvon"]

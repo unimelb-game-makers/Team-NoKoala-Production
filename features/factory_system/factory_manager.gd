@@ -18,6 +18,10 @@ var _processable_cells: Dictionary = {}
 func _ready() -> void:
 	add_to_group("factory_manager")
 	fixed_clock.tick.connect(_on_tick)
+	
+	for machine in grid.get_children():
+		if not machine.is_in_group("resource_area"): continue
+		register_machine(machine.get_node("Machine"))
 
 # --- stack merging --- #
 

@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://1b7t3lccphwr"
-path.s3tc="res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.s3tc.ctex"
-path.etc2="res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.etc2.ctex"
+path.s3tc="res://.godot/imported/bamboo_culm.png-9778bfd4f4c88c6f1e46499cb4461f61.s3tc.ctex"
+path.etc2="res://.godot/imported/bamboo_culm.png-9778bfd4f4c88c6f1e46499cb4461f61.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/developer_art/processables/bamboo_logs.png"
-dest_files=["res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.s3tc.ctex", "res://.godot/imported/bamboo_logs.png-bb9f624da9b1ec4efd7eaa84d97003d2.etc2.ctex"]
+source_file="res://assets/developer_art/processables/bamboo_culm.png"
+dest_files=["res://.godot/imported/bamboo_culm.png-9778bfd4f4c88c6f1e46499cb4461f61.s3tc.ctex", "res://.godot/imported/bamboo_culm.png-9778bfd4f4c88c6f1e46499cb4461f61.etc2.ctex"]
 
 [params]
 

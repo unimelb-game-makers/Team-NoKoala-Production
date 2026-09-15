@@ -57,4 +57,3 @@ func _factory_item_at_mouse() -> FactoryItem:
 		node = node.get_parent()
 
 	return null
-
