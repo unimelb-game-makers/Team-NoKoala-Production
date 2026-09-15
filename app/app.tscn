@@ -1,121 +1,12 @@
 [gd_scene format=3 uid="uid://nd6tr2mmnxrb"]
 
-[ext_resource type="Script" uid="uid://btp56cxpinviy" path="res://app/app.gd" id="1_fx3ps"]
-[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="2_xb51a"]
-[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_tcqd2"]
-[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_u120g"]
-[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="5_2mfpo"]
-[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_ipo28"]
-[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="7_d2u4y"]
-[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="8_iiuw2"]
-[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="9_2nk11"]
-[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="10_ssdj5"]
-[ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="11_q56qi"]
-[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="12_tcqd2"]
-[ext_resource type="PackedScene" uid="uid://b0203k716j73" path="res://assets/developer_art/models/map 1209vr.glb" id="13_u120g"]
+[ext_resource type="Script" uid="uid://btp56cxpinviy" path="res://app/app.gd" id="1_app"]
+[ext_resource type="PackedScene" path="res://app/game_world.tscn" id="2_world"]
+[ext_resource type="PackedScene" path="res://app/ui/ui_root.tscn" id="3_ui"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+[node name="App" type="Node" node_paths=PackedStringArray("ui_root")]
+script = ExtResource("1_app")
+initial_world_scene = ExtResource("2_world")
+ui_root = NodePath("UIRoot")
 
-[sub_resource type="Sky" id="Sky_tcqd2"]
-sky_material = SubResource("ProceduralSkyMaterial_machine")
-
-[sub_resource type="Environment" id="Environment_machine"]
-background_mode = 2
-sky = SubResource("Sky_tcqd2")
-
-[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
-points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u120g"]
-albedo_texture = ExtResource("2_xb51a")
-uv1_triplanar = true
-uv1_world_triplanar = true
-
-[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
-material = SubResource("StandardMaterial3D_u120g")
-size = Vector2(1000, 1000)
-
-[sub_resource type="Resource" id="Resource_2mfpo"]
-resource_local_to_scene = true
-script = ExtResource("5_2mfpo")
-allowed_work_types = Array[int]([0, 1])
-
-[node name="App" type="Node3D" unique_id=539687628]
-script = ExtResource("1_fx3ps")
-
-[node name="TestMachine" type="Node3D" parent="." unique_id=1256172161]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="TestMachine" unique_id=1357055124]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="TestMachine" unique_id=1454922947]
-environment = SubResource("Environment_machine")
-
-[node name="StaticWorld" type="Node3D" parent="TestMachine" unique_id=163324939]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="TestMachine/StaticWorld" unique_id=194206315]
-collision_layer = 9
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestMachine/StaticWorld/StaticBody3D" unique_id=2113417377]
-shape = SubResource("GroundShape_machine")
-
-[node name="Ground" type="MeshInstance3D" parent="TestMachine/StaticWorld/StaticBody3D" unique_id=1902689211]
-mesh = SubResource("GroundMesh_machine")
-
-[node name="GridMap" parent="TestMachine" unique_id=1300501605 groups=["grid"] instance=ExtResource("3_tcqd2")]
-
-[node name="Kaguya" parent="TestMachine" unique_id=21341859 instance=ExtResource("4_u120g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
-
-[node name="PlayerMachineWorkController" parent="TestMachine/Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_2mfpo")
-_grid = NodePath("../../GridMap")
-_factory_manager = NodePath("../../FactoryManager")
-
-[node name="FactoryItemSpawnController" type="Node" parent="TestMachine" unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
-script = ExtResource("6_ipo28")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
-grid = NodePath("../GridMap")
-factory_manager = NodePath("../FactoryManager")
-
-[node name="FactoryManager" type="Node" parent="TestMachine" unique_id=356444170 node_paths=PackedStringArray("grid", "fixed_clock")]
-script = ExtResource("7_d2u4y")
-grid = NodePath("../GridMap")
-fixed_clock = NodePath("../FixedClock")
-
-[node name="MachineMousePlacementController" type="Node" parent="TestMachine" unique_id=404807820 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager")]
-script = ExtResource("8_iiuw2")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
-placement_grid = NodePath("../PlacementGrid")
-grid = NodePath("../GridMap")
-factory_manager = NodePath("../FactoryManager")
-default_machine = 1
-
-[node name="FixedClock" type="Node" parent="TestMachine" unique_id=220659657]
-script = ExtResource("9_2nk11")
-metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
-
-[node name="PlacementGrid" type="MeshInstance3D" parent="TestMachine" unique_id=1267406637]
-script = ExtResource("10_ssdj5")
-metadata/_custom_type_script = "uid://b64ywlwc58ira"
-
-[node name="Processables" type="Node3D" parent="TestMachine" unique_id=973865482]
-
-[node name="FaithProgressBar" parent="TestMachine" unique_id=575448352 instance=ExtResource("11_q56qi")]
-
-[node name="DemoNpc" parent="TestMachine" unique_id=670937746 instance=ExtResource("12_tcqd2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1576493, 1.0040001, 0.38231874)
-
-[node name="DemoNpc2" parent="TestMachine" unique_id=261624064 instance=ExtResource("12_tcqd2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
-
-[node name="DemoNpc3" parent="TestMachine" unique_id=1322792776 instance=ExtResource("12_tcqd2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
-
-[node name="map 1209vr" parent="TestMachine" unique_id=1371713025 instance=ExtResource("13_u120g")]
-transform = Transform3D(-0.15, 0, -1.3113417e-08, 0, 0.15, 0, 1.3113417e-08, 0, -0.15, -2.337449, 1.25, -35.77988)
-
-[editable path="TestMachine/Kaguya"]
+[node name="UIRoot" parent="." instance=ExtResource("3_ui")]
