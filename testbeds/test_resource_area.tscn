@@ -2,11 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_mswqi"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_n28u7"]
+[ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="3_lfs7i"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_kjr54"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_x4mhd"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_kjr54"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_lfs7i"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="7_21nps"]
+[ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="9_21nps"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -51,6 +53,7 @@ shape = SubResource("GroundShape_machine")
 mesh = SubResource("GroundMesh_machine")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
+mesh_library = ExtResource("3_lfs7i")
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_kjr54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
@@ -77,5 +80,10 @@ grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "factory_manager")]
+script = ExtResource("9_21nps")
+grid = NodePath("../GridMap")
+factory_manager = NodePath("../FactoryManager")
 
 [editable path="Kaguya"]

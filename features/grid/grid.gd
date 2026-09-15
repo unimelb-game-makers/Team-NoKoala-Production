@@ -1,3 +1,4 @@
+@tool
 class_name Grid
 extends GridMap
 
@@ -8,6 +9,14 @@ signal grid_changed(affected_cells: Array)
 
 func _ready() -> void:
 	add_to_group("grid")
+	
+	# Loads resource areas into grid when scene is reloaded
+	if Engine.is_editor_hint():
+		for machine in get_children():
+			if not machine.is_in_group("resource_area"): continue
+			
+			machine.block.block_data = machine.block_data
+			move_block(machine.block, machine.block.block_data.root_cell)
 
 
 ## Moves a block to a new cell position if placement is valid.

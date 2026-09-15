@@ -1,7 +1,8 @@
+@tool
 class_name ResourceAreaMachine
 extends Machine
 
-var _processing_recipe: ProductionRecipe
+@export var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _factory_manager: FactoryManager
 @export var sprite: Sprite3D
