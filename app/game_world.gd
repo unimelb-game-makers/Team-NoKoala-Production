@@ -22,20 +22,18 @@ func _enter_tree() -> void:
 		compose_world_context()
 		configure_dependencies()
 
+func configure_world() -> WorldContext:
+	if _composed:
+		return context
+
+	validate_dependencies()
+	configure_dependencies()
+	context = compose_world_context()
+	_composed = true
+	return context
+
 # world context is what pass to other components like ui
 func compose_world_context() -> WorldContext:
-	assert(grid != null, "GameWorld requires a Grid")
-	assert(clock != null, "GameWorld requires a FixedClock")
-	assert(factory != null, "GameWorld requires a FactoryManager")
-	assert(faith != null, "GameWorld requires a FaithManager")
-	assert(jobs != null, "GameWorld requires a JobBoard")
-	assert(reservations != null, "GameWorld requires a ReservationManager")
-	assert(pathfinder != null, "GameWorld requires a Pathfinder")
-	assert(player != null, "GameWorld requires a Player")
-	assert(placement != null, "GameWorld requires a MachinePlacementController")
-	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
-	assert(mobs_root != null, "GameWorld requires a mobs root")
-
 	if _composed:
 		return null
 
@@ -63,3 +61,17 @@ func configure_dependencies() -> void:
 
 func shutdown() -> void:
 	pass
+
+
+func validate_dependencies() -> void:
+	assert(grid != null, "GameWorld requires a Grid")
+	assert(clock != null, "GameWorld requires a FixedClock")
+	assert(factory != null, "GameWorld requires a FactoryManager")
+	assert(faith != null, "GameWorld requires a FaithManager")
+	assert(jobs != null, "GameWorld requires a JobBoard")
+	assert(reservations != null, "GameWorld requires a ReservationManager")
+	assert(pathfinder != null, "GameWorld requires a Pathfinder")
+	assert(player != null, "GameWorld requires a Player")
+	assert(placement != null, "GameWorld requires a MachinePlacementController")
+	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
+	assert(mobs_root != null, "GameWorld requires a mobs root")

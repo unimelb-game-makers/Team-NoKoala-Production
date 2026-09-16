@@ -31,18 +31,16 @@ func load_world(world_scene: PackedScene):
 		return
 	current_world = world
 
-	world.compose_world_context()
 
 	#configure and bind the world
 	#configure: fixed, one-time world dependency
 	#bind: replaceable dependency that pair with an unbind 
-	world.configure_dependencies()
+	world.configure_world()
 	ui_root.bind_world(world.context)
 
 	#_ready only triggers after a node enters the tree.
-	world_loaded.emit(world)
-
 	add_child(world)
+	world_loaded.emit(world)
 
 	return
 
