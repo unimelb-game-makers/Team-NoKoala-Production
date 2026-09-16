@@ -6,6 +6,9 @@ signal place_mode_changed(enabled: bool)
 @export var grid: Grid
 @export var factory_manager: FactoryManager
 @export var default_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
+@export var _faith: FaithManager
+@export var _jobs: JobBoard
+@export var _reservations: ReservationManager
 
 var place_mode: bool = false:
 	get:
@@ -23,9 +26,6 @@ var place_mode: bool = false:
 var _floating_assembly: MachineAssembly
 var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
-var _faith: FaithManager
-var _jobs: JobBoard
-var _reservations: ReservationManager
 
 
 func configure(
