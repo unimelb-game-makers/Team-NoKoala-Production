@@ -2,7 +2,6 @@ class_name Machine
 extends Node
 
 signal factory_ticked(machine: Machine, delta: float)
-signal faith_shutdown
 
 @export var definition: MachineDefinition
 
@@ -103,7 +102,6 @@ func register_active(drain_rate: float = 0.0) -> void:
 			faith_manager.register_drain(self, drain_rate)
 			is_active = true
 			_set_debug_indicator(true)
-			print("if try drain")
 		else:
 			pass # faith too low
 
@@ -178,7 +176,6 @@ func _update_job_requests() -> void:
 func force_shutdown() -> void:
 	is_shut_down = true
 	unregister_active()
-	faith_shutdown.emit() # TO DO: wire this up to something
 
 func reactivate() -> void:
 	is_shut_down = false

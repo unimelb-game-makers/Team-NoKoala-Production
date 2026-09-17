@@ -56,19 +56,10 @@ func _check_empty() -> bool:
 		is_empty = true
 		faith_depleted.emit()
 		return true
-		# when this happens, factory manager needs to:
-		# - shut down all active machines
-		# - this means working at a machine will do nothing
-		# - workers should not look for work at shut down machines
-		# - i.e pause progress bars
 	elif is_empty and current_faith >= recovery_threshold:
 		is_empty = false
 		faith_restored.emit()
 		return false
-		# when this happens factory manager needs to:
-		# - reactivate the deactivated machines
-		# - this means they are reopen for work
-		# - progress bars continue how they were
 	
 	return is_empty
 

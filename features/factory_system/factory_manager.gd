@@ -17,9 +17,10 @@ var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
 
 
-func configure(p_grid: Grid, p_fixed_clock: FixedClock) -> void:
+func configure(p_grid: Grid, p_fixed_clock: FixedClock, p_faith_manager: FaithManager) -> void:
 	grid = p_grid
 	fixed_clock = p_fixed_clock
+	faith_manager = p_faith_manager
 	_connect_clock()
 	_connect_faith_manager()
 
