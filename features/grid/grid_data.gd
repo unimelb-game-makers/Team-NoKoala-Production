@@ -13,6 +13,8 @@ class GridCellData:
 		block = null
 
 var _grid: Dictionary[Vector3i, GridCellData] = {}
+# the dictionary of cells occupied by a block
+var _cells_by_block: Dictionary[BlockData, Array] = {}
 
 func _init() -> void:
 	# TODO: replace the hardcoded ranges 
@@ -54,23 +56,29 @@ func add_block(block: BlockData) -> bool:
 	if not can_place_block(block):
 		return false
 
+	var registered_cells: Array[Vector3i] = []
 	for cell in block.blocking_cells():
 		var cell_data := get_cell_data(cell)
 		if cell_data != null:
 			cell_data.block = block
+			registered_cells.append(cell)
+	_cells_by_block[block] = registered_cells
 	 
 	block.is_placed = true
 	
 	return true
 				
-func remove_block(block: BlockData) -> void:
-	if not block.is_placed:
-		return
-
-	var blocking_cells := block.blocking_cells()
-	for cell in blocking_cells:
+func remove_block(block: BlockData) -> Array[Vector3i]:
+	var removed_cells: Array[Vector3i] = []
+	var registered_cells: Array = _cells_by_block.get(block, [])
+	for cell: Vector3i in registered_cells:
 		var cell_data := get_cell_data(cell)
-		if cell_data != null and cell_data.block == block:
+		if cell_data == null:
+			continue
+		if cell_data.block == block:
 			cell_data.block = null
+			removed_cells.append(cell)
 
+	_cells_by_block.erase(block)
 	block.is_placed = false
+	return removed_cells
