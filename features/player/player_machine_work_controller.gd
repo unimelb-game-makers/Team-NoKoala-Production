@@ -10,6 +10,11 @@ var _working_machine: BasicMachine
 var _working_cell: Vector3i
 
 
+func configure(grid: Grid, factory_manager: FactoryManager) -> void:
+	_grid = grid
+	_factory_manager = factory_manager
+
+
 func _ready() -> void:
 	_player = get_parent() as Node3D
 
@@ -52,6 +57,8 @@ func is_working() -> bool:
 
 
 func _try_start_working() -> bool:
+	if _grid == null or _factory_manager == null:
+		return false
 
 	var player_cell := _get_player_cell()
 	for candidate in _factory_manager.get_machines_at(player_cell):

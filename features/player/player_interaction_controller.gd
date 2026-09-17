@@ -4,24 +4,28 @@ extends Node
 @export var camera: Camera3D
 
 var player: Node3D
-var grid: Grid
 var _inventory_owner: InventoryOwner
 var _machine_placement_controller: MachinePlacementController
+var _job_board: JobBoard
 var _selected_consumer: JobConsumer
 var _job_menu: PopupMenu
 var _menu_jobs: Array[Dictionary] = []
 
+
+func configure(
+	machine_placement_controller: MachinePlacementController,
+	job_board: JobBoard,
+) -> void:
+	_machine_placement_controller = machine_placement_controller
+	_job_board = job_board
+	_bind_placement_controller()
+
+
 func _ready() -> void:
 	player = get_parent()
-	grid = get_tree().get_first_node_in_group("grid")
 	_inventory_owner = NodeUtils.get_child_by_type(player, InventoryOwner)
-	_machine_placement_controller = get_tree().get_first_node_in_group(
-		"machine_placement_controller",
-	) as MachinePlacementController
-	if _machine_placement_controller != null:
-		_machine_placement_controller.place_mode_changed.connect(
-			_on_place_mode_changed,
-		)
+	assert(_inventory_owner != null, "Player requires an InventoryOwner")
+	_bind_placement_controller()
 	_job_menu = PopupMenu.new()
 	_job_menu.name = "JobAssignmentMenu"
 	_job_menu.id_pressed.connect(_on_job_menu_id_pressed)
@@ -182,7 +186,7 @@ func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
 	_menu_jobs.clear()
 	_job_menu.clear()
 
-	for provider in JobBoard.get_providers():
+	for provider in _job_board.get_providers():
 		for entry in provider.get_active_assignments():
 			var active_job := entry.job as HaulJob
 			if (
@@ -263,4 +267,24 @@ func _on_job_menu_id_pressed(id: int) -> void:
 
 func _exit_tree() -> void:
 	_clear_consumer_selection()
+	if (
+		_machine_placement_controller != null
+		and _machine_placement_controller.place_mode_changed.is_connected(
+			_on_place_mode_changed,
+		)
+	):
+		_machine_placement_controller.place_mode_changed.disconnect(
+			_on_place_mode_changed,
+		)
 
+
+func _bind_placement_controller() -> void:
+	if (
+		_machine_placement_controller != null
+		and not _machine_placement_controller.place_mode_changed.is_connected(
+			_on_place_mode_changed,
+		)
+	):
+		_machine_placement_controller.place_mode_changed.connect(
+			_on_place_mode_changed,
+		)

@@ -3,6 +3,11 @@ extends JobProvider
 
 @export var radius: float = 10.0
 
+func configure(
+	job_board: JobBoard,
+) -> void:
+	_job_board = job_board
+
 
 func _ready() -> void:
 	enqueue(WanderRequest.new(radius))

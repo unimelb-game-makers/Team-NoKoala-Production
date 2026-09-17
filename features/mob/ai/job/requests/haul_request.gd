@@ -4,16 +4,19 @@ extends JobRequest
 var item_definition: FactoryItemDefinition
 var destination: Vector3i
 var _factory_manager: FactoryManager
+var _reservation_manager: ReservationManager
 
 
 func _init(
 	p_item_definition: FactoryItemDefinition,
 	p_destination: Vector3i,
 	p_factory_manager: FactoryManager,
+	p_reservation_manager: ReservationManager,
 ) -> void:
 	item_definition = p_item_definition
 	destination = p_destination
 	_factory_manager = p_factory_manager
+	_reservation_manager = p_reservation_manager
 
 
 func job_type() -> StringName:
@@ -64,7 +67,7 @@ func can_take_over(
 	var item := haul_job.item
 	if item.stack.item_definition != item_definition:
 		return false
-	if ReservationManager.is_reserved(item, current_consumer):
+	if _reservation_manager.is_reserved(item, current_consumer):
 		return false
 	if item.is_dropped():
 		return item.is_available_for_processing()
@@ -85,7 +88,7 @@ func try_create_job_with_item(
 	if not _destination_is_available() or not _is_available_matching_item(item):
 		return null
 
-	if not ReservationManager.try_reserve_all(
+	if not _reservation_manager.try_reserve_all(
 		consumer,
 		[item, destination],
 	):
@@ -101,7 +104,7 @@ func _destination_is_available(ignoring: Object = null) -> bool:
 		return false
 	if not _factory_manager.get_processables_at(destination).is_empty():
 		return false
-	return not ReservationManager.is_reserved(destination, ignoring)
+	return not _reservation_manager.is_reserved(destination, ignoring)
 
 
 func _is_available_matching_item(item: FactoryItem) -> bool:
@@ -111,7 +114,7 @@ func _is_available_matching_item(item: FactoryItem) -> bool:
 		return false
 	if not item.is_dropped() or not item.is_available_for_processing():
 		return false
-	if ReservationManager.is_reserved(item):
+	if _reservation_manager.is_reserved(item):
 		return false
 	var item_cell := _factory_manager.grid.world_to_cell(
 		item.get_drop_world_position(),

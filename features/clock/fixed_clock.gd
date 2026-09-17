@@ -11,10 +11,6 @@ var tick_count := 0
 var _accumulator := 0.0
 
 
-func _ready() -> void:
-	add_to_group("fixed_clock")
-
-
 func _process(delta: float) -> void:
 	if not running:
 		return

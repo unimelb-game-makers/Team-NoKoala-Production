@@ -15,9 +15,19 @@ var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
 
 
-func _ready() -> void:
-	add_to_group("factory_manager")
-	fixed_clock.tick.connect(_on_tick)
+func configure(p_grid: Grid, p_fixed_clock: FixedClock) -> void:
+	grid = p_grid
+	fixed_clock = p_fixed_clock
+	_connect_clock()
+
+func _exit_tree() -> void:
+	if fixed_clock != null and fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.disconnect(_on_tick)
+
+
+func _connect_clock() -> void:
+	if not fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.connect(_on_tick)
 
 # --- stack merging --- #
 

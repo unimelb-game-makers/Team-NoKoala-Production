@@ -3,6 +3,8 @@ class_name Player
 
 @export var camera: Camera3D
 @export var can_jump: bool = true
+@export var interaction_controller: PlayerInteractionController
+@export var work_controller: PlayerMachineWorkController
 const GRAVITY_SCALE: float = 1.0
 const JUMP_STRENGTH: float = 2.075
 const MAX_GROUND_PLAYER_SPEED = 4.0
@@ -12,9 +14,18 @@ var target_move_direction: Vector3 = Vector3(0,0,0)
 var move_direction: Vector3 = Vector3(0,0,0) 
 var player_speed: float = 1.5
 var target_y_velocity: float = 0.0
-
 # for relative movement to camera
 @onready var spring_arm = $SpringArm3D
+
+
+func configure(
+	placement: MachinePlacementController,
+	jobs: JobBoard,
+	grid: Grid,
+	factory: FactoryManager,
+) -> void:
+	interaction_controller.configure(placement, jobs)
+	work_controller.configure(grid, factory)
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return

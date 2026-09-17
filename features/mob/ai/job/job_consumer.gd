@@ -4,17 +4,39 @@ extends Node
 @export var job_priorities: Dictionary[StringName, int]
 
 var actor: Node3D
+var movement: Movement
+var inventory_owner: InventoryOwner
 var fixed_clock: FixedClock
+var job_board: JobBoard
+var reservation_manager: ReservationManager
+var grid: Grid
 var current_job: Job = null
 var current_driver: JobDriver = null
 var current_provider: JobProvider = null
 var current_request: JobRequest = null
 
 
+func configure(
+	p_actor: Node3D,
+	p_movement: Movement,
+	p_inventory_owner: InventoryOwner,
+	p_fixed_clock: FixedClock,
+	p_job_board: JobBoard,
+	p_reservation_manager: ReservationManager,
+	p_grid: Grid,
+) -> void:
+	actor = p_actor
+	movement = p_movement
+	inventory_owner = p_inventory_owner
+	fixed_clock = p_fixed_clock
+	job_board = p_job_board
+	reservation_manager = p_reservation_manager
+	grid = p_grid
+
+
 func _ready() -> void:
-	actor = get_parent()
-	fixed_clock = get_tree().get_first_node_in_group("fixed_clock")
-	fixed_clock.tick.connect(_on_tick)
+	if not fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.connect(_on_tick)
 
 
 func _on_tick(delta: float, _ticks_due: int, _tick_count: int) -> void:
@@ -35,7 +57,7 @@ func find_new_job() -> void:
 	var candidates: Array[JobCandidate] = []
 	var discovery_order := 0
 
-	for provider in JobBoard.get_providers():
+	for provider in job_board.get_providers():
 		for request in provider.get_available_requests(self):
 			candidates.append(
 				JobCandidate.new(
@@ -132,7 +154,7 @@ func _end_job(completed: bool) -> void:
 
 	# A consumer runs one job at a time, so releasing everything it holds is
 	# enough to free this job's item and destination cell.
-	ReservationManager.release_all(self)
+	reservation_manager.release_all(self)
 	if current_provider != null and is_instance_valid(current_provider):
 		if completed:
 			current_provider.complete_request(current_request, self)
@@ -145,8 +167,10 @@ func _end_job(completed: bool) -> void:
 
 
 func _exit_tree() -> void:
+	if fixed_clock != null and fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.disconnect(_on_tick)
 	# Despawning mid-job must not leave its targets reserved forever.
 	if current_job != null:
 		cancel_job()
-	else:
-		ReservationManager.release_all(self)
+	elif reservation_manager != null:
+		reservation_manager.release_all(self)

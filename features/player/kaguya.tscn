@@ -19,10 +19,12 @@ resource_local_to_scene = true
 script = ExtResource("10_capability")
 allowed_work_types = Array[int]([0, 1])
 
-[node name="Kaguya" type="CharacterBody3D" unique_id=21341859]
+[node name="Kaguya" type="CharacterBody3D" unique_id=21341859 node_paths=PackedStringArray("camera", "interaction_controller", "work_controller")]
 collision_layer = 3
 script = ExtResource("1_mgr46")
-camera = NodePath("")
+camera = NodePath("SpringArm3D/Camera3D")
+interaction_controller = NodePath("PlayerInteractionController")
+work_controller = NodePath("PlayerMachineWorkController")
 
 [node name="Player" type="Sprite3D" parent="." unique_id=86973518]
 transform = Transform3D(0.35, 0, 0, 0, 0.24748737, 0.24748737, 0, -0.24748737, 0.24748737, 0, -0.49262607, 0)

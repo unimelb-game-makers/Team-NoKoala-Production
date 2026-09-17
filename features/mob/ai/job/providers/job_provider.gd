@@ -4,6 +4,8 @@ extends Node
 var _active := false
 var _queue := JobQueue.new()
 var _active_jobs: Dictionary[JobRequest, Dictionary] = {}
+var _job_board: JobBoard
+
 
 
 func _exit_tree() -> void:
@@ -14,7 +16,7 @@ func activate() -> void:
 	if _active:
 		return
 	_active = true
-	JobBoard.register(self)
+	_job_board.register(self)
 
 
 func deactivate() -> void:
@@ -26,7 +28,8 @@ func deactivate() -> void:
 		if consumer != null and is_instance_valid(consumer):
 			consumer.interrupt_job()
 	_active_jobs.clear()
-	JobBoard.unregister(self)
+	if _job_board != null:
+		_job_board.unregister(self)
 
 
 func enqueue(request: JobRequest) -> void:

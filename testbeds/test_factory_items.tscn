@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cgbt10xysuvhf"]
 
+[ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_l4pfl"]
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_sr4kc"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_rmc3w"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_l4pfl"]
@@ -30,7 +31,11 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_pr4p8")
 size = Vector2(1000, 1000)
 
-[node name="TestFactoryItem" type="Node3D" unique_id=194163689]
+[node name="TestFactoryItem" type="Node3D" unique_id=194163689 node_paths=PackedStringArray("grid", "clock", "factory")]
+script = ExtResource("1_l4pfl")
+grid = NodePath("GridMap")
+clock = NodePath("FixedClock")
+factory = NodePath("FactoryManager")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479210000]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -63,9 +68,8 @@ camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="Kaguya" parent="." unique_id=21341859 node_paths=PackedStringArray("camera") instance=ExtResource("4_l4pfl")]
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_l4pfl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
-camera = NodePath("SpringArm3D/Camera3D")
 
 [node name="Processables" type="Node3D" parent="." unique_id=1675194942]
 

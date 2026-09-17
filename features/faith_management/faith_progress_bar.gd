@@ -7,10 +7,30 @@ class_name FaithProgressBar
 @export var progress_bar: TextureProgressBar
 
 var _tween: Tween
+var _faith_manager: FaithManager
 
-func _ready() -> void:
-	FaithManager.faith_changed.connect(on_faith_changed)
-	on_faith_changed(FaithManager.current_faith, FaithManager.max_faith)
+func bind(faith_manager: FaithManager) -> void:
+	if _faith_manager == faith_manager: return
+	if _faith_manager != null: unbind()
+
+	_faith_manager = faith_manager
+	_faith_manager.faith_changed.connect(on_faith_changed)
+	on_faith_changed(_faith_manager.current_faith, _faith_manager.max_faith)
+
+
+func unbind() -> void:
+	if (
+		_faith_manager != null
+		and _faith_manager.faith_changed.is_connected(on_faith_changed)
+	):
+		_faith_manager.faith_changed.disconnect(on_faith_changed)
+	_faith_manager = null
+	if _tween != null:
+		_tween.kill()
+		_tween = null
+
+func _exit_tree() -> void:
+	unbind()
 
 func on_faith_changed(new: float, max: float) -> void:
 	progress_bar.max_value = max # allows new max to be set later in game progression

@@ -8,7 +8,7 @@ func _on_recipe_completed(
 	_completed_recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> bool:
-	FaithManager._apply_delta(faith_restored)
+	faith_manager.apply_delta(faith_restored)
 
 	var assembly := get_parent() as MachineAssembly
 	if factory_manager != null:

@@ -1,9 +1,10 @@
 class_name JobBoard
+extends Node
 
-static var _providers: Array[JobProvider] = []
+var _providers: Array[JobProvider] = []
 
 
-static func register(provider: JobProvider) -> void:
+func register(provider: JobProvider) -> void:
 	if provider == null:
 		return
 
@@ -11,16 +12,19 @@ static func register(provider: JobProvider) -> void:
 		_providers.append(provider)
 
 
-static func unregister(provider: JobProvider) -> void:
+func unregister(provider: JobProvider) -> void:
 	if provider == null:
 		return
 
 	_providers.erase(provider)
 
 
-static func get_providers() -> Array[JobProvider]:
+func get_providers() -> Array[JobProvider]:
 	return _providers.duplicate()
 
 
-static func clear() -> void:
+func clear() -> void:
+	for provider in _providers.duplicate():
+		if is_instance_valid(provider):
+			provider.deactivate()
 	_providers.clear()

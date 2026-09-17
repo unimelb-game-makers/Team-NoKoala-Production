@@ -3,18 +3,32 @@ extends JobProvider
 
 var _machine: Machine
 var _factory_manager: FactoryManager
+var _reservation_manager: ReservationManager
+
+
+func configure(
+	factory_manager: FactoryManager,
+	job_board: JobBoard,
+	reservation_manager: ReservationManager,
+) -> void:
+	_job_board = job_board
+	_factory_manager = factory_manager
+	_reservation_manager = reservation_manager
+	_machine = get_parent() as Machine
+	_bind_factory_manager()
 
 
 func _ready() -> void:
 	_machine = get_parent() as Machine
-	_factory_manager = get_tree().get_first_node_in_group("factory_manager")
+	assert(_machine != null, "MachineJobProvider must be a child of Machine")
+	_bind_factory_manager()
 
-	if _factory_manager == null or _machine == null:
-		return
 
-	_factory_manager.machine_registered.connect(_on_machine_registered)
-	_factory_manager.machine_unregistered.connect(_on_machine_unregistered)
-
+func _bind_factory_manager() -> void:
+	if not _factory_manager.machine_registered.is_connected(_on_machine_registered):
+		_factory_manager.machine_registered.connect(_on_machine_registered)
+	if not _factory_manager.machine_unregistered.is_connected(_on_machine_unregistered):
+		_factory_manager.machine_unregistered.connect(_on_machine_unregistered)
 	if _factory_manager.is_machine_registered(_machine):
 		activate()
 
@@ -48,7 +62,7 @@ func refresh() -> void:
 			):
 				if not _factory_manager.get_processables_at(input_cell).is_empty():
 					continue
-				if ReservationManager.is_reserved(input_cell):
+				if _reservation_manager.is_reserved(input_cell):
 					continue
 				if not _has_need(desired, requirement.item, input_cell):
 					desired.append({"item": requirement.item, "cell": input_cell})
@@ -62,7 +76,14 @@ func refresh() -> void:
 
 	for need in desired:
 		if not _has_request(need.item, need.cell):
-			enqueue(HaulRequest.new(need.item, need.cell, _factory_manager))
+			enqueue(
+				HaulRequest.new(
+					need.item,
+					need.cell,
+					_factory_manager,
+					_reservation_manager,
+				)
+			)
 
 
 func _has_request(item: FactoryItemDefinition, cell: Vector3i) -> bool:
