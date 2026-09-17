@@ -12,7 +12,7 @@ var _faith_manager: FaithManager
 func bind(faith_manager: FaithManager) -> void:
 	if _faith_manager == faith_manager: return
 	if _faith_manager != null: unbind()
-
+	print("binding")
 	_faith_manager = faith_manager
 	_faith_manager.faith_changed.connect(on_faith_changed)
 	on_faith_changed(_faith_manager.current_faith, _faith_manager.max_faith)
@@ -33,12 +33,8 @@ func _exit_tree() -> void:
 	unbind()
 
 func on_faith_changed(new: float, max: float) -> void:
-	progress_bar.max_value = max # allows new max to be set later in game progression
-	if _tween:
-		_tween.kill()
-	_tween = create_tween()
-	_tween.tween_property(progress_bar, "value", new, 0.3)
-	
+	progress_bar.max_value = max
+	progress_bar.value = new  # instant, no tween
 	update_colour(new, max)
 	
 func update_colour(val: float, max: float):

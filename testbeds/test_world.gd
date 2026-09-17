@@ -17,6 +17,7 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var player: Player
 @export var mobs_root: Node
+@export var faith_bar: FaithProgressBar
 
 
 func _enter_tree() -> void:
@@ -59,3 +60,7 @@ func configure_dependencies() -> void:
 					grid,
 					pathfinder,
 				)
+	
+	if faith != null:
+		if faith_bar != null:
+			faith_bar.bind(faith)

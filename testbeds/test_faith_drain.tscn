@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="12_reservations"]
 
-[sub_resource type="Resource" id="Resource_yjetv"]
+[sub_resource type="Resource" id="Resource_f37b4"]
 resource_local_to_scene = true
 script = ExtResource("4_dqx0x")
 allowed_work_types = Array[int]([0, 1])
@@ -43,7 +43,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestFaithDrain" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player")]
+[node name="TestFaithDrain" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player", "faith_bar")]
 script = ExtResource("1_yjetv")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -53,6 +53,7 @@ faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
 player = NodePath("Kaguya")
+faith_bar = NodePath("FaithProgressBar")
 
 [node name="Services" type="Node" parent="." unique_id=1830093121]
 
@@ -76,10 +77,9 @@ script = ExtResource("12_reservations")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_yjetv")
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid")]
+capability = SubResource("Resource_f37b4")
 _grid = NodePath("../../GridMap")
-_factory_manager = NodePath("")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -111,7 +111,6 @@ camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
-default_machine = 1
 _faith = NodePath("../Services/FaithManager")
 _jobs = NodePath("../Services/JobBoard")
 _reservations = NodePath("../Services/ReservationManager")

@@ -10,11 +10,10 @@ signal faith_changed(current_faith, max_faith)
 func _process(delta: float) -> void:
 	if registered_active.is_empty():
 		return
-		
+
 	var total_drain: float = 0.0
 	for rate in registered_active.values():
 		total_drain += rate
-		
 	if total_drain != 0.0:
 		apply_delta(-total_drain * delta)
 
@@ -29,6 +28,7 @@ func apply_delta(amount: float) -> void:
 func register_drain(machine: Machine, drain_rate: float) -> void:
 	assert(machine != null, "FaithManager cannot register a null machine")
 	registered_active.set(machine, drain_rate)
+	print(registered_active)
 
 
 func unregister_drain(machine: Machine) -> void:
