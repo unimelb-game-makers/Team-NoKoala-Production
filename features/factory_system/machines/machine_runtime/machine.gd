@@ -2,6 +2,7 @@ class_name Machine
 extends Node
 
 signal factory_ticked(machine: Machine, delta: float)
+signal faith_shutdown
 
 @export var definition: MachineDefinition
 
@@ -14,6 +15,7 @@ signal factory_ticked(machine: Machine, delta: float)
 
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
+var is_shut_down: bool = false
 var faith_manager: FaithManager
 
 
@@ -97,9 +99,13 @@ func _get_cells_for_role(
 
 func register_active(drain_rate: float = 0.0) -> void:
 	if not is_active:
-		faith_manager.register_drain(self, drain_rate)
-		is_active = true
-		_set_debug_indicator(true)
+		if faith_manager.try_drain():
+			faith_manager.register_drain(self, drain_rate)
+			is_active = true
+			_set_debug_indicator(true)
+			print("if try drain")
+		else:
+			pass # faith too low
 
 
 func unregister_active() -> void:
@@ -116,6 +122,8 @@ func _set_debug_indicator(active: bool) -> void:
 
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
+	if is_shut_down:
+		return
 	_factory_tick(_delta, _factory_manager)
 	factory_ticked.emit(self, _delta)
 
@@ -166,3 +174,14 @@ func _get_input_port_id_for_cell(cell: Vector3i) -> StringName:
 func _update_job_requests() -> void:
 	if job_provider != null:
 		job_provider.refresh()
+		
+func force_shutdown() -> void:
+	if is_active:
+		is_active = false
+		_set_debug_indicator(false)
+		faith_shutdown.emit() # TO DO: wire this up to do something
+		is_shut_down = true
+		print("force shutdown")
+
+func reactivate() -> void:
+	is_shut_down = false

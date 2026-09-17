@@ -8,8 +8,10 @@ signal processable_unregistered(processable: Processable)
 
 @export var grid: Grid
 @export var fixed_clock: FixedClock
+@export var faith_manager: FaithManager
 
 var _machines: Array[Machine] = []
+var _shut_down_machines: Array[Machine] = []
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
@@ -19,6 +21,7 @@ func configure(p_grid: Grid, p_fixed_clock: FixedClock) -> void:
 	grid = p_grid
 	fixed_clock = p_fixed_clock
 	_connect_clock()
+	_connect_faith_manager()
 
 func _exit_tree() -> void:
 	if fixed_clock != null and fixed_clock.tick.is_connected(_on_tick):
@@ -28,6 +31,14 @@ func _exit_tree() -> void:
 func _connect_clock() -> void:
 	if not fixed_clock.tick.is_connected(_on_tick):
 		fixed_clock.tick.connect(_on_tick)
+
+func _connect_faith_manager() -> void:
+	if faith_manager == null:
+		return
+	if not faith_manager.faith_depleted.is_connected(_on_faith_depleted):
+		faith_manager.faith_depleted.connect(_on_faith_depleted)
+	if not faith_manager.faith_restored.is_connected(_on_faith_restored):
+		faith_manager.faith_restored.connect(_on_faith_restored)
 
 # --- stack merging --- #
 
@@ -51,6 +62,21 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 	item.global_position = world_position
 	item.dropped.emit(item, world_position) 
 	return true
+
+# -- faith interactions -- #
+
+func _on_faith_depleted() -> void:
+	for machine in get_machines():
+		if _can_tick(machine) and machine.is_active:
+			_shut_down_machines.append(machine)
+			machine.force_shutdown()
+
+func _on_faith_restored() -> void:
+	var to_resume := _shut_down_machines.duplicate()
+	_shut_down_machines.clear()
+	for machine in to_resume:
+		if _can_tick(machine):
+			machine.reactivate()
 
 
 # --- machine apis ---
@@ -77,6 +103,7 @@ func unregister_machine(
 		return false
 
 	_machines.remove_at(index)
+	_shut_down_machines.erase(machine)
 	if disconnect_exit_signal and is_instance_valid(machine):
 		var exit_callback := _on_machine_tree_exiting.bind(machine)
 		if machine.tree_exiting.is_connected(exit_callback):

@@ -60,8 +60,9 @@ faith_bar = NodePath("FaithProgressBar")
 [node name="FixedClock" type="Node" parent="Services" unique_id=216432930]
 script = ExtResource("6_gu6qo")
 
-[node name="FactoryManager" type="Node" parent="Services" unique_id=459657754]
+[node name="FactoryManager" type="Node" parent="Services" unique_id=459657754 node_paths=PackedStringArray("faith_manager")]
 script = ExtResource("4_bp5ps")
+faith_manager = NodePath("../FaithManager")
 
 [node name="FaithManager" type="Node" parent="Services" unique_id=1868337673]
 script = ExtResource("10_faith")
