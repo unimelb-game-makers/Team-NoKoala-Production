@@ -55,7 +55,6 @@ func _check_empty() -> bool:
 	if current_faith <= 0.0 and not is_empty:
 		is_empty = true
 		faith_depleted.emit()
-		print("empty")
 		return true
 		# when this happens, factory manager needs to:
 		# - shut down all active machines
@@ -65,7 +64,6 @@ func _check_empty() -> bool:
 	elif is_empty and current_faith >= recovery_threshold:
 		is_empty = false
 		faith_restored.emit()
-		print("restored")
 		return false
 		# when this happens factory manager needs to:
 		# - reactivate the deactivated machines

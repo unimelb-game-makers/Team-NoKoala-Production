@@ -78,9 +78,10 @@ script = ExtResource("12_reservations")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid")]
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "faith_manager")]
 capability = SubResource("Resource_f37b4")
 _grid = NodePath("../../GridMap")
+faith_manager = NodePath("../../Services/FaithManager")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)

@@ -12,7 +12,6 @@ var _faith_manager: FaithManager
 func bind(faith_manager: FaithManager) -> void:
 	if _faith_manager == faith_manager: return
 	if _faith_manager != null: unbind()
-	print("binding")
 	_faith_manager = faith_manager
 	_faith_manager.faith_changed.connect(on_faith_changed)
 	on_faith_changed(_faith_manager.current_faith, _faith_manager.max_faith)

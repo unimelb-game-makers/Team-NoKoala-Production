@@ -176,12 +176,9 @@ func _update_job_requests() -> void:
 		job_provider.refresh()
 		
 func force_shutdown() -> void:
-	if is_active:
-		is_active = false
-		_set_debug_indicator(false)
-		faith_shutdown.emit() # TO DO: wire this up to do something
-		is_shut_down = true
-		print("force shutdown")
+	is_shut_down = true
+	unregister_active()
+	faith_shutdown.emit() # TO DO: wire this up to something
 
 func reactivate() -> void:
 	is_shut_down = false
