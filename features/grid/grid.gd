@@ -26,11 +26,9 @@ func move_block(
 ) -> bool:
 	remove_block(block)
 	block.block_data.root_cell = cell
-	var can_place = grid_data.add_block(block.block_data)
+	var can_place := register_block(block)
 	if can_place:
-		_index_block(block)
 		move_block_visual(block, cell)
-		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
 ## Returns true if the block can be placed at the given cell (using its current
@@ -42,30 +40,46 @@ func can_place_block_at(block: Block, cell: Vector3i) -> bool:
 	var result := grid_data.can_place_block(block.block_data)
 	block.block_data.root_cell = previous_cell
 	return result
-
-## Adds a block to the grid if placement is valid.
+## Adds a block to the grid and reparents its visual under the grid.
 func add_block(block: Block) -> bool:
-	var can_place = grid_data.add_block(block.block_data)
+	var can_place := register_block(block)
+	if can_place:
+		add_block_visual(block)
+	return can_place
+
+
+## Registers a block without changing its scene-tree parent or transform.
+func register_block(block: Block) -> bool:
+	var can_place := grid_data.add_block(block.block_data)
 	if can_place:
 		_index_block(block)
-		add_block_visual(block)
 		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
-## Removes a block from the grid data and the coordinate index.
-func remove_block(block: Block) -> void:
-	var occupied_cells := block.block_data.occupied_cells()
-	if not block.block_data.is_placed:
-		return
-	grid_data.remove_block(block.block_data)
-	for cell in occupied_cells:
+## Unregisters a block without changing its scene-tree parent or transform.
+func unregister_block(
+	block: Block,
+	registered_data: BlockData = null,
+) -> void:
+	var block_data := registered_data if registered_data != null else block.block_data
+	var affected_cells := grid_data.remove_block(block_data)
+	for cell in _blocks_by_cell.keys():
 		var blocks: Array = _blocks_by_cell.get(cell, [])
+		if not blocks.has(block):
+			continue
 		blocks.erase(block)
+		if not affected_cells.has(cell):
+			affected_cells.append(cell)
 		if blocks.is_empty():
 			_blocks_by_cell.erase(cell)
 		else:
 			_blocks_by_cell[cell] = blocks
-	grid_changed.emit(occupied_cells)
+	if not affected_cells.is_empty():
+		grid_changed.emit(affected_cells)
+
+## Removes a block from the grid data and the coordinate index.
+func remove_block(block: Block) -> void:
+	unregister_block(block)
 
 func get_blocks_at(cell: Vector3i) -> Array[Block]:
 	if not _blocks_by_cell.has(cell):
@@ -123,7 +137,7 @@ func grid_to_world_rotation(grid_rotation: BlockData.Rotation) -> float:
 func move_block_visual(block: Block, cell: Vector3i):
 	var local_pos = map_to_local(cell)
 	block.get_transform_root().position = local_pos
-
+	
 ## Adds a block as a child node for visual rendering.
 ## This function doesn't update grid data
 func add_block_visual(block: Block):
