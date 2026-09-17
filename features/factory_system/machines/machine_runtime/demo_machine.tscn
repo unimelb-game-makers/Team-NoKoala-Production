@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
 [ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
@@ -47,6 +48,11 @@ material = SubResource("StandardMaterial3D_work")
 [node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
 
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
+script = ExtResource("11_block_gizmo")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
@@ -75,5 +81,3 @@ machine = NodePath("../Machine")
 script = ExtResource("10_evuxr")
 block = NodePath("../Block")
 machine = NodePath("../Machine")
-auto_snap_position = true
-auto_snap_rotation = true

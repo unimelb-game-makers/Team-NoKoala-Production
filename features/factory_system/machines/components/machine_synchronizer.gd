@@ -29,6 +29,9 @@ var _last_rotation := 0.0
 
 
 func _process(_delta: float) -> void:
+	if not Engine.is_editor_hint():
+		return 
+
 	var definition := machine.definition if machine != null else null
 	if definition != _watched_definition:
 		_watch_definition(definition)

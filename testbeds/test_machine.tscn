@@ -14,8 +14,9 @@
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="12_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="13_reservations"]
 [ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_runtime/demo_machine.tscn" id="14_7mxvq"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="15_mkb8f"]
 
-[sub_resource type="Resource" id="Resource_mkb8f"]
+[sub_resource type="Resource" id="Resource_7mxvq"]
 resource_local_to_scene = true
 script = ExtResource("4_nguo2")
 allowed_work_types = Array[int]([0, 1])
@@ -42,6 +43,13 @@ uv1_world_triplanar = true
 [sub_resource type="PlaneMesh" id="GroundMesh_machine"]
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
+
+[sub_resource type="Resource" id="Resource_u1dg4"]
+script = ExtResource("15_mkb8f")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1), Vector3i(4, 0, 0)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+block_rotation = 180
+root_cell = Vector3i(4, 0, 3)
 
 [node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player")]
 script = ExtResource("1_4cjtm")
@@ -80,7 +88,7 @@ script = ExtResource("13_reservations")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
 [node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_mkb8f")
+capability = SubResource("Resource_7mxvq")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
 
@@ -101,6 +109,7 @@ collision_layer = 9
 shape = SubResource("GroundShape_machine")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01540041, -0.0809226, 0.0312047)
 mesh = SubResource("GroundMesh_machine")
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
@@ -126,7 +135,15 @@ script = ExtResource("9_na4ej")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="DemoMachine" parent="." unique_id=1962970161 instance=ExtResource("14_7mxvq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0.5)
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 4.5, 0, 3.5)
+
+[node name="Block" parent="DemoMachine" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_u1dg4")
+
+[node name="BlockCellGizmo" parent="DemoMachine/Block" index="4" unique_id=1551666163]
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
 
 [node name="MachineEditorSynchoniser" parent="DemoMachine" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../GridMap")
