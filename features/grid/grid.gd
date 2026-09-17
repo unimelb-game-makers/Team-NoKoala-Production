@@ -102,6 +102,22 @@ func world_to_cell(world_position: Vector3) -> Vector3i:
 func cell_to_world(cell: Vector3i) -> Vector3:
 	return to_global(map_to_local(cell))
 
+func world_to_grid_rotation(world_rotation_degrees: float) -> BlockData.Rotation:
+	var relative_rotation := wrapf(
+		world_rotation_degrees - global_rotation_degrees.y,
+		0.0,
+		360.0,
+	)
+	var snapped_rotation := wrapi(
+		roundi(relative_rotation / 90.0) * 90,
+		0,
+		360,
+	)
+	return snapped_rotation as BlockData.Rotation
+
+func grid_to_world_rotation(grid_rotation: BlockData.Rotation) -> float:
+	return global_rotation_degrees.y + float(grid_rotation)
+
 ## Updates the visual position of a block to match grid coordinates.
 ## This function doesn't update grid data
 func move_block_visual(block: Block, cell: Vector3i):

@@ -13,8 +13,9 @@
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="11_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="12_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="13_reservations"]
+[ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_runtime/demo_machine.tscn" id="14_7mxvq"]
 
-[sub_resource type="Resource" id="Resource_4cjtm"]
+[sub_resource type="Resource" id="Resource_mkb8f"]
 resource_local_to_scene = true
 script = ExtResource("4_nguo2")
 allowed_work_types = Array[int]([0, 1])
@@ -79,7 +80,7 @@ script = ExtResource("13_reservations")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
 [node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_4cjtm")
+capability = SubResource("Resource_mkb8f")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
 
@@ -124,4 +125,11 @@ factory_manager = NodePath("../Services/FactoryManager")
 script = ExtResource("9_na4ej")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
+[node name="DemoMachine" parent="." unique_id=1962970161 instance=ExtResource("14_7mxvq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0.5)
+
+[node name="MachineEditorSynchoniser" parent="DemoMachine" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../GridMap")
+
 [editable path="Kaguya"]
+[editable path="DemoMachine"]

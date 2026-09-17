@@ -1,5 +1,9 @@
+@tool
 class_name GameWorld
 extends Node3D
+
+@export_tool_button("Configure Editor Dependencies", "Callable")
+var configure_editor_button := configure_editor_dependencies
 
 @export var grid: Grid
 @export var clock: FixedClock
@@ -15,6 +19,7 @@ extends Node3D
 
 var context: WorldContext
 var _composed := false
+
 
 
 func _enter_tree() -> void:
@@ -58,6 +63,12 @@ func configure_dependencies() -> void:
 	for child in mobs_root.get_children():
 		if child is Npc:
 			child.configure(clock, jobs, reservations, grid, pathfinder)
+
+
+func configure_editor_dependencies() -> void:
+			
+	print("editor time dependency configured!")
+
 
 func shutdown() -> void:
 	pass
