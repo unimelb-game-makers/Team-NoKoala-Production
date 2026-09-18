@@ -6,6 +6,7 @@ extends Node
 var _player: Node3D
 @export var _grid: Grid
 @export var _factory_manager: FactoryManager
+@export var faith_manager: FaithManager
 var _working_machine: BasicMachine
 var _working_cell: Vector3i
 
@@ -13,6 +14,16 @@ var _working_cell: Vector3i
 func configure(grid: Grid, factory_manager: FactoryManager) -> void:
 	_grid = grid
 	_factory_manager = factory_manager
+	_connect_faith_manager()
+
+func _connect_faith_manager() -> void:
+	if faith_manager == null:
+		return
+	if not faith_manager.faith_depleted.is_connected(_on_faith_depleted):
+		faith_manager.faith_depleted.connect(_on_faith_depleted)
+
+func _on_faith_depleted() -> void:
+	_stop_working()
 
 
 func _ready() -> void:
