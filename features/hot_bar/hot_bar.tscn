@@ -6,28 +6,41 @@
 [ext_resource type="Shortcut" uid="uid://vbaiioc46225" path="res://features/hot_bar/hotbar_3.tres" id="4_turce"]
 
 [node name="HotBar" type="Control" unique_id=263281179]
+custom_maximum_size = Vector2(80, 80)
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -60.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
-offset_transform_enabled = true
+size_flags_vertical = 4
 offset_transform_position = Vector2(-100, -50)
+mouse_filter = 2
 
 [node name="HotBar" type="HBoxContainer" parent="." unique_id=536027224]
-custom_minimum_size = Vector2(60, 60)
-custom_maximum_size = Vector2(60, 60)
-layout_mode = 0
-offset_right = 60.0
-offset_bottom = 60.0
+custom_minimum_size = Vector2(300, 80)
+custom_maximum_size = Vector2(255, 80)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.5
+offset_top = -40.0
+offset_right = 127.5
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="Buttons" type="Control" parent="HotBar" unique_id=1134982240]
+custom_maximum_size = Vector2(80, 800)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="HotbarButton" parent="HotBar/Buttons" unique_id=1951377414 instance=ExtResource("1_lciga")]
 layout_mode = 0
@@ -36,14 +49,24 @@ offset_right = 64.0
 offset_bottom = 60.0
 shortcut = ExtResource("2_gr3qe")
 
-[node name="HotbarButton2" parent="HotBar/Buttons" unique_id=1941167981 instance=ExtResource("1_lciga")]
+[node name="Buttons2" type="Control" parent="HotBar" unique_id=2139000389]
+custom_maximum_size = Vector2(80, 800)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HotbarButton2" parent="HotBar/Buttons2" unique_id=697458391 instance=ExtResource("1_lciga")]
 layout_mode = 0
 offset_left = 68.0
 offset_right = 128.0
 offset_bottom = 60.0
 shortcut = ExtResource("3_iotcb")
 
-[node name="HotbarButton3" parent="HotBar/Buttons" unique_id=2108086209 instance=ExtResource("1_lciga")]
+[node name="Buttons3" type="Control" parent="HotBar" unique_id=1650451791]
+custom_maximum_size = Vector2(80, 800)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HotbarButton3" parent="HotBar/Buttons3" unique_id=384616634 instance=ExtResource("1_lciga")]
 layout_mode = 0
 offset_left = 132.0
 offset_right = 192.0

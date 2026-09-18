@@ -126,15 +126,7 @@ script = ExtResource("13_8r4s3")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="HotBar" parent="." unique_id=263281179 instance=ExtResource("14_ad3lv")]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -60.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 4
+offset_top = -73.0
+offset_bottom = -73.0
 
 [editable path="Kaguya"]
