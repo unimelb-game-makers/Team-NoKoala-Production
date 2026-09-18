@@ -52,9 +52,13 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 	item.dropped.emit(item, world_position) 
 	return true
 func _ready() -> void:	
-	for machine in grid.get_children():
-		if not machine.is_in_group("resource_area"): continue
-		register_machine(machine.get_node("Machine"))
+	for node in get_tree().get_nodes_in_group("resource_area"):
+		var assembly := node as ResourceAreaMachineAssembly
+		if assembly == null:
+			continue
+		if assembly.grid != null and assembly.grid != grid:
+			continue
+		register_machine(assembly.machine)
 
 
 # --- machine apis ---

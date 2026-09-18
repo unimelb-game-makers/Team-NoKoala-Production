@@ -9,14 +9,16 @@ signal grid_changed(affected_cells: Array)
 
 func _ready() -> void:
 	add_to_group("grid")
-	
-	# Loads resource areas into grid when scene is reloaded
-	if Engine.is_editor_hint():
-		for machine in get_children():
-			if not machine.is_in_group("resource_area"): continue
-			
-			machine.block.block_data = machine.block_data
-			move_block(machine.block, machine.block.block_data.root_cell)
+
+	for node in get_tree().get_nodes_in_group("resource_area"):
+		var assembly := node as ResourceAreaMachineAssembly
+		if assembly == null:
+			continue
+		if assembly.grid != null and assembly.grid != self:
+			continue
+		assembly.grid = self
+		assembly.block.block_data = assembly.block_data
+		move_block(assembly.block, assembly.block.block_data.root_cell)
 
 
 ## Moves a block to a new cell position if placement is valid.
@@ -40,14 +42,6 @@ func can_place_block_at(block: Block, cell: Vector3i) -> bool:
 	var result := grid_data.can_place_block(block.block_data)
 	block.block_data.root_cell = previous_cell
 	return result
-## Adds a block to the grid and reparents its visual under the grid.
-func add_block(block: Block) -> bool:
-	var can_place := register_block(block)
-	if can_place:
-		add_block_visual(block)
-	return can_place
-
-
 ## Registers a block without changing its scene-tree parent or transform.
 func register_block(block: Block) -> bool:
 	var can_place := grid_data.add_block(block.block_data)
@@ -135,10 +129,4 @@ func grid_to_world_rotation(grid_rotation: BlockData.Rotation) -> float:
 ## Updates the visual position of a block to match grid coordinates.
 ## This function doesn't update grid data
 func move_block_visual(block: Block, cell: Vector3i):
-	var local_pos = map_to_local(cell)
-	block.get_transform_root().position = local_pos
-	
-## Adds a block as a child node for visual rendering.
-## This function doesn't update grid data
-func add_block_visual(block: Block):
-	add_child(block.get_transform_root())
+	block.get_transform_root().global_position = cell_to_world(cell)

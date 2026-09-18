@@ -8,7 +8,7 @@ class_name ResourceAreaManager
 @export_tool_button("Create Machines", "Callable")
 var create_machines_button = _create_machines_from_grid
 
-var _floating_assembly: MachineAssembly
+var _floating_assembly: ResourceAreaMachineAssembly
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
 
 const RESOURCE_AREA_SCENE = preload("res://features/resource_area/resource_area_machine.tscn")
@@ -34,10 +34,11 @@ func _create_machines_from_grid() -> void:
 		
 		var ra_definition = machine_mesh_to_resource_definition.get(grid.mesh_library.get_item_name(grid.get_cell_item(cell)))
 		_floating_assembly = create_machine()
+		_floating_assembly.grid = grid
 		_floating_assembly.block_data = _floating_assembly.block.block_data
 		
 		_floating_assembly.block.disable_collisions()
-		grid.add_block_visual(_floating_assembly.block)
+		get_parent().add_child(_floating_assembly)
 		_floating_assembly.block.set_rotation_data(_last_rotation)
 		_floating_assembly.owner = get_tree().edited_scene_root
 		_floating_assembly.resource_area_definition = ra_definition
@@ -60,9 +61,9 @@ func cancel_placement() -> void:
 		_floating_assembly = null
 
 
-func create_machine() -> MachineAssembly:
+func create_machine() -> ResourceAreaMachineAssembly:
 	var scene: PackedScene = RESOURCE_AREA_SCENE
-	var assembly := scene.instantiate() as MachineAssembly
+	var assembly := scene.instantiate() as ResourceAreaMachineAssembly
 	assert(assembly != null, "Machine assembly scene must have a MachineAssembly root")
 	assert(assembly.block != null, "MachineAssembly requires a Block component")
 	assert(assembly.machine != null, "MachineAssembly requires a Machine component")

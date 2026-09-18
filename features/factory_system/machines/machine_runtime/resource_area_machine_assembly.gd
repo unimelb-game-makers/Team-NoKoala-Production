@@ -4,6 +4,7 @@ extends MachineAssembly
 
 @export var resource_area_definition: ResourceAreaDefinition
 @export var block_data: BlockData
+@export var grid: Grid
 
 @export_tool_button("Delete Resource Area", "Callable")
 var delete_resource_area_button = delete_self
@@ -19,6 +20,5 @@ func _ready() -> void:
 
 func delete_self() -> void:
 	queue_free()
-	if block.block_data != null:
-		var grid: Grid = get_parent()
+	if block.block_data != null and grid != null:
 		grid.remove_block(block)
