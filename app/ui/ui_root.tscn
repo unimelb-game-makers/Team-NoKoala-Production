@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://app/ui/ui_root.gd" id="1_ui_root"]
+[ext_resource type="PackedScene" path="res://features/faith_management/faith_progress_bar.tscn" id="2_faith"]
+
+[node name="UIRoot" type="Node" node_paths=PackedStringArray("faith_progress_bar")]
+script = ExtResource("1_ui_root")
+faith_progress_bar = NodePath("HUD/FaithProgressBar")
+
+[node name="HUD" type="Node" parent="."]
+
+[node name="FaithProgressBar" parent="HUD" instance=ExtResource("2_faith")]

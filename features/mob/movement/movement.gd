@@ -39,9 +39,13 @@ enum Status {
 }
 
 
+func configure(pathfinder: Pathfinder) -> void:
+	_pathfinder = pathfinder
+
+
 func _ready() -> void:
 	character_body = get_parent()
-	_pathfinder = get_tree().get_first_node_in_group("pathfinder")
+	assert(character_body != null, "Movement requires a CharacterBody3D parent")
 
 
 func _physics_process(delta: float) -> void:
@@ -132,16 +136,11 @@ func get_remaining_path() -> PackedVector3Array:
 
 
 func _recompute_path(p_destination: Vector3) -> bool:
-	if _pathfinder == null:
-		_pathfinder = get_tree().get_first_node_in_group("pathfinder")
-
-	var new_path: PackedVector3Array
-	if _pathfinder != null:
-		new_path = _pathfinder.find_path(
-			character_body.global_position, p_destination, character_body
-		)
-	else:
-		new_path = PackedVector3Array([p_destination])  # Fallback: straight line.
+	var new_path := _pathfinder.find_path(
+		character_body.global_position,
+		p_destination,
+		character_body,
+	)
 
 	if new_path.is_empty():
 		return false

@@ -6,8 +6,11 @@ var destination: Vector3
 var move_started: bool = false
 
 
+func configure(p_movement: Movement) -> void:
+	movement = p_movement
+
+
 func start() -> Status:
-	movement = NodeUtils.get_child_by_type(consumer.actor, Movement)
 	var theta: float = randf() * 2 * PI
 	var random_radius: float = sqrt(randf()) * (job as WanderJob).radius
 	var offset = Vector3(cos(theta) * random_radius, 0, sin(theta) * random_radius)

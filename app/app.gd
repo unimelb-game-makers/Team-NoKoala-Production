@@ -1,16 +1,60 @@
-extends Node3D
+class_name App
+extends Node
 
-# const PLAYER = preload("res://features/player/kaguya.tscn")
-# @onready var test_grid = $TestGrid
-# @export var spawn_player: bool = true
+#signals useful in the future
+signal world_loaded(world: GameWorld)
+signal world_unloaded(world: GameWorld)
 
-# func _ready() -> void:
-# 	if spawn_player:
-# 		var player = PLAYER.instantiate()
-# 		player.connect("ready", player_loaded.bind(player))
-# 		test_grid.add_child(player)
-# 		player.position.y = 0.5
+## world scene are created from the packedscene in runtime: this is to ensure the consistentn dependency injection
+@export var initial_world_scene: PackedScene
+@export var ui_root: UIRoot
 
-# func player_loaded(player: Player) -> void:
-# 	test_grid.get_node("GridInteractionController").camera = player.camera
-# 	player.camera.current = true
+var current_world: GameWorld
+
+
+func _ready() -> void:
+	assert(ui_root != null, "App requires a UIRoot")
+	assert(initial_world_scene != null, "App requires a world scene")
+	load_world(initial_world_scene)
+
+
+
+
+func load_world(world_scene: PackedScene):
+	if current_world: 
+		unload_world()
+
+	#load world
+	var instance := world_scene.instantiate()
+	var world := instance as GameWorld
+	if world == null:
+		return
+	current_world = world
+
+
+	#configure and bind the world
+	#configure: fixed, one-time world dependency
+	#bind: replaceable dependency that pair with an unbind 
+	world.configure_world()
+	ui_root.bind_world(world.context)
+
+	#_ready only triggers after a node enters the tree.
+	add_child(world)
+	world_loaded.emit(world)
+
+	return
+
+
+## Unbinds persistent UI before removing the active world.
+func unload_world() -> void:
+	if current_world == null:
+		return
+
+	#unbind world
+	ui_root.unbind_world()
+	
+	#unload world
+	current_world.shutdown()
+	remove_child(current_world)
+	current_world.queue_free()
+	world_unloaded.emit(current_world)

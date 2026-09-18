@@ -1,14 +1,24 @@
 [gd_scene format=3 uid="uid://dilqufvrg6d2o"]
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_vj0br"]
+[ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_yjetv"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_gu6qo"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="3_1vr5x"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_gu6qo"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_bp5ps"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_dqx0x"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="5_dqx0x"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_gu6qo"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="8_1vr5x"]
 [ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="8_gu6qo"]
+[ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="10_faith"]
+[ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
+[ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="12_reservations"]
+
+[sub_resource type="Resource" id="Resource_yjetv"]
+resource_local_to_scene = true
+script = ExtResource("4_dqx0x")
+allowed_work_types = Array[int]([0, 1])
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -33,7 +43,43 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161]
+[node name="TestFaithDrain" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player")]
+script = ExtResource("1_yjetv")
+grid = NodePath("GridMap")
+clock = NodePath("Services/FixedClock")
+factory = NodePath("Services/FactoryManager")
+placement = NodePath("MachineMousePlacementController")
+faith = NodePath("Services/FaithManager")
+jobs = NodePath("Services/JobBoard")
+reservations = NodePath("Services/ReservationManager")
+player = NodePath("Kaguya")
+
+[node name="Services" type="Node" parent="." unique_id=1830093121]
+
+[node name="FixedClock" type="Node" parent="Services" unique_id=216432930]
+script = ExtResource("6_gu6qo")
+
+[node name="FactoryManager" type="Node" parent="Services" unique_id=459657754]
+script = ExtResource("4_bp5ps")
+
+[node name="FaithManager" type="Node" parent="Services" unique_id=1868337673]
+script = ExtResource("10_faith")
+
+[node name="JobBoard" type="Node" parent="Services" unique_id=661995517]
+script = ExtResource("11_jobs")
+
+[node name="ReservationManager" type="Node" parent="Services" unique_id=1047336275]
+script = ExtResource("12_reservations")
+
+[node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_gu6qo")]
+
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
+
+[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
+capability = SubResource("Resource_yjetv")
+_grid = NodePath("../../GridMap")
+_factory_manager = NodePath("")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -53,33 +99,22 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="GridMap" parent="." unique_id=1300501605 groups=["grid"] instance=ExtResource("2_gu6qo")]
-
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
-
 [node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
 script = ExtResource("3_1vr5x")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
-factory_manager = NodePath("../FactoryManager")
+factory_manager = NodePath("../Services/FactoryManager")
 
-[node name="FactoryManager" type="Node" parent="." unique_id=356444170 node_paths=PackedStringArray("grid", "fixed_clock")]
-script = ExtResource("4_bp5ps")
-grid = NodePath("../GridMap")
-fixed_clock = NodePath("../FixedClock")
-
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("5_dqx0x")
 camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
-factory_manager = NodePath("../FactoryManager")
+factory_manager = NodePath("../Services/FactoryManager")
 default_machine = 1
-
-[node name="FixedClock" type="Node" parent="." unique_id=220659657]
-script = ExtResource("6_gu6qo")
-metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
+_faith = NodePath("../Services/FaithManager")
+_jobs = NodePath("../Services/JobBoard")
+_reservations = NodePath("../Services/ReservationManager")
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=1267406637]
 script = ExtResource("8_1vr5x")
@@ -88,8 +123,5 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 
 [node name="FaithProgressBar" parent="." unique_id=575448352 instance=ExtResource("8_gu6qo")]
-low_faith_threshold = 20.0
-default_faith_colour = Color(0.37254903, 0.37254903, 0.6039216, 1)
-low_faith_colour = Color(0.54509807, 0, 0, 1)
 
 [editable path="Kaguya"]

@@ -15,9 +15,19 @@ var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
 
 
-func _ready() -> void:
-	add_to_group("factory_manager")
-	fixed_clock.tick.connect(_on_tick)
+func configure(p_grid: Grid, p_fixed_clock: FixedClock) -> void:
+	grid = p_grid
+	fixed_clock = p_fixed_clock
+	_connect_clock()
+
+func _exit_tree() -> void:
+	if fixed_clock != null and fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.disconnect(_on_tick)
+
+
+func _connect_clock() -> void:
+	if not fixed_clock.tick.is_connected(_on_tick):
+		fixed_clock.tick.connect(_on_tick)
 
 # --- stack merging --- #
 
@@ -110,6 +120,12 @@ func get_machine_at(cell: Vector3i) -> Machine:
 func cell_to_world(cell: Vector3i) -> Vector3:
 	assert(grid != null, "FactoryManager requires a Grid")
 	return grid.cell_to_world(cell)
+
+func accepts_item_at_cell(cell: Vector3i, item: FactoryItemDefinition) -> bool:
+	for machine in get_machines_at(cell):
+		if machine.accepts_item_at_cell(item, cell):
+			return true
+	return false
 
 # --- processable apis ---
 

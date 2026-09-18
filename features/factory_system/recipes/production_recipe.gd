@@ -6,3 +6,4 @@ extends Resource
 @export var duration_seconds := 1.0
 @export var inputs: Array[RecipeItemAmount] = []
 @export var outputs: Array[RecipeItemAmount] = []
+@export var work_requirements: Array[RecipeWorkRequirement] = []

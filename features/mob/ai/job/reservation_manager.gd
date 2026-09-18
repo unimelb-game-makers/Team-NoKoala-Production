@@ -1,14 +1,15 @@
 class_name ReservationManager
+extends Node
 
 # A "target" is anything a job needs sole access to while it runs.
 # An "owner" is the `JobConsumer` holding the claim.
-static var _owner_of: Dictionary = {}
-static var _targets_of: Dictionary = {}
+var _owner_of: Dictionary = {}
+var _targets_of: Dictionary = {}
 
 
 ## Reserves target for owner. Succeeds if the target is free or
 ## already held by the same owner; fails if another owner holds it.
-static func try_reserve(owner: Object, target: Variant) -> bool:
+func try_reserve(owner: Object, target: Variant) -> bool:
 	if owner == null or target == null:
 		return false
 
@@ -28,7 +29,7 @@ static func try_reserve(owner: Object, target: Variant) -> bool:
 
 ## Reserves every target for owner, all-or-nothing. On the first
 ## failure any partial reservations from this call are rolled back.
-static func try_reserve_all(owner: Object, targets: Array) -> bool:
+func try_reserve_all(owner: Object, targets: Array) -> bool:
 	var acquired: Array = []
 	for target in targets:
 		if try_reserve(owner, target):
@@ -41,7 +42,7 @@ static func try_reserve_all(owner: Object, targets: Array) -> bool:
 
 
 ## Releases a single target if it is held by owner.
-static func release(owner: Object, target: Variant) -> void:
+func release(owner: Object, target: Variant) -> void:
 	if _owner_of.get(target) == owner:
 		_owner_of.erase(target)
 
@@ -55,7 +56,7 @@ static func release(owner: Object, target: Variant) -> void:
 
 ## Releases every target held by owner. Call this when a job ends or
 ## the owner is removed.
-static func release_all(owner: Object) -> void:
+func release_all(owner: Object) -> void:
 	for target in _targets_of.get(owner, []).duplicate():
 		if _owner_of.get(target) == owner:
 			_owner_of.erase(target)
@@ -64,7 +65,7 @@ static func release_all(owner: Object) -> void:
 
 ## Whether target is held by anyone other than `ignoring`.
 ## A claim whose owner has been freed is dropped and reported as free.
-static func is_reserved(target: Variant, ignoring: Object = null) -> bool:
+func is_reserved(target: Variant, ignoring: Object = null) -> bool:
 	var holder: Variant = _owner_of.get(target)
 	if holder == null:
 		return false
@@ -75,12 +76,12 @@ static func is_reserved(target: Variant, ignoring: Object = null) -> bool:
 
 
 ## Wipes the whole store. Intended for tests and scene reloads.
-static func clear() -> void:
+func clear() -> void:
 	_owner_of.clear()
 	_targets_of.clear()
 
 
-static func _release_target(target: Variant) -> void:
+func _release_target(target: Variant) -> void:
 	var holder: Variant = _owner_of.get(target)
 	if holder == null:
 		return
@@ -91,7 +92,7 @@ static func _release_target(target: Variant) -> void:
 			_targets_of.erase(holder)
 
 
-static func _prune() -> void:
+func _prune() -> void:
 	for owner in _targets_of.keys():
 		if not is_instance_valid(owner):
 			for target in _targets_of[owner]:

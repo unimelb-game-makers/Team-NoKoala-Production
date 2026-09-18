@@ -1,38 +1,30 @@
 class_name JobBoard
+extends Node
 
-static var _providers_by_type: Dictionary = {}
+var _providers: Array[JobProvider] = []
 
 
-static func register(provider: JobProvider) -> void:
+func register(provider: JobProvider) -> void:
 	if provider == null:
 		return
 
-	var job_type := provider.job_type()
-	var providers: Array = _providers_by_type.get(job_type, [])
-	if not providers.has(provider):
-		providers.append(provider)
-	_providers_by_type[job_type] = providers
+	if not _providers.has(provider):
+		_providers.append(provider)
 
 
-static func unregister(provider: JobProvider) -> void:
+func unregister(provider: JobProvider) -> void:
 	if provider == null:
 		return
 
-	var job_type := provider.job_type()
-	var providers: Array = _providers_by_type.get(job_type, [])
-	providers.erase(provider)
-	if providers.is_empty():
-		_providers_by_type.erase(job_type)
-	else:
-		_providers_by_type[job_type] = providers
+	_providers.erase(provider)
 
 
-static func get_providers(job_type: StringName) -> Array[JobProvider]:
-	var result: Array[JobProvider] = []
-	for provider: JobProvider in _providers_by_type.get(job_type, []):
-		result.append(provider)
-	return result
+func get_providers() -> Array[JobProvider]:
+	return _providers.duplicate()
 
 
-static func clear() -> void:
-	_providers_by_type.clear()
+func clear() -> void:
+	for provider in _providers.duplicate():
+		if is_instance_valid(provider):
+			provider.deactivate()
+	_providers.clear()

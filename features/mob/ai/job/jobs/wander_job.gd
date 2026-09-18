@@ -15,4 +15,6 @@ func _init(p_radius: float) -> void:
 
 
 func create_driver(consumer: JobConsumer) -> JobDriver:
-	return WanderJobDriver.new(consumer, self)
+	var driver := WanderJobDriver.new(consumer, self)
+	driver.configure(consumer.movement)
+	return driver

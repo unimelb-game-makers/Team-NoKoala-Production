@@ -14,4 +14,6 @@ func _init(p_item: FactoryItem, p_storage: Vector3i) -> void:
 
 
 func create_driver(consumer: JobConsumer) -> JobDriver:
-	return HaulJobDriver.new(consumer, self)
+	var driver := HaulJobDriver.new(consumer, self)
+	driver.configure(consumer.inventory_owner, consumer.movement, consumer.grid)
+	return driver
