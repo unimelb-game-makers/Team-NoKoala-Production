@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://c8w8bx1bkq5q0"]
+
+[ext_resource type="PackedScene" uid="uid://b24w5jelebb47" path="res://features/hot_bar/hotbar_button.tscn" id="1_lciga"]
+[ext_resource type="Shortcut" uid="uid://d0a5vtjagqqse" path="res://features/hot_bar/hotbar_1.tres" id="2_gr3qe"]
+[ext_resource type="Shortcut" uid="uid://id28tb6qia8k" path="res://features/hot_bar/hotbar_2.tres" id="3_iotcb"]
+[ext_resource type="Shortcut" uid="uid://vbaiioc46225" path="res://features/hot_bar/hotbar_3.tres" id="4_turce"]
+
+[node name="HotBar" type="Control" unique_id=263281179]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(-100, -50)
+
+[node name="HotBar" type="HBoxContainer" parent="." unique_id=536027224]
+custom_minimum_size = Vector2(60, 60)
+custom_maximum_size = Vector2(60, 60)
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+
+[node name="Buttons" type="Control" parent="HotBar" unique_id=1134982240]
+layout_mode = 2
+
+[node name="HotbarButton" parent="HotBar/Buttons" unique_id=1951377414 instance=ExtResource("1_lciga")]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 64.0
+offset_bottom = 60.0
+shortcut = ExtResource("2_gr3qe")
+
+[node name="HotbarButton2" parent="HotBar/Buttons" unique_id=1941167981 instance=ExtResource("1_lciga")]
+layout_mode = 0
+offset_left = 68.0
+offset_right = 128.0
+offset_bottom = 60.0
+shortcut = ExtResource("3_iotcb")
+
+[node name="HotbarButton3" parent="HotBar/Buttons" unique_id=2108086209 instance=ExtResource("1_lciga")]
+layout_mode = 0
+offset_left = 132.0
+offset_right = 192.0
+offset_bottom = 60.0
+shortcut = ExtResource("4_turce")

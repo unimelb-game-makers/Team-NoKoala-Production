@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b24w5jelebb47"]
+
+[ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hot_bar/hotbar.png" id="1_h8vcf"]
+[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hot_bar/hotbar_button.gd" id="1_kr80x"]
+
+[node name="HotbarButton" type="Button" unique_id=1951377414]
+custom_minimum_size = Vector2(60, 60)
+custom_maximum_size = Vector2(60, 60)
+offset_right = 18.0
+offset_bottom = 31.0
+icon = ExtResource("1_h8vcf")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("1_kr80x")
+
+[node name="Label" type="Label" parent="." unique_id=175218981]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 48.0
+offset_bottom = 25.0
+text = "X"
