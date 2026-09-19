@@ -3,6 +3,7 @@ extends Node
 
 signal factory_ticked(machine: Machine, delta: float)
 signal enabled_recipes_changed
+signal blueprint_constructed
 
 @export var definition: MachineDefinition
 
@@ -12,6 +13,8 @@ signal enabled_recipes_changed
 
 @export var faith_drain_rate: float = 0.0
 @export var debug_active_indicator: Node3D
+
+@export var disabled: bool = true
 
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
@@ -187,3 +190,9 @@ func force_shutdown() -> void:
 
 func reactivate() -> void:
 	is_shut_down = false
+
+func enable() -> void:
+	disabled = false
+
+func disable() -> void:
+	disabled = true

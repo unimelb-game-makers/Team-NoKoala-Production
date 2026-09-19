@@ -14,6 +14,9 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="9_evuxr"]
+[ext_resource type="Resource" uid="uid://dp653tf3rcio7" path="res://features/factory_system/machines/machine_definitions/blueprints/blueprint_demo_machine.tres" id="10_l8p30"]
+[ext_resource type="Resource" uid="uid://c1i3j1djd3njm" path="res://features/factory_system/recipes/recipe_definitions/construction/construct_demo_machine.tres" id="10_t5wn5"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
@@ -33,11 +36,15 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
 size = Vector3(1, 1, 1)
 
-[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "blueprint_block", "machine", "blueprint", "progress_bar")]
 script = ExtResource("4_assembly")
 block = NodePath("Block")
+blueprint_block = NodePath("BlueprintBlock")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("10_ui")])
+blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
+toggle_blueprint = true
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_lqbl5")
@@ -78,6 +85,30 @@ metadata/_custom_type_script = "uid://b7prvphjsth3o"
 script = ExtResource("12_block_registration")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
+[node name="BlueprintBlock" type="Node3D" parent="." unique_id=1290172058 node_paths=PackedStringArray("transform_root")]
+visible = false
+script = ExtResource("1_lqbl5")
+transform_root = NodePath("..")
+
+[node name="Input1" type="CSGBox3D" parent="BlueprintBlock" unique_id=335706727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Input2" type="CSGBox3D" parent="BlueprintBlock" unique_id=613895781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Input3" type="CSGBox3D" parent="BlueprintBlock" unique_id=1357192043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Work1" type="CSGBox3D" parent="BlueprintBlock" unique_id=257293167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_work")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
@@ -95,6 +126,17 @@ metadata/_custom_type_script = "uid://bgxakqgck66y6"
 script = ExtResource("10_evuxr")
 machine = NodePath("..")
 block = NodePath("../../Block")
+[node name="Blueprint" type="Node" parent="." unique_id=1342920316 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("9_evuxr")
+definition = ExtResource("10_l8p30")
+enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("10_t5wn5")])
+job_provider = NodePath("BlueprintJobProvider")
+debug_active_indicator = NodePath("../DebugLight")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=658298443]
+script = ExtResource("5_provider")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
@@ -106,4 +148,4 @@ spot_angle = 15.0
 
 [node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("8_g1dqn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
-machine = NodePath("../Machine")
+machine = NodePath("../Blueprint")
