@@ -31,18 +31,27 @@ func _is_full() -> bool:
 	return true
 
 func try_pickup(item: FactoryItem) -> bool:
-	if _is_full():
+	if _is_full() or item == null:
 		print("hot bar full")
 		return false
 	
 	print("hot bar not full")
 	var slot = _get_next_available_slot()
-	slot.fill_slot(item)
+	if slot != null:
+		if slot.fill_slot(item) > 0:
+			slot = _get_next_available_slot() # try filling the next
+		else:
+			return true
+		if slot != null:
+			if slot.fill_slot(item) == 0:
+				return true
+		
 	
 	if slot == selected_slot:
 		selected_item_changed.emit(slot.item)
+		return true
 	
-	return true
+	return false # filled as much as we can or not possible
 	
 func _get_next_available_slot() -> HotBarSlot:
 	for slot in slots:

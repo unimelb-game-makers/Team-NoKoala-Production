@@ -29,12 +29,13 @@ func is_full() -> bool:
 		return false
 	return item.stack.is_full()
 
-func fill_slot(new_item: FactoryItem) -> void:
+func fill_slot(new_item: FactoryItem) -> int:
 	if item != null and item.stack.can_merge_with(new_item.stack):
-		item.stack.merge_from(new_item.stack)
+		var left_over = item.stack.merge_from(new_item.stack)
 		quantity = item.stack.quantity
-		return
+		return left_over
 	
 	item = new_item
 	sprite.texture = new_item.sprite.texture
 	quantity = new_item.stack.quantity
+	return 0
