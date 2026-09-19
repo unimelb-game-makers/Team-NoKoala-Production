@@ -48,7 +48,7 @@ func _get_next_available_slot() -> HotBarSlot:
 	
 	return null
 	
-func try_drop() -> bool:
+func try_drop(item: FactoryItem) -> bool:
 	if selected_slot.item == null:
 		return false
 	
