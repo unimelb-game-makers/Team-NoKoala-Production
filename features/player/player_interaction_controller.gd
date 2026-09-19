@@ -95,7 +95,7 @@ func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
 
 
 func _try_drop_held_item() -> void:	
-	if _inventory_owner.try_drop_held_item():
+	if _inventory_owner.try_drop_held_item() and hot_bar.try_drop():
 		get_viewport().set_input_as_handled()
 
 

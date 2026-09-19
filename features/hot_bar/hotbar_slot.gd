@@ -2,9 +2,14 @@ class_name HotBarSlot
 extends Button
 
 @onready var label: Label = $Label
+@onready var qty_label: Label = $QtyLabel
 @onready var sprite: Sprite2D = $Sprite2D
 
-var quantity: int = 0
+var quantity: int = 0:
+	set(value):
+		quantity = value
+		if qty_label:
+			qty_label.text = "qty: " + str(quantity) if quantity > 0 else ""
 
 signal selected
 

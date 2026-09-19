@@ -25,3 +25,11 @@ text = "X"
 texture_filter = 1
 position = Vector2(40, 40)
 scale = Vector2(1.5, 1.5)
+
+[node name="QtyLabel" type="Label" parent="." unique_id=801895425]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 2.0
+offset_right = 72.0
+offset_bottom = 25.0
+horizontal_alignment = 2

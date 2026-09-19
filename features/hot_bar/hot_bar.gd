@@ -9,6 +9,7 @@ var selected_slot: HotBarSlot = null
 func _ready() -> void:
 	selected_slot = slots[0]
 
+
 func _is_full() -> bool:
 	for slot in slots:
 		if !slot.is_full():
@@ -20,10 +21,7 @@ func try_pickup(item: FactoryItem) -> bool:
 	if _is_full():
 		return false
 	
-	print("try pickup")
-	
 	var slot = _get_next_available_slot()
-	print(slot)
 	slot.sprite.texture = item.sprite.texture
 	slot.quantity = item.stack.quantity # TO DO: fix this to merge quantities
 	
@@ -36,12 +34,10 @@ func _get_next_available_slot() -> HotBarSlot:
 	
 	return null
 	
-func try_putdown() -> bool:
+func try_drop() -> bool:
+	selected_slot.quantity = 0
+	selected_slot.sprite.texture = null
 	return true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 	
 # on pick up: check if free slot
 # if yes: populate next free slot with item
