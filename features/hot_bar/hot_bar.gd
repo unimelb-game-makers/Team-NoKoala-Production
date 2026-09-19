@@ -10,8 +10,9 @@ signal selected_item_changed(item: FactoryItem)
 func _ready() -> void:
 	for slot in slots:
 		slot.selected.connect(_on_slot_selected.bind(slot))
-	selected_slot = slots[0]
-	selected_item_changed.emit(selected_slot.item)
+	if slots.size() > 0:
+		selected_slot = slots[0]
+		selected_item_changed.emit(selected_slot.item)
 	
 func _on_slot_selected(slot: HotBarSlot) -> void:
 	if selected_slot == slot:
@@ -33,6 +34,9 @@ func try_pickup(item: FactoryItem) -> bool:
 	var slot = _get_next_available_slot()
 	slot.fill_slot(item)
 	
+	if slot == selected_slot:
+		selected_item_changed.emit(slot.item)
+	
 	return true
 	
 func _get_next_available_slot() -> HotBarSlot:
@@ -43,8 +47,13 @@ func _get_next_available_slot() -> HotBarSlot:
 	return null
 	
 func try_drop() -> bool:
+	if selected_slot.item == null:
+		return false
+	
+	selected_slot.item = null
 	selected_slot.quantity = 0
 	selected_slot.sprite.texture = null
+	selected_item_changed.emit(null)
 	return true
 	
 # on pick up: check if free slot

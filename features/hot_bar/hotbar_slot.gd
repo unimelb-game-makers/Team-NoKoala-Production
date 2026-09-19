@@ -24,12 +24,16 @@ func _slot_selected() -> void:
 	selected.emit()
 
 func is_full() -> bool:
-	if quantity <= 5: # TO DO: fix this to sync with ItemStack.stack_size somehow
+	if item == null:
 		return false
-	
-	return true
+	return item.stack.is_full()
 
 func fill_slot(new_item: FactoryItem) -> void:
+	if item != null and item.stack.can_merge_with(new_item.stack):
+		item.stack.merge_from(new_item.stack)
+		quantity = item.stack.quantity
+		return
+	
 	item = new_item
 	sprite.texture = new_item.sprite.texture
-	quantity = new_item.stack.quantity # TO DO: fix this to merge quantities
+	quantity = new_item.stack.quantity
