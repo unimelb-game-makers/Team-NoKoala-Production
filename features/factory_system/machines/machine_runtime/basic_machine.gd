@@ -11,12 +11,12 @@ var _factory_manager: FactoryManager
 
 var _occupied_work_cells: Dictionary[StringName, WorkerCapability] = {}
 
-
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+	if disabled: return
 
 	if factory_manager == null:
 		return
-
+	
 	_factory_manager = factory_manager
 	_update_job_requests()
 
@@ -175,6 +175,7 @@ func _try_start_recipe(
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
+
 	if _check_workable(recipe):
 		register_active(faith_drain_rate)
 	else:
@@ -193,7 +194,6 @@ func _check_workable(recipe: ProductionRecipe) -> bool:
 			or not _occupied_work_cells.has(requirement.port_id)
 		):
 			return false
-
 		var capability := _occupied_work_cells.get(
 			requirement.port_id,
 		) as WorkerCapability
@@ -202,7 +202,6 @@ func _check_workable(recipe: ProductionRecipe) -> bool:
 			or not capability.can_perform(requirement.work_type)
 		):
 			return false
-
 	return true
 
 func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:

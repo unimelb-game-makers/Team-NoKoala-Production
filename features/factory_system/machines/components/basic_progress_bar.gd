@@ -1,7 +1,7 @@
 class_name BasicProgressBar
 extends Node3D
 
-@export var machine: BasicMachine
+@export var machine: Machine
 @export var viewport: SubViewport
 @export var progress_bar: ProgressBar
 @export var display: Sprite3D

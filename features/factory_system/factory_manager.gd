@@ -137,6 +137,16 @@ func get_machines_at(cell: Vector3i) -> Array[Machine]:
 			and not result.has(machine)
 		):
 			result.append(machine)
+		
+		if assembly.toggle_blueprint:
+			machine = assembly.blueprint
+			if (
+				is_instance_valid(machine)
+				and not machine.is_queued_for_deletion()
+				and is_machine_registered(machine)
+				and not result.has(machine)
+			):
+				result.append(machine)
 
 	return result
 
