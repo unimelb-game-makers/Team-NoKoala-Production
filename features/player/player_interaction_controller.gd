@@ -2,6 +2,7 @@ class_name PlayerInteractionController
 extends Node
 
 @export var camera: Camera3D
+@export var hot_bar: HotBar
 
 var player: Node3D
 var _inventory_owner: InventoryOwner
@@ -89,7 +90,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
 	print(factory_item)
-	if _inventory_owner.try_pick_up_item(factory_item):
+	if _inventory_owner.try_pick_up_item(factory_item) and hot_bar.try_pickup(factory_item):
 		get_viewport().set_input_as_handled()
 
 
@@ -288,3 +289,11 @@ func _bind_placement_controller() -> void:
 		_machine_placement_controller.place_mode_changed.connect(
 			_on_place_mode_changed,
 		)
+
+func _bind_hot_bar() -> void:
+	if hot_bar != null:
+		hot_bar.selected.connect(_on_hot_bar_selection)
+
+func _on_hot_bar_selection():
+	# change the item being held
+	pass

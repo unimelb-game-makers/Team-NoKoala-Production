@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b24w5jelebb47"]
 
 [ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hot_bar/hotbar.png" id="1_h8vcf"]
-[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hot_bar/hotbar_button.gd" id="1_kr80x"]
+[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hot_bar/hotbar_slot.gd" id="1_kr80x"]
 
 [node name="HotbarButton" type="Button" unique_id=1951377414]
 custom_minimum_size = Vector2(80, 80)
@@ -20,3 +20,8 @@ offset_top = 2.0
 offset_right = 48.0
 offset_bottom = 25.0
 text = "X"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1059627687]
+texture_filter = 1
+position = Vector2(40, 40)
+scale = Vector2(1.5, 1.5)

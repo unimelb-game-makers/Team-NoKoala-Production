@@ -79,10 +79,17 @@ script = ExtResource("6_okcnc")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_po6cg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
+[node name="PlayerInteractionController" parent="Kaguya" index="6" unique_id=1743538725 node_paths=PackedStringArray("hot_bar")]
+hot_bar = NodePath("../HotBar")
+
 [node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
 capability = SubResource("Resource_ad3lv")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
+
+[node name="HotBar" parent="Kaguya" unique_id=263281179 instance=ExtResource("14_ad3lv")]
+offset_top = -73.0
+offset_bottom = -73.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -124,9 +131,5 @@ factory_manager = NodePath("../Services/FactoryManager")
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
 script = ExtResource("13_8r4s3")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
-
-[node name="HotBar" parent="." unique_id=263281179 instance=ExtResource("14_ad3lv")]
-offset_top = -73.0
-offset_bottom = -73.0
 
 [editable path="Kaguya"]
