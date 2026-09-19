@@ -4,6 +4,7 @@ extends Button
 @onready var label: Label = $Label
 @onready var qty_label: Label = $QtyLabel
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var selection: Control = $Selection
 
 signal selected
 

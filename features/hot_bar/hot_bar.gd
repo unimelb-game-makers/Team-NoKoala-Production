@@ -12,12 +12,15 @@ func _ready() -> void:
 		slot.selected.connect(_on_slot_selected.bind(slot))
 	if slots.size() > 0:
 		selected_slot = slots[0]
+		selected_slot.selection.visible = true
 		selected_item_changed.emit(selected_slot.item)
 	
 func _on_slot_selected(slot: HotBarSlot) -> void:
 	if selected_slot == slot:
 		return
+	selected_slot.selection.visible = false
 	selected_slot = slot
+	selected_slot.selection.visible = true
 	selected_item_changed.emit(selected_slot.item)
 
 func _is_full() -> bool:
