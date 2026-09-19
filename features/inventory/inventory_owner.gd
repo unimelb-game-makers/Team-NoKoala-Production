@@ -16,6 +16,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if inventory.hand_slot != null:
 		inventory.hand_slot.global_position = actor.global_position
+		inventory.hand_slot.global_position.y -= 0.5
 
 
 func set_held_item(item: FactoryItem) -> void:

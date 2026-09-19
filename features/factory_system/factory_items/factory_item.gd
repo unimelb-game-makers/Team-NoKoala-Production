@@ -18,7 +18,7 @@ func _ready() -> void:
 	_pickup_input_ray_pickable = pickup_area.input_ray_pickable
 
 func _process(_delta: float) -> void:
-	if debug_label.visible and stack != null:
+	if debug_label.visible and stack != null and stack.quantity > 1:
 		debug_label.text = str(stack.quantity)
 
 func set_in_process_hidden(is_hidden: bool) -> void:
