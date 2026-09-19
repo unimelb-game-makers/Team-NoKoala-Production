@@ -4,11 +4,20 @@ extends Control
 var selected_slot: HotBarSlot = null
 @export var slots: Array[HotBarSlot]
 
+signal selected_item_changed(item: FactoryItem)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	for slot in slots:
+		slot.selected.connect(_on_slot_selected.bind(slot))
 	selected_slot = slots[0]
-
+	selected_item_changed.emit(selected_slot.item)
+	
+func _on_slot_selected(slot: HotBarSlot) -> void:
+	if selected_slot == slot:
+		return
+	selected_slot = slot
+	selected_item_changed.emit(selected_slot.item)
 
 func _is_full() -> bool:
 	for slot in slots:
@@ -22,8 +31,7 @@ func try_pickup(item: FactoryItem) -> bool:
 		return false
 	
 	var slot = _get_next_available_slot()
-	slot.sprite.texture = item.sprite.texture
-	slot.quantity = item.stack.quantity # TO DO: fix this to merge quantities
+	slot.fill_slot(item)
 	
 	return true
 	

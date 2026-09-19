@@ -31,6 +31,7 @@ func _ready() -> void:
 	_job_menu.name = "JobAssignmentMenu"
 	_job_menu.id_pressed.connect(_on_job_menu_id_pressed)
 	add_child(_job_menu)
+	_bind_hot_bar()
 
 
 func _input(event: InputEvent) -> void:
@@ -89,7 +90,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
-	print(factory_item)
 	if _inventory_owner.try_pick_up_item(factory_item) and hot_bar.try_pickup(factory_item):
 		get_viewport().set_input_as_handled()
 
@@ -292,8 +292,10 @@ func _bind_placement_controller() -> void:
 
 func _bind_hot_bar() -> void:
 	if hot_bar != null:
-		hot_bar.selected.connect(_on_hot_bar_selection)
+		hot_bar.selected_item_changed.connect(_on_hot_bar_selection)
 
-func _on_hot_bar_selection():
+func _on_hot_bar_selection(item: FactoryItem):
 	# change the item being held
-	pass
+	print(item)
+	_inventory_owner.hide_held_item() # hide the other one
+	_inventory_owner.set_held_item(item)

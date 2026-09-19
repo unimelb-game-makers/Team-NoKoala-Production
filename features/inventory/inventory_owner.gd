@@ -17,7 +17,14 @@ func _process(_delta: float) -> void:
 
 
 func set_held_item(item: FactoryItem) -> void:
+	if item == null:
+		if inventory.hand_slot != null:
+			inventory.hand_slot.sprite.visible = false
+		inventory.hand_slot = null
+		return
+	
 	inventory.hand_slot = item
+	inventory.hand_slot.sprite.visible = true
 
 
 func try_pick_up_item(item: FactoryItem) -> bool:
@@ -70,3 +77,7 @@ func try_place_held_item(target_position: Vector3) -> bool:
 	inventory.hand_slot.global_position = target_position
 	inventory.hand_slot = null
 	return true
+	
+func hide_held_item() -> void:
+	if inventory.hand_slot != null:
+		inventory.hand_slot.sprite.visible = false

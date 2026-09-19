@@ -5,13 +5,15 @@ extends Button
 @onready var qty_label: Label = $QtyLabel
 @onready var sprite: Sprite2D = $Sprite2D
 
+signal selected
+
 var quantity: int = 0:
 	set(value):
 		quantity = value
 		if qty_label:
 			qty_label.text = "qty: " + str(quantity) if quantity > 0 else ""
 
-signal selected
+var item: FactoryItem = null
 
 func _ready() -> void:
 	var event: InputEvent = shortcut.events[0]
@@ -26,3 +28,8 @@ func is_full() -> bool:
 		return false
 	
 	return true
+
+func fill_slot(new_item: FactoryItem) -> void:
+	item = new_item
+	sprite.texture = new_item.sprite.texture
+	quantity = new_item.stack.quantity # TO DO: fix this to merge quantities
