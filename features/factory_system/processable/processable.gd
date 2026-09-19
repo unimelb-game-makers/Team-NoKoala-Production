@@ -29,7 +29,7 @@ func try_claim(consumer: Object) -> bool:
 		return false
 
 	_clear_invalid_claimant()
-	if not is_available_for_processing():
+	if not is_available_for_processing():\
 		return false
 	_is_dropped = false
 	_claimant = consumer

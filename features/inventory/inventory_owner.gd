@@ -42,7 +42,8 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 		if success and is_instance_valid(item) and not item.is_queued_for_deletion():
 			if inventory.hand_slot != item:
 				_hide_item(item)
-		return success
+			else:
+				item.release_claim()
 		
 	if inventory.hand_slot != null:
 		if inventory.hand_slot.stack != null and item.stack != null and inventory.hand_slot.stack.can_merge_with(item.stack):
