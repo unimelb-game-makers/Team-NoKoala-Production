@@ -2,6 +2,7 @@ class_name Machine
 extends Node
 
 signal factory_ticked(machine: Machine, delta: float)
+signal blueprint_constructed
 
 @export var definition: MachineDefinition
 
@@ -11,6 +12,8 @@ signal factory_ticked(machine: Machine, delta: float)
 
 @export var faith_drain_rate: float = 0.0
 @export var debug_active_indicator: Node3D
+
+@export var disabled: bool = true
 
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
@@ -166,3 +169,9 @@ func _get_input_port_id_for_cell(cell: Vector3i) -> StringName:
 func _update_job_requests() -> void:
 	if job_provider != null:
 		job_provider.refresh()
+
+func enable() -> void:
+	disabled = false
+
+func disable() -> void:
+	disabled = true

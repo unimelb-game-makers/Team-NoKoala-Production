@@ -6,7 +6,7 @@ extends Node
 var _player: Node3D
 @export var _grid: Grid
 @export var _factory_manager: FactoryManager
-var _working_machine: BasicMachine
+var _working_machine: Machine
 var _working_cell: Vector3i
 
 
@@ -62,8 +62,10 @@ func _try_start_working() -> bool:
 
 	var player_cell := _get_player_cell()
 	for candidate in _factory_manager.get_machines_at(player_cell):
-		var machine := candidate as BasicMachine
+		var machine := candidate as Machine
 		if machine == null:
+			continue
+		if machine.disabled:
 			continue
 		if not machine.try_working_at_port(player_cell, capability):
 			continue

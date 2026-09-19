@@ -9,5 +9,3 @@ func can_perform(work_type: RecipeWorkRequirement.WorkType) -> bool:
 		if allowed_type != null and allowed_type == work_type:
 			return true
 	return false
-
-

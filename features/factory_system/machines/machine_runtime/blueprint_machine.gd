@@ -1,4 +1,4 @@
-class_name BasicMachine
+class_name BlueprintMachine
 extends Machine
 
 @export var hide_inputs_while_processing := true
@@ -292,8 +292,10 @@ func _get_required_input_count(recipe: ProductionRecipe) -> int:
 	return result
 
 
-
+# Machine has been constructed
 func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
+	emit_signal("blueprint_constructed")
+	
 	if _processing_recipe == null:
 		return false
 	# An outputless recipe completes successfully without spawning anything.

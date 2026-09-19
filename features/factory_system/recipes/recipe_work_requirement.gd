@@ -7,5 +7,6 @@ extends Resource
 
 enum WorkType {
 	CRAFTING,
-	RITUAL
+	RITUAL,
+	CONSTRUCTION,
 }

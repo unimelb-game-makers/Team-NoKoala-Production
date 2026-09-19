@@ -6,6 +6,7 @@ extends Node3D
 
 const translucent_alpha := 0.6
 static var _red_material: StandardMaterial3D
+static var _blue_material: StandardMaterial3D
 
 var _appearance: Appearance = Appearance.NORMAL
 var _collision_shapes: Array[Node]
@@ -18,6 +19,7 @@ enum Appearance {
 	NORMAL,
 	TRANSLUCENT,
 	TRANSLUCENT_RED,
+	TRANSLUCENT_BLUE,
 }
 
 
@@ -25,6 +27,10 @@ static func _static_init():
 	_red_material = StandardMaterial3D.new()
 	_red_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_red_material.albedo_color = Color(1, 0, 0, translucent_alpha)
+	
+	_blue_material = StandardMaterial3D.new()
+	_blue_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_blue_material.albedo_color = Color(0, 0.4, 1, translucent_alpha)
 
 
 func _ready() -> void:
@@ -84,6 +90,7 @@ func set_appearence(appearance: Appearance) -> void:
 		return
 
 	_appearance = appearance
+
 	for geometry in _geometry_instances:
 		match appearance:
 			Appearance.NORMAL:
@@ -100,6 +107,8 @@ func set_appearence(appearance: Appearance) -> void:
 				)
 			Appearance.TRANSLUCENT_RED:
 				geometry.material_override = _red_material
+			Appearance.TRANSLUCENT_BLUE:
+				geometry.material_override = _blue_material
 
 
 func _cache_shapes() -> void:
