@@ -2,6 +2,7 @@ class_name InventoryOwner
 extends Node
 
 @export var pickup_distance: float = 4.0
+@export var hot_bar: HotBar = null # defaults to null for npcs w/o hotbars
 
 var actor: Node3D
 var inventory: Inventory = Inventory.new()
@@ -9,6 +10,7 @@ var inventory: Inventory = Inventory.new()
 
 func _ready() -> void:
 	actor = get_parent()
+	_bind_hot_bar()
 
 
 func _process(_delta: float) -> void:
@@ -34,6 +36,13 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 		return false
 	if not item.try_claim(actor):
 		return false
+	
+	if hot_bar != null:
+		var success = hot_bar.try_pickup(item)
+		if success and is_instance_valid(item) and not item.is_queued_for_deletion():
+			if inventory.hand_slot != item:
+				_hide_item(item)
+		return success
 		
 	if inventory.hand_slot != null:
 		if inventory.hand_slot.stack != null and item.stack != null and inventory.hand_slot.stack.can_merge_with(item.stack):
@@ -78,6 +87,15 @@ func try_place_held_item(target_position: Vector3) -> bool:
 	inventory.hand_slot = null
 	return true
 	
-func hide_held_item() -> void:
-	if inventory.hand_slot != null:
-		inventory.hand_slot.sprite.visible = false
+func _hide_item(item: FactoryItem) -> void:
+	if item != null:
+		item.sprite.visible = false
+
+func _bind_hot_bar() -> void:
+	if hot_bar != null:
+		hot_bar.selected_item_changed.connect(_on_hot_bar_selection)
+
+func _on_hot_bar_selection(item: FactoryItem):
+	if inventory.hand_slot != null and inventory.hand_slot != item:
+		_hide_item(inventory.hand_slot)
+	set_held_item(item)

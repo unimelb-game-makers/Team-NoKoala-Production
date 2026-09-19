@@ -79,7 +79,7 @@ script = ExtResource("6_okcnc")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_po6cg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="PlayerInteractionController" parent="Kaguya" index="6" unique_id=1743538725 node_paths=PackedStringArray("hot_bar")]
+[node name="InventoryOwner" parent="Kaguya" index="5" unique_id=660145004 node_paths=PackedStringArray("hot_bar")]
 hot_bar = NodePath("../HotBar")
 
 [node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]

@@ -29,8 +29,10 @@ func _is_full() -> bool:
 
 func try_pickup(item: FactoryItem) -> bool:
 	if _is_full():
+		print("hot bar full")
 		return false
 	
+	print("hot bar not full")
 	var slot = _get_next_available_slot()
 	slot.fill_slot(item)
 	
