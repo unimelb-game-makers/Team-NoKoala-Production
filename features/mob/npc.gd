@@ -5,7 +5,6 @@ extends CharacterBody3D
 @export var idle_job_provider: IdleJobProvider
 @export var movement: Movement
 @export var inventory_owner: InventoryOwner
-@export var faith_manager: FaithManager
 
 
 func configure(
