@@ -50,7 +50,7 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
 block_rotation = 180
 is_placed = true
-root_cell = Vector3i(4, 0, 3)
+root_cell = Vector3i(1, 0, 3)
 
 [node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player", "machines_root")]
 script = ExtResource("1_4cjtm")
@@ -139,12 +139,13 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 [node name="MachinesRoot" type="Node" parent="." unique_id=598590661]
 
 [node name="DemoMachine" parent="MachinesRoot" unique_id=1962970161 instance=ExtResource("14_7mxvq")]
-transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 4.5, 0, 3.5)
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 1.5, 0, 3.5)
 
 [node name="Block" parent="MachinesRoot/DemoMachine" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_u1dg4")
 
-[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine/Block" index="4" unique_id=1551666163]
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
 gizmo_height = 0.2
 occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
 overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)

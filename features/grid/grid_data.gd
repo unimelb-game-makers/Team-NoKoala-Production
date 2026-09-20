@@ -41,14 +41,16 @@ func get_cells_by_type(cell_type: GridCellData.Type) -> Array[Vector3i]:
 func get_cell_data(cell: Vector3i) -> GridCellData:
 	return _grid.get(cell)
 
+## Whether this block can occupy one blocking cell, including its own cell.
+func can_occupy_cell(block: BlockData, cell: Vector3i) -> bool:
+	var cell_data := get_cell_data(cell)
+	return cell_data != null and (cell_data.block == null or cell_data.block == block)
+
 ## Returns true if the block can be placed at its current root_cell / rotation
 ## without overlapping another block or leaving the play space.
 func can_place_block(block: BlockData) -> bool:
 	for cell in block.blocking_cells():
-		var cell_data := get_cell_data(cell)
-		if cell_data == null:
-			return false
-		if cell_data.block != null and cell_data.block != block:
+		if not can_occupy_cell(block, cell):
 			return false
 	return true
 

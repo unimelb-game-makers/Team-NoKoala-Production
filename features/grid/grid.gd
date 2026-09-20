@@ -45,6 +45,9 @@ func can_place_block_at(block: Block, cell: Vector3i) -> bool:
 	block.block_data.root_cell = previous_cell
 	return result
 
+func can_occupy_cell(block_data: BlockData, cell: Vector3i) -> bool:
+	return grid_data.can_occupy_cell(block_data, cell)
+
 ## Registers a block without changing its scene-tree parent or transform.
 func register_block(block: Block) -> bool:
 	var can_place := grid_data.add_block(block.block_data)
