@@ -1,7 +1,8 @@
 class_name Block
 extends Node3D
 
-@export var block_data: BlockData
+@export_custom(PROPERTY_HINT_RESOURCE_TYPE, "BlockData", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_ALWAYS_DUPLICATE)
+var block_data: BlockData
 @export var transform_root: Node3D
 
 const translucent_alpha := 0.6
