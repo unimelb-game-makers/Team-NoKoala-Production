@@ -8,6 +8,8 @@ var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 signal grid_changed(affected_cells: Array)
 
 func _ready() -> void:
+	grid_data = GridData.new()
+
 	add_to_group("grid")
 
 	for node in get_tree().get_nodes_in_group("resource_area"):
@@ -42,11 +44,15 @@ func can_place_block_at(block: Block, cell: Vector3i) -> bool:
 	var result := grid_data.can_place_block(block.block_data)
 	block.block_data.root_cell = previous_cell
 	return result
+
 ## Registers a block without changing its scene-tree parent or transform.
 func register_block(block: Block) -> bool:
 	var can_place := grid_data.add_block(block.block_data)
 	if can_place:
 		_index_block(block)
+		var exit_callback := _on_registered_block_exiting.bind(block)
+		if not block.tree_exiting.is_connected(exit_callback):
+			block.tree_exiting.connect(exit_callback)
 		grid_changed.emit(block.block_data.blocking_cells())
 	return can_place
 
@@ -55,6 +61,9 @@ func unregister_block(
 	block: Block,
 	registered_data: BlockData = null,
 ) -> void:
+	var exit_callback := _on_registered_block_exiting.bind(block)
+	if block.tree_exiting.is_connected(exit_callback):
+		block.tree_exiting.disconnect(exit_callback)
 	var block_data := registered_data if registered_data != null else block.block_data
 	var affected_cells := grid_data.remove_block(block_data)
 	for cell in _blocks_by_cell.keys():
@@ -70,6 +79,9 @@ func unregister_block(
 			_blocks_by_cell[cell] = blocks
 	if not affected_cells.is_empty():
 		grid_changed.emit(affected_cells)
+
+func _on_registered_block_exiting(block: Block) -> void:
+	unregister_block(block)
 
 ## Removes a block from the grid data and the coordinate index.
 func remove_block(block: Block) -> void:

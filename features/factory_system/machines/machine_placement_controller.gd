@@ -53,6 +53,7 @@ func begin_placement() -> MachineAssembly:
 		_faith,
 		_jobs,
 		_reservations,
+		grid
 	)
 	_floating_assembly.block.disable_collisions()
 	get_parent().add_child(_floating_assembly)

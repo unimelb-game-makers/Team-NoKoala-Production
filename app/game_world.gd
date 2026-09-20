@@ -16,6 +16,7 @@ var configure_editor_button := configure_editor_dependencies
 @export var placement: MachinePlacementController
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
+@export var machines_root: Node
 
 var context: WorldContext
 var _composed := false
@@ -26,6 +27,13 @@ func _enter_tree() -> void:
 	if _composed == false:
 		compose_world_context()
 		configure_dependencies()
+
+func _ready() -> void:
+	if Engine.is_editor_hint() or machines_root == null:
+		return
+	for child in machines_root.get_children():
+		if child is MachineAssembly:
+			child.register_preplaced(grid, factory)
 
 func configure_world() -> WorldContext:
 	if _composed:
@@ -63,7 +71,10 @@ func configure_dependencies() -> void:
 	for child in mobs_root.get_children():
 		if child is Npc:
 			child.configure(clock, jobs, reservations, grid, pathfinder)
-
+	if machines_root != null:
+		for child in machines_root.get_children():
+			if child is MachineAssembly:
+				child.configure(factory,faith,jobs,reservations,grid)
 
 func configure_editor_dependencies() -> void:
 			

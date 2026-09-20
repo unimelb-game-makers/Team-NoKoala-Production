@@ -17,6 +17,7 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var player: Player
 @export var mobs_root: Node
+@export var machines_root: Node
 
 
 func _enter_tree() -> void:
@@ -24,6 +25,13 @@ func _enter_tree() -> void:
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")
 	configure_dependencies()
+
+func _ready() -> void:
+	if machines_root == null:
+		return
+	for child in machines_root.get_children():
+		if child is MachineAssembly:
+			child.register_preplaced(grid, factory)
 
 
 func configure_dependencies() -> void:
@@ -59,3 +67,15 @@ func configure_dependencies() -> void:
 					grid,
 					pathfinder,
 				)
+
+	if machines_root != null:
+		assert(factory != null, "Machines requires a FactoryManager")
+		assert(faith != null, "Machines requires a FaithManager")
+		assert(jobs != null, "Machines require a JobBoard")
+		assert(reservations != null, "Machines require a ReservationManager")
+		assert(grid != null, "Machines require a Grid")
+
+		for child in machines_root.get_children():
+			if child is MachineAssembly:
+				child.configure(factory,faith,jobs,reservations, grid)
+	print(factory._machines.size())
