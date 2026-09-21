@@ -93,6 +93,18 @@ func try_place_held_item(target_position: Vector3) -> bool:
 	inventory.hand_slot.global_position = target_position
 	inventory.hand_slot = null
 	return true
+
+func try_split_item(item: FactoryItem = null) -> bool:
+	# if null, then its trying to split the held item
+	if item == null:
+		item = inventory.hand_slot
+	
+	# cannot split if: size = 1
+	if item.stack.quantity == 1:
+		print ("false")
+		return false
+	
+	return true
 	
 func _hide_item(item: FactoryItem) -> void:
 	if item != null:
