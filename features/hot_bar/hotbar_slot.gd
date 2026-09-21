@@ -39,7 +39,8 @@ func fill_slot(new_item: FactoryItem) -> int:
 	sprite.texture = new_item.sprite.texture
 	
 	# only connect now that item exists
-	item.stack.quantity_changed.connect(update_quantity)
+	if not item.stack.quantity_changed.is_connected(update_quantity):
+		item.stack.quantity_changed.connect(update_quantity)
 	update_quantity()
 	return 0
 

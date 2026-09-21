@@ -38,6 +38,7 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 	if not item.try_claim(actor):
 		return false
 	
+	
 	if hot_bar != null:
 		var success = hot_bar.try_pickup(item)
 		if success and is_instance_valid(item) and not item.is_queued_for_deletion():
@@ -57,30 +58,25 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 	set_held_item(item)
 	return true
 
-
 func try_drop_held_item() -> bool:
 	if inventory.hand_slot == null:
 		return false
-
-	var drop_position = actor.global_position
-	drop_position.y = 0
 	
 	var dropped_item = inventory.hand_slot
-	
-	if not inventory.hand_slot.try_drop(drop_position):
+	var drop_position = actor.global_position
+	drop_position.y = 0
+
+	if not dropped_item.try_drop(drop_position):
 		return false
-	
+
 	if hot_bar != null:
 		var success = hot_bar.try_drop(dropped_item)
 		if success:
 			_show_item(dropped_item)
-	
-	if is_instance_valid(dropped_item) and not dropped_item.is_queued_for_deletion():
-		dropped_item.global_position = drop_position
-		dropped_item.release_claim()
-	
+
 	inventory.hand_slot = null
 	return true
+
 
 
 func try_place_held_item(target_position: Vector3) -> bool:

@@ -49,9 +49,8 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 	
 	var world_position = grid.cell_to_world(cell)
 	item.global_position = world_position
-	item.dropped.emit(item, world_position) 
+	item.drop_at(world_position)
 	return true
-
 
 # --- machine apis ---
 
@@ -236,6 +235,9 @@ func _on_processable_claim_changed(
 ) -> void:
 	if claimant != null:
 		_remove_processable_from_index(processable)
+	elif processable.is_dropped():
+		_index_processable(processable, processable.global_position)
+
 
 func _on_processable_tree_exiting(processable: Processable) -> void:
 	unregister_processable(processable, false)

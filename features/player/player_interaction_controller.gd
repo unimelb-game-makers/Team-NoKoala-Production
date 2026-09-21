@@ -47,7 +47,6 @@ func _input(event: InputEvent) -> void:
 		return
 
 	var hit_node := _node_at_mouse()
-	print(hit_node)
 	var consumer := _consumer_from_node(hit_node)
 	if consumer != null:
 		_select_consumer(consumer)
