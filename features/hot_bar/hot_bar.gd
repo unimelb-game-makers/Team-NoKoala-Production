@@ -34,7 +34,12 @@ func try_pickup(item: FactoryItem) -> bool:
 	if _is_full() or item == null:
 		return false
 	
-	var slot = _get_next_available_slot()
+	var slot
+	if selected_slot != null and !selected_slot.is_full():
+		slot = selected_slot
+	else:
+		slot = _get_next_available_slot()
+	
 	if slot != null:
 		if slot.fill_slot(item) > 0:
 			slot = _get_next_available_slot() # try filling the next
