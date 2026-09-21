@@ -47,6 +47,7 @@ func _input(event: InputEvent) -> void:
 		return
 
 	var hit_node := _node_at_mouse()
+	print(hit_node)
 	var consumer := _consumer_from_node(hit_node)
 	if consumer != null:
 		_select_consumer(consumer)
@@ -76,7 +77,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not event is InputEventMouseButton:
 		return
-	if not event.pressed or event.button_index != MOUSE_BUTTON_RIGHT:
+	if not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
 		return
 
 	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
