@@ -104,6 +104,8 @@ func try_split_item(item: FactoryItem = null) -> bool:
 		print ("false")
 		return false
 	
+	# call split
+	
 	return true
 	
 func _hide_item(item: FactoryItem) -> void:
