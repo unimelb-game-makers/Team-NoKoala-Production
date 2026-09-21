@@ -99,12 +99,15 @@ func try_split_item(item: FactoryItem = null) -> bool:
 	if item == null:
 		item = inventory.hand_slot
 	
+	var quantity = item.stack.quantity
 	# cannot split if: size = 1
-	if item.stack.quantity == 1:
+	if quantity == 1:
 		print ("false")
 		return false
 	
 	# call split
+	var half := floori(quantity / 2) # TO DO: fix this based on expected behavior
+	var new_stack = item.stack.split(half)
 	
 	return true
 	

@@ -91,9 +91,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	# RMB -> stack splitting logic
 	if event.button_index == MOUSE_BUTTON_RIGHT:
-		print("RMB")
 		if _inventory_owner.inventory.hand_slot != null:
-			print("held item")
 			_try_split_held_item()
 			return
 		var factory_item := _factory_item_at_mouse()
