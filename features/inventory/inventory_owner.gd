@@ -108,6 +108,7 @@ func try_split_item(item: FactoryItem = null) -> bool:
 	# TO DO: fix this based on expected behavior
 	var half: int = quantity / 2
 	var new_stack = item.stack.split(half)
+	# TO DO: fix this as well if we want different behavior
 	var spawn_position = item.transform.origin + Vector3(0.5, 0, 0)
 	var factory_item = FactoryItemFactory.spawn_factory_item(
 		item.stack.item_definition, 

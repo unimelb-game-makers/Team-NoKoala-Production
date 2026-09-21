@@ -37,5 +37,11 @@ func fill_slot(new_item: FactoryItem) -> int:
 	
 	item = new_item
 	sprite.texture = new_item.sprite.texture
-	quantity = new_item.stack.quantity
+	
+	# only connect now that item exists
+	item.stack.quantity_changed.connect(update_quantity)
+	update_quantity()
 	return 0
+
+func update_quantity() -> void:
+	quantity = item.stack.quantity if item else 0

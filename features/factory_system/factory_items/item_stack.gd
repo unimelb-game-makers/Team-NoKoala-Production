@@ -12,7 +12,13 @@ var item_id:
 
 
 @export var stack_size: int = 5
-@export var quantity: int = 1
+
+signal quantity_changed
+
+var quantity: int = 1:
+	set(value):
+		quantity = value
+		quantity_changed.emit()
 
 
 func _init(definition: FactoryItemDefinition = null, amount: int = 1) -> void:
@@ -51,6 +57,6 @@ func split(amount: int) -> ItemStack:
 	if amount <= 0 or amount >= quantity:
 		return null # TO DO: maybe assert an error here
 	# split the amount off into a new stack, reduce this stack, check amount validity
-	var new_stack = ItemStack.new(item_definition, amount)
+	var new_stack := ItemStack.new(item_definition, amount)
 	quantity -= amount
 	return new_stack
