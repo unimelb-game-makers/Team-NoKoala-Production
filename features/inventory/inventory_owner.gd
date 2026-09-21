@@ -105,10 +105,19 @@ func try_split_item(item: FactoryItem = null) -> bool:
 		print ("false")
 		return false
 	
-	# call split
-	var half := floori(quantity / 2) # TO DO: fix this based on expected behavior
+	# TO DO: fix this based on expected behavior
+	var half: int = quantity / 2
 	var new_stack = item.stack.split(half)
-	
+	var spawn_position = item.transform.origin + Vector3(0.5, 0, 0)
+	var factory_item = FactoryItemFactory.spawn_factory_item(
+		item.stack.item_definition, 
+		spawn_position, 
+		item.factory_manager,
+		new_stack)
+		
+	if factory_item == null:
+		return false
+
 	return true
 	
 func _hide_item(item: FactoryItem) -> void:
