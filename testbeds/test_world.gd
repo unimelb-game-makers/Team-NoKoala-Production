@@ -18,6 +18,7 @@ extends Node3D
 @export var player: Player
 @export var mobs_root: Node
 @export var machines_root: Node
+@export var faith_bar: FaithProgressBar
 
 
 func _enter_tree() -> void:
@@ -35,7 +36,7 @@ func _ready() -> void:
 
 
 func configure_dependencies() -> void:
-	factory.configure(grid, clock)
+	factory.configure(grid, clock, faith)
 
 	if pathfinder != null:
 		pathfinder.configure(factory)
@@ -58,6 +59,7 @@ func configure_dependencies() -> void:
 		assert(pathfinder != null, "Mobs require a Pathfinder")
 		assert(jobs != null, "Mobs require a JobBoard")
 		assert(reservations != null, "Mobs require a ReservationManager")
+		assert(faith != null, "Mobs require a FaithManage")
 		for child in mobs_root.get_children():
 			if child is Npc:
 				child.configure(
@@ -66,6 +68,7 @@ func configure_dependencies() -> void:
 					reservations,
 					grid,
 					pathfinder,
+					faith,
 				)
 
 	if machines_root != null:
@@ -79,3 +82,7 @@ func configure_dependencies() -> void:
 			if child is MachineAssembly:
 				child.configure(factory,faith,jobs,reservations, grid)
 	print(factory._machines.size())
+	
+	if faith != null:
+		if faith_bar != null:
+			faith_bar.bind(faith)
