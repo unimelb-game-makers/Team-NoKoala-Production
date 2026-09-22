@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcnal8638et1i"
-path="res://.godot/imported/faith-bar-progress.png-a39a60ee13790fe239441639324a11b0.ctex"
+uid="uid://c5atugtiaao3s"
+path="res://.godot/imported/faith-bar-progress-background.png-46f9dbc081b551241af21d06cdd97b3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/developer_art/faith_bar/faith-bar-progress.png"
-dest_files=["res://.godot/imported/faith-bar-progress.png-a39a60ee13790fe239441639324a11b0.ctex"]
+source_file="res://assets/developer_art/faith_bar/faith-bar-progress-background.png"
+dest_files=["res://.godot/imported/faith-bar-progress-background.png-46f9dbc081b551241af21d06cdd97b3c.ctex"]
 
 [params]
 
