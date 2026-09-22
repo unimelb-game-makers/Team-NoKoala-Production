@@ -1,0 +1,146 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://c2sgqfvh86lsn"
+path="res://.godot/imported/Kaguya_SleeveRig.glb-34257e27bdb790a4861e74c381a708cd.scn"
+
+[deps]
+
+source_file="res://assets/characters/kaguya/Kaguya_SleeveRig.glb"
+dest_files=["res://.godot/imported/Kaguya_SleeveRig.glb-34257e27bdb790a4861e74c381a708cd.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"materials": {
+"N00_000_00_Body_00_SKIN (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_Body_00_SKIN (Instance).tres",
+"use_external/path": "uid://dfk7f5jlde7ks"
+},
+"N00_000_00_EyeHighlight_00_EYE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_EyeHighlight_00_EYE (Instance).tres",
+"use_external/path": "uid://cnx1n4dgqufcm"
+},
+"N00_000_00_EyeIris_00_EYE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_EyeIris_00_EYE (Instance).tres",
+"use_external/path": "uid://dxygaqakq57kg"
+},
+"N00_000_00_EyeWhite_00_EYE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_EyeWhite_00_EYE (Instance).tres",
+"use_external/path": "uid://dlem2t05f2vnu"
+},
+"N00_000_00_FaceBrow_00_FACE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_FaceBrow_00_FACE (Instance).tres",
+"use_external/path": "uid://cgysq7h5xoco2"
+},
+"N00_000_00_FaceEyelash_00_FACE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_FaceEyelash_00_FACE (Instance).tres",
+"use_external/path": "uid://uq8t8qijeo80"
+},
+"N00_000_00_FaceEyeline_00_FACE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_FaceEyeline_00_FACE (Instance).tres",
+"use_external/path": "uid://i0iivmghayff"
+},
+"N00_000_00_FaceMouth_00_FACE (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_FaceMouth_00_FACE (Instance).tres",
+"use_external/path": "uid://b0pxhu44xmbu3"
+},
+"N00_000_00_Face_00_SKIN (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_Face_00_SKIN (Instance).tres",
+"use_external/path": "uid://7i2oj8n0pilu"
+},
+"N00_000_00_HairBack_00_HAIR (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_00_HairBack_00_HAIR (Instance).tres",
+"use_external/path": "uid://quh01iorpit4"
+},
+"N00_000_Hair_00_HAIR_01 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_Hair_00_HAIR_01 (Instance).tres",
+"use_external/path": "uid://dmhrym1qx5wus"
+},
+"N00_000_Hair_00_HAIR_02 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_000_Hair_00_HAIR_02 (Instance).tres",
+"use_external/path": "uid://btn4fjjaqtdjh"
+},
+"N00_001_01_Bottoms_01_CLOTH (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_001_01_Bottoms_01_CLOTH (Instance).tres",
+"use_external/path": "uid://cmhbmadasij2o"
+},
+"N00_002_01_Shoes_01_CLOTH (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_002_01_Shoes_01_CLOTH (Instance).tres",
+"use_external/path": "uid://edul27plxh8l"
+},
+"N00_007_01_Tops_01_CLOTH_01 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_007_01_Tops_01_CLOTH_01 (Instance).tres",
+"use_external/path": "uid://bycowllejeq8c"
+},
+"N00_007_01_Tops_01_CLOTH_02 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_007_01_Tops_01_CLOTH_02 (Instance).tres",
+"use_external/path": "uid://cl33fkacgqf4g"
+},
+"N00_007_01_Tops_01_CLOTH_03 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_007_01_Tops_01_CLOTH_03 (Instance).tres",
+"use_external/path": "uid://byxwiuv2ys50i"
+},
+"N00_007_01_Tops_01_CLOTH_04 (Instance)": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/characters/kaguya/materials/N00_007_01_Tops_01_CLOTH_04 (Instance).tres",
+"use_external/path": "uid://dddkg1ysvie0h"
+}
+},
+"nodes": {
+"PATH:Armature/Skeleton3D": {
+"retarget/bone_map": Resource("uid://drrbf6il60vo6", "res://assets/characters/kaguya/kaguya_bone_map.tres"),
+"retarget/rest_fixer/apply_node_transforms": false,
+"retarget/rest_fixer/fix_silhouette/enable": true,
+"retarget/rest_fixer/retarget_method": 0
+}
+}
+}
+gltf/naming_version=2
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=1

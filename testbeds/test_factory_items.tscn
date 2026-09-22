@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_l4pfl"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_2nodk"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_spawn"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="6_wmhx0"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="8_manager"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
@@ -62,14 +63,18 @@ script = ExtResource("8_manager")
 grid = NodePath("../GridMap")
 fixed_clock = NodePath("../FixedClock")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("6_spawn")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../FactoryManager")
 
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_l4pfl")]
+[node name="SpringArm3D" parent="." unique_id=1371171314 node_paths=PackedStringArray("player") instance=ExtResource("6_wmhx0")]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.465, 0)
+player = NodePath("../Kaguya")
+
+[node name="Kaguya" parent="." unique_id=21341859 node_paths=PackedStringArray("spring_arm") instance=ExtResource("4_l4pfl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
+spring_arm = NodePath("../SpringArm3D")
 
 [node name="Processables" type="Node3D" parent="." unique_id=1675194942]
 

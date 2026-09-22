@@ -1,25 +1,52 @@
-extends Camera3D
+@tool
+class_name CameraController
+extends SpringArm3D
 
 @export var drag_sensitivity: float = 0.05
 var dragging: bool = false
 var isFreeEdit: bool = false
 
 # for camera rotation
-@onready var spring_arm = get_parent()
-@onready var player = get_parent().get_parent()
+@onready var camera: Camera3D = $Camera3D
 @export var fade_objects: Array[StaticBody3D] = []
+@export var follow_offsets: Vector3
+@export var max_distance: float = 4.0
+@export var min_distance: float = 1.0
+@export var player: Player
+
 var mouse_sensitivity := 0.005
-const MAX_ZOOM := 5.0
-const MIN_ZOOM := -3.0
+var current_offset: Vector3 = Vector3.ZERO
 
 # for object fade
 var fade_object : StaticBody3D = null
 var ray_cast : RayCast3D
 
-func _physics_process(delta: float) -> void:
+
+func configure(p_player: Player) -> void:
+	player = p_player
+
+
+func _ready() -> void:
+	if spring_length > max_distance:
+		spring_length = max_distance
+	elif spring_length < min_distance:
+		spring_length = min_distance
+
+	current_offset = follow_offsets
+
+
+func _process(_delta: float) -> void:
+	if player:
+		global_position = player.global_position + current_offset
+
+
+func _physics_process(_delta: float) -> void:
 	set_faded_objects()
 
+
 func set_faded_objects():
+	if player == null:
+		return
 	if not ray_cast:
 		create_ray_cast()
 	# ray cast from camera to player
@@ -49,11 +76,13 @@ func set_faded_objects():
 				mesh_instance.set_faded(true)
 		fade_object = new_faded_object
 
+
 func get_fade_target(body: StaticBody3D) -> Node:
 	for child in body.get_children():
 		if child is MeshInstance3D and child.has_method("set_faded"):
 			return child
 	return null
+
 
 func create_ray_cast():
 	ray_cast = RayCast3D.new()
@@ -62,17 +91,20 @@ func create_ray_cast():
 	ray_cast.collision_mask = (1 << 2) | (1 << 0)  # layers 3 and 1
 	add_child(ray_cast)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_MIDDLE:
 			dragging = event.pressed
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			spring_arm.spring_length = clamp(spring_arm.spring_length - 0.5, MIN_ZOOM, MAX_ZOOM)
+			spring_length = clamp(spring_length - 0.5, min_distance, max_distance)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			spring_arm.spring_length = clamp(spring_arm.spring_length + 0.5, MIN_ZOOM, MAX_ZOOM)
+			spring_length = clamp(spring_length + 0.5, min_distance, max_distance)
 	elif event is InputEventMouseMotion and dragging:
 		if isFreeEdit:
 			var delta = Vector3(event.relative.x, 0, event.relative.y) * drag_sensitivity
 			position -= delta
-		else: 
-			player.rotate_y(event.relative.x * mouse_sensitivity)
+		else:
+			var amount: float = event.relative.x * mouse_sensitivity
+			current_offset = current_offset.rotated(Vector3.UP, amount)
+			rotate_y(amount)
