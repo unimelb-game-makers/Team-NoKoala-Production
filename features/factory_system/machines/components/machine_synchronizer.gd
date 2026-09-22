@@ -1,3 +1,5 @@
+## make sure blockdata is syncronised with machine definition 
+
 @tool
 class_name MachineSynchronizer
 extends BlockSynchronizer

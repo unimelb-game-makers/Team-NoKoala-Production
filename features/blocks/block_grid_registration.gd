@@ -1,3 +1,5 @@
+## tool to sync blockdata into grid in EDITOR ONLY
+
 @tool
 class_name BlockGridRegistration
 extends Node

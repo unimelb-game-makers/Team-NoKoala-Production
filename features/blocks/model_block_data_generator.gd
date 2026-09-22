@@ -1,3 +1,5 @@
+## tool used to quickly convert buildings to grid data
+
 @tool
 class_name ModelBlockDataGenerator
 extends Node
@@ -18,15 +20,6 @@ func generate_block_data() -> void:
 		return
 
 	var target_block := _get_block()
-	if target_block == null:
-		push_warning("ModelBlockDataGenerator requires a Block")
-		return
-	if models_root == null:
-		push_warning("ModelBlockDataGenerator requires a Models Root")
-		return
-	if cell_size.x <= 0.0 or cell_size.y <= 0.0 or cell_size.z <= 0.0:
-		push_warning("ModelBlockDataGenerator requires a positive cell size")
-		return
 
 	var model_nodes: Array[VisualInstance3D] = []
 	_collect_model_nodes(models_root, model_nodes)

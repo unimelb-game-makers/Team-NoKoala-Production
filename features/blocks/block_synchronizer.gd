@@ -1,3 +1,5 @@
+# makesure the block data are synced with rotation and position, also have option to whether snap the rotation or position
+
 @tool
 class_name BlockSynchronizer
 extends Node

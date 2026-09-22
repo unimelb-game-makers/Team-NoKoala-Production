@@ -1,3 +1,5 @@
+## gizmos that visualise blockdata
+
 @tool
 class_name BlockCellGizmo
 extends Node3D
@@ -60,15 +62,13 @@ func refresh() -> void:
 	_rebuild_instances()
 
 
+
+# functions for rendering
 func _rebuild_instances() -> void:
 	_ensure_multimesh()
 	_cells.assign(_watched_block_data.footprint)
 	_instance_by_world_cell.clear()
 
-	# MultiMesh data format must be configured while it contains no instances.
-	_multimesh.instance_count = 0
-	_multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	_multimesh.use_colors = true
 	_multimesh.instance_count = _cells.size()
 
 	var y_offset := gizmo_height * 0.5
@@ -87,28 +87,25 @@ func _rebuild_instances() -> void:
 
 func _ensure_multimesh() -> void:
 	if not is_instance_valid(_multimesh_instance):
-		_multimesh_instance = get_node_or_null("Cells") as MultiMeshInstance3D
-
-	if not is_instance_valid(_multimesh_instance):
 		_multimesh_instance = MultiMeshInstance3D.new()
 		_multimesh_instance.name = "Cells"
 		_multimesh_instance.cast_shadow = (
 			GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		)
+		_multimesh = MultiMesh.new()
+		_multimesh_instance.multimesh = _multimesh
+		_multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		_multimesh.use_colors = true
+
 		add_child(_multimesh_instance)
 
-	# Clean up transient markers left by the previous per-cell implementation.
 	for child in get_children():
 		if (
 			child != _multimesh_instance
 			and child is MeshInstance3D
-			and child.name.begins_with("Cell_")
 		):
 			child.queue_free()
 
-	if _multimesh == null:
-		_multimesh = MultiMesh.new()
-		_multimesh_instance.multimesh = _multimesh
 
 	if _box_mesh == null:
 		_box_mesh = BoxMesh.new()
@@ -175,6 +172,10 @@ func _rebuild_world_cell_index() -> void:
 			_watched_block_data.world_cell_for_offset(_cells[index])
 		] = index
 
+
+
+
+# functions for watch block changes
 
 func _on_block_data_changed() -> void:
 	_block_data_refresh_pending = true

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dt6eaahia1xnc"]
 
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_f3bu2"]
 [ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
 [ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
@@ -13,6 +14,12 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
 
+[sub_resource type="Resource" id="Resource_gn37f"]
+resource_local_to_scene = true
+script = ExtResource("3_f3bu2")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
@@ -22,14 +29,14 @@ albedo_color = Color(1, 0.19, 0.19, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
 albedo_color = Color(0.1, 0.42, 1, 1)
 
-[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "block_registration")]
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("4_assembly")
 block = NodePath("Block")
 machine = NodePath("Machine")
-block_registration = NodePath("Block/BlockGridRegistration")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_lqbl5")
+block_data = SubResource("Resource_gn37f")
 transform_root = NodePath("..")
 
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
@@ -72,6 +79,11 @@ debug_active_indicator = NodePath("../DebugLight")
 script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("10_evuxr")
+machine = NodePath("..")
+block = NodePath("../../Block")
+
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
 visible = false
@@ -82,9 +94,4 @@ spot_angle = 15.0
 
 [node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("8_g1dqn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
-machine = NodePath("../Machine")
-
-[node name="MachineEditorSynchoniser" type="Node" parent="." unique_id=338730361 node_paths=PackedStringArray("block", "machine")]
-script = ExtResource("10_evuxr")
-block = NodePath("../Block")
 machine = NodePath("../Machine")
