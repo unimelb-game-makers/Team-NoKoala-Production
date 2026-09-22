@@ -70,7 +70,7 @@ func _add_cell(cell: Vector3i, color: Color) -> void:
 	marker.name = "Cell_%d_%d_%d" % [cell.x, cell.y, cell.z]
 	marker.mesh = box
 	marker.position = Vector3(cell) * cell_size
-	marker.position.y += gizmo_height * 0.5
+	marker.position.y += box.size.y * 0.5
 	marker.material_override = _create_material(color)
 	marker.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(marker)
@@ -82,7 +82,7 @@ func _create_material(color: Color) -> StandardMaterial3D:
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.no_depth_test = true
-	material.render_priority = 10
+	material.render_priority = 127 if color == conflict_color else 10
 	return material
 
 
