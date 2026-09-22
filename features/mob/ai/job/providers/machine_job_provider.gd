@@ -10,17 +10,17 @@ func configure(
 	factory_manager: FactoryManager,
 	job_board: JobBoard,
 	reservation_manager: ReservationManager,
+	p_machine: Machine
 ) -> void:
 	_job_board = job_board
 	_factory_manager = factory_manager
 	_reservation_manager = reservation_manager
-	_machine = get_parent() as Machine
+	_machine = p_machine
 	_bind_factory_manager()
 
 
 func _ready() -> void:
-	_machine = get_parent() as Machine
-	assert(_machine != null, "MachineJobProvider must be a child of Machine")
+	assert(_machine != null, "MachineJobProvider must have Machine")
 	_bind_factory_manager()
 
 
@@ -75,25 +75,49 @@ func refresh() -> void:
 			remove(haul_request)
 
 	for need in desired:
-		if not _has_request(need.item, need.cell):
-			enqueue(
-				HaulRequest.new(
-					need.item,
-					need.cell,
-					_factory_manager,
-					_reservation_manager,
-				)
+		var haul_request := HaulRequest.new(
+							need.item,
+							need.cell,
+							_factory_manager,
+							_reservation_manager,
+						)
+		if not _has_request(haul_request):
+			enqueue(haul_request)
+	var machine := _machine as BasicMachine
+	if machine != null:
+		var works := machine.get_remaining_work_needs()
+		for request in get_requests():
+			var work_request := request as WorkRequest
+			if work_request == null:
+				continue
+			var still_needed := false
+			for work in works:
+				if (
+					work_request.machine == machine
+					and work_request.destination == work.cell
+					and work_request.work_type == work.work_type
+				):
+					still_needed = true
+					break
+			if not still_needed:
+				remove(work_request)
+		for work in works:
+			if _reservation_manager.is_reserved(work.cell):
+				continue
+			var work_request := WorkRequest.new(
+				work.work_type,
+				work.cell,
+				_factory_manager,
+				_reservation_manager,
+				machine,
 			)
+			if not _has_request(work_request):
+				enqueue(work_request)
 
 
-func _has_request(item: FactoryItemDefinition, cell: Vector3i) -> bool:
+func _has_request(p_request : JobRequest) -> bool:
 	for request in get_requests():
-		var haul_request := request as HaulRequest
-		if (
-			haul_request != null
-			and haul_request.item_definition == item
-			and haul_request.destination == cell
-		):
+		if p_request.equals(request):
 			return true
 	return false
 

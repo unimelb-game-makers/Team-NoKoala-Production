@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="5_path"]
 [ext_resource type="Script" uid="uid://84aunrfvor0l" path="res://features/mob/movement/path_debug_draw.gd" id="6_pathdbg"]
 [ext_resource type="Script" uid="uid://dppq0jc4q4srt" path="res://features/mob/npc.gd" id="7_npc"]
+[ext_resource type="Resource" uid="uid://b7retm6o3fpqt" path="res://features/mob/npc_definitions/worker_npc.tres" id="8_definition"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hly03"]
 
@@ -17,6 +18,7 @@ job_consumer = NodePath("JobConsumer")
 idle_job_provider = NodePath("WanderJobProvider")
 movement = NodePath("Movement")
 inventory_owner = NodePath("InventoryOwner")
+definition = ExtResource("8_definition")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1362271164]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
@@ -29,6 +31,7 @@ shape = SubResource("CapsuleShape3D_hly03")
 script = ExtResource("2_3v4j7")
 job_priorities = Dictionary[StringName, int]({
 &"haul": 5,
+&"work": 6,
 &"wander": 1
 })
 metadata/_custom_type_script = "uid://b3wo3jleh8jbk"

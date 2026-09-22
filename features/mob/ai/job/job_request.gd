@@ -15,6 +15,11 @@ var state := State.AVAILABLE
 func job_type() -> StringName
 
 
+## Whether two requests describe the same job target. Ignore mutable state.
+@abstract
+func equals(other: JobRequest) -> bool
+
+
 func can_assign(_consumer: JobConsumer) -> bool:
 	return state == State.AVAILABLE
 

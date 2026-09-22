@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NPCDefinition" format=3 uid="uid://b7retm6o3fpqt"]
+
+[ext_resource type="Script" uid="uid://dklq46a6n8lkf" path="res://features/mob/npc_definitions/npc_definition.gd" id="1_iwog3"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="2_hnt8n"]
+
+[sub_resource type="Resource" id="Resource_yvmw5"]
+script = ExtResource("2_hnt8n")
+allowed_work_types = Array[int]([0, 1])
+metadata/_custom_type_script = "uid://2efcm0s5tsh8"
+
+[resource]
+script = ExtResource("1_iwog3")
+worker_capability = SubResource("Resource_yvmw5")
+metadata/_custom_type_script = "uid://dklq46a6n8lkf"

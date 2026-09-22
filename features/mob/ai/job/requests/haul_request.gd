@@ -23,6 +23,16 @@ func job_type() -> StringName:
 	return HaulJob.JOB_TYPE
 
 
+func equals(other: JobRequest) -> bool:
+	var haul := other as HaulRequest
+	return (
+		haul != null
+		and haul.item_definition == item_definition
+		and haul.destination == destination
+		and haul._factory_manager == _factory_manager
+	)
+
+
 func score(consumer: JobConsumer) -> float:
 	return consumer.actor.global_position.distance_squared_to(
 		_factory_manager.grid.cell_to_world(destination),
