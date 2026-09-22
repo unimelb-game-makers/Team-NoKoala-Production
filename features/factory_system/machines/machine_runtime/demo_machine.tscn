@@ -51,7 +51,7 @@ script = ExtResource("3_machine")
 definition = ExtResource("4_vg41c")
 enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
 job_provider = NodePath("MachineJobProvider")
-faith_drain_rate = 5.0
+faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]

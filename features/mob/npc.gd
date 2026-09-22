@@ -14,6 +14,7 @@ func configure(
 	reservations: ReservationManager,
 	grid: Grid,
 	pathfinder: Pathfinder,
+	faith_manager: FaithManager,
 ) -> void:
 	job_consumer.configure(
 		self,
@@ -24,6 +25,7 @@ func configure(
 		reservations,
 		grid,
 		definition,
+		faith_manager,
 	)
 	idle_job_provider.configure(jobs)
 	movement.configure(pathfinder)
