@@ -8,19 +8,8 @@ var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 signal grid_changed(affected_cells: Array)
 
 func _ready() -> void:
-	grid_data = GridData.new()
-
 	add_to_group("grid")
-
-	for node in get_tree().get_nodes_in_group("resource_area"):
-		var assembly := node as ResourceAreaMachineAssembly
-		if assembly == null:
-			continue
-		if assembly.grid != null and assembly.grid != self:
-			continue
-		assembly.grid = self
-		assembly.block.block_data = assembly.block_data
-		move_block(assembly.block, assembly.block.block_data.root_cell)
+	grid_data = GridData.new()
 
 
 ## Moves a block to a new cell position if placement is valid.

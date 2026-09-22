@@ -51,15 +51,6 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 	item.global_position = world_position
 	item.dropped.emit(item, world_position) 
 	return true
-func _ready() -> void:	
-	for node in get_tree().get_nodes_in_group("resource_area"):
-		var assembly := node as ResourceAreaMachineAssembly
-		if assembly == null:
-			continue
-		if assembly.grid != null and assembly.grid != grid:
-			continue
-		register_machine(assembly.machine)
-
 
 # --- machine apis ---
 

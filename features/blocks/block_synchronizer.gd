@@ -18,6 +18,12 @@ var _last_position := Vector3.ZERO
 var _has_last_rotation := false
 var _last_rotation := 0.0
 
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		return 
+	if grid == null:
+		grid = get_tree().get_first_node_in_group("grid") as Grid
+
 
 func _process(_delta: float) -> void:
 	if not Engine.is_editor_hint() or block == null or grid == null:

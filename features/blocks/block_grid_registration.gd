@@ -13,6 +13,14 @@ var _registered_block: Block
 var _registered_grid: Grid
 var _registered_block_data: BlockData
 
+
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		return 
+	if grid == null:
+		grid = get_tree().get_first_node_in_group("grid") as Grid
+
+
 func configure(p_block: Block, p_grid: Grid) -> void:
 	block = p_block
 	grid = p_grid

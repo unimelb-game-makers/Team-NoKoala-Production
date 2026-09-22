@@ -32,10 +32,13 @@ func _exit_tree() -> void:
 func sync_machine_to_block_data() -> void:
 	if not Engine.is_editor_hint():
 		return
-	if block == null or block.block_data == null or machine == null:
+	if block == null or machine == null:
 		return
 	if machine.definition == null:
 		return
+	if block.block_data == null:
+		block.block_data = BlockData.new()
+		block.block_data.resource_local_to_scene = true
 
 	var footprint: Array[Vector3i] = []
 	var overlap_cells: Array[Vector3i] = []

@@ -1,9 +1,9 @@
+@tool
 class_name MachineAssembly
 extends Node3D
 
 @export var block: Block
 @export var machine: Machine
-@export var block_registration: BlockGridRegistration
 
 
 func configure(
@@ -24,10 +24,13 @@ func configure(
 		)
 
 
+
 ## Register an assembly already present in the scene after Grid._ready().
 ## Placement previews are registered by MachinePlacementController on confirmation.
 func register_preplaced(grid: Grid, factory_manager: FactoryManager) -> bool:
-	if block.block_data == null or not grid.register_block(block):
+	rebuild_block_data(grid)
+
+	if not grid.register_block(block):
 		push_warning("Invalid preplaced machine: block cannot be registered")
 		queue_free()
 		return false
@@ -40,3 +43,27 @@ func register_preplaced(grid: Grid, factory_manager: FactoryManager) -> bool:
 		return false
 
 	return true
+
+
+func rebuild_block_data(grid: Grid) -> void:
+	if block.block_data == null:
+		block.block_data = BlockData.new()
+
+	var footprint: Array[Vector3i] = []
+	var overlap_cells: Array[Vector3i] = []
+
+	for cell in machine.definition.cells:
+		footprint.append(cell.local_cell_offset)
+		if cell.can_overlap:
+			overlap_cells.append(cell.local_cell_offset)
+
+	block.block_data.footprint = footprint
+	block.block_data.overlap_cells = overlap_cells
+
+	var transform_root := block.get_transform_root()
+	block.block_data.root_cell = grid.world_to_cell(
+		transform_root.global_position,
+	)
+	block.block_data.block_rotation = grid.world_to_grid_rotation(
+		transform_root.global_rotation_degrees.y,
+	)

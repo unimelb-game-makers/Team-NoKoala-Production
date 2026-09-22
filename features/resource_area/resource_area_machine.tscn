@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b15jo53udlsqn"]
+[gd_scene format=3 uid="uid://bfvjnu6gm8iqw"]
 
 [ext_resource type="Script" uid="uid://dpkuhnia0ybe5" path="res://features/factory_system/machines/machine_runtime/resource_area_machine_assembly.gd" id="1_av6lk"]
 [ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="2_av6lk"]
@@ -51,9 +51,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("sprite", "block")]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block")]
 script = ExtResource("3_xcxxg")
-sprite = NodePath("../Sprite3D")
 block = NodePath("../Block")
 definition = SubResource("Resource_kjr54")
 

@@ -2,10 +2,9 @@
 class_name ResourceAreaMachine
 extends Machine
 
-@export var _processing_recipe: ProductionRecipe
+var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _factory_manager: FactoryManager
-@export var sprite: Sprite3D
 @export var block: Block
 @export var resource_area_definition: ResourceAreaDefinition
 @export var _spawn_if_output_present_toggle: bool

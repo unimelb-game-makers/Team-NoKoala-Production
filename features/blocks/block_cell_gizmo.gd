@@ -7,15 +7,22 @@ extends Node3D
 @export var cell_size := Vector3.ONE
 @export_range(0.01, 1.0, 0.01) var cell_inset := 0.08
 @export_range(0.01, 1.0, 0.01) var gizmo_height := 0.08
-@export var occupied_color := Color(1.0, 0.2, 0.15, 0.35)
-@export var overlap_color := Color(0.1, 0.75, 1.0, 0.35)
-@export var conflict_color := Color(1.0, 0.12, 0.12, 0.7)
+@export var occupied_color := Color(0.1, 0.75, 1.0, 0.75)
+@export var overlap_color := Color(0.0, 0.824, 0.345, 0.75)
+@export var conflict_color := Color(1.0, 0.12, 0.12, 0.75)
 
 @export_tool_button("Refresh Gizmo", "Callable")
 var refresh_button := refresh
 
 var _watched_block_data: BlockData
 var _watched_grid: Grid
+
+
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		return 
+	if grid == null:
+		grid = get_tree().get_first_node_in_group("grid") as Grid
 
 
 
