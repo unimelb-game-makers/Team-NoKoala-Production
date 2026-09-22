@@ -2,21 +2,40 @@
 
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_bvkfh"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="2_block_data"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="3_htxxc"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="4_gtara"]
+[ext_resource type="Script" uid="uid://dxtn2hbh4pvk" path="res://features/blocks/block_synchronizer.gd" id="4_rhwoa"]
+[ext_resource type="Script" uid="uid://1tqysktmttx8" path="res://features/blocks/model_block_data_generator.gd" id="5_rhwoa"]
 
 [sub_resource type="Resource" id="Resource_block_data"]
 resource_local_to_scene = true
 script = ExtResource("2_block_data")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(1, 0, 1)])
 
-[node name="DemoBlock" type="Node3D" unique_id=1151288400]
+[node name="DemoBlock" type="Node3D" unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_bvkfh")
 block_data = SubResource("Resource_block_data")
+transform_root = NodePath(".")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1903094071]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
-use_collision = true
-size = Vector3(2, 1, 1)
+[node name="Models" type="Node3D" parent="." unique_id=351359954]
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1696727609]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
-use_collision = true
+[node name="BlockCellGizmo" type="Node3D" parent="." unique_id=1067566201 node_paths=PackedStringArray("block")]
+script = ExtResource("3_htxxc")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockSynchronizer" type="Node" parent="." unique_id=1924099611 node_paths=PackedStringArray("block")]
+script = ExtResource("4_rhwoa")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://dxtn2hbh4pvk"
+
+[node name="ModelBlockDataGenerator" type="Node" parent="." unique_id=1286075581 node_paths=PackedStringArray("block", "models_root")]
+script = ExtResource("5_rhwoa")
+block = NodePath("..")
+models_root = NodePath("../Models")
+metadata/_custom_type_script = "uid://1tqysktmttx8"
+
+[node name="BlockGridRegistration" type="Node" parent="." unique_id=519804557 node_paths=PackedStringArray("block")]
+script = ExtResource("4_gtara")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"

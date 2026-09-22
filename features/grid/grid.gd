@@ -5,12 +5,26 @@ extends GridMap
 var grid_data: GridData = GridData.new()
 var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 
+## Rect2i X/Y correspond to world-grid X/Z.
+@export var playable_region = GridData.DEFAULT_PLAYABLE_REGION
+
 signal grid_changed(affected_cells: Array)
+
+
+func _enter_tree() -> void:
+	# Exported properties are available here, before child nodes become ready.
+	reset_grid()
+
 
 func _ready() -> void:
 	add_to_group("grid")
-	grid_data = GridData.new()
 
+
+func reset_grid() -> void:
+	print("grid reset successfully!")
+
+	grid_data = GridData.new(playable_region)
+	_blocks_by_cell = {}
 
 ## Moves a block to a new cell position if placement is valid.
 func move_block(

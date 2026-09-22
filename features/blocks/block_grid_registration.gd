@@ -16,9 +16,12 @@ var _registered_block_data: BlockData
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
-		return 
+		return
 	if grid == null:
 		grid = get_tree().get_first_node_in_group("grid") as Grid
+	if block != null:
+		_watch_block_data(block.block_data)
+	refresh()
 
 
 func configure(p_block: Block, p_grid: Grid) -> void:
@@ -26,18 +29,40 @@ func configure(p_block: Block, p_grid: Grid) -> void:
 	grid = p_grid
 	if Engine.is_editor_hint():
 		_watch_block_data(block.block_data)
+		refresh()
+
 
 func _process(_delta: float) -> void:
 	if not Engine.is_editor_hint():
-		return 
-	if block != null:
-		_watch_block_data(block.block_data)
+		return
+
+	var should_refresh := false
+	if grid == null:
+		grid = get_tree().get_first_node_in_group("grid") as Grid
+		should_refresh = grid != null
+
+	var block_data := block.block_data if block != null else null
+	if block_data != _watched_block_data:
+		_watch_block_data(block_data)
+		should_refresh = true
+
+	if should_refresh:
+		refresh()
+
+
+func _exit_tree() -> void:
+	unregister()
+	_disconnect_block_data()
+
 
 func refresh() -> void:
+	if not Engine.is_editor_hint():
+		return
 
-	if Engine.is_editor_hint():
-		unregister()
-		register()
+	unregister()
+	if block == null or grid == null or _watched_block_data == null:
+		return
+	register()
 
 
 func is_registered() -> bool:
@@ -50,13 +75,11 @@ func register() -> bool:
 		or grid == null
 		or _watched_block_data == null
 	):
-		push_warning("unabled to register due to missing dependencies")
 		return false
 	if not grid.register_block(block):
-		push_warning("unabled to register due to grid conflict")
+		push_warning("Unable to register block due to a grid conflict")
 		return false
 	_track_registration()
-	print("block registered successsfully")
 	return true
 
 func _track_registration() -> void:

@@ -1,5 +1,7 @@
 class_name GridData
 
+const DEFAULT_PLAYABLE_REGION := Rect2i(-500, -500, 1000, 1000)
+
 class GridCellData:
 	enum Type { 
 		NORMAL,
@@ -16,10 +18,10 @@ var _grid: Dictionary[Vector3i, GridCellData] = {}
 # the dictionary of cells occupied by a block
 var _cells_by_block: Dictionary[BlockData, Array] = {}
 
-func _init() -> void:
-	# TODO: replace the hardcoded ranges 
-	for x in range(-50, 50):
-		for z in range(-50, 50):
+
+func _init(playable_region := DEFAULT_PLAYABLE_REGION) -> void:
+	for x in range(playable_region.position.x, playable_region.end.x):
+		for z in range(playable_region.position.y, playable_region.end.y):
 			_grid[Vector3i(x, 0, z)] = GridCellData.new(GridCellData.Type.NORMAL)
 
 func get_cells() -> Array[Vector3i]:

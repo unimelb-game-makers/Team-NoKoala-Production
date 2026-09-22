@@ -14,6 +14,7 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
 @export var machines_root: Node
+@export var buildings_root: Node
 
 var context: WorldContext
 var _composed := false
@@ -31,6 +32,10 @@ func _ready() -> void:
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
 			child.register_preplaced(grid, factory)
+	for block in buildings_root.get_children():
+		if block is Block:
+			if block.block_data != null:
+				grid.register_block(block)
 
 func configure_world() -> WorldContext:
 	if _composed:
