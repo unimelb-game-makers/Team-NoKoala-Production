@@ -1,6 +1,6 @@
 class_name GridData
 
-const DEFAULT_PLAYABLE_REGION := Rect2i(-500, -500, 1000, 1000)
+const DEFAULT_PLAYABLE_REGION := Rect2i(-100, -100, 200, 200)
 
 class GridCellData:
 	enum Type { 

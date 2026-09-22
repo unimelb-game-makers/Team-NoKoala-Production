@@ -22,6 +22,8 @@ var _composed := false
 
 
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	if _composed == false:
 		compose_world_context()
 		configure_dependencies()
