@@ -1,5 +1,7 @@
 class_name GridData
 
+const DEFAULT_PLAYABLE_REGION := Rect2i(-100, -100, 200, 200)
+
 class GridCellData:
 	enum Type { 
 		NORMAL,
@@ -13,11 +15,13 @@ class GridCellData:
 		block = null
 
 var _grid: Dictionary[Vector3i, GridCellData] = {}
+# the dictionary of cells occupied by a block
+var _cells_by_block: Dictionary[BlockData, Array] = {}
 
-func _init() -> void:
-	# TODO: replace the hardcoded ranges 
-	for x in range(-50, 50):
-		for z in range(-50, 50):
+
+func _init(playable_region := DEFAULT_PLAYABLE_REGION) -> void:
+	for x in range(playable_region.position.x, playable_region.end.x):
+		for z in range(playable_region.position.y, playable_region.end.y):
 			_grid[Vector3i(x, 0, z)] = GridCellData.new(GridCellData.Type.NORMAL)
 
 func get_cells() -> Array[Vector3i]:
@@ -39,14 +43,16 @@ func get_cells_by_type(cell_type: GridCellData.Type) -> Array[Vector3i]:
 func get_cell_data(cell: Vector3i) -> GridCellData:
 	return _grid.get(cell)
 
+## Whether this block can occupy one blocking cell, including its own cell.
+func can_occupy_cell(block: BlockData, cell: Vector3i) -> bool:
+	var cell_data := get_cell_data(cell)
+	return cell_data != null and (cell_data.block == null or cell_data.block == block)
+
 ## Returns true if the block can be placed at its current root_cell / rotation
 ## without overlapping another block or leaving the play space.
 func can_place_block(block: BlockData) -> bool:
 	for cell in block.blocking_cells():
-		var cell_data := get_cell_data(cell)
-		if cell_data == null:
-			return false
-		if cell_data.block != null and cell_data.block != block:
+		if not can_occupy_cell(block, cell):
 			return false
 	return true
 
@@ -54,23 +60,29 @@ func add_block(block: BlockData) -> bool:
 	if not can_place_block(block):
 		return false
 
+	var registered_cells: Array[Vector3i] = []
 	for cell in block.blocking_cells():
 		var cell_data := get_cell_data(cell)
 		if cell_data != null:
 			cell_data.block = block
+			registered_cells.append(cell)
+	_cells_by_block[block] = registered_cells
 	 
 	block.is_placed = true
 	
 	return true
 				
-func remove_block(block: BlockData) -> void:
-	if not block.is_placed:
-		return
-
-	var blocking_cells := block.blocking_cells()
-	for cell in blocking_cells:
+func remove_block(block: BlockData) -> Array[Vector3i]:
+	var removed_cells: Array[Vector3i] = []
+	var registered_cells: Array = _cells_by_block.get(block, [])
+	for cell: Vector3i in registered_cells:
 		var cell_data := get_cell_data(cell)
-		if cell_data != null and cell_data.block == block:
+		if cell_data == null:
+			continue
+		if cell_data.block == block:
 			cell_data.block = null
+			removed_cells.append(cell)
 
+	_cells_by_block.erase(block)
 	block.is_placed = false
+	return removed_cells

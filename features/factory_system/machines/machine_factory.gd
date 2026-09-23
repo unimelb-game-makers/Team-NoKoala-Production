@@ -9,21 +9,18 @@ enum MachineType {
 
 const _SCENES: Dictionary = {
 	MachineType.DEMO: preload(
-		"res://features/factory_system/machines/machine_runtime/demo_machine.tscn"
+		"res://features/factory_system/machines/machine_scenes/demo_machine.tscn"
 	),
 	MachineType.CONVEYOR: preload(
-		"res://features/factory_system/machines/machine_runtime/demo_conveyor_belt.tscn"
+		"res://features/factory_system/machines/machine_scenes/demo_conveyor_belt.tscn"
 	),
 	MachineType.RITUAL: preload(
-		"res://features/factory_system/machines/machine_runtime/demo_ritual.tscn"
+		"res://features/factory_system/machines/machine_scenes/demo_ritual.tscn"
 	),
-
 	MachineType.RESOURCE_AREA: preload(
-		"res://features/resource_area/resource_area_machine.tscn"
+		"res://features/resource_area/scenes/iron_ore_resourcearea.tscn"
 	),
 }
-
-
 static func create_machine(type: MachineType) -> MachineAssembly:
 	var scene: PackedScene = _SCENES[type]
 	var assembly := scene.instantiate() as MachineAssembly

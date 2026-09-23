@@ -1,17 +1,29 @@
 [gd_scene format=3 uid="uid://cbtgcbvkt2eik"]
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_mswqi"]
-[ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_test_world"]
+[ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_v2hao"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_n28u7"]
+[ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="3_lfs7i"]
+[ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="4_6vmk2"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_kjr54"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="4_x4mhd"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_kjr54"]
+[ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="5_rgwlo"]
+[ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="6_3ugm5"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_lfs7i"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="7_21nps"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="7_rpij7"]
-[ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="8_faith"]
-[ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="9_jobs"]
-[ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="10_reservations"]
+[ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="9_21nps"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="10_ix74w"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="15_6vmk2"]
+[ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="16_3ugm5"]
+[ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="17_ix74w"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="19_rtwa6"]
+
+[sub_resource type="Resource" id="Resource_ix74w"]
+resource_local_to_scene = true
+script = ExtResource("10_ix74w")
+allowed_work_types = Array[int]([0, 1])
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -24,7 +36,7 @@ sky_material = SubResource("ProceduralSkyMaterial_machine")
 background_mode = 2
 sky = SubResource("Sky_machine")
 
-[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6vmk2"]
 points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
 
 [sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
@@ -32,12 +44,12 @@ albedo_texture = ExtResource("1_mswqi")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_rgwlo"]
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestResourceArea" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player")]
-script = ExtResource("1_test_world")
+[node name="TestResourceArea" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "machines_root", "resource_area_manager")]
+script = ExtResource("1_v2hao")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
 factory = NodePath("Services/FactoryManager")
@@ -49,30 +61,169 @@ pathfinder = NodePath("GridMap/Pathfinder")
 item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
+machines_root = NodePath("MachinesRoot")
+resource_area_manager = NodePath("ResourceAreaManager")
 
-[node name="Services" type="Node" parent="." unique_id=157819177]
+[node name="Services" type="Node" parent="." unique_id=1708516012]
 
-[node name="FixedClock" type="Node" parent="Services" unique_id=1063321843]
+[node name="FixedClock" type="Node" parent="Services" unique_id=6064960]
 script = ExtResource("5_kjr54")
 
-[node name="FactoryManager" type="Node" parent="Services" unique_id=1499061308]
+[node name="FactoryManager" type="Node" parent="Services" unique_id=2103116200]
 script = ExtResource("4_x4mhd")
 
-[node name="FaithManager" type="Node" parent="Services" unique_id=1216832328]
-script = ExtResource("8_faith")
+[node name="FaithManager" type="Node" parent="Services" unique_id=214336678]
+script = ExtResource("4_6vmk2")
 
-[node name="JobBoard" type="Node" parent="Services" unique_id=368130448]
-script = ExtResource("9_jobs")
+[node name="JobBoard" type="Node" parent="Services" unique_id=1600272883]
+script = ExtResource("5_rgwlo")
 
-[node name="ReservationManager" type="Node" parent="Services" unique_id=2096965221]
-script = ExtResource("10_reservations")
+[node name="ReservationManager" type="Node" parent="Services" unique_id=1443587186]
+script = ExtResource("6_3ugm5")
+
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
+mesh_library = ExtResource("3_lfs7i")
 
 [node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("7_rpij7")]
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_kjr54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
+[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(21341859, 502972077) index="0" unique_id=1206786317]
+transform = Transform3D(0.99468815, 0.08996873, 0.050005168, -0.048819225, -0.015335725, 0.99868953, 0.09061772, -0.9958263, -0.010862063, -0.0058229505, -0.007281225, 0.0071707224)
+
+[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=340283246]
+bones/2/rotation = Quaternion(0.02210463, 0.0069779237, 0.012955881, 0.99964744)
+bones/3/rotation = Quaternion(-0.117774606, 0.010762283, 0.025625624, 0.99265134)
+bones/4/rotation = Quaternion(-0.08947965, 0.0042298352, 0.027470117, 0.99560076)
+bones/11/rotation = Quaternion(0.19640224, -0.0002983423, 0.0006166353, 0.98052317)
+bones/12/rotation = Quaternion(-0.08543338, -0.00018675055, 0.00065908243, 0.9963437)
+bones/37/rotation = Quaternion(0.14575715, 0.108508915, -0.8104079, 0.5569738)
+bones/38/rotation = Quaternion(0.10824024, 0.17147873, -0.49224827, 0.8465051)
+bones/39/rotation = Quaternion(0.118727155, -0.0027238748, -0.00032562672, 0.99292314)
+bones/40/rotation = Quaternion(0.12388928, -0.14987366, 0.04598313, 0.97983414)
+bones/41/rotation = Quaternion(-0.08104817, -0.07141792, -0.063316114, 0.99213)
+bones/42/rotation = Quaternion(-0.011135335, 0.0039642043, -0.09918632, 0.9949987)
+bones/44/rotation = Quaternion(-0.06297123, 0.04056482, -0.18873881, 0.9791664)
+bones/45/rotation = Quaternion(0.02325967, -0.0008006993, -0.14316064, 0.9894258)
+bones/47/rotation = Quaternion(-0.04465602, -0.014509752, -0.037187565, 0.9982046)
+bones/48/rotation = Quaternion(0.0015486877, 9.500613e-05, -0.09050969, 0.99589443)
+bones/50/rotation = Quaternion(-0.04650326, 0.006102278, -0.110742636, 0.9927419)
+bones/51/rotation = Quaternion(-0.001898956, -0.0009540594, -0.0911931, 0.99583095)
+bones/72/rotation = Quaternion(0.12263556, -0.12730122, 0.7924521, 0.58375907)
+bones/73/rotation = Quaternion(0.08787785, -0.254425, 0.47592044, 0.8372844)
+bones/74/rotation = Quaternion(0.15382893, 0.002543361, 0.0003959194, 0.9880942)
+bones/75/rotation = Quaternion(0.077907026, 0.26203355, -0.15460137, 0.94940364)
+bones/76/rotation = Quaternion(-0.04469363, 0.06579212, 0.065550275, 0.9946743)
+bones/77/rotation = Quaternion(-0.0055362857, -0.00028148617, 0.046829715, 0.99888754)
+bones/79/rotation = Quaternion(-0.020807786, -0.0071171005, 0.15189974, 0.98815125)
+bones/80/rotation = Quaternion(0.036584124, 0.0069672484, 0.12217123, 0.99181014)
+bones/82/rotation = Quaternion(-0.03934073, 0.008462086, 0.065772645, 0.997023)
+bones/83/rotation = Quaternion(0.0031243837, 0.00043287972, 0.092450105, 0.9957124)
+bones/85/rotation = Quaternion(-0.020119924, 0.0105477525, 0.122998945, 0.9921468)
+bones/86/rotation = Quaternion(0.0032891247, 0.00280131, 0.08271297, 0.9965641)
+bones/107/rotation = Quaternion(0.028968059, 0.19401504, 0.9778526, -0.07296191)
+bones/108/rotation = Quaternion(-0.15689908, -0.000795029, -0.004791437, 0.9876028)
+bones/149/rotation = Quaternion(-0.09131404, 0.7018892, 0.6931713, 0.13611354)
+bones/150/rotation = Quaternion(0.002695288, -0.018319927, -0.029105434, 0.9994049)
+bones/151/rotation = Quaternion(-0.056528762, 0.085011594, 0.9929177, -0.06076273)
+bones/152/rotation = Quaternion(-0.10101846, -0.00014268096, 0.0024060174, 0.9948817)
+bones/193/rotation = Quaternion(0.096031934, 0.6529093, 0.74925226, -0.05575312)
+
+[node name="SpringBoneSimulator3D" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton" index="3" unique_id=126443671]
+settings/0/joints/0/bone_name = "SleeveOuter_Front_01.L"
+settings/0/joints/0/bone = 56
+settings/0/joints/1/bone_name = "SleeveOuter_Front_02.L"
+settings/0/joints/1/bone = 57
+settings/0/joints/2/bone_name = "SleeveOuter_Front_03.L"
+settings/0/joints/2/bone = 58
+settings/0/joints/3/bone_name = "SleeveOuter_Front_Tip.L"
+settings/0/joints/3/bone = 59
+settings/1/joints/0/bone_name = "SleeveOuter_Back_01.L"
+settings/1/joints/0/bone = 60
+settings/1/joints/1/bone_name = "SleeveOuter_Back_02.L"
+settings/1/joints/1/bone = 61
+settings/1/joints/2/bone_name = "SleeveOuter_Back_03.L"
+settings/1/joints/2/bone = 62
+settings/1/joints/3/bone_name = "SleeveOuter_Back_Tip.L"
+settings/1/joints/3/bone = 63
+settings/2/joints/0/bone_name = "SleeveInner_Front_01.L"
+settings/2/joints/0/bone = 64
+settings/2/joints/1/bone_name = "SleeveInner_Front_02.L"
+settings/2/joints/1/bone = 65
+settings/2/joints/2/bone_name = "SleeveInner_Front_03.L"
+settings/2/joints/2/bone = 66
+settings/2/joints/3/bone_name = "SleeveInner_Front_Tip.L"
+settings/2/joints/3/bone = 67
+settings/3/joints/0/bone_name = "SleeveInner_Back_01.L"
+settings/3/joints/0/bone = 68
+settings/3/joints/1/bone_name = "SleeveInner_Back_02.L"
+settings/3/joints/1/bone = 69
+settings/3/joints/2/bone_name = "SleeveInner_Back_03.L"
+settings/3/joints/2/bone = 70
+settings/3/joints/3/bone_name = "SleeveInner_Back_Tip.L"
+settings/3/joints/3/bone = 71
+settings/4/joints/0/bone_name = "SleeveOuter_Front_01.R"
+settings/4/joints/0/bone = 91
+settings/4/joints/1/bone_name = "SleeveOuter_Front_02.R"
+settings/4/joints/1/bone = 92
+settings/4/joints/2/bone_name = "SleeveOuter_Front_03.R"
+settings/4/joints/2/bone = 93
+settings/4/joints/3/bone_name = "SleeveOuter_Front_Tip.R"
+settings/4/joints/3/bone = 94
+settings/5/joints/0/bone_name = "SleeveOuter_Back_01.R"
+settings/5/joints/0/bone = 95
+settings/5/joints/1/bone_name = "SleeveOuter_Back_02.R"
+settings/5/joints/1/bone = 96
+settings/5/joints/2/bone_name = "SleeveOuter_Back_03.R"
+settings/5/joints/2/bone = 97
+settings/5/joints/3/bone_name = "SleeveOuter_Back_Tip.R"
+settings/5/joints/3/bone = 98
+settings/6/joints/0/bone_name = "SleeveInner_Front_01.R"
+settings/6/joints/0/bone = 99
+settings/6/joints/1/bone_name = "SleeveInner_Front_02.R"
+settings/6/joints/1/bone = 100
+settings/6/joints/2/bone_name = "SleeveInner_Front_03.R"
+settings/6/joints/2/bone = 101
+settings/6/joints/3/bone_name = "SleeveInner_Front_Tip.R"
+settings/6/joints/3/bone = 102
+settings/7/joints/0/bone_name = "SleeveInner_Back_01.R"
+settings/7/joints/0/bone = 103
+settings/7/joints/1/bone_name = "SleeveInner_Back_02.R"
+settings/7/joints/1/bone = 104
+settings/7/joints/2/bone_name = "SleeveInner_Back_03.R"
+settings/7/joints/2/bone = 105
+settings/7/joints/3/bone_name = "SleeveInner_Back_Tip.R"
+settings/7/joints/3/bone = 106
+settings/8/joints/0/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJoint"
+settings/8/joints/0/bone = 31
+settings/8/joints/1/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.001"
+settings/8/joints/1/bone = 32
+settings/9/joints/0/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.001"
+settings/9/joints/0/bone = 32
+settings/9/joints/1/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.002"
+settings/9/joints/1/bone = 33
+settings/10/joints/0/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.002"
+settings/10/joints/0/bone = 33
+settings/10/joints/1/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.003"
+settings/10/joints/1/bone = 34
+settings/11/joints/0/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.003"
+settings/11/joints/0/bone = 34
+settings/11/joints/1/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.004"
+settings/11/joints/1/bone = 35
+settings/12/joints/0/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.004"
+settings/12/joints/0/bone = 35
+settings/12/joints/1/bone_name = "98a6f333ce64d5f7a34ed2c4dbdeffa7bc4da354.transferable_HairJ.005"
+settings/12/joints/1/bone = 36
+
+[node name="LeftLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" index="0" unique_id=1012435759]
+transform = Transform3D(-90.69816, 14.270993, -39.62548, -18.66709, -97.95955, 7.446944, -37.754185, 14.151165, 91.51151, 24.107124, 79.92747, 4.1637535)
+
+[node name="RightLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" index="1" unique_id=1774903563]
+transform = Transform3D(-73.84898, -0.97884834, 67.41936, 7.1173925, -99.543945, 6.350901, 67.04974, 9.4885845, 73.58187, -5.1810546, 77.47553, -0.16353586)
+
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408]
+capability = SubResource("Resource_ix74w")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -81,19 +232,21 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
 environment = SubResource("Environment_machine")
 
-[node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
+[node name="StaticWorld" type="Node3D" parent="." unique_id=869320759]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=884991626]
 collision_layer = 9
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
-shape = SubResource("GroundShape_machine")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=1875396382]
+shape = SubResource("ConvexPolygonShape3D_6vmk2")
 
-[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
-mesh = SubResource("GroundMesh_machine")
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1554009554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008407235, 0.026550055, -0.011634588)
+mesh = SubResource("PlaneMesh_rgwlo")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("6_lfs7i")
+placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
 _faith = NodePath("../Services/FaithManager")
@@ -104,3 +257,49 @@ _reservations = NodePath("../Services/ReservationManager")
 script = ExtResource("7_21nps")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
+
+[node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root")]
+script = ExtResource("9_21nps")
+grid = NodePath("../GridMap")
+machine_root = NodePath("../MachinesRoot")
+
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=560824700]
+script = ExtResource("15_6vmk2")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
+
+[node name="MachinesRoot" type="Node3D" parent="." unique_id=298661791]
+
+[node name="ResourceAreaMachine" parent="MachinesRoot" unique_id=1962970161 instance=ExtResource("16_3ugm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+
+[node name="ResourceAreaMachine2" parent="MachinesRoot" unique_id=1086297010 instance=ExtResource("17_ix74w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0.5)
+
+[node name="iron_ore_resourcearea" type="Node3D" parent="MachinesRoot" unique_id=1236580896 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 6.5)
+script = ExtResource("19_rtwa6")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="@Node3D@37991" type="Node3D" parent="MachinesRoot" unique_id=1135071318 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 3.5)
+script = ExtResource("19_rtwa6")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="@Node3D@37992" type="Node3D" parent="MachinesRoot" unique_id=1556649208 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 6.5)
+script = ExtResource("19_rtwa6")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[node name="@Node3D@37993" type="Node3D" parent="MachinesRoot" unique_id=296884364 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 6.5)
+script = ExtResource("19_rtwa6")
+block = NodePath("Block")
+machine = NodePath("Machine")
+
+[editable path="Kaguya"]
+[editable path="Kaguya/KaguyaModel"]

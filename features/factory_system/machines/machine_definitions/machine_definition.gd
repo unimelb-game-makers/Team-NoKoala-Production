@@ -1,8 +1,14 @@
+@tool
 class_name MachineDefinition
 extends Resource
 
 
-@export var cells: Array[MachineCellDefinition] = []
+@export var cells: Array[MachineCellDefinition] = []:
+	set(value):
+		if cells == value:
+			return
+		cells = value
+		emit_changed()
 
 @export var recipes: Array[ProductionRecipe] = []
 

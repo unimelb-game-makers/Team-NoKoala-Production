@@ -4,8 +4,11 @@
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="2_02cbg"]
 [ext_resource type="Script" uid="uid://dlx7caps4aa8p" path="res://features/blocks/block.gd" id="3_block"]
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_asm"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="5_10hco"]
 [ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="5_def"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="6_5u5lm"]
 [ext_resource type="Texture2D" uid="uid://bsm5tu4x6k6uf" path="res://assets/developer_art/models/machines/new/conveyor_belt_GameCube - The Legend of Zelda_ The Wind Waker - Locations - Island Textures.png" id="6_d3e65"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5u5lm"]
 
 [sub_resource type="Resource" id="Resource_c2e4d"]
 resource_local_to_scene = true
@@ -216,6 +219,16 @@ mesh = SubResource("ArrayMesh_o84ir")
 libraries/ = SubResource("AnimationLibrary_was48")
 autoplay = &"run"
 
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=402806199 node_paths=PackedStringArray("block")]
+script = ExtResource("5_10hco")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=614148400 node_paths=PackedStringArray("block")]
+script = ExtResource("6_5u5lm")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=718292071]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1320480007]
@@ -231,6 +244,11 @@ middle = NodePath("../Middle")
 definition = ExtResource("5_def")
 faith_drain_rate = 10.0
 debug_active_indicator = NodePath("../DebugLight")
+
+[node name="MachineEditorSynchoniser" type="Node" parent="ConveyorBelt" unique_id=347408545 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("9_5u5lm")
+machine = NodePath("..")
+block = NodePath("../../Block")
 
 [node name="Middle" type="Node3D" parent="." unique_id=1433237119]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

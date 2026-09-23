@@ -2,13 +2,23 @@
 
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_2r36o"]
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="2_h5qhg"]
-[ext_resource type="Script" uid="uid://d1tfqegwkeahc" path="res://features/resource_area/resource_area_machine.gd" id="3_clsrq"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_1tqxr"]
+[ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="3_clsrq"]
 [ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="4_8fy3l"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="4_vy8n8"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_k8uwt"]
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="5_x31wi"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_m0r6p"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="7_3q5xe"]
-[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/haul_job_provider.gd" id="8_ow4k7"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="8_ow4k7"]
 [ext_resource type="Texture2D" uid="uid://i4b78mishubc" path="res://assets/developer_art/resource_areas/bamboo_resource.png" id="9_1tqxr"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5m02j"]
+
+[sub_resource type="Resource" id="Resource_vy8n8"]
+resource_local_to_scene = true
+script = ExtResource("3_1tqxr")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
 albedo_color = Color(1, 0.19, 0.19, 1)
@@ -39,6 +49,7 @@ machine = NodePath("Machine")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_h5qhg")
+block_data = SubResource("Resource_vy8n8")
 transform_root = NodePath("..")
 
 [node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
@@ -49,18 +60,33 @@ size = Vector3(1, 2, 1)
 
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
-use_collision = true
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522]
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1101967320 node_paths=PackedStringArray("block")]
+script = ExtResource("4_vy8n8")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=1165116583 node_paths=PackedStringArray("block")]
+script = ExtResource("5_k8uwt")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block")]
 script = ExtResource("3_clsrq")
-_resource_area_definition = ExtResource("4_8fy3l")
+block = NodePath("../Block")
+resource_area_definition = ExtResource("4_8fy3l")
 definition = SubResource("Resource_kjr54")
 
 [node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
 script = ExtResource("8_ow4k7")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=1179150178 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("9_5m02j")
+machine = NodePath("..")
+block = NodePath("../../Block")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=17269070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)

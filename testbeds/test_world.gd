@@ -1,3 +1,4 @@
+@tool 
 class_name TestWorld
 extends Node3D
 
@@ -18,15 +19,26 @@ extends Node3D
 @export var spring_arm: CameraController
 @export var player: Player
 @export var mobs_root: Node
+@export var machines_root: Node
 @export var faith_bar: FaithProgressBar
 @export var hotbar: Hotbar
+@export var resource_area_manager: ResourceAreaManager
 
+@export_tool_button("Configure Editor Dependency", "Callable")
+var configure_editor = configure_editor_dependencies
 
 func _enter_tree() -> void:
 	assert(grid != null, "TestWorld requires a Grid")
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")
 	configure_dependencies()
+
+func _ready() -> void:
+	if machines_root == null:
+		return
+	for child in machines_root.get_children():
+		if child is MachineAssembly:
+			child.register_preplaced(grid, factory)
 
 
 func configure_dependencies() -> void:
@@ -71,7 +83,31 @@ func configure_dependencies() -> void:
 					pathfinder,
 					faith,
 				)
+
+	if machines_root != null:
+		assert(factory != null, "Machines requires a FactoryManager")
+		assert(faith != null, "Machines requires a FaithManager")
+		assert(jobs != null, "Machines require a JobBoard")
+		assert(reservations != null, "Machines require a ReservationManager")
+		assert(grid != null, "Machines require a Grid")
+
+		for child in machines_root.get_children():
+			if child is MachineAssembly:
+				child.configure(factory,faith,jobs,reservations, grid)
+	print(factory._machines.size())
 	
 	if faith != null:
 		if faith_bar != null:
 			faith_bar.bind(faith)
+
+	if resource_area_manager != null:
+			assert(grid != null)
+			assert(factory != null)
+			resource_area_manager.configure(grid, machines_root)
+
+
+func configure_editor_dependencies() -> void:
+	if resource_area_manager != null:
+			assert(grid != null)
+			assert(factory != null)
+			resource_area_manager.configure(grid, machines_root)

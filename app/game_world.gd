@@ -1,3 +1,4 @@
+@tool
 class_name GameWorld
 extends Node3D
 
@@ -14,15 +15,34 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
 @export var hotbar: Hotbar
+@export var machines_root: Node
+@export var buildings_root: Node
+@export var resource_area_manager: ResourceAreaManager
+@export_tool_button("Configure Editor Dependency", "Callable")
+var configure_editor = configure_editor_dependencies
 
 var context: WorldContext
 var _composed := false
 
 
+
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	if _composed == false:
 		compose_world_context()
 		configure_dependencies()
+
+func _ready() -> void:
+	if Engine.is_editor_hint() or machines_root == null:
+		return
+	for child in machines_root.get_children():
+		if child is MachineAssembly:
+			child.register_preplaced(grid, factory)
+	for block in buildings_root.get_children():
+		if block is Block:
+			if block.block_data != null:
+				grid.register_block(block)
 
 func configure_world() -> WorldContext:
 	if _composed:
@@ -61,6 +81,13 @@ func configure_dependencies() -> void:
 	for child in mobs_root.get_children():
 		if child is Npc:
 			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
+	for child in machines_root.get_children():
+		if child is MachineAssembly:
+			child.configure(factory,faith,jobs,reservations,grid)
+
+func configure_editor_dependencies() -> void:
+	resource_area_manager.configure(grid,machines_root)
+
 
 func shutdown() -> void:
 	pass
