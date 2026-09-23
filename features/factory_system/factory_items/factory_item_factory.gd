@@ -8,6 +8,7 @@ const DEFAULT_SPAWN_HEIGHT := 0.167
 
 static func create_factory_item(
 	definition: FactoryItemDefinition,
+	stack: ItemStack = null,
 ) -> FactoryItem:
 	if definition == null:
 		return null
@@ -16,7 +17,10 @@ static func create_factory_item(
 	if factory_item == null:
 		return null
 	
-	factory_item.stack = ItemStack.new(definition)
+	if stack == null:
+		factory_item.stack = ItemStack.new(definition)
+	else:
+		factory_item.stack = stack
 	return factory_item
 
 
@@ -24,16 +28,19 @@ static func spawn_factory_item(
 	definition: FactoryItemDefinition,
 	world_position: Vector3,
 	factory_manager: FactoryManager,
+	stack: ItemStack = null,
 ) -> FactoryItem:
 	if (
 		factory_manager == null
 	):
 		return null
 
-	var factory_item := create_factory_item(definition)
-	factory_item.factory_manager = factory_manager
+	var factory_item := create_factory_item(definition, stack)
+	
 	if factory_item == null:
 		return null
+	
+	factory_item.factory_manager = factory_manager
 
 	factory_manager.add_child(factory_item)
 	factory_item.set(&"global_position", world_position)

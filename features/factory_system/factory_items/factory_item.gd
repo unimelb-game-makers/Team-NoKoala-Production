@@ -3,7 +3,7 @@ extends Processable
 
 @onready var sprite: Sprite3D = $Sprite3D
 @onready var pickup_area: Area3D = $Sprite3D/Area3D
-@onready var debug_label: Label3D = $StackDebugLabel
+@onready var debug_label: Label3D = $Sprite3D/StackDebugLabel
 
 var factory_manager: FactoryManager
 
@@ -19,7 +19,10 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if debug_label.visible and stack != null:
-		debug_label.text = str(stack.quantity)
+		if stack.quantity > 1:
+			debug_label.text = str(stack.quantity)
+		else:
+			debug_label.text = ""
 
 func set_in_process_hidden(is_hidden: bool) -> void:
 	sprite.visible = not is_hidden
