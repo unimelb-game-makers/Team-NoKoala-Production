@@ -1,6 +1,8 @@
 class_name PlayerInteractionController
 extends Node
 
+const NO_JOB_TEXT := "No available job"
+
 @export var spring_arm: CameraController
 
 var player: Node3D
@@ -209,15 +211,20 @@ func _on_place_mode_changed(enabled: bool) -> void:
 func _open_job_menu(provider: JobProvider, screen_position: Vector2) -> void:
 	var actions: Array[ContextMenuAction] = []
 	for request in provider.get_available_requests(_selected_consumer):
-		actions.append(_job_action(provider, request, null, null))
+		_append_job_action(actions, provider, request, null, null)
 	for entry in provider.get_active_assignments():
 		if provider.can_take_over(entry.request, _selected_consumer):
-			actions.append(
-				_job_action(provider, entry.request, entry.consumer, entry.job)
+			_append_job_action(
+				actions,
+				provider,
+				entry.request,
+				entry.consumer,
+				entry.job,
 			)
 
-	if not _context_menu.open(actions, screen_position):
+	if actions.is_empty():
 		print("Provider has no actionable jobs")
+	_context_menu.open(actions, screen_position, NO_JOB_TEXT)
 
 
 func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
@@ -230,13 +237,14 @@ func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
 				and active_job.item == item
 				and provider.can_take_over(entry.request, _selected_consumer)
 			):
-				actions.append(_job_action(
+				_append_job_action(
+					actions,
 					provider,
 					entry.request,
 					entry.consumer,
 					entry.job,
 					item,
-				))
+				)
 
 		for request in provider.get_requests():
 			var haul_request := request as HaulRequest
@@ -247,22 +255,25 @@ func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
 					item,
 				)
 			):
-				actions.append(_job_action(provider, request, null, null, item))
+				_append_job_action(actions, provider, request, null, null, item)
 
-	if not _context_menu.open(actions, screen_position):
+	if actions.is_empty():
 		print("Item has no actionable machine jobs")
+	_context_menu.open(actions, screen_position, NO_JOB_TEXT)
 
 
-## Returns null when the selected NPC won't do this kind of job.
-func _job_action(
+## Appends an action that assigns this job to the selected NPC, unless the NPC
+## won't do this kind of job.
+func _append_job_action(
+	actions: Array[ContextMenuAction],
 	provider: JobProvider,
 	request: JobRequest,
 	consumer: JobConsumer,
 	job: Job,
 	exact_item: FactoryItem = null,
-) -> ContextMenuAction:
+) -> void:
 	if _selected_consumer.get_job_priority(request.job_type()) <= 0:
-		return null
+		return
 	var label := String(request.job_type()).capitalize()
 	if request is HaulRequest:
 		var haul := request as HaulRequest
@@ -271,10 +282,10 @@ func _job_action(
 	var item := exact_item
 	if item == null and job is HaulJob:
 		item = (job as HaulJob).item
-	return ContextMenuAction.new(
+	actions.append(ContextMenuAction.new(
 		label,
 		_assign_job.bind(provider, request, item),
-	)
+	))
 
 
 func _assign_job(

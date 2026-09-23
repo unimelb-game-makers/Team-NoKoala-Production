@@ -10,13 +10,20 @@ func _ready() -> void:
 	id_pressed.connect(_on_id_pressed)
 
 
-## Shows the actions at the given screen position. Null entries are skipped.
-## Returns false, without showing anything, when there are no actions.
-func open(actions: Array[ContextMenuAction], screen_position: Vector2) -> bool:
+## Shows the actions at the given screen position. When there are no actions,
+## shows `empty_text` as a single disabled entry, or nothing if it is empty.
+func open(
+	actions: Array[ContextMenuAction],
+	screen_position: Vector2,
+	empty_text := "",
+) -> void:
 	close()
+	if actions.is_empty():
+		if empty_text.is_empty():
+			return
+		actions = [ContextMenuAction.new(empty_text, Callable(), true)]
+
 	for action in actions:
-		if action == null:
-			continue
 		var id := _actions.size()
 		if action.icon != null:
 			add_icon_item(action.icon, action.label, id)
@@ -25,11 +32,8 @@ func open(actions: Array[ContextMenuAction], screen_position: Vector2) -> bool:
 		set_item_disabled(get_item_index(id), action.disabled)
 		_actions.append(action)
 
-	if _actions.is_empty():
-		return false
 	position = Vector2i(screen_position)
 	popup()
-	return true
 
 
 func close() -> void:
