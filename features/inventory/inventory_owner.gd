@@ -4,6 +4,7 @@ extends Node
 @export var pickup_distance: float = 4.0
 @export var slot_count: int = 1
 @export var hotbar: Hotbar = null
+@export var hold_item_offset: Vector3 = Vector3(0, -0.5, 0)
 
 var actor: Node3D
 var inventory: Inventory
@@ -23,8 +24,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if inventory.hand_slot != null:
-		inventory.hand_slot.global_position = actor.global_position
-		inventory.hand_slot.global_position.y -= 0.5
+		inventory.hand_slot.global_position = actor.to_global(hold_item_offset)
 
 
 func set_held_item(item: FactoryItem) -> void:
