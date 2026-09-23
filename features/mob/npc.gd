@@ -6,6 +6,7 @@ extends CharacterBody3D
 @export var movement: Movement
 @export var inventory_owner: InventoryOwner
 
+@export var definition: NPCDefinition
 
 func configure(
 	clock: FixedClock,
@@ -23,6 +24,7 @@ func configure(
 		jobs,
 		reservations,
 		grid,
+		definition,
 		faith_manager,
 	)
 	idle_job_provider.configure(jobs)

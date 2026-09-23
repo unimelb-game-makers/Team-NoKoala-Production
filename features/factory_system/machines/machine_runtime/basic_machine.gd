@@ -18,12 +18,13 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		return
 
 	_factory_manager = factory_manager
+	_update_job_requests()
 
 	#start processing if currently has no task running
 	if _processing_recipe == null:
-		_update_job_requests()
 		_try_start_processing(factory_manager)
 		return
+
 
 	var duration := maxf(_processing_recipe.duration_seconds, 0.0)
 	if _processing_elapsed < duration:
@@ -60,6 +61,51 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 func is_processing_recipe() -> bool:
 	return _processing_recipe != null
+
+
+func has_all_required_inputs_in_place(
+	recipe: ProductionRecipe,
+	factory_manager: FactoryManager,
+) -> bool:
+	if recipe == null or factory_manager == null or definition == null:
+		return false
+	var assembly := get_parent() as MachineAssembly
+	if assembly == null or assembly.block == null or assembly.block.block_data == null:
+		return false
+	var required_count := _get_required_input_count(recipe)
+	return (
+		required_count >= 0
+		and _find_input_items(recipe, factory_manager).size() == required_count
+	)
+
+func get_remaining_work_needs() -> Array[Dictionary]:
+	var needs: Array[Dictionary] = []
+	if (
+		is_shut_down
+		or _processing_recipe == null
+		or get_processing_progress() >= 1.0
+		or definition == null
+	):
+		return needs
+	var assembly := get_parent() as MachineAssembly
+	if assembly == null or assembly.block == null or assembly.block.block_data == null:
+		return needs
+	for requirement in _processing_recipe.work_requirements:
+		if (
+			requirement == null
+			or _occupied_work_cells.has(requirement.port_id)
+		):
+			continue
+		for cell in get_cells_for_port(
+			MachineCellDefinition.Role.WORK,
+			requirement.port_id,
+		):
+			needs.append({
+				"port_id": requirement.port_id,
+				"cell": cell,
+				"work_type": requirement.work_type,
+			})
+	return needs
 
 func get_processing_progress() -> float:
 	if not is_processing_recipe():
@@ -157,7 +203,8 @@ func _check_workable(recipe: ProductionRecipe) -> bool:
 
 func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 	if (
-		capability == null
+		is_shut_down
+		or capability == null
 		or _processing_recipe == null
 		or get_processing_progress() >= 1.0
 	):

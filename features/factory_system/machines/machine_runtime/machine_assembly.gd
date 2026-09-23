@@ -21,6 +21,7 @@ func configure(
 			factory_manager,
 			job_board,
 			reservation_manager,
+			machine,
 		)
 
 

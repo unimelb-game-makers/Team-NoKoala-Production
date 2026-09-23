@@ -15,7 +15,7 @@ var current_job: Job = null
 var current_driver: JobDriver = null
 var current_provider: JobProvider = null
 var current_request: JobRequest = null
-
+var capability: WorkerCapability
 
 func configure(
 	p_actor: Node3D,
@@ -25,6 +25,7 @@ func configure(
 	p_job_board: JobBoard,
 	p_reservation_manager: ReservationManager,
 	p_grid: Grid,
+	p_defintion: NPCDefinition,
 	p_faith_manager: FaithManager,
 ) -> void:
 	actor = p_actor
@@ -34,6 +35,7 @@ func configure(
 	job_board = p_job_board
 	reservation_manager = p_reservation_manager
 	grid = p_grid
+	capability = p_defintion.worker_capability
 	faith_manager = p_faith_manager
 	_connect_faith_manager()
 
