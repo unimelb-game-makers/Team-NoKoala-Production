@@ -54,9 +54,10 @@ func begin_placement() -> MachineAssembly:
 		_faith,
 		_jobs,
 		_reservations,
+		grid
 	)
 	_floating_assembly.block.disable_collisions()
-	grid.add_block_visual(_floating_assembly.block)
+	get_parent().add_child(_floating_assembly)
 	_floating_assembly.block.set_appearence(Block.Appearance.TRANSLUCENT)
 	_floating_assembly.block.set_rotation_data(_last_rotation)
 	return _floating_assembly

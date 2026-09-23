@@ -1,0 +1,21 @@
+[gd_resource type="MeshLibrary" format=3 uid="uid://m1x2wqq3wkah"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ll53q"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nwpmh"]
+
+[resource]
+item/0/name = "RA_BAMBOO_CULM"
+item/0/mesh = SubResource("CapsuleMesh_ll53q")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/mesh_cast_shadow = 1
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+item/1/name = "RA_IRON_ORE"
+item/1/mesh = SubResource("CapsuleMesh_nwpmh")
+item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/mesh_cast_shadow = 1
+item/1/shapes = []
+item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/navigation_layers = 1

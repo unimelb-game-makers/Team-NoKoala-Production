@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_nguo2"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
@@ -14,6 +15,13 @@
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="12_jobs"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="13_7mxvq"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="13_reservations"]
+[ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="14_7mxvq"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="15_mkb8f"]
+
+[sub_resource type="Resource" id="Resource_mkb8f"]
+resource_local_to_scene = true
+script = ExtResource("4_nguo2")
+allowed_work_types = Array[int]([0, 1])
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -38,7 +46,32 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui")]
+[sub_resource type="Resource" id="Resource_u1dg4"]
+script = ExtResource("15_mkb8f")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+block_rotation = 180
+root_cell = Vector3i(1, 0, 3)
+
+[sub_resource type="Resource" id="Resource_58jip"]
+script = ExtResource("15_mkb8f")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_eivec"]
+script = ExtResource("15_mkb8f")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-7, 0, 2)
+
+[sub_resource type="Resource" id="Resource_j02vo"]
+script = ExtResource("15_mkb8f")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-7, 0, 0)
+
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui", "machines_root")]
 script = ExtResource("1_4cjtm")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -51,6 +84,7 @@ item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 machine_ui = NodePath("CanvasLayer/MachineUI")
+machines_root = NodePath("MachinesRoot")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
 
@@ -79,6 +113,11 @@ script = ExtResource("13_reservations")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
+capability = SubResource("Resource_mkb8f")
+_grid = NodePath("../../GridMap")
+_factory_manager = NodePath("../../Services/FactoryManager")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
@@ -96,6 +135,7 @@ collision_layer = 9
 shape = SubResource("GroundShape_machine")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01540041, -0.0809226, 0.0312047)
 mesh = SubResource("GroundMesh_machine")
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
@@ -121,3 +161,87 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2070855184]
 
 [node name="MachineUI" parent="CanvasLayer" unique_id=438224254 instance=ExtResource("13_7mxvq")]
+
+[node name="MachinesRoot" type="Node" parent="." unique_id=598590661]
+
+[node name="DemoMachine" parent="MachinesRoot" unique_id=1962970161 instance=ExtResource("14_7mxvq")]
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 1.5, 0, 3.5)
+
+[node name="Block" parent="MachinesRoot/DemoMachine" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_u1dg4")
+
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine2" parent="MachinesRoot" unique_id=492139455 instance=ExtResource("14_7mxvq")]
+transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, -0.5, 0, 0.5)
+
+[node name="Block" parent="MachinesRoot/DemoMachine2" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_58jip")
+
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine2/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine2/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine2/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine3" parent="MachinesRoot" unique_id=1061425926 instance=ExtResource("14_7mxvq")]
+transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 2.5)
+
+[node name="Block" parent="MachinesRoot/DemoMachine3" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_eivec")
+
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine3/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine3/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine3/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine4" parent="MachinesRoot" unique_id=1181246573 instance=ExtResource("14_7mxvq")]
+transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 0.5)
+
+[node name="Block" parent="MachinesRoot/DemoMachine4" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_j02vo")
+
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine4/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine4/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine4/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[editable path="Kaguya"]
+[editable path="MachinesRoot/DemoMachine"]
+[editable path="MachinesRoot/DemoMachine2"]
+[editable path="MachinesRoot/DemoMachine3"]
+[editable path="MachinesRoot/DemoMachine4"]
