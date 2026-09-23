@@ -1,7 +1,7 @@
 class_name PlayerInteractionController
 extends Node
 
-@export var camera: Camera3D
+@export var spring_arm: CameraController
 
 var player: Node3D
 var _inventory_owner: InventoryOwner
@@ -13,9 +13,11 @@ var _menu_jobs: Array[Dictionary] = []
 
 
 func configure(
+	p_spring_arm: CameraController,
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
 ) -> void:
+	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_bind_placement_controller()
@@ -119,11 +121,11 @@ func _factory_item_at_mouse() -> FactoryItem:
 
 
 func _node_at_mouse() -> Node:
-	if camera == null:
+	if spring_arm == null:
 		return null
 	var mouse_position := get_viewport().get_mouse_position()
-	var ray_origin := camera.project_ray_origin(mouse_position)
-	var ray_end := ray_origin + camera.project_ray_normal(mouse_position) * 1000.0
+	var ray_origin := spring_arm.camera.project_ray_origin(mouse_position)
+	var ray_end := ray_origin + spring_arm.camera.project_ray_normal(mouse_position) * 1000.0
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	query.collide_with_areas = true
 	query.collide_with_bodies = true

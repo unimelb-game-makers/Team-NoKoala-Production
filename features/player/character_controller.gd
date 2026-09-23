@@ -28,7 +28,7 @@ func configure(
 	factory: FactoryManager,
 ) -> void:
 	spring_arm = p_spring_arm
-	interaction_controller.configure(placement, jobs)
+	interaction_controller.configure(p_spring_arm, placement, jobs)
 	work_controller.configure(grid, factory)
 
 func _input(event: InputEvent) -> void:
