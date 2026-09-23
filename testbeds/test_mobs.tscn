@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="10_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="12_reservations"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="15_qtrrw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -38,7 +39,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMobs" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "mobs_root")]
+[node name="TestMobs" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "mobs_root", "machine_ui")]
 script = ExtResource("1_test_world")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -52,6 +53,7 @@ item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 mobs_root = NodePath("Mobs")
+machine_ui = NodePath("CanvasLayer/MachineUI")
 
 [node name="Services" type="Node" parent="." unique_id=212651992]
 
@@ -125,3 +127,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
 
 [node name="DemoNpc3" parent="Mobs" unique_id=1746404977 instance=ExtResource("8_fjn7m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=563708219]
+
+[node name="MachineUI" parent="CanvasLayer" unique_id=45109170 instance=ExtResource("15_qtrrw")]
