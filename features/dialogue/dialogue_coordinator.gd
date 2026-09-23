@@ -7,11 +7,12 @@ signal dialogue_requested(entry: DialogueEntry)
 @export var dialogues: Array[DialogueResource]
 
 
-func request_by_cue(cue: StringName):
+func request_by_cue(cue: StringName) -> bool:
 
 	for dialogue : DialogueResource in dialogues:
-		if dialogue.has_title("cue"):
+		if dialogue != null and dialogue.cues.has(cue):
 			dialogue_requested.emit(DialogueEntry.new(dialogue, cue, self))
-		return
+			return true
 
 	push_warning("Unknown dialogue cue: %s" % cue)
+	return false
