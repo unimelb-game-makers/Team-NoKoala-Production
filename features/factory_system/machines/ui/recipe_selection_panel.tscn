@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/factory_system/machines/ui/recipe_selection_panel.gd" id="1_panel"]
+
+[node name="RecipeSelectionPanel" type="VBoxContainer" node_paths=PackedStringArray("name_label", "duration_label", "inputs_row", "outputs_row", "work_label", "status_label", "grid")]
+theme_override_constants/separation = 8
+script = ExtResource("1_panel")
+tab_title = "Recipes"
+name_label = NodePath("Detail/Name")
+duration_label = NodePath("Detail/Duration")
+inputs_row = NodePath("Detail/Inputs/Items")
+outputs_row = NodePath("Detail/Outputs/Items")
+work_label = NodePath("Detail/Work")
+status_label = NodePath("Detail/Status")
+grid = NodePath("Recipes/Grid")
+
+[node name="Detail" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Name" type="Label" parent="Detail"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Recipe"
+
+[node name="Duration" type="Label" parent="Detail"]
+layout_mode = 2
+text = "Duration"
+
+[node name="Inputs" type="HBoxContainer" parent="Detail"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Detail/Inputs"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Inputs:"
+
+[node name="Items" type="HBoxContainer" parent="Detail/Inputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Outputs" type="HBoxContainer" parent="Detail"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Detail/Outputs"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Outputs:"
+
+[node name="Items" type="HBoxContainer" parent="Detail/Outputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Work" type="Label" parent="Detail"]
+layout_mode = 2
+text = "Work"
+
+[node name="Status" type="Label" parent="Detail"]
+layout_mode = 2
+text = "Status"
+
+[node name="Separator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="Recipes" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Recipes"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 5

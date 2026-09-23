@@ -10,16 +10,19 @@ var _job_board: JobBoard
 var _selected_consumer: JobConsumer
 var _job_menu: PopupMenu
 var _menu_jobs: Array[Dictionary] = []
+var _machine_ui: MachineUI
 
 
 func configure(
 	p_spring_arm: CameraController,
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
+	machine_ui: MachineUI,
 ) -> void:
 	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
+	_machine_ui = machine_ui
 	_bind_placement_controller()
 
 
@@ -77,9 +80,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _try_handle_npc_interaction(event):
 		return
-	if not event is InputEventMouseButton:
+	if not event is InputEventMouseButton or not event.pressed:
 		return
-	if not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		_try_open_machine_ui()
+		return
+	if event.button_index != MOUSE_BUTTON_LEFT:
 		return
 
 	# LMB -> pick up logic
@@ -90,13 +96,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	if factory_item != null:
 		_try_pick_up_item_at_mouse(factory_item)
 
+
+func _try_open_machine_ui() -> void:
+	var assembly := _assembly_from_node(_node_at_mouse())
+	if (
+		_machine_ui == null
+		or assembly == null
+		or assembly.ui_panels.is_empty()
+		or assembly.machine == null
+	):
+		return
+	_machine_ui.open(assembly.machine, assembly.ui_panels)
+	get_viewport().set_input_as_handled()
+
+
+func _close_machine_ui() -> void:
+	if _machine_ui != null:
+		_machine_ui.close()
+
+
 func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
 	if _inventory_owner.try_pick_up_item(factory_item):
 		get_viewport().set_input_as_handled()
 
+
 func _try_drop_held_item() -> void:
 	if _inventory_owner.try_drop_held_item():
 		get_viewport().set_input_as_handled()
+
 
 func _factory_item_at_mouse() -> FactoryItem:
 	return _item_from_node(_node_at_mouse())
@@ -133,10 +160,16 @@ func _consumer_from_node(node: Node) -> JobConsumer:
 
 
 func _provider_from_node(node: Node) -> JobProvider:
+	var assembly := _assembly_from_node(node)
+	if assembly == null or assembly.machine == null:
+		return null
+	return assembly.machine.job_provider
+
+
+func _assembly_from_node(node: Node) -> MachineAssembly:
 	while node != null:
 		if node is MachineAssembly:
-			var machine := (node as MachineAssembly).machine
-			return machine.job_provider if machine != null else null
+			return node as MachineAssembly
 		node = node.get_parent()
 	return null
 
@@ -162,6 +195,7 @@ func _on_place_mode_changed(enabled: bool) -> void:
 	if enabled:
 		_clear_consumer_selection()
 		_job_menu.hide()
+		_close_machine_ui()
 
 
 func _open_job_menu(provider: JobProvider, screen_position: Vector2) -> void:

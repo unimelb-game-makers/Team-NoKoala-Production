@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://b6v4tvbps4ehk"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_amount"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_recipe"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_bamboo"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="4_iron"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_work"]
+
+[sub_resource type="Resource" id="Resource_input"]
+script = ExtResource("1_amount")
+port_id = &"input_1"
+item = ExtResource("3_bamboo")
+
+[sub_resource type="Resource" id="Resource_output"]
+script = ExtResource("1_amount")
+port_id = &"output_1"
+item = ExtResource("4_iron")
+
+[sub_resource type="Resource" id="Resource_work"]
+script = ExtResource("5_work")
+port_id = &"work_1"
+
+[resource]
+script = ExtResource("2_recipe")
+recipe_id = &"2"
+display_name = "demo_recipe_2"
+inputs = Array[ExtResource("1_amount")]([SubResource("Resource_input")])
+outputs = Array[ExtResource("1_amount")]([SubResource("Resource_output")])
+work_requirements = Array[ExtResource("5_work")]([SubResource("Resource_work")])

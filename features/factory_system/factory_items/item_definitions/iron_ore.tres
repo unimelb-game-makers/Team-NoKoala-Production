@@ -7,3 +7,4 @@
 script = ExtResource("1_r54ht")
 item_name = "Iron Ore"
 texture = ExtResource("2_ww31g")
+metadata/_custom_type_script = "uid://ds6k1xkxh4efn"

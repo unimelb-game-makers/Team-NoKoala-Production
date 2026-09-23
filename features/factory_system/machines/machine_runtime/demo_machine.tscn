@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
 [ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="10_ui"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
@@ -19,10 +20,14 @@ albedo_color = Color(1, 0.19, 0.19, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
 albedo_color = Color(0.1, 0.42, 1, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+size = Vector3(1, 1, 1)
+
 [node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("4_assembly")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("10_ui")])
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_lqbl5")
@@ -45,6 +50,13 @@ material = SubResource("StandardMaterial3D_work")
 
 [node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Block"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_structure")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")

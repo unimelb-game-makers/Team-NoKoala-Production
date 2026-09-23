@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="9_na4ej"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="11_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="12_jobs"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="13_7mxvq"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="13_reservations"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -37,7 +38,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui")]
 script = ExtResource("1_4cjtm")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -49,6 +50,7 @@ reservations = NodePath("Services/ReservationManager")
 item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
+machine_ui = NodePath("CanvasLayer/MachineUI")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
 
@@ -115,3 +117,7 @@ factory_manager = NodePath("../Services/FactoryManager")
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
 script = ExtResource("9_na4ej")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2070855184]
+
+[node name="MachineUI" parent="CanvasLayer" unique_id=438224254 instance=ExtResource("13_7mxvq")]
