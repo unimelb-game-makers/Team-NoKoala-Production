@@ -9,6 +9,7 @@ var inventory_owner: InventoryOwner
 var fixed_clock: FixedClock
 var job_board: JobBoard
 var reservation_manager: ReservationManager
+var faith_manager: FaithManager
 var grid: Grid
 var current_job: Job = null
 var current_driver: JobDriver = null
@@ -24,6 +25,7 @@ func configure(
 	p_job_board: JobBoard,
 	p_reservation_manager: ReservationManager,
 	p_grid: Grid,
+	p_faith_manager: FaithManager,
 ) -> void:
 	actor = p_actor
 	movement = p_movement
@@ -32,7 +34,18 @@ func configure(
 	job_board = p_job_board
 	reservation_manager = p_reservation_manager
 	grid = p_grid
+	faith_manager = p_faith_manager
+	_connect_faith_manager()
 
+func _connect_faith_manager() -> void:
+	if faith_manager == null:
+		return
+	if not faith_manager.faith_depleted.is_connected(_on_faith_depleted):
+		faith_manager.faith_depleted.connect(_on_faith_depleted)
+
+func _on_faith_depleted() -> void:
+	pass
+	# interrupt_job() # TO DO: guard this with only factory workers
 
 func _ready() -> void:
 	if not fixed_clock.tick.is_connected(_on_tick):

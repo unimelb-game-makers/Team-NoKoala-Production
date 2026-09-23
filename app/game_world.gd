@@ -51,7 +51,7 @@ func compose_world_context() -> WorldContext:
 	return context
 
 func configure_dependencies() -> void:
-	factory.configure(grid, clock)
+	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
 	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
 	item_spawner.configure(spring_arm, grid, factory)
