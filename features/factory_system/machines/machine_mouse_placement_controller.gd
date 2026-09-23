@@ -3,8 +3,22 @@ extends MachinePlacementController
 
 const GROUND_COLLISION_MASK := 1 << 3
 
-@export var camera: Camera3D
+@export var spring_arm: CameraController
 @export var placement_grid: PlacementGrid
+
+
+func configure(
+	p_grid: Grid,
+	p_factory_manager: FactoryManager,
+	faith: FaithManager,
+	jobs: JobBoard,
+	reservations: ReservationManager,
+	p_spring_arm: CameraController,
+) -> void:
+	# Godot doesn't allow override a function with different parameters
+	# Not sure if there's a better way to do this
+	spring_arm = p_spring_arm
+	super(p_grid, p_factory_manager, faith, jobs, reservations, p_spring_arm)
 
 
 func _process(_delta: float) -> void:
@@ -17,7 +31,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("toggle_edit"):
 		place_mode = !place_mode
 
-	if camera == null:
+	if spring_arm == null:
 		return
 
 	if not has_active_placement():
@@ -54,8 +68,8 @@ func cell_at_mouse_position() -> Vector3i:
 
 func _raycast_ground() -> Dictionary:
 	var mouse_pos := get_viewport().get_mouse_position()
-	var ray_origin := camera.project_ray_origin(mouse_pos)
-	var ray_dir := camera.project_ray_normal(mouse_pos)
+	var ray_origin := spring_arm.camera.project_ray_origin(mouse_pos)
+	var ray_dir := spring_arm.camera.project_ray_normal(mouse_pos)
 	var ray_end := ray_origin + ray_dir * 1000.0
 
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
