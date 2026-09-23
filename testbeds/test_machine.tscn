@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
-[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_nguo2"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="8_4cjtm"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="9_na4ej"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="11_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="12_jobs"]
@@ -69,7 +69,7 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
 root_cell = Vector3i(-7, 0, 0)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player", "machines_root")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machines_root")]
 script = ExtResource("1_4cjtm")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -78,6 +78,8 @@ placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
+item_spawner = NodePath("FactoryItemSpawnController")
+spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 machines_root = NodePath("MachinesRoot")
 
@@ -102,6 +104,8 @@ script = ExtResource("12_jobs")
 script = ExtResource("13_reservations")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
+
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("8_4cjtm")]
 
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
@@ -131,9 +135,8 @@ shape = SubResource("GroundShape_machine")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01540041, -0.0809226, 0.0312047)
 mesh = SubResource("GroundMesh_machine")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("6_nnvon")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
@@ -141,9 +144,8 @@ _faith = NodePath("../Services/FaithManager")
 _jobs = NodePath("../Services/JobBoard")
 _reservations = NodePath("../Services/ReservationManager")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("5_u0wh0")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
 

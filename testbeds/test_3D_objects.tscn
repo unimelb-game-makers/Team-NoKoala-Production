@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_7l4kk"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_guvjm"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="4_7l4kk"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_lpg4p"]
 [ext_resource type="Texture2D" uid="uid://dlt4mhr7g81e5" path="res://features/3D-objects/arch_mat.png" id="6_4at8n"]
 [ext_resource type="PackedScene" uid="uid://dhue7p6vhxki0" path="res://assets/developer_art/models/gohei_model_draft_1.glb" id="7_7l4kk"]
@@ -172,13 +173,15 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_guvjm")]
 
-[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("4_lpg4p")]
+[node name="SpringArm3D" parent="." unique_id=1371171314 node_paths=PackedStringArray("fade_objects", "player") instance=ExtResource("4_7l4kk")]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.2838411, 0)
+fade_objects = [NodePath("../StaticBody3D"), NodePath("../StaticBody3D2")]
+player = NodePath("../Kaguya")
+
+[node name="Kaguya" parent="." unique_id=21341859 node_paths=PackedStringArray("spring_arm") instance=ExtResource("4_lpg4p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9838413, 0)
 collision_mask = 5
-
-[node name="SpringArm3D2" type="SpringArm3D" parent="Kaguya" unique_id=1594393964]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.5, 3)
-collision_mask = 5
+spring_arm = NodePath("../SpringArm3D")
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=1085173995]
 transform = Transform3D(-0.12338939, 0, 0.2174283, 0, 0.25, 0, -0.2174283, 0, -0.12338939, -6.0881376, 0, -4.9487104)

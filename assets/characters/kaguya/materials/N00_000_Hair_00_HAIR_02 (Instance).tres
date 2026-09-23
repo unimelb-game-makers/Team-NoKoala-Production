@@ -1,0 +1,50 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://btn4fjjaqtdjh"]
+
+[ext_resource type="Shader" uid="uid://rbu7t0g1xtda" path="res://assets/characters/kaguya/shaders/kaguya_outline.gdshader" id="1_o3r40"]
+[ext_resource type="Texture2D" uid="uid://bm60gn2q46fw8" path="res://assets/characters/kaguya/Kaguya_SleeveRig__21.png" id="2_albedo"]
+[ext_resource type="Shader" uid="uid://dklqq0d4ayp8a" path="res://assets/characters/kaguya/shaders/kaguya_anime.gdshader" id="3_f3v6o"]
+[ext_resource type="Texture2D" uid="uid://nv5vgkbjg1gl" path="res://assets/characters/kaguya/Kaguya_SleeveRig_N00_000_Hair_00_nml_02.png" id="3_normal"]
+[ext_resource type="Texture2D" uid="uid://ogpxf6cmn82r" path="res://assets/characters/kaguya/Kaguya_SleeveRig__22.png" id="4_emission"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outline"]
+render_priority = -1
+shader = ExtResource("1_o3r40")
+shader_parameter/albedo_texture = ExtResource("2_albedo")
+shader_parameter/outline_color = Color(0.055, 0.045, 0.09, 1)
+shader_parameter/outline_width_pixels = 2.0
+shader_parameter/alpha_scissor = 0.5
+
+[resource]
+resource_name = "N00_000_Hair_00_HAIR_02 (Instance)"
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outline")
+shader = ExtResource("3_f3v6o")
+shader_parameter/albedo_texture = ExtResource("2_albedo")
+shader_parameter/normal_texture = ExtResource("3_normal")
+shader_parameter/emission_texture = ExtResource("4_emission")
+shader_parameter/shadow_tint = Color(0.48, 0.52, 0.68, 1)
+shader_parameter/shadow_threshold = 0.46
+shader_parameter/shadow_softness = 0.04
+shader_parameter/base_brightness = 0.82
+shader_parameter/light_energy = 0.14000000665
+shader_parameter/rim_color = Color(0.72, 0.78, 1, 1)
+shader_parameter/rim_strength = 1.0
+shader_parameter/rim_width = 0.450000021375
+shader_parameter/rim_softness = 0.025
+shader_parameter/highlight_color = Color(0, 0.78431374, 0.58431375, 1)
+shader_parameter/highlight_strength = 0.2000000095
+shader_parameter/highlight_size = 0.28
+shader_parameter/normal_strength = 0.8
+shader_parameter/emission_strength = 0.75
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/unshaded_mix = 0.0
+shader_parameter/face_shadow_enabled = false
+shader_parameter/face_forward_axis = Vector3(0, 0, 1)
+shader_parameter/face_right_axis = Vector3(1, 0, 0)
+shader_parameter/face_up_axis = Vector3(0, 0, -1)
+shader_parameter/face_shadow_coverage = 0.58
+shader_parameter/face_shadow_curve = 0.12
+shader_parameter/face_vertical_influence = 0.2
+shader_parameter/face_backlight_cutoff = -0.25
+shader_parameter/face_backlight_softness = 0.1
+metadata/_gltf_primary_texture_coord = 0

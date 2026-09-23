@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_gu6qo"]
 [ext_resource type="Script" uid="uid://dw3p8n0mxq3wk" path="res://features/mob/movement/pathfinder.gd" id="7_hygsx"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="8_1vr5x"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="8_f37b4"]
 [ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="8_gu6qo"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="10_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
@@ -45,7 +46,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestFaithDrain" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "player", "mobs_root", "faith_bar")]
+[node name="TestFaithDrain" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "mobs_root", "faith_bar")]
 script = ExtResource("1_yjetv")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -55,6 +56,8 @@ faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
 pathfinder = NodePath("GridMap/PathFinder")
+item_spawner = NodePath("FactoryItemSpawnController")
+spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 mobs_root = NodePath("mobs")
 faith_bar = NodePath("FaithProgressBar")
@@ -81,10 +84,12 @@ script = ExtResource("12_reservations")
 [node name="PathFinder" type="Node" parent="GridMap" unique_id=1192322382]
 script = ExtResource("7_hygsx")
 
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("8_f37b4")]
+
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_gu6qo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "faith_manager")]
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "faith_manager")]
 capability = SubResource("Resource_hygsx")
 _grid = NodePath("../../GridMap")
 faith_manager = NodePath("../../Services/FaithManager")
@@ -107,15 +112,13 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=965414183 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("3_1vr5x")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=404807820 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("5_dqx0x")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")

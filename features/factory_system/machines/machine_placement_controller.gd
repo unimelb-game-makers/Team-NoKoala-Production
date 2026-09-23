@@ -34,6 +34,7 @@ func configure(
 	faith: FaithManager,
 	jobs: JobBoard,
 	reservations: ReservationManager,
+	_spring_arm: CameraController,
 ) -> void:
 	grid = p_grid
 	factory_manager = p_factory_manager
