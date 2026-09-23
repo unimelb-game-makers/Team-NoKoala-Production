@@ -11,7 +11,6 @@ signal processable_unregistered(processable: Processable)
 @export var faith_manager: FaithManager
 
 var _machines: Array[Machine] = []
-var _shut_down_machines: Array[Machine] = []
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
@@ -67,16 +66,18 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 # -- faith interactions -- #
 
 func _on_faith_depleted() -> void:
+	# Machines that go active later shut themselves down in register_active.
 	for machine in get_machines():
-		if _can_tick(machine) and machine.is_active:
-			_shut_down_machines.append(machine)
+		if (
+			_can_tick(machine)
+			and machine.is_active
+			and machine.faith_drain_rate > 0.0
+		):
 			machine.force_shutdown()
 
 func _on_faith_restored() -> void:
-	var to_resume := _shut_down_machines.duplicate()
-	_shut_down_machines.clear()
-	for machine in to_resume:
-		if _can_tick(machine):
+	for machine in get_machines():
+		if _can_tick(machine) and machine.is_shut_down:
 			machine.reactivate()
 
 
@@ -104,7 +105,6 @@ func unregister_machine(
 		return false
 
 	_machines.remove_at(index)
-	_shut_down_machines.erase(machine)
 	if disconnect_exit_signal and is_instance_valid(machine):
 		var exit_callback := _on_machine_tree_exiting.bind(machine)
 		if machine.tree_exiting.is_connected(exit_callback):

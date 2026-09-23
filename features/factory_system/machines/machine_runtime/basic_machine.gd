@@ -33,6 +33,8 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 			return
 
 		register_active(faith_drain_rate)
+		if is_shut_down:
+			return
 		_processing_elapsed = minf(_processing_elapsed + delta, duration)
 		if _processing_elapsed < duration:
 			return
@@ -41,6 +43,8 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 
 
 	register_active(faith_drain_rate)
+	if is_shut_down:
+		return
 
 	if not _try_spawn_outputs(factory_manager):
 		return

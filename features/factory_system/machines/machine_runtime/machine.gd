@@ -97,13 +97,16 @@ func _get_cells_for_role(
 
 
 func register_active(drain_rate: float = 0.0) -> void:
-	if not is_active:
-		if faith_manager.try_drain():
-			faith_manager.register_drain(self, drain_rate)
-			is_active = true
-			_set_debug_indicator(true)
-		else:
-			pass # faith too low
+	if is_active:
+		return
+	if drain_rate > 0.0 and not faith_manager.try_drain():
+		# Out of faith: shut down rather than run for free. FactoryManager
+		# reactivates shut-down machines once faith is restored.
+		force_shutdown()
+		return
+	faith_manager.register_drain(self, drain_rate)
+	is_active = true
+	_set_debug_indicator(true)
 
 
 func unregister_active() -> void:
