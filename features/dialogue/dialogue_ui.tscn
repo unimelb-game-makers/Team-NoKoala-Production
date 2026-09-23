@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dfw0y5iy20my7" path="res://features/dialogue/dialogue_ui.gd" id="1_dialogue"]
 [ext_resource type="Script" uid="uid://tgy8x2ehmraq" path="res://features/dialogue/dialogue_character_definition.gd" id="2_character_type"]
-[ext_resource type="Resource" path="res://features/dialogue/characters/kaguya.tres" id="3_kaguya"]
-[ext_resource type="Texture2D" uid="uid://dt0iamu1jeg10" path="res://assets/developer_art/Kaguya.png" id="4_0yufq"]
+[ext_resource type="Resource" uid="uid://bbn828xh01qms" path="res://features/dialogue/characters/kaguya.tres" id="3_kaguya"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.tscn" id="4_label"]
 [ext_resource type="Texture2D" uid="uid://dqy0m5dgt13rh" path="res://assets/developer_art/backgrounds/Kaguya Concept Art.png" id="4_uwhij"]
 [ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/nodes/responses_menu/dialogue_responses_menu.gd" id="5_responses"]
+[ext_resource type="Texture2D" uid="uid://dv712h0vfqi8l" path="res://assets/developer_art/Character/Kaguya.png" id="5_uwhij"]
 
 [sub_resource type="Gradient" id="Gradient_dialogue_alpha"]
 colors = PackedColorArray(0.035, 0.04, 0.085, 0, 0.035, 0.04, 0.085, 1)
@@ -82,7 +82,7 @@ offset_right = 161.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-texture = ExtResource("4_0yufq")
+texture = ExtResource("5_uwhij")
 expand_mode = 1
 stretch_mode = 6
 
