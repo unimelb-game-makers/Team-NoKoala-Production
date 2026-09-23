@@ -4,6 +4,7 @@ class_name Player
 @export var can_jump: bool = true
 @export var interaction_controller: PlayerInteractionController
 @export var work_controller: PlayerMachineWorkController
+@export var inventory_owner: InventoryOwner
 @export var animation_tree: AnimationTree
 @export var spring_arm: CameraController
 
@@ -26,10 +27,13 @@ func configure(
 	jobs: JobBoard,
 	grid: Grid,
 	factory: FactoryManager,
+	hotbar: Hotbar,
 ) -> void:
 	spring_arm = p_spring_arm
-	interaction_controller.configure(placement, jobs)
+	interaction_controller.configure(p_spring_arm, placement, jobs)
 	work_controller.configure(grid, factory)
+	inventory_owner.configure(hotbar)
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return

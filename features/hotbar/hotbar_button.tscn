@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://b24w5jelebb47"]
+
+[ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hotbar/hotbar.png" id="1_h8vcf"]
+[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hotbar/hotbar_slot.gd" id="1_kr80x"]
+[ext_resource type="Texture2D" uid="uid://b05c2wx3ap43u" path="res://features/hotbar/hotbar_selection.png" id="3_jpxok"]
+
+[node name="HotbarButton" type="Button" unique_id=1951377414]
+custom_minimum_size = Vector2(80, 80)
+custom_maximum_size = Vector2(80, 80)
+offset_right = 18.0
+offset_bottom = 31.0
+icon = ExtResource("1_h8vcf")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("1_kr80x")
+
+[node name="Label" type="Label" parent="." unique_id=175218981]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 48.0
+offset_bottom = 25.0
+text = "X"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1059627687]
+texture_filter = 1
+position = Vector2(40, 40)
+scale = Vector2(1.5, 1.5)
+
+[node name="QtyLabel" type="Label" parent="." unique_id=801895425]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 2.0
+offset_right = 72.0
+offset_bottom = 25.0
+horizontal_alignment = 2
+
+[node name="Selection" type="Control" parent="." unique_id=538933665]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 320.0
+offset_top = 318.0
+offset_right = 360.0
+offset_bottom = 358.0
+
+[node name="Selection" type="Sprite2D" parent="Selection" unique_id=415471442]
+position = Vector2(-280.00003, -278.00003)
+scale = Vector2(0.11, 0.11)
+texture = ExtResource("3_jpxok")

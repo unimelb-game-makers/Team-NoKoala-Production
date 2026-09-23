@@ -1,7 +1,7 @@
 class_name PlayerInteractionController
 extends Node
 
-@export var camera: Camera3D
+@export var spring_arm: CameraController
 
 var player: Node3D
 var _inventory_owner: InventoryOwner
@@ -13,9 +13,11 @@ var _menu_jobs: Array[Dictionary] = []
 
 
 func configure(
+	p_spring_arm: CameraController,
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
 ) -> void:
+	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_bind_placement_controller()
@@ -32,82 +34,98 @@ func _ready() -> void:
 	add_child(_job_menu)
 
 
-func _input(event: InputEvent) -> void:
-	if _is_place_mode():
-		return
+func _try_handle_npc_interaction(event: InputEvent) -> bool:
 	if _selected_consumer != null and not is_instance_valid(_selected_consumer):
 		_clear_consumer_selection()
 	if event.is_action_pressed("ui_cancel"):
 		_clear_consumer_selection()
 		_job_menu.hide()
-		return
+		return false
 	if not event is InputEventMouseButton:
-		return
+		return false
 	if not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
-		return
+		return false
 
 	var hit_node := _node_at_mouse()
 	var consumer := _consumer_from_node(hit_node)
 	if consumer != null:
 		_select_consumer(consumer)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	if _selected_consumer == null:
-		return
+		return false
 
 	var item := _item_from_node(hit_node)
 	if item != null:
 		_open_item_job_menu(item, event.position)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	var provider := _provider_from_node(hit_node)
 	if provider != null:
 		_open_job_menu(provider, event.position)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	_clear_consumer_selection()
+	return true
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _is_place_mode():
 		return
+	if _try_handle_npc_interaction(event):
+		return
 	if not event is InputEventMouseButton:
 		return
-	if not event.pressed or event.button_index != MOUSE_BUTTON_RIGHT:
+	if not event.pressed or (event.button_index != MOUSE_BUTTON_LEFT and event.button_index != MOUSE_BUTTON_RIGHT):
 		return
+	
+	# LMB -> pick up logic
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
+			_try_drop_held_item()
+			return
+		var factory_item := _factory_item_at_mouse()
+		if factory_item != null:
+			_try_pick_up_item_at_mouse(factory_item)
+	
+	# RMB -> stack splitting logic
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		if _inventory_owner.inventory.hand_slot != null:
+			_try_split_held_item()
+			return
+		var factory_item := _factory_item_at_mouse()
+		if factory_item != null:
+			_try_split_item_at_mouse(factory_item)
 
-	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
-		_try_drop_held_item()
-		return
-	var factory_item := _factory_item_at_mouse()
-	if factory_item != null:
-		_try_pick_up_item_at_mouse(factory_item)
+func _try_split_held_item() -> void:
+	if _inventory_owner.try_split_item():
+		get_viewport().set_input_as_handled()
 
+func _try_split_item_at_mouse(factory_item: FactoryItem) -> void:
+	if _inventory_owner.try_split_item(factory_item):
+		get_viewport().set_input_as_handled()
 
 func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
-	print(factory_item)
 	if _inventory_owner.try_pick_up_item(factory_item):
 		get_viewport().set_input_as_handled()
 
-
-func _try_drop_held_item() -> void:	
+func _try_drop_held_item() -> void:
 	if _inventory_owner.try_drop_held_item():
 		get_viewport().set_input_as_handled()
-
 
 func _factory_item_at_mouse() -> FactoryItem:
 	return _item_from_node(_node_at_mouse())
 
 
 func _node_at_mouse() -> Node:
-	if camera == null:
+	if spring_arm == null:
 		return null
 	var mouse_position := get_viewport().get_mouse_position()
-	var ray_origin := camera.project_ray_origin(mouse_position)
-	var ray_end := ray_origin + camera.project_ray_normal(mouse_position) * 1000.0
+	var ray_origin := spring_arm.camera.project_ray_origin(mouse_position)
+	var ray_end := ray_origin + spring_arm.camera.project_ray_normal(mouse_position) * 1000.0
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
