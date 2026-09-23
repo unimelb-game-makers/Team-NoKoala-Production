@@ -51,6 +51,8 @@ func tick(delta: float) -> Status:
 	if _working:
 		if _actor_cell() != work_job.destination:
 			return Status.FAILURE
+		if work_job.machine.is_shut_down:
+			return Status.FAILURE
 		if not work_job.machine.is_working_at_port(
 			work_job.destination,
 			_work_capability,

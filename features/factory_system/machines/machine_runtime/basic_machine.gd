@@ -81,7 +81,8 @@ func has_all_required_inputs_in_place(
 func get_remaining_work_needs() -> Array[Dictionary]:
 	var needs: Array[Dictionary] = []
 	if (
-		_processing_recipe == null
+		is_shut_down
+		or _processing_recipe == null
 		or get_processing_progress() >= 1.0
 		or definition == null
 	):
@@ -202,7 +203,8 @@ func _check_workable(recipe: ProductionRecipe) -> bool:
 
 func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 	if (
-		capability == null
+		is_shut_down
+		or capability == null
 		or _processing_recipe == null
 		or get_processing_progress() >= 1.0
 	):
