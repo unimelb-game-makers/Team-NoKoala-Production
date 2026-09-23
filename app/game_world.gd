@@ -59,7 +59,7 @@ func configure_dependencies() -> void:
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:
-			child.configure(clock, jobs, reservations, grid, pathfinder)
+			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
 
 func shutdown() -> void:
 	pass
