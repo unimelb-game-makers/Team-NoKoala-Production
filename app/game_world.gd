@@ -9,6 +9,7 @@ extends Node3D
 @export var reservations: ReservationManager
 @export var pathfinder: Pathfinder
 @export var player: Player
+@export var spring_arm: CameraController
 @export var placement: MachinePlacementController
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
@@ -50,14 +51,15 @@ func compose_world_context() -> WorldContext:
 	return context
 
 func configure_dependencies() -> void:
-	factory.configure(grid, clock)
+	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
-	placement.configure(grid, factory, faith, jobs, reservations)
-	item_spawner.configure(grid, factory)
-	player.configure(placement, jobs, grid, factory)
+	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
+	item_spawner.configure(spring_arm, grid, factory)
+	player.configure(spring_arm, placement, jobs, grid, factory)
+	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:
-			child.configure(clock, jobs, reservations, grid, pathfinder)
+			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
 
 func shutdown() -> void:
 	pass
