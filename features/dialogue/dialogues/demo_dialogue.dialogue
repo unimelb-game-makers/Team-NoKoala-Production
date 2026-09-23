@@ -1,0 +1,45 @@
+~ start
+=> awakening
+
+# Scene 1: Awakening 
+~ awakening
+[i]Black screen. The scene slowly fades in. Kaguya opens her eyes in the bamboo grove.[/i]
+Kaguya: ...Where am I?
+[i]Her eyes settle on the distant blue star.[/i]
+Kaguya: ...What is that blue star?
+[i]Almost instinctively, she reaches her hand toward it.[/i]
+Kaguya: ...Why do I want to go there?
+[i]She stares at it for a moment before slowly getting to her feet.[/i]
+=> kodama_kiko
+
+
+# Scene 2: Kodama Kiko 
+~ kodama_kiko
+[i]A few Kiko cautiously approach Kaguya.[/i]
+Kiko: Heeey, Kaguya-! You're finally awake!
+Kaguya: ...How long?
+Kiko: Mhm! You were asleep for so long, I was starting to think you were dead!
+Kaguya: Wait... Who are you?
+Kiko: Ouch. You really don't remember me?
+Kaguya: Remember...?
+Kiko: Hey, don't look so scared! You've been asleep for so long, I thought you were dead!
+Kiko: I'm Kiko. A Kodama spirit. I've been living around here for a very, very long time.
+Kaguya: ...Kiko.
+Kiko: Yep! That's me!
+Kaguya: Why are you here?
+Kiko: To help you, of course! I've been waiting for you to wake up.
+Kaguya: ...Waiting for me? I'm so confused, like, why am I here and what...
+Kiko: Hmm... let's save that part for later.
+[i]Kiko tilts her head with a teasing smile.[/i]
+Kiko: Well, you're standing. That's a good start.
+Kaguya: ...A good start for what?
+Kiko: For making yourself useful, obviously!
+Kaguya: But I just woke up, huh.
+Kiko: Exactly! You've had plenty of rest.
+[i]Kiko smiles mischievously.[/i]
+Kiko: Come on, sleepyhead. There's work to do.
+Kaguya: ...Work?
+[i]Kiko grins.[/i]
+Kiko: You'll figure it out. Try to keep up!
+[i]Kiko floats ahead.[/i]
+=> END

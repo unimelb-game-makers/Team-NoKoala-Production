@@ -1,0 +1,119 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/dialogue_ui.gd" id="1_dialogue"]
+[ext_resource type="Script" uid="uid://tgy8x2ehmraq" path="res://features/dialogue/dialogue_character_definition.gd" id="2_character_type"]
+[ext_resource type="Resource" path="res://features/dialogue/characters/kaguya.tres" id="3_kaguya"]
+[ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/nodes/dialogue_label/dialogue_label.tscn" id="4_label"]
+[ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/nodes/responses_menu/dialogue_responses_menu.gd" id="5_responses"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialogue"]
+bg_color = Color(0.105, 0.085, 0.16, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.79, 0.64, 0.73, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 22.0
+content_margin_top = 18.0
+content_margin_right = 22.0
+content_margin_bottom = 16.0
+
+[node name="DialogueUI" type="CanvasLayer"]
+layer = 100
+visible = false
+script = ExtResource("1_dialogue")
+characters = Array[ExtResource("2_character_type")]([ExtResource("3_kaguya")])
+
+[node name="Backdrop" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+
+[node name="DialogueArea" type="MarginContainer" parent="Backdrop"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -322.0
+offset_right = -24.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+
+[node name="Content" type="HBoxContainer" parent="Backdrop/DialogueArea"]
+layout_mode = 2
+theme_override_constants/separation = 16
+mouse_filter = 1
+
+[node name="Portrait" type="TextureRect" parent="Backdrop/DialogueArea/Content"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel" type="PanelContainer" parent="Backdrop/DialogueArea/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialogue")
+
+[node name="TextAndChoices" type="VBoxContainer" parent="Backdrop/DialogueArea/Content/Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+mouse_filter = 1
+
+[node name="CharacterLabel" type="Label" parent="Backdrop/DialogueArea/Content/Panel/TextAndChoices"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.79, 0.87, 1)
+theme_override_font_sizes/font_size = 24
+text = "Character"
+
+[node name="DialogueLabel" parent="Backdrop/DialogueArea/Content/Panel/TextAndChoices" instance=ExtResource("4_label")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 21
+
+[node name="ResponsesMenu" type="VBoxContainer" parent="Backdrop/DialogueArea/Content/Panel/TextAndChoices" node_paths=PackedStringArray("response_template")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 1
+script = ExtResource("5_responses")
+response_template = NodePath("ResponseTemplate")
+
+[node name="ResponseTemplate" type="Button" parent="Backdrop/DialogueArea/Content/Panel/TextAndChoices/ResponsesMenu"]
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Choice"
+
+[node name="ContinueHint" type="Label" parent="Backdrop/DialogueArea/Content/Panel/TextAndChoices"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.82, 0.77, 0.85, 1)
+theme_override_font_sizes/font_size = 16
+text = "Click or press Enter to continue ▸"
+horizontal_alignment = 2
