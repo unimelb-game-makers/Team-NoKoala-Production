@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_77js0"]
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="3_77js0"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="3_h0hwv"]
-[ext_resource type="Resource" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="4_recipe2"]
+[ext_resource type="Resource" uid="uid://b6v4tvbps4ehk" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="4_recipe2"]
 
 [sub_resource type="Resource" id="Resource_input_1"]
 script = ExtResource("1_2vlft")
