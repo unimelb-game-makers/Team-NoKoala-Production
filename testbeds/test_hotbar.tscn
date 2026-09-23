@@ -7,18 +7,13 @@
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="5_hvcga"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="6_okcnc"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="7_a3r6b"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="8_5cb32"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="8_po6cg"]
-[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="9_feppk"]
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="10_mxy33"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="11_k702n"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="12_nrw72"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="13_8r4s3"]
 [ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hot_bar/hot_bar.tscn" id="14_ad3lv"]
-
-[sub_resource type="Resource" id="Resource_ad3lv"]
-resource_local_to_scene = true
-script = ExtResource("9_feppk")
-allowed_work_types = Array[int]([0, 1])
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -43,7 +38,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player")]
 script = ExtResource("1_il4nb")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -52,6 +47,8 @@ placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
+item_spawner = NodePath("FactoryItemSpawnController")
+spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
@@ -76,16 +73,10 @@ script = ExtResource("6_okcnc")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("7_a3r6b")]
 
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("8_5cb32")]
+
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_po6cg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
-
-[node name="InventoryOwner" parent="Kaguya" index="5" unique_id=660145004 node_paths=PackedStringArray("hot_bar")]
-hot_bar = NodePath("../HotBar")
-
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_ad3lv")
-_grid = NodePath("../../GridMap")
-_factory_manager = NodePath("../../Services/FactoryManager")
 
 [node name="HotBar" parent="Kaguya" unique_id=263281179 instance=ExtResource("14_ad3lv")]
 offset_top = -73.0
@@ -110,9 +101,8 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("11_k702n")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
@@ -120,9 +110,8 @@ _faith = NodePath("../Services/FaithManager")
 _jobs = NodePath("../Services/JobBoard")
 _reservations = NodePath("../Services/ReservationManager")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("12_nrw72")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
 
@@ -131,5 +120,3 @@ factory_manager = NodePath("../Services/FactoryManager")
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
 script = ExtResource("13_8r4s3")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
-
-[editable path="Kaguya"]
