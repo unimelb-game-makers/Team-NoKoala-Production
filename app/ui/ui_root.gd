@@ -2,14 +2,12 @@ class_name UIRoot
 extends Node
 
 
-@export var faith_progress_bar: FaithProgressBar
 @export var dialogue_ui: DialogueUI
 
 var _context: WorldContext
 
 
 func _ready() -> void:
-	assert(faith_progress_bar != null, "UIRoot requires a FaithProgressBar")
 	assert(dialogue_ui != null, "UIRoot requires a DialogueUI")
 	dialogue_ui.hide()
 	dialogue_ui.finished.connect(_on_dialogue_finished)
@@ -20,13 +18,10 @@ func bind_world(context: WorldContext) -> void:
 
 	unbind_world()
 	_context = context
-	faith_progress_bar.bind(context.faith)
 	context.dialogue_coordinator.dialogue_requested.connect(_on_dialogue_requested)
 
 
 func unbind_world() -> void:
-	if faith_progress_bar != null:
-		faith_progress_bar.unbind()
 	_context = null
 
 
