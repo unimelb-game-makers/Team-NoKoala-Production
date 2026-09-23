@@ -7,6 +7,7 @@ signal finished
 
 @onready var backdrop: Control = %Backdrop
 @onready var portrait: TextureRect = %Portrait
+@onready var nameplate: PanelContainer = %Nameplate
 @onready var character_label: Label = %CharacterLabel
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
@@ -80,7 +81,7 @@ func _apply_character(speaker_key: String) -> void:
 		shown_portrait = character.portrait
 
 	character_label.text = tr(shown_name, "dialogue")
-	character_label.visible = not shown_name.is_empty()
+	nameplate.visible = not shown_name.is_empty()
 	portrait.texture = shown_portrait
 	portrait.visible = shown_portrait != null
 
