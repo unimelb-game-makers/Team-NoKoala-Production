@@ -25,7 +25,7 @@ func configure(
 	p_job_board: JobBoard,
 	p_reservation_manager: ReservationManager,
 	p_grid: Grid,
-	p_defintion: NPCDefinition
+	p_defintion: NPCDefinition,
 	p_faith_manager: FaithManager,
 ) -> void:
 	actor = p_actor

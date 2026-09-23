@@ -10,7 +10,7 @@ func configure(
 	factory_manager: FactoryManager,
 	job_board: JobBoard,
 	reservation_manager: ReservationManager,
-	p_machine: Machine
+	p_machine: Machine,
 ) -> void:
 	_job_board = job_board
 	_factory_manager = factory_manager
