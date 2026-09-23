@@ -2,6 +2,7 @@ class_name Machine
 extends Node
 
 signal factory_ticked(machine: Machine, delta: float)
+signal enabled_recipes_changed
 
 @export var definition: MachineDefinition
 
@@ -31,11 +32,14 @@ func enable_recipe(recipe: ProductionRecipe) -> bool:
 		return false
 	if not enabled_recipes.has(recipe):
 		enabled_recipes.append(recipe)
+		enabled_recipes_changed.emit()
 	return true
 
 
 func disable_recipe(recipe: ProductionRecipe) -> void:
-	enabled_recipes.erase(recipe)
+	if enabled_recipes.has(recipe):
+		enabled_recipes.erase(recipe)
+		enabled_recipes_changed.emit()
 
 
 func set_enabled_recipes(recipes: Array[ProductionRecipe]) -> void:
@@ -44,6 +48,7 @@ func set_enabled_recipes(recipes: Array[ProductionRecipe]) -> void:
 		if definition != null and definition.has_recipe(recipe) and not result.has(recipe):
 			result.append(recipe)
 	enabled_recipes = result
+	enabled_recipes_changed.emit()
 
 
 func _exit_tree() -> void:
@@ -97,13 +102,16 @@ func _get_cells_for_role(
 
 
 func register_active(drain_rate: float = 0.0) -> void:
-	if not is_active:
-		if faith_manager.try_drain():
-			faith_manager.register_drain(self, drain_rate)
-			is_active = true
-			_set_debug_indicator(true)
-		else:
-			pass # faith too low
+	if is_active:
+		return
+	if drain_rate > 0.0 and not faith_manager.try_drain():
+		# Out of faith: shut down rather than run for free. FactoryManager
+		# reactivates shut-down machines once faith is restored.
+		force_shutdown()
+		return
+	faith_manager.register_drain(self, drain_rate)
+	is_active = true
+	_set_debug_indicator(true)
 
 
 func unregister_active() -> void:

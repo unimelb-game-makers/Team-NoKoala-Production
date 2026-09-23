@@ -15,6 +15,7 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
 @export var hotbar: Hotbar
+@export var machine_ui: MachineUI
 @export var machines_root: Node
 @export var buildings_root: Node
 @export var resource_area_manager: ResourceAreaManager
@@ -76,7 +77,7 @@ func configure_dependencies() -> void:
 	pathfinder.configure(factory)
 	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
 	item_spawner.configure(spring_arm, grid, factory)
-	player.configure(spring_arm, placement, jobs, grid, factory, hotbar)
+	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, machine_ui)
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:

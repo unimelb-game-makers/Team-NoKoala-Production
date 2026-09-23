@@ -19,11 +19,6 @@ func configure(
 	_bind_factory_manager()
 
 
-func _ready() -> void:
-	assert(_machine != null, "MachineJobProvider must have Machine")
-	_bind_factory_manager()
-
-
 func _bind_factory_manager() -> void:
 	if not _factory_manager.machine_registered.is_connected(_on_machine_registered):
 		_factory_manager.machine_registered.connect(_on_machine_registered)

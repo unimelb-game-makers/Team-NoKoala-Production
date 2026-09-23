@@ -1,6 +1,8 @@
 class_name Hotbar
 extends Control
 
+signal slot_split_requested(index: int)
+
 @export var slots: Array[HotbarSlot]
 
 var inventory: Inventory = null
@@ -9,6 +11,7 @@ var inventory: Inventory = null
 func _ready() -> void:
 	for index in slots.size():
 		slots[index].selected.connect(_on_slot_selected.bind(index))
+		slots[index].split_requested.connect(_on_slot_split_requested.bind(index))
 	_refresh()
 
 
@@ -38,6 +41,10 @@ func _refresh() -> void:
 func _on_slot_selected(index: int) -> void:
 	if inventory != null:
 		inventory.select(index)
+
+
+func _on_slot_split_requested(index: int) -> void:
+	slot_split_requested.emit(index)
 
 
 func _on_slot_changed(index: int) -> void:

@@ -20,6 +20,7 @@ func _ready() -> void:
 	inventory.selected_index_changed.connect(_on_selected_index_changed)
 	if hotbar != null:
 		hotbar.bind_inventory(inventory)
+		hotbar.slot_split_requested.connect(_on_hotbar_slot_split_requested)
 
 
 func _process(_delta: float) -> void:
@@ -115,7 +116,12 @@ func try_split_item(item: FactoryItem = null) -> bool:
 		return false
 
 	return true
-	
+
+func _on_hotbar_slot_split_requested(index: int) -> void:
+	var item := inventory.get_slot(index)
+	if item != null:
+		try_split_item(item)
+
 func _hide_item(item: FactoryItem) -> void:
 	if item != null:
 		item.sprite.visible = false

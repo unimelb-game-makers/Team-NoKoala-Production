@@ -24,6 +24,11 @@ func add_item(item: FactoryItem, progress: float = 0.5) -> void:
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_detect_indexed_items(factory_manager)
+	# Re-register after being reactivated, and stop moving if faith is empty.
+	if not items_on_belt.is_empty():
+		register_active(faith_drain_rate)
+		if is_shut_down:
+			return
 
 	for item in items_on_belt:
 		if item.get("waiting", false):

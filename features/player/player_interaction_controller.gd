@@ -1,6 +1,8 @@
 class_name PlayerInteractionController
 extends Node
 
+const NO_JOB_TEXT := "No available job"
+
 @export var spring_arm: CameraController
 
 var player: Node3D
@@ -8,18 +10,21 @@ var _inventory_owner: InventoryOwner
 var _machine_placement_controller: MachinePlacementController
 var _job_board: JobBoard
 var _selected_consumer: JobConsumer
-var _job_menu: PopupMenu
-var _menu_jobs: Array[Dictionary] = []
+var _context_menu: ContextMenu
+var _selection_box: SelectionBox
+var _machine_ui: MachineUI
 
 
 func configure(
 	p_spring_arm: CameraController,
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
+	machine_ui: MachineUI,
 ) -> void:
 	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
+	_machine_ui = machine_ui
 	_bind_placement_controller()
 
 
@@ -28,10 +33,15 @@ func _ready() -> void:
 	_inventory_owner = NodeUtils.get_child_by_type(player, InventoryOwner)
 	assert(_inventory_owner != null, "Player requires an InventoryOwner")
 	_bind_placement_controller()
-	_job_menu = PopupMenu.new()
-	_job_menu.name = "JobAssignmentMenu"
-	_job_menu.id_pressed.connect(_on_job_menu_id_pressed)
-	add_child(_job_menu)
+	_context_menu = ContextMenu.new()
+	_context_menu.name = "ContextMenu"
+	add_child(_context_menu)
+	var selection_layer := CanvasLayer.new()
+	selection_layer.name = "SelectionLayer"
+	add_child(selection_layer)
+	_selection_box = SelectionBox.new()
+	_selection_box.name = "SelectionBox"
+	selection_layer.add_child(_selection_box)
 
 
 func _try_handle_npc_interaction(event: InputEvent) -> bool:
@@ -39,7 +49,7 @@ func _try_handle_npc_interaction(event: InputEvent) -> bool:
 		_clear_consumer_selection()
 	if event.is_action_pressed("ui_cancel"):
 		_clear_consumer_selection()
-		_job_menu.hide()
+		_context_menu.close()
 		return false
 	if not event is InputEventMouseButton:
 		return false
@@ -77,44 +87,50 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _try_handle_npc_interaction(event):
 		return
-	if not event is InputEventMouseButton:
+	if not event is InputEventMouseButton or not event.pressed:
 		return
-	if not event.pressed or (event.button_index != MOUSE_BUTTON_LEFT and event.button_index != MOUSE_BUTTON_RIGHT):
-		return
-	
-	# LMB -> pick up logic
-	if event.button_index == MOUSE_BUTTON_LEFT:
-		if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
-			_try_drop_held_item()
-			return
-		var factory_item := _factory_item_at_mouse()
-		if factory_item != null:
-			_try_pick_up_item_at_mouse(factory_item)
-	
-	# RMB -> stack splitting logic
 	if event.button_index == MOUSE_BUTTON_RIGHT:
-		if _inventory_owner.inventory.hand_slot != null:
-			_try_split_held_item()
-			return
-		var factory_item := _factory_item_at_mouse()
-		if factory_item != null:
-			_try_split_item_at_mouse(factory_item)
+		_try_open_machine_ui()
+		return
+	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
 
-func _try_split_held_item() -> void:
-	if _inventory_owner.try_split_item():
-		get_viewport().set_input_as_handled()
+	# LMB -> pick up logic
+	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
+		_try_drop_held_item()
+		return
+	var factory_item := _factory_item_at_mouse()
+	if factory_item != null:
+		_try_pick_up_item_at_mouse(factory_item)
 
-func _try_split_item_at_mouse(factory_item: FactoryItem) -> void:
-	if _inventory_owner.try_split_item(factory_item):
-		get_viewport().set_input_as_handled()
+
+func _try_open_machine_ui() -> void:
+	var assembly := _assembly_from_node(_node_at_mouse())
+	if (
+		_machine_ui == null
+		or assembly == null
+		or assembly.ui_panels.is_empty()
+		or assembly.machine == null
+	):
+		return
+	_machine_ui.open(assembly.machine, assembly.ui_panels)
+	get_viewport().set_input_as_handled()
+
+
+func _close_machine_ui() -> void:
+	if _machine_ui != null:
+		_machine_ui.close()
+
 
 func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
 	if _inventory_owner.try_pick_up_item(factory_item):
 		get_viewport().set_input_as_handled()
 
+
 func _try_drop_held_item() -> void:
 	if _inventory_owner.try_drop_held_item():
 		get_viewport().set_input_as_handled()
+
 
 func _factory_item_at_mouse() -> FactoryItem:
 	return _item_from_node(_node_at_mouse())
@@ -151,10 +167,16 @@ func _consumer_from_node(node: Node) -> JobConsumer:
 
 
 func _provider_from_node(node: Node) -> JobProvider:
+	var assembly := _assembly_from_node(node)
+	if assembly == null or assembly.machine == null:
+		return null
+	return assembly.machine.job_provider
+
+
+func _assembly_from_node(node: Node) -> MachineAssembly:
 	while node != null:
 		if node is MachineAssembly:
-			var machine := (node as MachineAssembly).machine
-			return machine.job_provider if machine != null else null
+			return node as MachineAssembly
 		node = node.get_parent()
 	return null
 
@@ -162,11 +184,14 @@ func _provider_from_node(node: Node) -> JobProvider:
 func _select_consumer(consumer: JobConsumer) -> void:
 	_clear_consumer_selection()
 	_selected_consumer = consumer
+	_selection_box.attach(consumer.actor)
 	print("Selected NPC: ", consumer.actor.name)
 
 
 func _clear_consumer_selection() -> void:
 	_selected_consumer = null
+	if _selection_box != null:
+		_selection_box.detach()
 
 
 func _is_place_mode() -> bool:
@@ -179,31 +204,31 @@ func _is_place_mode() -> bool:
 func _on_place_mode_changed(enabled: bool) -> void:
 	if enabled:
 		_clear_consumer_selection()
-		_job_menu.hide()
+		_context_menu.close()
+		_close_machine_ui()
 
 
 func _open_job_menu(provider: JobProvider, screen_position: Vector2) -> void:
-	_job_menu.hide()
-	_menu_jobs.clear()
-	_job_menu.clear()
+	var actions: Array[ContextMenuAction] = []
 	for request in provider.get_available_requests(_selected_consumer):
-		_add_job_menu_entry(provider, request, null, null)
+		_append_job_action(actions, provider, request, null, null)
 	for entry in provider.get_active_assignments():
 		if provider.can_take_over(entry.request, _selected_consumer):
-			_add_job_menu_entry(provider, entry.request, entry.consumer, entry.job)
+			_append_job_action(
+				actions,
+				provider,
+				entry.request,
+				entry.consumer,
+				entry.job,
+			)
 
-	if _menu_jobs.is_empty():
+	if actions.is_empty():
 		print("Provider has no actionable jobs")
-		return
-	_job_menu.position = Vector2i(screen_position)
-	_job_menu.popup()
+	_context_menu.open(actions, screen_position, NO_JOB_TEXT)
 
 
 func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
-	_job_menu.hide()
-	_menu_jobs.clear()
-	_job_menu.clear()
-
+	var actions: Array[ContextMenuAction] = []
 	for provider in _job_board.get_providers():
 		for entry in provider.get_active_assignments():
 			var active_job := entry.job as HaulJob
@@ -212,7 +237,8 @@ func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
 				and active_job.item == item
 				and provider.can_take_over(entry.request, _selected_consumer)
 			):
-				_add_job_menu_entry(
+				_append_job_action(
+					actions,
 					provider,
 					entry.request,
 					entry.consumer,
@@ -229,16 +255,17 @@ func _open_item_job_menu(item: FactoryItem, screen_position: Vector2) -> void:
 					item,
 				)
 			):
-				_add_job_menu_entry(provider, request, null, null, item)
+				_append_job_action(actions, provider, request, null, null, item)
 
-	if _menu_jobs.is_empty():
+	if actions.is_empty():
 		print("Item has no actionable machine jobs")
-		return
-	_job_menu.position = Vector2i(screen_position)
-	_job_menu.popup()
+	_context_menu.open(actions, screen_position, NO_JOB_TEXT)
 
 
-func _add_job_menu_entry(
+## Appends an action that assigns this job to the selected NPC, unless the NPC
+## won't do this kind of job.
+func _append_job_action(
+	actions: Array[ContextMenuAction],
 	provider: JobProvider,
 	request: JobRequest,
 	consumer: JobConsumer,
@@ -252,32 +279,23 @@ func _add_job_menu_entry(
 		var haul := request as HaulRequest
 		label += ": %s -> %s" % [haul.item_definition.item_name, haul.destination]
 	label += " (available)" if consumer == null else " (%s)" % consumer.actor.name
-	var id := _menu_jobs.size()
 	var item := exact_item
 	if item == null and job is HaulJob:
 		item = (job as HaulJob).item
-	_menu_jobs.append({
-		"provider": provider,
-		"request": request,
-		"item": item,
-	})
-	_job_menu.add_item(label, id)
+	actions.append(ContextMenuAction.new(
+		label,
+		_assign_job.bind(provider, request, item),
+	))
 
 
-func _on_job_menu_id_pressed(id: int) -> void:
-	if (
-		_selected_consumer == null
-		or not is_instance_valid(_selected_consumer)
-		or id < 0
-		or id >= _menu_jobs.size()
-	):
+func _assign_job(
+	provider: JobProvider,
+	request: JobRequest,
+	item: FactoryItem,
+) -> void:
+	if _selected_consumer == null or not is_instance_valid(_selected_consumer):
 		return
-	var entry := _menu_jobs[id]
-	var succeeded := _selected_consumer.assign_request(
-		entry.provider,
-		entry.request,
-		entry.item,
-	)
+	var succeeded := _selected_consumer.assign_request(provider, request, item)
 	print("Manual provider job assignment: ", "success" if succeeded else "failed")
 	if succeeded:
 		_clear_consumer_selection()

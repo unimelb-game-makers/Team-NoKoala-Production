@@ -7,6 +7,7 @@ extends Button
 @onready var selection: Control = $Selection
 
 signal selected
+signal split_requested
 
 var _item: FactoryItem = null
 
@@ -14,6 +15,11 @@ func _ready() -> void:
 	var event: InputEvent = shortcut.events[0]
 	label.text = event.as_text()
 	pressed.connect(_slot_selected)
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		split_requested.emit()
+		accept_event()
 
 func _slot_selected() -> void:
 	selected.emit()

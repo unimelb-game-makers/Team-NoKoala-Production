@@ -22,6 +22,7 @@ extends Node3D
 @export var machines_root: Node
 @export var faith_bar: FaithProgressBar
 @export var hotbar: Hotbar
+@export var machine_ui: MachineUI
 @export var resource_area_manager: ResourceAreaManager
 
 @export_tool_button("Configure Editor Dependency", "Callable")
@@ -62,7 +63,7 @@ func configure_dependencies() -> void:
 		assert(placement != null, "Player requires a MachinePlacementController")
 		assert(jobs != null, "Player requires a JobBoard")
 		assert(spring_arm != null, "Player requires a SpringArm")
-		player.configure(spring_arm, placement, jobs, grid, factory, hotbar)
+		player.configure(spring_arm, placement, jobs, grid, factory, hotbar, machine_ui)
 
 	if spring_arm != null:
 		assert(player != null, "SpringArm requires a Player")

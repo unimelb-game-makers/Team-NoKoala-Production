@@ -4,6 +4,7 @@ extends Node3D
 
 @export var block: Block
 @export var machine: Machine
+@export var ui_panels: Array[PackedScene] = []
 
 
 func configure(
