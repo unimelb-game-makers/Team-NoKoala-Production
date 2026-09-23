@@ -32,47 +32,48 @@ func _ready() -> void:
 	add_child(_job_menu)
 
 
-func _input(event: InputEvent) -> void:
-	if _is_place_mode():
-		return
+func _try_handle_npc_interaction(event: InputEvent) -> bool:
 	if _selected_consumer != null and not is_instance_valid(_selected_consumer):
 		_clear_consumer_selection()
 	if event.is_action_pressed("ui_cancel"):
 		_clear_consumer_selection()
 		_job_menu.hide()
-		return
+		return false
 	if not event is InputEventMouseButton:
-		return
+		return false
 	if not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
-		return
+		return false
 
 	var hit_node := _node_at_mouse()
 	var consumer := _consumer_from_node(hit_node)
 	if consumer != null:
 		_select_consumer(consumer)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	if _selected_consumer == null:
-		return
+		return false
 
 	var item := _item_from_node(hit_node)
 	if item != null:
 		_open_item_job_menu(item, event.position)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	var provider := _provider_from_node(hit_node)
 	if provider != null:
 		_open_job_menu(provider, event.position)
 		get_viewport().set_input_as_handled()
-		return
+		return true
 
 	_clear_consumer_selection()
+	return true
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _is_place_mode():
+		return
+	if _try_handle_npc_interaction(event):
 		return
 	if not event is InputEventMouseButton:
 		return
