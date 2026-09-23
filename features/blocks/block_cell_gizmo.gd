@@ -149,7 +149,7 @@ func _refresh_affected_colors(affected_cells: Array) -> void:
 func _color_for_cell(cell: Vector3i) -> Color:
 	if _overlap_cells.has(cell):
 		return overlap_color
-	if grid != null and not grid.can_occupy_cell(
+	if _watched_block_data!= null and grid != null and not grid.can_occupy_cell(
 		_watched_block_data,
 		_watched_block_data.world_cell_for_offset(cell),
 	):
