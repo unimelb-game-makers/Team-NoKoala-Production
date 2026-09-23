@@ -7,10 +7,13 @@
 [ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="5_snivj"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_spawn"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="6_factory"]
+[ext_resource type="Script" uid="uid://cwu84ekhlpfla" path="res://features/dialogue/dialogue_coordinator.gd" id="7_5ria3"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="7_placement"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="8_4h5x5"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="8_clock"]
 [ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="9_bgpye"]
+[ext_resource type="Script" uid="uid://dbs4435dsf3ry" path="res://addons/dialogue_manager/dialogue_resource.gd" id="8_ekjpc"]
+[ext_resource type="Resource" uid="uid://tw2taeu4gnyx" path="res://features/dialogue/dialogues/demo_dialogue.dialogue" id="9_ed0w8"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="9_placement_grid"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="9_yg3by"]
 [ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="10_npc"]
@@ -25,6 +28,10 @@
 [ext_resource type="PackedScene" uid="uid://b2qu2t13if65m" path="res://features/blocks/demo_block.tscn" id="19_geqkj"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="25_rfyvl"]
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="26_h1ur4"]
+[ext_resource type="Script" uid="uid://cika06cl7wyhm" path="res://features/dialogue/player_entry_dialogue_trigger.gd" id="15_dialogue_trigger"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dialogue_trigger"]
+size = Vector3(4, 3, 4)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -78,6 +85,7 @@ machine_ui = NodePath("CanvasLayer/MachineUI")
 machines_root = NodePath("Machines")
 buildings_root = NodePath("Buildings")
 resource_area_manager = NodePath("ResourceAreaManager")
+dialogue_coordinator = NodePath("Services/DialogueCoordinator")
 
 [node name="Services" type="Node" parent="." unique_id=811124390]
 
@@ -95,6 +103,25 @@ script = ExtResource("13_jobs")
 
 [node name="ReservationManager" type="Node" parent="Services" unique_id=1448630895]
 script = ExtResource("14_reservations")
+
+[node name="DialogueCoordinator" type="Node" parent="Services" unique_id=76202817]
+script = ExtResource("7_5ria3")
+dialogues = Array[ExtResource("8_ekjpc")]([ExtResource("9_ed0w8")])
+metadata/_custom_type_script = "uid://cwu84ekhlpfla"
+
+[node name="DialogueTriggers" type="Node3D" parent="." unique_id=385511305]
+
+[node name="AwakeningTrigger" type="Area3D" parent="DialogueTriggers" unique_id=1094867557 node_paths=PackedStringArray("dialogue_coordinator")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("15_dialogue_trigger")
+cue = &"awakening"
+dialogue_coordinator = NodePath("../../Services/DialogueCoordinator")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DialogueTriggers/AwakeningTrigger" unique_id=1867162418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3660133, 0, -4.127599)
+shape = SubResource("BoxShape3D_dialogue_trigger")
 
 [node name="GridMap" parent="." unique_id=1236146167 instance=ExtResource("3_grid")]
 mesh_library = ExtResource("8_4h5x5")
@@ -326,6 +353,8 @@ grid = NodePath("../../../GridMap")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1007457516]
 
 [node name="MachineUI" parent="CanvasLayer" unique_id=1514182488 instance=ExtResource("25_rfyvl")]
+
+[connection signal="dialogue_requested" from="DialogueTriggers/AwakeningTrigger" to="Services/DialogueCoordinator" method="request_by_cue"]
 
 [editable path="Kaguya"]
 [editable path="Kaguya/KaguyaModel"]

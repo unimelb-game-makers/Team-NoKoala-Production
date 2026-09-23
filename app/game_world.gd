@@ -19,6 +19,8 @@ extends Node3D
 @export var machines_root: Node
 @export var buildings_root: Node
 @export var resource_area_manager: ResourceAreaManager
+@export var dialogue_coordinator : DialogueCoordinator
+
 @export_tool_button("Configure Editor Dependency", "Callable")
 var configure_editor = configure_editor_dependencies
 
@@ -68,6 +70,7 @@ func compose_world_context() -> WorldContext:
 	context.jobs = jobs
 	context.reservations = reservations
 	context.player = player
+	context.dialogue_coordinator = dialogue_coordinator
 
 	_composed = true
 	return context
@@ -106,3 +109,4 @@ func validate_dependencies() -> void:
 	assert(placement != null, "GameWorld requires a MachinePlacementController")
 	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
 	assert(mobs_root != null, "GameWorld requires a mobs root")
+	assert(dialogue_coordinator != null, "GameWorld requires a DialogueCoordinator")
