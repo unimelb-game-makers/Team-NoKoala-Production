@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://b24w5jelebb47"]
 
-[ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hot_bar/hotbar.png" id="1_h8vcf"]
-[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hot_bar/hotbar_slot.gd" id="1_kr80x"]
-[ext_resource type="Texture2D" uid="uid://b05c2wx3ap43u" path="res://features/hot_bar/hotbar_selection.png" id="3_jpxok"]
+[ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hotbar/hotbar.png" id="1_h8vcf"]
+[ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hotbar/hotbar_slot.gd" id="1_kr80x"]
+[ext_resource type="Texture2D" uid="uid://b05c2wx3ap43u" path="res://features/hotbar/hotbar_selection.png" id="3_jpxok"]
 
 [node name="HotbarButton" type="Button" unique_id=1951377414]
 custom_minimum_size = Vector2(80, 80)

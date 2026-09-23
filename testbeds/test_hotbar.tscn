@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="11_k702n"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="12_nrw72"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="13_8r4s3"]
-[ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hot_bar/hot_bar.tscn" id="14_ad3lv"]
+[ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="14_ad3lv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -38,7 +38,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "hotbar")]
 script = ExtResource("1_il4nb")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -50,6 +50,7 @@ reservations = NodePath("Services/ReservationManager")
 item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
+hotbar = NodePath("Hotbar")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
 
@@ -78,7 +79,7 @@ script = ExtResource("6_okcnc")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_po6cg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="HotBar" parent="Kaguya" unique_id=263281179 instance=ExtResource("14_ad3lv")]
+[node name="Hotbar" parent="." unique_id=263281179 instance=ExtResource("14_ad3lv")]
 offset_top = -73.0
 offset_bottom = -73.0
 
