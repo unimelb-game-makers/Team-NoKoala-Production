@@ -9,6 +9,7 @@ var _machine_placement_controller: MachinePlacementController
 var _job_board: JobBoard
 var _selected_consumer: JobConsumer
 var _context_menu: ContextMenu
+var _selection_box: SelectionBox
 var _machine_ui: MachineUI
 
 
@@ -33,6 +34,12 @@ func _ready() -> void:
 	_context_menu = ContextMenu.new()
 	_context_menu.name = "ContextMenu"
 	add_child(_context_menu)
+	var selection_layer := CanvasLayer.new()
+	selection_layer.name = "SelectionLayer"
+	add_child(selection_layer)
+	_selection_box = SelectionBox.new()
+	_selection_box.name = "SelectionBox"
+	selection_layer.add_child(_selection_box)
 
 
 func _try_handle_npc_interaction(event: InputEvent) -> bool:
@@ -175,11 +182,14 @@ func _assembly_from_node(node: Node) -> MachineAssembly:
 func _select_consumer(consumer: JobConsumer) -> void:
 	_clear_consumer_selection()
 	_selected_consumer = consumer
+	_selection_box.attach(consumer.actor)
 	print("Selected NPC: ", consumer.actor.name)
 
 
 func _clear_consumer_selection() -> void:
 	_selected_consumer = null
+	if _selection_box != null:
+		_selection_box.detach()
 
 
 func _is_place_mode() -> bool:
