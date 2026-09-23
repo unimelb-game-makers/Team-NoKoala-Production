@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0sk88vxix661"]
 
 [ext_resource type="Script" uid="uid://fqixhsmyhlib" path="res://testbeds/test_dialogue.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://features/dialogue/dialogue_ui.tscn" id="2_os6hj"]
+[ext_resource type="PackedScene" uid="uid://r6di5sx0nlw7" path="res://features/dialogue/dialogue_ui.tscn" id="2_os6hj"]
 [ext_resource type="Resource" uid="uid://tw2taeu4gnyx" path="res://features/dialogue/dialogues/demo_dialogue.dialogue" id="2_s8eu1"]
 
 [node name="TestDialogue" type="Control" unique_id=989248264 node_paths=PackedStringArray("dialgue_ui")]
@@ -14,15 +14,6 @@ grow_vertical = 2
 script = ExtResource("1_script")
 dialgue_ui = NodePath("DialogueUI")
 demo_dialogue = ExtResource("2_s8eu1")
-
-[node name="Background" type="ColorRect" parent="." unique_id=89066238]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.2, 0.26, 0.27, 1)
 
 [node name="StartButton" type="Button" parent="." unique_id=325180670]
 unique_name_in_owner = true
