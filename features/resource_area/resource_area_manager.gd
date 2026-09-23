@@ -3,104 +3,48 @@ extends Node
 class_name ResourceAreaManager
 
 @export var grid: Grid
-@export var factory_manager: FactoryManager
+@export var machine_root: Node
 
 @export_tool_button("Create Machines", "Callable")
 var create_machines_button = _create_machines_from_grid
 
-var _floating_assembly: ResourceAreaMachineAssembly
-var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
 
-const RESOURCE_AREA_SCENE = preload("res://features/resource_area/resource_area_machine.tscn")
-const BAMBOO_CULM_DEFINITION = preload("res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres")
-const IRON_ORE_DEFINITION = preload("res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres")
-const RESOURCE_AREA_DEFINITION = preload("res://features/factory_system/machines/machine_definitions/machine_definition.gd")
+const BAMBOO_CULM_SCENE = preload("res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn")
+const IRON_ORE_SCENE = preload("res://features/resource_area/scenes/iron_ore_resourcearea.tscn")
 
-enum MACHINE_MESHES {
-	RA_BAMBOO_CULM,
-	RA_IRON_ORE
+var machine_scene_by_mesh_name: Dictionary = {
+	"RA_BAMBOO_CULM": BAMBOO_CULM_SCENE,
+	"RA_IRON_ORE": IRON_ORE_SCENE,
 }
 
-var machine_mesh_to_resource_definition: Dictionary = {
-	"RA_BAMBOO_CULM": BAMBOO_CULM_DEFINITION,
-	"RA_IRON_ORE": IRON_ORE_DEFINITION,
-}
+func configure(p_grid: Grid, p_machine_root: Node) -> void:
+	grid = p_grid
+	machine_root = p_machine_root
 
 func _create_machines_from_grid() -> void:
-	var cells = grid.get_used_cells()
-	
-	for cell in cells:
-		if grid.get_cell_item(cell) not in MACHINE_MESHES.values(): continue
-		
-		var ra_definition = machine_mesh_to_resource_definition.get(grid.mesh_library.get_item_name(grid.get_cell_item(cell)))
-		_floating_assembly = create_machine()
-		_floating_assembly.grid = grid
-		_floating_assembly.block_data = _floating_assembly.block.block_data
-		
-		_floating_assembly.block.disable_collisions()
-		get_parent().add_child(_floating_assembly)
-		_floating_assembly.block.set_rotation_data(_last_rotation)
-		_floating_assembly.owner = get_tree().edited_scene_root
-		_floating_assembly.resource_area_definition = ra_definition
-		
-		var machine_node = _floating_assembly.get_node("Machine")
-		machine_node.resource_area_definition = ra_definition
-		machine_node.sprite.texture = ra_definition.texture
-		machine_node._processing_recipe = ra_definition.spawner_recipe
-		
-		if not confirm_placement(cell):
-			_floating_assembly.delete_self()
+	if grid == null or machine_root == null or grid.mesh_library == null:
+		return
+
+	var resources_created = 0
+	for cell in grid.get_used_cells():
+		var mesh_name := grid.mesh_library.get_item_name(grid.get_cell_item(cell))
+		var scene := machine_scene_by_mesh_name.get(mesh_name) as PackedScene
+		if scene == null:
 			continue
-		
+
+		var assembly := scene.instantiate() as Node3D
+		if assembly == null:
+			continue
+		assembly.name = scene.resource_path.get_file().get_basename()
+		var world_position := grid.cell_to_world(cell)
+		assembly.position = machine_root.to_local(world_position)
+
+		machine_root.add_child(assembly)
+		if Engine.is_editor_hint():
+			assembly.owner = get_tree().edited_scene_root
+
 		# Clear mesh from gridmap cell
 		grid.set_cell_item(cell, -1)
+		resources_created += 1
 
-func cancel_placement() -> void:
-	if _floating_assembly != null:
-		_floating_assembly.free()
-		_floating_assembly = null
-
-
-func create_machine() -> ResourceAreaMachineAssembly:
-	var scene: PackedScene = RESOURCE_AREA_SCENE
-	var assembly := scene.instantiate() as ResourceAreaMachineAssembly
-	assert(assembly != null, "Machine assembly scene must have a MachineAssembly root")
-	assert(assembly.block != null, "MachineAssembly requires a Block component")
-	assert(assembly.machine != null, "MachineAssembly requires a Machine component")
-	assert(assembly.machine.definition != null, "Machine requires a MachineDefinition")
-
-	var validation_errors := assembly.machine.definition.get_validation_errors()
-	assert(
-		validation_errors.is_empty(),
-		"Invalid machine definition:\n- %s" % "\n- ".join(validation_errors),
-	)
-
-	assembly.block.block_data = create_block_data(assembly.machine.definition)
-	return assembly
-
-
-func create_block_data(definition: MachineDefinition) -> BlockData:
-	var block_data := BlockData.new()
-	
-	for machine_cell in definition.cells:
-		block_data.footprint.append(machine_cell.local_cell_offset)
-		if machine_cell.can_overlap:
-			block_data.overlap_cells.append(machine_cell.local_cell_offset)
-	return block_data
-	
-
-func confirm_placement(cell) -> bool:
-	if _floating_assembly == null:
-		return false
-
-	if not grid.move_block(_floating_assembly.block, cell):
-		return false
-
-	_floating_assembly.machine.center_position = cell
-	
-	_floating_assembly.block.enable_collisions()
-	_floating_assembly.block.set_appearence(Block.Appearance.NORMAL)
-	
-	_floating_assembly = null
-	
-	return true
+	print(resources_created, " resource areas created")

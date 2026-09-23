@@ -16,6 +16,9 @@ extends Node3D
 @export var mobs_root: Node
 @export var machines_root: Node
 @export var buildings_root: Node
+@export var resource_area_manager: ResourceAreaManager
+@export_tool_button("Configure Editor Dependency", "Callable")
+var configure_editor = configure_editor_dependencies
 
 var context: WorldContext
 var _composed := false
@@ -80,6 +83,9 @@ func configure_dependencies() -> void:
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
 			child.configure(factory,faith,jobs,reservations,grid)
+
+func configure_editor_dependencies() -> void:
+	resource_area_manager.configure(grid,machines_root)
 
 
 func shutdown() -> void:

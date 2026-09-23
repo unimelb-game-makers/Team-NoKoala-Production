@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_u0wh0"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="4_nguo2"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="5_na4ej"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="5_u0wh0"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="6_nnvon"]
@@ -110,7 +111,7 @@ script = ExtResource("13_reservations")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
 capability = SubResource("Resource_mkb8f")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
@@ -173,8 +174,8 @@ conflict_color = Color(1, 0.12, 0.12, 0.7)
 [node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
-grid = NodePath("../../../GridMap")
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine2" parent="MachinesRoot" unique_id=492139455 instance=ExtResource("14_7mxvq")]
 transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, -0.5, 0, 0.5)
@@ -192,8 +193,8 @@ conflict_color = Color(1, 0.12, 0.12, 0.7)
 [node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine2/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine2" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
-grid = NodePath("../../../GridMap")
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine2/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine3" parent="MachinesRoot" unique_id=1061425926 instance=ExtResource("14_7mxvq")]
 transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 2.5)
@@ -211,8 +212,8 @@ conflict_color = Color(1, 0.12, 0.12, 0.7)
 [node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine3/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine3" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
-grid = NodePath("../../../GridMap")
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine3/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine4" parent="MachinesRoot" unique_id=1181246573 instance=ExtResource("14_7mxvq")]
 transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 0.5)
@@ -230,8 +231,8 @@ conflict_color = Color(1, 0.12, 0.12, 0.7)
 [node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine4/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine4" index="4" unique_id=338730361 node_paths=PackedStringArray("grid")]
-grid = NodePath("../../../GridMap")
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine4/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
 
 [editable path="Kaguya"]
 [editable path="MachinesRoot/DemoMachine"]

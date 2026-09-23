@@ -1,3 +1,4 @@
+@tool 
 class_name TestWorld
 extends Node3D
 
@@ -20,7 +21,10 @@ extends Node3D
 @export var mobs_root: Node
 @export var machines_root: Node
 @export var faith_bar: FaithProgressBar
+@export var resource_area_manager: ResourceAreaManager
 
+@export_tool_button("Configure Editor Dependency", "Callable")
+var configure_editor = configure_editor_dependencies
 
 func _enter_tree() -> void:
 	assert(grid != null, "TestWorld requires a Grid")
@@ -94,3 +98,15 @@ func configure_dependencies() -> void:
 	if faith != null:
 		if faith_bar != null:
 			faith_bar.bind(faith)
+
+	if resource_area_manager != null:
+			assert(grid != null)
+			assert(factory != null)
+			resource_area_manager.configure(grid, machines_root)
+
+
+func configure_editor_dependencies() -> void:
+	if resource_area_manager != null:
+			assert(grid != null)
+			assert(factory != null)
+			resource_area_manager.configure(grid, machines_root)
