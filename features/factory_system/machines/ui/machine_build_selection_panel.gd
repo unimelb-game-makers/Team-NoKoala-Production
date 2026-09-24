@@ -24,11 +24,15 @@ func _ready() -> void:
 
 func configure(p_placement: MachinePlacementController) -> void:
 	placement = p_placement
+	if placement != null:
+		placement.set_allowed_definitions(allowed_definitions)
 	if is_node_ready():
 		_update_build_button()
 
 
 func open() -> void:
+	if placement != null:
+		placement.set_allowed_definitions(allowed_definitions)
 	_rebuild_machine_list()
 	show()
 

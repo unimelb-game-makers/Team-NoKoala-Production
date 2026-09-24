@@ -38,8 +38,13 @@ func display(p_definition: MachineDefinition) -> void:
 		)
 	_display_materials()
 	_build_recipe_picker()
-	recipe_panel.display(null, false, false)
-	recipe_panel.hide()
+	if _recipes.is_empty():
+		recipe_picker.select(0)
+		recipe_panel.display(null, false, false)
+		recipe_panel.hide()
+	else:
+		recipe_picker.select(1)
+		_on_recipe_selected(1)
 
 
 func _display_materials() -> void:
@@ -87,7 +92,6 @@ func _build_recipe_picker() -> void:
 	recipe_picker.disabled = _recipes.is_empty()
 	if _recipes.is_empty():
 		recipe_picker.set_item_text(0, "No recipes")
-	recipe_picker.select(0)
 
 
 func _on_recipe_selected(index: int) -> void:
