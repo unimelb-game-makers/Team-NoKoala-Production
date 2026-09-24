@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="4_g0k5m"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_1fr7u"]
 [ext_resource type="Script" uid="uid://bcxmxvksulxqp" path="res://features/factory_system/machines/machine_runtime/spirit_ritual_machine.gd" id="6_s883c"]
-[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="7_bgemf"]
+[ext_resource type="Resource" uid="uid://de4l0osan2lf3" path="res://features/factory_system/machines/machine_definitions/spirit_ritual.tres" id="7_bgemf"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="8_ui145"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="9_v1qdb"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="10_25fxh"]
