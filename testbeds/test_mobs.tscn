@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="10_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="12_reservations"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="13_1xtrh"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="15_qtrrw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -110,6 +111,7 @@ _reservations = NodePath("../Services/ReservationManager")
 script = ExtResource("6_whoxn")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
+item_definition = ExtResource("13_1xtrh")
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=1025621298]
 script = ExtResource("8_3a7lv")
