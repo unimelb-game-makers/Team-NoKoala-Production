@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="6_5u5lm"]
 [ext_resource type="Texture2D" uid="uid://bsm5tu4x6k6uf" path="res://assets/developer_art/models/machines/new/conveyor_belt_GameCube - The Legend of Zelda_ The Wind Waker - Locations - Island Textures.png" id="6_d3e65"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5u5lm"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="10_jkubp"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="14_3d8wi"]
 
 [sub_resource type="Resource" id="Resource_c2e4d"]
 resource_local_to_scene = true
@@ -190,10 +192,11 @@ _data = {
 }
 point_count = 2
 
-[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine")]
+[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("4_asm")
 block = NodePath("Block")
 machine = NodePath("ConveyorBelt")
+blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1197696269 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_block")
@@ -269,3 +272,13 @@ light_indirect_energy = 0.0
 spot_range = 1.5
 spot_attenuation = 0.0
 spot_angle = 20.0
+
+[node name="Blueprint" type="Node" parent="." unique_id=1261555244 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("10_jkubp")
+job_provider = NodePath("BlueprintJobProvider")
+debug_active_indicator = NodePath("")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=277201044]
+script = ExtResource("14_3d8wi")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"

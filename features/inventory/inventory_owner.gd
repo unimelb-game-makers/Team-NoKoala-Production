@@ -41,6 +41,8 @@ func set_held_item(item: FactoryItem) -> void:
 func try_pick_up_item(item: FactoryItem) -> bool:
 	if item == null:
 		return false
+	if not item.can_pick_up():
+		return false
 	if actor.global_position.distance_to(item.global_position) > pickup_distance:
 		return false
 	if not item.try_claim(actor):

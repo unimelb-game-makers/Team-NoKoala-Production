@@ -87,13 +87,17 @@ func confirm_placement(cell: Vector3i) -> bool:
 	if not grid.move_block(_floating_assembly.block, cell):
 		return false
 
-	_floating_assembly.machine.center_position = cell
-	if not factory_manager.register_machine(_floating_assembly.machine):
+	if not _floating_assembly.register_machines(factory_manager, cell):
 		grid.remove_block(_floating_assembly.block)
 		return false
 	
 	_floating_assembly.block.enable_collisions()
-	_floating_assembly.block.set_appearence(Block.Appearance.NORMAL)
+	if _floating_assembly.toggle_blueprint:
+		_floating_assembly.block.set_appearence(
+			Block.Appearance.TRANSLUCENT_BLUE,
+		)
+	else:
+		_floating_assembly.block.set_appearence(Block.Appearance.NORMAL)
 
 	_floating_assembly = null
 	return true

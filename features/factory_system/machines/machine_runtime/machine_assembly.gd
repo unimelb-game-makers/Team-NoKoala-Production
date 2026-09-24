@@ -5,7 +5,12 @@ extends Node3D
 @export var block: Block
 @export var machine: Machine
 @export var ui_panels: Array[PackedScene] = []
+@export var blueprint: Machine
+@export var progress_bar: Node3D
 
+@export var toggle_blueprint: bool
+
+var _factory_manager: FactoryManager
 
 func configure(
 	factory_manager: FactoryManager,
@@ -16,6 +21,8 @@ func configure(
 ) -> void:
 	assert(block != null, "MachineAssembly requires a Block")
 	assert(machine != null, "MachineAssembly requires a Machine")
+	_factory_manager = factory_manager
+	
 	machine.configure(faith_manager)
 	if machine.job_provider != null:
 		machine.job_provider.configure(
@@ -24,6 +31,71 @@ func configure(
 			reservation_manager,
 			machine,
 		)
+
+	if toggle_blueprint:
+		assert(blueprint != null, "MachineAssembly requires a Blueprint")
+		assert(
+			blueprint is BlueprintMachine,
+			"MachineAssembly blueprint must be a BlueprintMachine",
+		)
+		(blueprint as BlueprintMachine).configure_construction(
+			machine.definition,
+		)
+		block.set_appearence(Block.Appearance.TRANSLUCENT_BLUE)
+		machine.disable()
+		blueprint.enable()
+
+		blueprint.configure(faith_manager)
+		if not blueprint.blueprint_constructed.is_connected(blueprint_constructed):
+			blueprint.blueprint_constructed.connect(blueprint_constructed)
+		if blueprint.job_provider != null:
+			blueprint.job_provider.configure(
+				factory_manager,
+				job_board,
+				reservation_manager,
+				blueprint,
+			)
+		if progress_bar != null:
+			progress_bar.machine = blueprint
+
+func _ready() -> void:
+	if not toggle_blueprint:
+		blueprint_constructed()
+
+
+func blueprint_constructed() -> void:
+	if (
+		_factory_manager != null
+		and blueprint != null
+		and _factory_manager.is_machine_registered(blueprint)
+	):
+		_factory_manager.unregister_machine(blueprint)
+	if progress_bar != null:
+		progress_bar.machine = machine
+	if blueprint != null:
+		blueprint.disable()
+	machine.enable()
+	block.set_appearence(Block.Appearance.NORMAL)
+
+func register_machines(
+	factory_manager: FactoryManager,
+	center_cell: Vector3i,
+) -> bool:
+	machine.center_position = center_cell
+	if not factory_manager.register_machine(machine):
+		return false
+
+	if not toggle_blueprint:
+		return true
+
+	assert(blueprint != null, "MachineAssembly requires a Blueprint")
+	blueprint.center_position = center_cell
+	if factory_manager.register_machine(blueprint):
+		return true
+
+	factory_manager.unregister_machine(machine)
+	return false
+
 
 
 
@@ -37,10 +109,9 @@ func register_preplaced(grid: Grid, factory_manager: FactoryManager) -> bool:
 		queue_free()
 		return false
 
-	machine.center_position = block.block_data.root_cell
-	if not factory_manager.register_machine(machine):
+	if not register_machines(factory_manager, block.block_data.root_cell):
 		grid.unregister_block(block)
-		push_warning("Invalid preplaced machine: machine cannot be registered")
+		push_warning("Invalid preplaced machine: machines cannot be registered")
 		queue_free()
 		return false
 
