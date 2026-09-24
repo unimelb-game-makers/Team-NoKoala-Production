@@ -15,10 +15,12 @@ extends Node3D
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
 @export var hotbar: Hotbar
-@export var machine_ui: MachineUI
 @export var machines_root: Node
 @export var buildings_root: Node
 @export var resource_area_manager: ResourceAreaManager
+@export var dialogue_coordinator : DialogueCoordinator
+@export var world_ui_root: WorldUIRoot
+
 @export_tool_button("Configure Editor Dependency", "Callable")
 var configure_editor = configure_editor_dependencies
 
@@ -68,16 +70,18 @@ func compose_world_context() -> WorldContext:
 	context.jobs = jobs
 	context.reservations = reservations
 	context.player = player
+	context.dialogue_coordinator = dialogue_coordinator
 
 	_composed = true
 	return context
 
 func configure_dependencies() -> void:
+	world_ui_root.configure(faith)
 	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
 	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
 	item_spawner.configure(spring_arm, grid, factory)
-	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, machine_ui)
+	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, world_ui_root.machine_ui)
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:
@@ -106,3 +110,4 @@ func validate_dependencies() -> void:
 	assert(placement != null, "GameWorld requires a MachinePlacementController")
 	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
 	assert(mobs_root != null, "GameWorld requires a mobs root")
+	assert(dialogue_coordinator != null, "GameWorld requires a DialogueCoordinator")

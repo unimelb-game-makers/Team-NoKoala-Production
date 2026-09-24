@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://app/ui/world_ui_root.gd" id="1_world_ui_root"]
+[ext_resource type="PackedScene" path="res://features/faith_management/faith_progress_bar.tscn" id="2_faith"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="3_machine_ui"]
+
+[node name="WorldUIRoot" type="Node" node_paths=PackedStringArray("faith_progress_bar", "machine_ui")]
+script = ExtResource("1_world_ui_root")
+faith_progress_bar = NodePath("FaithProgressBar")
+machine_ui = NodePath("CanvasLayer/MachineUI")
+
+[node name="FaithProgressBar" parent="." instance=ExtResource("2_faith")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MachineUI" parent="CanvasLayer" instance=ExtResource("3_machine_ui")]
