@@ -76,7 +76,7 @@ func compose_world_context() -> WorldContext:
 	return context
 
 func configure_dependencies() -> void:
-	world_ui_root.configure(faith)
+	world_ui_root.configure(faith, placement)
 	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
 	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
