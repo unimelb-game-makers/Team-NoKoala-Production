@@ -29,16 +29,18 @@ func configure(
 			reservation_manager,
 			machine,
 		)
-	if toggle_blueprint: assert(blueprint != null, "MachineAssembly requires a Blueprint")
-	blueprint.configure(faith_manager)
-	blueprint.blueprint_constructed.connect(blueprint_constructed)
-	if blueprint.job_provider != null:
-		blueprint.job_provider.configure(
-			factory_manager,
-			job_board,
-			reservation_manager,
-			machine,
-		)
+
+	if toggle_blueprint:
+		assert(blueprint != null, "MachineAssembly requires a Blueprint")
+		blueprint.configure(faith_manager)
+		blueprint.blueprint_constructed.connect(blueprint_constructed)
+		if blueprint.job_provider != null:
+			blueprint.job_provider.configure(
+				factory_manager,
+				job_board,
+				reservation_manager,
+				machine,
+			)
 
 func blueprint_constructed() -> void:
 	progress_bar.machine = machine
