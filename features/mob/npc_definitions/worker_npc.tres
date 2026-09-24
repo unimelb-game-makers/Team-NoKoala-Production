@@ -5,7 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_yvmw5"]
 script = ExtResource("2_hnt8n")
-allowed_work_types = Array[int]([0, 1])
+allowed_work_types = Array[int]([0, 1, 2])
 metadata/_custom_type_script = "uid://2efcm0s5tsh8"
 
 [resource]
