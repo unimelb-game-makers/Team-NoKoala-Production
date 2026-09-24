@@ -16,6 +16,8 @@ var place_mode: bool = false:
 	set(value):
 		if place_mode == value:
 			return
+		if value and _restrict_machine_types and _allowed_machine_types.is_empty():
+			return
 		place_mode = value
 		if value:
 			begin_placement()
@@ -26,6 +28,8 @@ var place_mode: bool = false:
 var _floating_assembly: MachineAssembly
 var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.DEMO
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
+var _allowed_machine_types: Array[int] = []
+var _restrict_machine_types := false
 
 
 func configure(
@@ -45,6 +49,22 @@ func configure(
 
 func _ready() -> void:
 	_selected_machine = default_machine
+	if _restrict_machine_types and not _allowed_machine_types.is_empty():
+		if not _allowed_machine_types.has(_selected_machine):
+			_selected_machine = _allowed_machine_types[0] as MachineFactory.MachineType
+
+
+func set_allowed_definitions(definitions: Array[MachineDefinition]) -> void:
+	_restrict_machine_types = true
+	_allowed_machine_types.clear()
+	for definition in definitions:
+		var machine_type := MachineFactory.machine_type_for_definition(definition)
+		if machine_type >= 0 and not _allowed_machine_types.has(machine_type):
+			_allowed_machine_types.append(machine_type)
+	if _allowed_machine_types.is_empty():
+		place_mode = false
+	elif not _allowed_machine_types.has(_selected_machine):
+		select_machine(_allowed_machine_types[0] as MachineFactory.MachineType)
 
 func begin_placement() -> MachineAssembly:
 	cancel_placement()
@@ -111,10 +131,19 @@ func has_active_placement() -> bool:
 	return _floating_assembly != null
 
 func select_machine(machine: MachineFactory.MachineType) -> void:
+	if _restrict_machine_types and not _allowed_machine_types.has(machine):
+		return
 	_selected_machine = machine
 	if has_active_placement():
 		begin_placement()
 
 func select_next_machine() -> void:
+	if _restrict_machine_types:
+		if _allowed_machine_types.is_empty():
+			return
+		var current_index := _allowed_machine_types.find(_selected_machine)
+		var next_index := wrapi(current_index + 1, 0, _allowed_machine_types.size())
+		select_machine(_allowed_machine_types[next_index] as MachineFactory.MachineType)
+		return
 	var count := MachineFactory.MachineType.size()
 	select_machine(wrapi(_selected_machine + 1, 0, count) as MachineFactory.MachineType)

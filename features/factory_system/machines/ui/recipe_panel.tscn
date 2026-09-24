@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/factory_system/machines/ui/recipe_panel.gd" id="1_panel"]
+
+[node name="RecipePanel" type="VBoxContainer" node_paths=PackedStringArray("name_label", "duration_label", "inputs_group", "inputs_row", "outputs_group", "outputs_row", "work_label", "status_label")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_panel")
+name_label = NodePath("Name")
+duration_label = NodePath("Duration")
+inputs_group = NodePath("Inputs")
+inputs_row = NodePath("Inputs/Items")
+outputs_group = NodePath("Outputs")
+outputs_row = NodePath("Outputs/Items")
+work_label = NodePath("Work")
+status_label = NodePath("Status")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Recipe"
+
+[node name="Duration" type="Label" parent="."]
+layout_mode = 2
+text = "Duration"
+
+[node name="Inputs" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Inputs"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Inputs:"
+
+[node name="Items" type="HBoxContainer" parent="Inputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Outputs" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Outputs"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Outputs:"
+
+[node name="Items" type="HBoxContainer" parent="Outputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Work" type="Label" parent="."]
+layout_mode = 2
+text = "Work"
+
+[node name="Status" type="Label" parent="."]
+layout_mode = 2
+text = "Status"
