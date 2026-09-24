@@ -1,26 +1,25 @@
-[gd_scene format=3 uid="uid://dt6eaahia1xnc"]
+[gd_scene format=3 uid="uid://cytrfy11plthh"]
 
-[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
-[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_f3bu2"]
-[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="3_machine"]
-[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
-[ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
-[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_provider"]
-[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
-[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
-[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
-[ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
-[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="9_evuxr"]
-[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
-[ext_resource type="PackedScene" uid="uid://2uhsqbqmr50c" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="10_ui"]
-[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
-[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_1wqb6"]
+[ext_resource type="PackedScene" uid="uid://2uhsqbqmr50c" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="2_x8l5s"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="3_g7qho"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="4_xn5jn"]
+[ext_resource type="PackedScene" uid="uid://c8bqxghflf0pt" path="res://assets/developer_art/models/machines/old/mason_bench_draft.tscn" id="5_1wqb6"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_njx22"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_0oba8"]
+[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="8_f2rmr"]
+[ext_resource type="Resource" uid="uid://cw8yo611glthk" path="res://features/factory_system/machines/machine_definitions/mason_bench.tres" id="9_1wqb6"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="10_vldco"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="11_7pswo"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="12_cwtmi"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="13_yj7s5"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_td1xt"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="15_pf8em"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
-script = ExtResource("3_f3bu2")
-footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
-overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+script = ExtResource("4_xn5jn")
+footprint = Array[Vector3i]([Vector3i(1, 0, 0), Vector3i(0, 0, 0), Vector3i(1, 0, 1), Vector3i(2, 0, 0), Vector3i(3, 0, 0)])
 is_placed = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
@@ -36,16 +35,16 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 
 [node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint", "progress_bar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-script = ExtResource("4_assembly")
+script = ExtResource("1_1wqb6")
 block = NodePath("Block")
 machine = NodePath("Machine")
-ui_panels = Array[PackedScene]([ExtResource("10_ui")])
+ui_panels = Array[PackedScene]([ExtResource("2_x8l5s")])
 blueprint = NodePath("Blueprint")
 progress_bar = NodePath("BasicProgressBar")
 toggle_blueprint = true
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
-script = ExtResource("1_lqbl5")
+script = ExtResource("3_g7qho")
 block_data = SubResource("Resource_gn37f")
 transform_root = NodePath("..")
 
@@ -55,7 +54,7 @@ size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_5gudi")
 
 [node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, 0)
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_q0umq")
 
@@ -64,8 +63,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
 size = Vector3(1, 0.1, 1)
 material = SubResource("StandardMaterial3D_work")
 
-[node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
+[node name="mason_bench_draft" parent="Block" unique_id=1811743288 instance=ExtResource("5_1wqb6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.5448806, 0, -0.000911355)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
@@ -75,44 +74,43 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
-visible = false
-script = ExtResource("11_block_gizmo")
+script = ExtResource("6_njx22")
 block = NodePath("..")
 grid = NodePath("../../../TestMachine/GridMap")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
 
 [node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block", "grid")]
-script = ExtResource("12_block_registration")
+script = ExtResource("7_0oba8")
 block = NodePath("..")
 grid = NodePath("../../../TestMachine/GridMap")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
-script = ExtResource("3_machine")
-definition = ExtResource("4_vg41c")
-enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_recipe")])
+script = ExtResource("8_f2rmr")
+definition = ExtResource("9_1wqb6")
+enabled_recipes = Array[ExtResource("10_vldco")]([ExtResource("11_7pswo")])
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
-script = ExtResource("5_provider")
+script = ExtResource("12_cwtmi")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
-script = ExtResource("10_evuxr")
+script = ExtResource("13_yj7s5")
 machine = NodePath("..")
 block = NodePath("../../Block")
 grid = NodePath("../../../TestMachine/GridMap")
 
 [node name="Blueprint" type="Node" parent="." unique_id=1342920316 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
-script = ExtResource("9_evuxr")
+script = ExtResource("14_td1xt")
 job_provider = NodePath("BlueprintJobProvider")
 debug_active_indicator = NodePath("../DebugLight")
 disabled = false
 
 [node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=658298443]
-script = ExtResource("5_provider")
+script = ExtResource("12_cwtmi")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
@@ -123,6 +121,6 @@ spot_range = 2.0
 spot_attenuation = 0.0
 spot_angle = 15.0
 
-[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("8_g1dqn")]
+[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("15_pf8em")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 machine = NodePath("../Blueprint")

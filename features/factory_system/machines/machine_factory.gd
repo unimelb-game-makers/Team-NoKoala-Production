@@ -6,6 +6,7 @@ enum MachineType {
 	RITUAL,
 	SPIRIT_RITUAL,
 	RESOURCE_AREA,
+	CARPENTER,
 }
 
 const _SCENES: Dictionary = {
@@ -24,6 +25,11 @@ const _SCENES: Dictionary = {
 	MachineType.RESOURCE_AREA: preload(
 		"res://features/resource_area/scenes/iron_ore_resourcearea.tscn"
 	),
+	MachineType.CARPENTER: preload(
+		"res://features/factory_system/machines/machine_scenes/carpenter.tscn"
+	),
+
+
 }
 static func create_machine(type: MachineType) -> MachineAssembly:
 	var scene: PackedScene = _SCENES[type]
