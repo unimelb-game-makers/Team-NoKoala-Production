@@ -115,7 +115,7 @@ func get_blocks_at(cell: Vector3i) -> Array[Block]:
 
 func _index_block(block: Block) -> void:
 	for cell in block.block_data.occupied_cells():
-		if grid_data.get_cell_data(cell) == null:
+		if not grid_data.is_in_bounds(cell):
 			continue
 		var blocks: Array = _blocks_by_cell.get(cell, [])
 		if not blocks.has(block):
