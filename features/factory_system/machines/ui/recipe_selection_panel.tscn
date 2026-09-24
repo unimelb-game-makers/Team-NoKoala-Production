@@ -1,26 +1,26 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://2uhsqbqmr50c"]
 
-[ext_resource type="Script" path="res://features/factory_system/machines/ui/recipe_selection_panel.gd" id="1_panel"]
+[ext_resource type="Script" uid="uid://b465d6ysbfqr4" path="res://features/factory_system/machines/ui/recipe_selection_panel.gd" id="1_panel"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/recipe_panel.tscn" id="2_recipe_panel"]
 
-[node name="RecipeSelectionPanel" type="VBoxContainer" node_paths=PackedStringArray("recipe_panel", "grid")]
+[node name="RecipeSelectionPanel" type="VBoxContainer" unique_id=1514363918 node_paths=PackedStringArray("recipe_panel", "grid")]
 theme_override_constants/separation = 8
 script = ExtResource("1_panel")
-tab_title = "Recipes"
 recipe_panel = NodePath("Detail")
 grid = NodePath("Recipes/Grid")
+tab_title = "Recipes"
 
-[node name="Detail" parent="." instance=ExtResource("2_recipe_panel")]
+[node name="Detail" parent="." unique_id=1482215236 instance=ExtResource("2_recipe_panel")]
 
-[node name="Separator" type="HSeparator" parent="."]
+[node name="Separator" type="HSeparator" parent="." unique_id=473208919]
 layout_mode = 2
 
-[node name="Recipes" type="ScrollContainer" parent="."]
+[node name="Recipes" type="ScrollContainer" parent="." unique_id=2028447761]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Grid" type="GridContainer" parent="Recipes"]
+[node name="Grid" type="GridContainer" parent="Recipes" unique_id=1093144431]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 8

@@ -13,10 +13,15 @@ const ITEM_ICON_SIZE := Vector2(24, 24)
 @export var status_label: Label
 
 
-func display(recipe: ProductionRecipe, enabled: bool) -> void:
+func display(
+	recipe: ProductionRecipe,
+	enabled: bool,
+	show_enabled_status: bool = true,
+) -> void:
 	var has_recipe := recipe != null
-	for label in [duration_label, work_label, status_label]:
+	for label in [duration_label, work_label]:
 		label.visible = has_recipe
+	status_label.visible = has_recipe and show_enabled_status
 	inputs_group.visible = has_recipe
 	outputs_group.visible = has_recipe
 	if not has_recipe:

@@ -17,5 +17,6 @@ item = ExtResource("4_construction_item")
 
 [resource]
 script = ExtResource("2_def")
+machine_name = &"Conveyor"
 cells = Array[ExtResource("1_cell")]([SubResource("Resource_structure")])
 construction_materials = Array[ExtResource("3_construction_amount")]([SubResource("Resource_construction_iron")])
