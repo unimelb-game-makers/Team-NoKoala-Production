@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DialogueCharacterDefinition" format=3 uid="uid://bbn828xh01qms"]
+
+[ext_resource type="Script" uid="uid://tgy8x2ehmraq" path="res://features/dialogue/dialogue_character_definition.gd" id="1_character"]
+[ext_resource type="Texture2D" uid="uid://dv712h0vfqi8l" path="res://assets/developer_art/Character/Kaguya.png" id="1_uv0vo"]
+
+[resource]
+script = ExtResource("1_character")
+speaker_key = "Kaguya"
+display_name = "Kaguya"
+portrait = ExtResource("1_uv0vo")
