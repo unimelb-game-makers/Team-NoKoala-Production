@@ -10,11 +10,14 @@ enum FactoryItemID {
 	IRON_ORE,
 	BAMBOO_CULM,
 	RAW_FLAX,
+	BAMBOO_PLANK,
 
 }
 
 static var factory_item_definitions = {
 	FactoryItemID.IRON_ORE: "res://features/factory_system/factory_items/item_definitions/iron_ore.tres",
 	FactoryItemID.BAMBOO_CULM: "res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres",
-	FactoryItemID.RAW_FLAX: "res://features/factory_system/factory_items/item_definitions/flax.tres"
+	FactoryItemID.RAW_FLAX: "res://features/factory_system/factory_items/item_definitions/flax.tres",
+	FactoryItemID.BAMBOO_PLANK: "res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres"
+
 }

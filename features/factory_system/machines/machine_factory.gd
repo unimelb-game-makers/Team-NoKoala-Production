@@ -7,6 +7,7 @@ enum MachineType {
 	SPIRIT_RITUAL,
 	RESOURCE_AREA,
 	CARPENTER,
+	MASON,
 }
 
 const _SCENES: Dictionary = {
@@ -27,6 +28,9 @@ const _SCENES: Dictionary = {
 	),
 	MachineType.CARPENTER: preload(
 		"res://features/factory_system/machines/machine_scenes/carpenter.tscn"
+	),
+	MachineType.MASON: preload(
+		"res://features/factory_system/machines/machine_scenes/mason_bench.tscn"
 	),
 
 

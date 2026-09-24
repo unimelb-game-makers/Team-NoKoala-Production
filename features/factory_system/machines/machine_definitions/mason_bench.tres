@@ -43,6 +43,6 @@ item = ExtResource("3_6fy3b")
 
 [resource]
 script = ExtResource("5_r43ut")
-machine_name = &"Conveyor"
+machine_name = &"Mason Bench"
 cells = Array[ExtResource("1_717dw")]([SubResource("Resource_structure"), SubResource("Resource_1wqb6"), SubResource("Resource_717dw"), SubResource("Resource_74s1g"), SubResource("Resource_6fy3b")])
 construction_materials = Array[ExtResource("2_74s1g")]([SubResource("Resource_construction_iron")])
