@@ -59,6 +59,26 @@ func blueprint_constructed() -> void:
 	block.set_appearence(Block.Appearance.NORMAL)
 
 
+func register_machines(
+	factory_manager: FactoryManager,
+	center_cell: Vector3i,
+) -> bool:
+	machine.center_position = center_cell
+	if not factory_manager.register_machine(machine):
+		return false
+
+	if not toggle_blueprint:
+		return true
+
+	assert(blueprint != null, "MachineAssembly requires a Blueprint")
+	blueprint.center_position = center_cell
+	if factory_manager.register_machine(blueprint):
+		return true
+
+	factory_manager.unregister_machine(machine)
+	return false
+
+
 
 
 ## Register an assembly already present in the scene after Grid._ready().
@@ -71,10 +91,9 @@ func register_preplaced(grid: Grid, factory_manager: FactoryManager) -> bool:
 		queue_free()
 		return false
 
-	machine.center_position = block.block_data.root_cell
-	if not factory_manager.register_machine(machine):
+	if not register_machines(factory_manager, block.block_data.root_cell):
 		grid.unregister_block(block)
-		push_warning("Invalid preplaced machine: machine cannot be registered")
+		push_warning("Invalid preplaced machine: machines cannot be registered")
 		queue_free()
 		return false
 
