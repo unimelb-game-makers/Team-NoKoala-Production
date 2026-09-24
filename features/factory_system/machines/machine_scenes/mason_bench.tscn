@@ -73,16 +73,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
-[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
 script = ExtResource("6_njx22")
 block = NodePath("..")
-grid = NodePath("../../../TestMachine/GridMap")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
 
-[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block", "grid")]
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
 script = ExtResource("7_0oba8")
 block = NodePath("..")
-grid = NodePath("../../../TestMachine/GridMap")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
@@ -97,11 +95,10 @@ debug_active_indicator = NodePath("../DebugLight")
 script = ExtResource("12_cwtmi")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
-[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
 script = ExtResource("13_yj7s5")
 machine = NodePath("..")
 block = NodePath("../../Block")
-grid = NodePath("../../../TestMachine/GridMap")
 
 [node name="Blueprint" type="Node" parent="." unique_id=1342920316 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("14_td1xt")

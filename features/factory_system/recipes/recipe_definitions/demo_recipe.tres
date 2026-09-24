@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dwaidgtqyhe3j"]
 
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_d0114"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_dfonu"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_feap4"]
 [ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_dfonu"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="3_kpv2k"]
 [ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_work_requirement"]
 
 [sub_resource type="Resource" id="Resource_d0114"]
 script = ExtResource("1_d0114")
 port_id = &"input_1"
-item = ExtResource("2_dfonu")
+item = ExtResource("3_dfonu")
+amount = 2
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_kpv2k"]
 script = ExtResource("1_d0114")
 port_id = &"output_1"
-item = ExtResource("3_dfonu")
+item = ExtResource("3_kpv2k")
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_ejjkk"]
@@ -27,6 +28,7 @@ metadata/_custom_type_script = "uid://hneks0cpqqvj"
 script = ExtResource("2_feap4")
 recipe_id = &"1"
 display_name = "demo_recipe"
+duration_seconds = 2.0
 inputs = Array[ExtResource("1_d0114")]([SubResource("Resource_d0114")])
 outputs = Array[ExtResource("1_d0114")]([SubResource("Resource_kpv2k")])
 work_requirements = Array[ExtResource("4_work_requirement")]([SubResource("Resource_ejjkk")])
