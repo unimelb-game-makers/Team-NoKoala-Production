@@ -90,7 +90,7 @@ func configure_dependencies() -> void:
 			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
-			child.configure(factory,faith,jobs,reservations,grid)
+			child.configure(factory, faith, jobs, reservations, mobs_root, grid)
 
 func configure_editor_dependencies() -> void:
 	resource_area_manager.configure(grid,machines_root)

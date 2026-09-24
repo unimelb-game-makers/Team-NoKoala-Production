@@ -10,7 +10,27 @@ extends Node3D
 
 @export var toggle_blueprint: bool
 
+const BLUEPRINT_UI_PANEL := preload(
+	"res://features/factory_system/machines/ui/blueprint_panel.tscn"
+)
+
 var _factory_manager: FactoryManager
+
+
+func is_blueprint_active() -> bool:
+	return toggle_blueprint and blueprint != null and not blueprint.disabled
+
+
+## Machine the machine UI should bind to: the blueprint while under construction.
+func get_ui_machine() -> Machine:
+	return blueprint if is_blueprint_active() else machine
+
+
+## Panels shown in the machine UI. A blueprint only shows the blueprint panel.
+func get_ui_panels() -> Array[PackedScene]:
+	if is_blueprint_active():
+		return [BLUEPRINT_UI_PANEL]
+	return ui_panels
 
 func configure(
 	factory_manager: FactoryManager,
