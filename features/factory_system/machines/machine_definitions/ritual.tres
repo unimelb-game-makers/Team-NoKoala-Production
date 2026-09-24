@@ -5,7 +5,6 @@
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="3_rus5m"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="4_uwe65"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="5_construction_amount"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="6_construction_item"]
 
 [sub_resource type="Resource" id="Resource_ls2ej"]
 script = ExtResource("1_lgo2w")
@@ -25,13 +24,10 @@ role = 2
 local_cell_offset = Vector3i(1, 0, 0)
 metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 
-[sub_resource type="Resource" id="Resource_construction_iron"]
-script = ExtResource("5_construction_amount")
-item = ExtResource("6_construction_item")
-
 [resource]
 script = ExtResource("4_uwe65")
+machine_name = &"ritual"
+machine_description = &"stores faith when conduct the ritual ceremony"
 cells = Array[ExtResource("1_lgo2w")]([SubResource("Resource_ls2ej"), SubResource("Resource_4cjtm"), SubResource("Resource_7mxvq")])
 recipes = Array[ExtResource("2_43jfs")]([ExtResource("3_rus5m")])
-construction_materials = Array[ExtResource("5_construction_amount")]([SubResource("Resource_construction_iron")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
