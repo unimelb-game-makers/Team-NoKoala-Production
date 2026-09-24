@@ -98,6 +98,15 @@ func get_material_progress() -> float:
 	)
 
 
+## Amount of [param item] supplied towards construction, capped at the
+## required amount. Claimed materials count as fully supplied.
+func get_supplied_material_amount(item: FactoryItemDefinition) -> int:
+	var required := _get_required_amount_for(item)
+	if _construction_started:
+		return required
+	return mini(_get_delivered_amount_for(item), required)
+
+
 func get_input_cells() -> Array[Vector3i]:
 	return get_occupied_cells()
 
