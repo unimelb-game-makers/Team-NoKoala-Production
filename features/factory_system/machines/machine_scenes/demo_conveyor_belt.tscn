@@ -224,7 +224,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jx3o8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Block/model" unique_id=166556019]
 libraries/ = SubResource("AnimationLibrary_was48")
-autoplay = &"run"
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=402806199 node_paths=PackedStringArray("block")]
 script = ExtResource("5_10hco")
@@ -242,7 +241,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40063477, 0)
 shape = SubResource("BoxShape3D_owhf0")
 
-[node name="ConveyorBelt" type="Node" parent="." unique_id=1600706499 node_paths=PackedStringArray("block", "path", "follow", "middle", "debug_active_indicator")]
+[node name="ConveyorBelt" type="Node" parent="." unique_id=1600706499 node_paths=PackedStringArray("block", "path", "follow", "middle", "debug_active_indicator", "animation_player")]
 script = ExtResource("1_3rim7")
 block = NodePath("../Block")
 path = NodePath("../Path3D")
@@ -251,6 +250,7 @@ middle = NodePath("../Middle")
 definition = ExtResource("5_def")
 faith_drain_rate = 10.0
 debug_active_indicator = NodePath("../DebugLight")
+animation_player = NodePath("../Block/model/AnimationPlayer")
 
 [node name="MachineEditorSynchoniser" type="Node" parent="ConveyorBelt" unique_id=347408545 node_paths=PackedStringArray("machine", "block")]
 script = ExtResource("9_5u5lm")

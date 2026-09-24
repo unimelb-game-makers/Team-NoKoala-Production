@@ -17,7 +17,7 @@ func configure_construction(machine_definition: MachineDefinition) -> void:
 
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
-	if disabled or factory_manager == null or definition == null:
+	if factory_manager == null or definition == null:
 		return
 
 	_factory_manager = factory_manager
