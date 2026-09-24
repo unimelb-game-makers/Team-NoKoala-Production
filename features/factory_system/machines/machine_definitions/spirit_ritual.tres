@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_us8ad"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_d1bun"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_wblel"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="3_wblel"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="4_d1bun"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="4_i7ptv"]
