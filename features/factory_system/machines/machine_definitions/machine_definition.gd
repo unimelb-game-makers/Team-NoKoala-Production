@@ -92,6 +92,45 @@ func get_recipe_validation_errors(
 			MachineCellDefinition.Role.OUTPUT,
 		)
 	)
+	errors.append_array(
+		_get_work_requirement_errors(recipe.work_requirements)
+	)
+
+	return errors
+
+
+func _get_work_requirement_errors(
+	requirements: Array[RecipeWorkRequirement],
+) -> PackedStringArray:
+	var errors := PackedStringArray()
+	var available_ports := _get_ports_for_role(MachineCellDefinition.Role.WORK)
+	var seen_ports: Dictionary[StringName, bool] = {}
+
+	for index in requirements.size():
+		var requirement := requirements[index]
+		var label := "Work requirement %d" % index
+		if requirement == null:
+			errors.append("%s cannot be empty." % label)
+			continue
+		if requirement.port_id.is_empty():
+			errors.append("%s must specify a port ID." % label)
+			continue
+		if not available_ports.has(requirement.port_id):
+			errors.append(
+				"%s references unknown port '%s'." % [
+					label,
+					requirement.port_id,
+				]
+			)
+		if seen_ports.has(requirement.port_id):
+			errors.append(
+				"%s duplicates port '%s'." % [
+					label,
+					requirement.port_id,
+				]
+			)
+		else:
+			seen_ports[requirement.port_id] = true
 
 	return errors
 

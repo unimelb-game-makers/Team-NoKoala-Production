@@ -32,7 +32,7 @@ func start() -> Status:
 		or not _is_machine_need(work_job)
 	):
 		return Status.FAILURE
-	# BasicMachine currently uses capability identity to track occupants.
+	# Work ports use capability identity to track their current worker.
 	# Give each worker its own copy even when NPCs share a definition resource.
 	_work_capability = consumer.capability.duplicate() as WorkerCapability
 	return Status.RUNNING if _work_capability != null else Status.FAILURE

@@ -10,13 +10,13 @@
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
 [ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
-[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="10_ui"]
-[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
-[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
-[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="9_evuxr"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
 [ext_resource type="Resource" uid="uid://dp653tf3rcio7" path="res://features/factory_system/machines/machine_definitions/blueprints/blueprint_demo_machine.tres" id="10_l8p30"]
 [ext_resource type="Resource" uid="uid://c1i3j1djd3njm" path="res://features/factory_system/recipes/recipe_definitions/construction/construct_demo_machine.tres" id="10_t5wn5"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="10_ui"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
@@ -34,17 +34,14 @@ albedo_color = Color(1, 0.19, 0.19, 1)
 albedo_color = Color(0.1, 0.42, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
-size = Vector3(1, 1, 1)
 
-[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "blueprint_block", "machine", "blueprint", "progress_bar")]
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint", "progress_bar")]
 script = ExtResource("4_assembly")
 block = NodePath("Block")
-blueprint_block = NodePath("BlueprintBlock")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("10_ui")])
 blueprint = NodePath("Blueprint")
 progress_bar = NodePath("BasicProgressBar")
-toggle_blueprint = true
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("1_lqbl5")
@@ -69,14 +66,15 @@ material = SubResource("StandardMaterial3D_work")
 [node name="Structure" parent="Block" unique_id=388237952 instance=ExtResource("9_8y5og")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Block"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
+visible = false
 script = ExtResource("11_block_gizmo")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
@@ -85,30 +83,6 @@ metadata/_custom_type_script = "uid://b7prvphjsth3o"
 script = ExtResource("12_block_registration")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
-[node name="BlueprintBlock" type="Node3D" parent="." unique_id=1290172058 node_paths=PackedStringArray("transform_root")]
-visible = false
-script = ExtResource("1_lqbl5")
-transform_root = NodePath("..")
-
-[node name="Input1" type="CSGBox3D" parent="BlueprintBlock" unique_id=335706727]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
-
-[node name="Input2" type="CSGBox3D" parent="BlueprintBlock" unique_id=613895781]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 0)
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
-
-[node name="Input3" type="CSGBox3D" parent="BlueprintBlock" unique_id=1357192043]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
-
-[node name="Work1" type="CSGBox3D" parent="BlueprintBlock" unique_id=257293167]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_work")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
@@ -126,6 +100,7 @@ metadata/_custom_type_script = "uid://bgxakqgck66y6"
 script = ExtResource("10_evuxr")
 machine = NodePath("..")
 block = NodePath("../../Block")
+
 [node name="Blueprint" type="Node" parent="." unique_id=1342920316 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("9_evuxr")
 definition = ExtResource("10_l8p30")

@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="13_656wg"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="14_ws37u"]
 
-[sub_resource type="Resource" id="Resource_6lslr"]
+[sub_resource type="Resource" id="Resource_ws37u"]
 resource_local_to_scene = true
 script = ExtResource("9_bxgkl")
 allowed_work_types = Array[int]([0, 1, 2])
@@ -81,11 +81,55 @@ script = ExtResource("6_nq36n")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_p4joc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="Camera3D" parent="Kaguya/SpringArm3D" parent_id_path=PackedInt32Array(21341859, 250538204) index="0" unique_id=1433362386]
-script = null
+[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(21341859, 502972077) index="0" unique_id=1206786317]
+transform = Transform3D(0.99355763, 0.09788986, 0.057098173, -0.055666115, -0.017300736, 0.9982992, 0.098711245, -0.9950463, -0.011740135, -0.010293717, -0.00686969, 0.0054831696)
 
-[node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_6lslr")
+[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=340283246]
+bones/2/rotation = Quaternion(0.022378864, 0.0053645466, 0.013759198, 0.9996405)
+bones/3/rotation = Quaternion(-0.1175603, 0.007041027, 0.027082825, 0.99267143)
+bones/4/rotation = Quaternion(-0.089264855, 0.0002663389, 0.027981875, 0.99561477)
+bones/11/rotation = Quaternion(0.19638908, -0.00060898083, 0.002360588, 0.98052305)
+bones/12/rotation = Quaternion(-0.08544606, -0.00018988842, 0.0024304786, 0.9963398)
+bones/37/rotation = Quaternion(0.1453307, 0.10877694, -0.80945915, 0.5584108)
+bones/38/rotation = Quaternion(0.09922126, 0.17947729, -0.48743087, 0.8487368)
+bones/39/rotation = Quaternion(0.14481246, -0.0008375867, -0.00012232807, 0.9894588)
+bones/40/rotation = Quaternion(0.11224055, -0.14731404, 0.045228172, 0.98165935)
+bones/41/rotation = Quaternion(-0.08105117, -0.07142729, -0.0637709, 0.99209994)
+bones/42/rotation = Quaternion(-0.0111721475, 0.0039626914, -0.099636756, 0.99495333)
+bones/44/rotation = Quaternion(-0.062465366, 0.04026096, -0.19262499, 0.9784543)
+bones/45/rotation = Quaternion(0.02393322, -0.00080583914, -0.14705102, 0.98883903)
+bones/47/rotation = Quaternion(-0.044631112, -0.014529573, -0.037617106, 0.99818933)
+bones/48/rotation = Quaternion(0.0015642402, 9.411693e-05, -0.0908783, 0.9958608)
+bones/50/rotation = Quaternion(-0.046448853, 0.006064005, -0.11141012, 0.99267)
+bones/51/rotation = Quaternion(-0.0018388851, -0.00096079573, -0.0918622, 0.9957696)
+bones/72/rotation = Quaternion(0.121464014, -0.12829646, 0.7943236, 0.581237)
+bones/73/rotation = Quaternion(0.0760765, -0.2599618, 0.47187707, 0.83902586)
+bones/74/rotation = Quaternion(0.17298561, -0.00015469236, -2.7397435e-05, 0.98492444)
+bones/75/rotation = Quaternion(0.07085494, 0.2630636, -0.15271173, 0.9499771)
+bones/76/rotation = Quaternion(-0.044173148, 0.06771477, 0.11555622, 0.9900052)
+bones/77/rotation = Quaternion(-0.008408948, -0.00013757749, 0.096882775, 0.99526036)
+bones/79/rotation = Quaternion(-0.02179836, -0.0051532765, 0.187354, 0.98203707)
+bones/80/rotation = Quaternion(0.040242143, 0.006092064, 0.15711689, 0.98674107)
+bones/82/rotation = Quaternion(-0.035675965, 0.010893138, 0.122364104, 0.9917841)
+bones/83/rotation = Quaternion(0.0062586134, 0.0005436326, 0.14894862, 0.9888251)
+bones/85/rotation = Quaternion(-0.016570494, 0.0120062595, 0.17742275, 0.98392206)
+bones/86/rotation = Quaternion(0.006406068, 0.0028618565, 0.13746366, 0.990482)
+bones/107/rotation = Quaternion(0.027807433, 0.1949321, 0.9775098, -0.07551841)
+bones/108/rotation = Quaternion(-0.15888686, -0.0009353509, -0.0048616687, 0.9872844)
+bones/149/rotation = Quaternion(-0.09440296, 0.70107806, 0.69293255, 0.13936342)
+bones/150/rotation = Quaternion(0.005927139, -0.014647808, -0.024524996, 0.9995744)
+bones/151/rotation = Quaternion(-0.057156615, 0.08079616, 0.9930737, -0.06332362)
+bones/152/rotation = Quaternion(-0.09260327, -0.00013995836, 0.0020545693, 0.995701)
+bones/193/rotation = Quaternion(0.0918156, 0.6567882, 0.7466504, -0.052080676)
+
+[node name="LeftLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="0" unique_id=1012435759]
+transform = Transform3D(-89.37831, 14.15465, -42.55775, -19.884907, -97.55941, 9.313424, -40.2008, 16.786747, 90.01161, 24.365334, 80.464325, 4.7162933)
+
+[node name="RightLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="1" unique_id=1774903563]
+transform = Transform3D(-75.063, 0.668079, 66.068924, 6.1632657, -99.488045, 8.008289, 65.784195, 10.083269, 74.63753, -4.8639545, 77.60741, -0.6863773)
+
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
+capability = SubResource("Resource_ws37u")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
 
@@ -131,3 +175,4 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 [node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("14_ws37u")]
 
 [editable path="Kaguya"]
+[editable path="Kaguya/KaguyaModel"]

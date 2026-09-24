@@ -4,6 +4,8 @@ extends Node
 signal factory_ticked(machine: Machine, delta: float)
 signal enabled_recipes_changed
 signal blueprint_constructed
+signal work_port_enabled_changed(port: WorkPort, enabled: bool)
+signal work_port_allocation_changed(port: WorkPort, worker: WorkerCapability)
 
 @export var definition: MachineDefinition
 
@@ -20,6 +22,8 @@ var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
 var is_shut_down: bool = false
 var faith_manager: FaithManager
+var work_ports: Array[WorkPort] = []
+var _work_ports_valid := true
 
 
 func configure(p_faith_manager: FaithManager) -> void:
@@ -68,6 +72,150 @@ func get_output_cells() -> Array[Vector3i]:
 
 func get_work_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.WORK)
+
+
+func configure_work_ports(recipe: ProductionRecipe) -> bool:
+	clear_work_ports()
+	if recipe == null:
+		_work_ports_valid = false
+		return false
+
+	var configured_port_ids: Dictionary[StringName, bool] = {}
+	for requirement in recipe.work_requirements:
+		if (
+			requirement == null
+			or requirement.port_id.is_empty()
+			or configured_port_ids.has(requirement.port_id)
+		):
+			_work_ports_valid = false
+			continue
+
+		var cells := get_cells_for_port(
+			MachineCellDefinition.Role.WORK,
+			requirement.port_id,
+		)
+		if cells.is_empty():
+			_work_ports_valid = false
+			continue
+
+		configured_port_ids[requirement.port_id] = true
+		var port := WorkPort.new(
+			requirement.port_id,
+			requirement.work_type,
+			cells,
+		)
+		port.enabled_changed.connect(_on_work_port_enabled_changed)
+		port.allocation_changed.connect(_on_work_port_allocation_changed)
+		work_ports.append(port)
+	return _work_ports_valid
+
+
+func clear_work_ports() -> void:
+	work_ports.clear()
+	_work_ports_valid = true
+
+
+func are_work_ports_ready() -> bool:
+	if not _work_ports_valid:
+		return false
+	for port in work_ports:
+		if not port.is_ready():
+			return false
+	return true
+
+
+func get_remaining_work_needs() -> Array[Dictionary]:
+	var needs: Array[Dictionary] = []
+	if disabled or is_shut_down or not _work_ports_valid:
+		return needs
+
+	for port in work_ports:
+		if not port.enabled or port.worker != null:
+			continue
+		for cell in port.cells:
+			needs.append({
+				"port_id": port.port_id,
+				"cell": cell,
+				"work_type": port.work_type,
+			})
+	return needs
+
+
+func try_working_at_port(
+	cell: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	if disabled or is_shut_down or not _work_ports_valid or capability == null:
+		return false
+	if _find_port_for_worker(capability) != null:
+		return false
+
+	var port := _find_work_port_at(cell)
+	return port != null and port.try_allocate(capability)
+
+
+func try_unallocate_working_port(
+	cell: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	var port := _find_work_port_at(cell)
+	if port == null or not port.try_release(capability):
+		return false
+
+	if not are_work_ports_ready():
+		unregister_active()
+	return true
+
+
+func is_working_at_port(
+	cell: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	var port := _find_work_port_at(cell)
+	return port != null and port.is_allocated_to(capability)
+
+
+func get_work_port(port_id: StringName) -> WorkPort:
+	for port in work_ports:
+		if port.port_id == port_id:
+			return port
+	return null
+
+
+func set_work_port_enabled(port_id: StringName, enabled: bool) -> bool:
+	var port := get_work_port(port_id)
+	if port == null:
+		return false
+	port.enabled = enabled
+	return true
+
+
+func _on_work_port_enabled_changed(port: WorkPort, enabled: bool) -> void:
+	if not enabled:
+		unregister_active()
+	_update_job_requests()
+	work_port_enabled_changed.emit(port, enabled)
+
+
+func _on_work_port_allocation_changed(
+	port: WorkPort,
+	worker: WorkerCapability,
+) -> void:
+	work_port_allocation_changed.emit(port, worker)
+
+
+func _find_work_port_at(cell: Vector3i) -> WorkPort:
+	for port in work_ports:
+		if port.contains_cell(cell):
+			return port
+	return null
+
+
+func _find_port_for_worker(capability: WorkerCapability) -> WorkPort:
+	for port in work_ports:
+		if port.is_allocated_to(capability):
+			return port
+	return null
 
 
 func get_cells_for_port(

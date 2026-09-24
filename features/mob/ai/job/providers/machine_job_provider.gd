@@ -78,36 +78,34 @@ func refresh() -> void:
 						)
 		if not _has_request(haul_request):
 			enqueue(haul_request)
-	var machine := _machine as BasicMachine
-	if machine != null:
-		var works := machine.get_remaining_work_needs()
-		for request in get_requests():
-			var work_request := request as WorkRequest
-			if work_request == null:
-				continue
-			var still_needed := false
-			for work in works:
-				if (
-					work_request.machine == machine
-					and work_request.destination == work.cell
-					and work_request.work_type == work.work_type
-				):
-					still_needed = true
-					break
-			if not still_needed:
-				remove(work_request)
+	var works := _machine.get_remaining_work_needs()
+	for request in get_requests():
+		var work_request := request as WorkRequest
+		if work_request == null:
+			continue
+		var still_needed := false
 		for work in works:
-			if _reservation_manager.is_reserved(work.cell):
-				continue
-			var work_request := WorkRequest.new(
-				work.work_type,
-				work.cell,
-				_factory_manager,
-				_reservation_manager,
-				machine,
-			)
-			if not _has_request(work_request):
-				enqueue(work_request)
+			if (
+				work_request.machine == _machine
+				and work_request.destination == work.cell
+				and work_request.work_type == work.work_type
+			):
+				still_needed = true
+				break
+		if not still_needed:
+			remove(work_request)
+	for work in works:
+		if _reservation_manager.is_reserved(work.cell):
+			continue
+		var work_request := WorkRequest.new(
+			work.work_type,
+			work.cell,
+			_factory_manager,
+			_reservation_manager,
+			_machine,
+		)
+		if not _has_request(work_request):
+			enqueue(work_request)
 
 
 func _has_request(p_request : JobRequest) -> bool:
