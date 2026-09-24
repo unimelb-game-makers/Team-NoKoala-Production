@@ -16,7 +16,7 @@
 [ext_resource type="Resource" uid="uid://tw2taeu4gnyx" path="res://features/dialogue/dialogues/demo_dialogue.dialogue" id="9_ed0w8"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="9_placement_grid"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="9_yg3by"]
-[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="10_npc"]
+[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/spirit_scenes/demo_spirit.tscn" id="10_npc"]
 [ext_resource type="PackedScene" uid="uid://b0203k716j73" path="res://assets/developer_art/models/map 1209vr.glb" id="11_map"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="12_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="13_jobs"]
