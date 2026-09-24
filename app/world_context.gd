@@ -2,6 +2,7 @@ class_name WorldContext
 extends RefCounted
 
 var grid: Grid
+var pathfinder: Pathfinder
 var clock: FixedClock
 var factory: FactoryManager
 var faith: FaithManager

@@ -30,10 +30,12 @@ var is_shut_down: bool = false
 var faith_manager: FaithManager
 var work_ports: Array[WorkPort] = []
 var _work_ports_valid := true
+var mobs_root: Node
 
 
-func configure(p_faith_manager: FaithManager) -> void:
+func configure(p_faith_manager: FaithManager, p_mobs_root: Node) -> void:
 	faith_manager = p_faith_manager
+	mobs_root = p_mobs_root
 
 
 func is_recipe_enabled(recipe: ProductionRecipe) -> bool:
