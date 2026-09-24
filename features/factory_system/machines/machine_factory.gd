@@ -4,6 +4,7 @@ enum MachineType {
 	DEMO,
 	CONVEYOR,
 	RITUAL,
+	SPIRIT_RITUAL,
 	RESOURCE_AREA,
 }
 
@@ -16,6 +17,9 @@ const _SCENES: Dictionary = {
 	),
 	MachineType.RITUAL: preload(
 		"res://features/factory_system/machines/machine_scenes/demo_ritual.tscn"
+	),
+	MachineType.SPIRIT_RITUAL: preload(
+		"res://features/factory_system/machines/machine_scenes/spirit_ritual.tscn"
 	),
 	MachineType.RESOURCE_AREA: preload(
 		"res://features/resource_area/scenes/iron_ore_resourcearea.tscn"

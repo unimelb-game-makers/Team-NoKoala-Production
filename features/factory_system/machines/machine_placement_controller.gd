@@ -30,6 +30,7 @@ var _selected_machine: MachineFactory.MachineType = MachineFactory.MachineType.D
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
 var _allowed_machine_types: Array[int] = []
 var _restrict_machine_types := false
+var _mobs_root: Node
 
 
 func configure(
@@ -38,6 +39,7 @@ func configure(
 	faith: FaithManager,
 	jobs: JobBoard,
 	reservations: ReservationManager,
+	mobs_root: Node,
 	_spring_arm: CameraController,
 ) -> void:
 	grid = p_grid
@@ -45,6 +47,7 @@ func configure(
 	_faith = faith
 	_jobs = jobs
 	_reservations = reservations
+	_mobs_root = mobs_root
 
 
 func _ready() -> void:
@@ -74,6 +77,7 @@ func begin_placement() -> MachineAssembly:
 		_faith,
 		_jobs,
 		_reservations,
+		_mobs_root,
 		grid
 	)
 	_floating_assembly.block.disable_collisions()

@@ -16,9 +16,9 @@
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="10_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="11_jobs"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="12_reservations"]
-[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/demo_npc.tscn" id="15_27g8l"]
+[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/spirit_scenes/demo_spirit.tscn" id="15_27g8l"]
 
-[sub_resource type="Resource" id="Resource_hygsx"]
+[sub_resource type="Resource" id="Resource_k3jbi"]
 resource_local_to_scene = true
 script = ExtResource("4_dqx0x")
 allowed_work_types = Array[int]([0, 1])
@@ -90,7 +90,7 @@ script = ExtResource("7_hygsx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
 [node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "faith_manager")]
-capability = SubResource("Resource_hygsx")
+capability = SubResource("Resource_k3jbi")
 _grid = NodePath("../../GridMap")
 faith_manager = NodePath("../../Services/FaithManager")
 
@@ -140,3 +140,4 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1576493, 1.0040001, 0.38231874)
 
 [editable path="Kaguya"]
+[editable path="Kaguya/KaguyaModel"]

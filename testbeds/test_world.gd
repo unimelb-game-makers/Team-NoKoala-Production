@@ -24,15 +24,24 @@ extends Node3D
 @export var hotbar: Hotbar
 @export var machine_ui: MachineUI
 @export var resource_area_manager: ResourceAreaManager
+@export var dialogue_coordinator : DialogueCoordinator
 
 @export_tool_button("Configure Editor Dependency", "Callable")
 var configure_editor = configure_editor_dependencies
 
+var context: WorldContext
+var _composed := false
+
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	assert(grid != null, "TestWorld requires a Grid")
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")
-	configure_dependencies()
+	if _composed == false:
+		compose_world_context()
+		configure_dependencies()
+	add_to_group("world")
 
 func _ready() -> void:
 	if machines_root == null:
@@ -53,7 +62,7 @@ func configure_dependencies() -> void:
 		assert(jobs != null, "Placement requires a JobBoard")
 		assert(reservations != null, "Placement requires a ReservationManager")
 		assert(spring_arm != null, "Placement requires a SpringArm")
-		placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
+		placement.configure(grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
 
 	if item_spawner != null:
 		assert(spring_arm != null, "ItemSpawner requires a SpringArm")
@@ -94,7 +103,7 @@ func configure_dependencies() -> void:
 
 		for child in machines_root.get_children():
 			if child is MachineAssembly:
-				child.configure(factory,faith,jobs,reservations, grid)
+				child.configure(factory,faith,jobs,reservations, mobs_root, grid)
 	print(factory._machines.size())
 	
 	if faith != null:
@@ -112,3 +121,21 @@ func configure_editor_dependencies() -> void:
 			assert(grid != null)
 			assert(factory != null)
 			resource_area_manager.configure(grid, machines_root)
+
+func compose_world_context() -> WorldContext:
+	if _composed:
+		return null
+
+	context = WorldContext.new()
+	context.grid = grid
+	context.pathfinder = pathfinder
+	context.clock = clock
+	context.factory = factory
+	context.faith = faith
+	context.jobs = jobs
+	context.reservations = reservations
+	context.player = player
+	context.dialogue_coordinator = dialogue_coordinator
+
+	_composed = true
+	return context
