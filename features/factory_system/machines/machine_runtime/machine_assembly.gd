@@ -6,9 +6,11 @@ extends Node3D
 @export var machine: Machine
 @export var ui_panels: Array[PackedScene] = []
 @export var blueprint: Machine
-@export var progress_bar: BasicProgressBar
+@export var progress_bar: Node3D
 
 @export var toggle_blueprint: bool
+
+var _factory_manager: FactoryManager
 
 func configure(
 	factory_manager: FactoryManager,
@@ -19,6 +21,7 @@ func configure(
 ) -> void:
 	assert(block != null, "MachineAssembly requires a Block")
 	assert(machine != null, "MachineAssembly requires a Machine")
+	_factory_manager = factory_manager
 	
 	machine.configure(faith_manager)
 	if machine.job_provider != null:
@@ -30,14 +33,21 @@ func configure(
 		)
 
 	if toggle_blueprint:
+		assert(blueprint != null, "MachineAssembly requires a Blueprint")
+		assert(
+			blueprint is BlueprintMachine,
+			"MachineAssembly blueprint must be a BlueprintMachine",
+		)
+		(blueprint as BlueprintMachine).configure_construction(
+			machine.definition,
+		)
 		block.set_appearence(Block.Appearance.TRANSLUCENT_BLUE)
 		machine.disable()
 		blueprint.enable()
 
-
-		assert(blueprint != null, "MachineAssembly requires a Blueprint")
 		blueprint.configure(faith_manager)
-		blueprint.blueprint_constructed.connect(blueprint_constructed)
+		if not blueprint.blueprint_constructed.is_connected(blueprint_constructed):
+			blueprint.blueprint_constructed.connect(blueprint_constructed)
 		if blueprint.job_provider != null:
 			blueprint.job_provider.configure(
 				factory_manager,
@@ -45,19 +55,27 @@ func configure(
 				reservation_manager,
 				blueprint,
 			)
+		if progress_bar != null:
+			progress_bar.machine = blueprint
 
 func _ready() -> void:
 	if not toggle_blueprint:
 		blueprint_constructed()
-		
+
+
 func blueprint_constructed() -> void:
+	if (
+		_factory_manager != null
+		and blueprint != null
+		and _factory_manager.is_machine_registered(blueprint)
+	):
+		_factory_manager.unregister_machine(blueprint)
 	if progress_bar != null:
 		progress_bar.machine = machine
-	if blueprint != null: 
+	if blueprint != null:
 		blueprint.disable()
 	machine.enable()
 	block.set_appearence(Block.Appearance.NORMAL)
-
 
 func register_machines(
 	factory_manager: FactoryManager,

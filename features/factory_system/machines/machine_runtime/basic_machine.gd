@@ -65,6 +65,10 @@ func is_processing_recipe() -> bool:
 	return _processing_recipe != null
 
 
+func get_progress_phase() -> ProgressPhase:
+	return ProgressPhase.WORK if is_processing_recipe() else ProgressPhase.NONE
+
+
 func has_all_required_inputs_in_place(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
