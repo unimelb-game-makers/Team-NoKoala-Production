@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_yx58f"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="10_3k5q5"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_dpkl1"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_ddmdn"]
+[ext_resource type="Resource" uid="uid://dp653tf3rcio7" path="res://features/factory_system/machines/machine_definitions/blueprints/blueprint_demo_machine.tres" id="15_vx35h"]
+[ext_resource type="Resource" uid="uid://c1i3j1djd3njm" path="res://features/factory_system/recipes/recipe_definitions/construction/construct_demo_machine.tres" id="16_s2tmd"]
 
 [sub_resource type="Resource" id="Resource_52k3o"]
 resource_local_to_scene = true
@@ -42,10 +45,11 @@ script = ExtResource("7_441p3")
 cells = Array[ExtResource("5_553q0")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
-[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("1_602gf")
 block = NodePath("Block")
 machine = NodePath("Machine")
+blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_fak48")
@@ -79,6 +83,7 @@ block = NodePath("../Block")
 resource_area_definition = ExtResource("4_hdsu6")
 definition = SubResource("Resource_kjr54")
 job_provider = NodePath("HaulJobProvider")
+disabled = false
 
 [node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
 script = ExtResource("8_upytq")
@@ -93,3 +98,15 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
 texture_filter = 0
 texture = ExtResource("9_yx58f")
+
+[node name="Blueprint" type="Node" parent="." unique_id=814475983 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("14_ddmdn")
+definition = ExtResource("15_vx35h")
+enabled_recipes = Array[ExtResource("6_gm6og")]([ExtResource("16_s2tmd")])
+job_provider = NodePath("BlueprintJobProvider")
+debug_active_indicator = NodePath("")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1633841014]
+script = ExtResource("8_upytq")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
