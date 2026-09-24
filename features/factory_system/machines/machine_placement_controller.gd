@@ -92,7 +92,12 @@ func confirm_placement(cell: Vector3i) -> bool:
 		return false
 	
 	_floating_assembly.block.enable_collisions()
-	
+	if _floating_assembly.toggle_blueprint:
+		_floating_assembly.block.set_appearence(
+			Block.Appearance.TRANSLUCENT_BLUE,
+		)
+	else:
+		_floating_assembly.block.set_appearence(Block.Appearance.NORMAL)
 
 	_floating_assembly = null
 	return true

@@ -39,6 +39,7 @@ func _ready() -> void:
 	if _collision_shapes.is_empty():
 		_cache_shapes()
 	_cache_materials()
+	_apply_appearance()
 
 
 func get_transform_root() -> Node3D:
@@ -92,9 +93,12 @@ func set_appearence(appearance: Appearance) -> void:
 		return
 
 	_appearance = appearance
+	_apply_appearance()
 
+
+func _apply_appearance() -> void:
 	for geometry in _geometry_instances:
-		match appearance:
+		match _appearance:
 			Appearance.NORMAL:
 				geometry.material_override = null
 				_apply_materials(
