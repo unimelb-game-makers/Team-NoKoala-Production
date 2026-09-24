@@ -63,6 +63,7 @@ func configure(
 			machine.definition,
 		)
 		block.set_appearence(Block.Appearance.TRANSLUCENT_BLUE)
+		block.set_blueprint_layer(true)
 		machine.disable()
 		blueprint.enable()
 
@@ -96,6 +97,7 @@ func blueprint_constructed() -> void:
 	if blueprint != null:
 		blueprint.disable()
 	machine.enable()
+	block.set_blueprint_layer(false)
 	block.set_appearence(Block.Appearance.NORMAL)
 
 func register_machines(

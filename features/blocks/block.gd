@@ -7,12 +7,17 @@ var block_data: BlockData
 @export var transform_root: Node3D
 
 const translucent_alpha := 0.6
+## Physics layer 5 ("Blueprint"): hit by mouse picking, collides with nothing
+const BLUEPRINT_COLLISION_LAYER := 1 << 4
 static var _red_material: StandardMaterial3D
 static var _blue_material: StandardMaterial3D
 
 var _appearance: Appearance = Appearance.NORMAL
 var _collision_shapes: Array[Node]
 var _collision_shapes_disabled: Array[bool] = []
+var _blueprint_layer_enabled := false
+## Collision objects mapped to their original [layer, mask]
+var _original_collision_layers := {}
 var _geometry_instances: Array[Node] = []
 var _original_materials := {}
 var _transparent_materials := {}
@@ -86,6 +91,35 @@ func enable_collisions() -> void:
 			shape.set_deferred("disabled", _collision_shapes_disabled[i])
 		elif shape is CSGShape3D:
 			shape.use_collision = !_collision_shapes_disabled[i]
+
+
+## Moves this block's collision objects onto the blueprint layer, so they can
+## still be picked with the mouse but no longer block anything.
+func set_blueprint_layer(enabled: bool) -> void:
+	if enabled == _blueprint_layer_enabled:
+		return
+	_blueprint_layer_enabled = enabled
+
+	if enabled:
+		for node in find_children("*", "CollisionObject3D", true, false):
+			_move_to_blueprint_layer(node)
+		for node in find_children("*", "CSGShape3D", true, false):
+			_move_to_blueprint_layer(node)
+		return
+
+	for node in _original_collision_layers:
+		if not is_instance_valid(node):
+			continue
+		var original: Array = _original_collision_layers[node]
+		node.collision_layer = original[0]
+		node.collision_mask = original[1]
+	_original_collision_layers.clear()
+
+
+func _move_to_blueprint_layer(node: Node) -> void:
+	_original_collision_layers[node] = [node.collision_layer, node.collision_mask]
+	node.collision_layer = BLUEPRINT_COLLISION_LAYER
+	node.collision_mask = 0
 
 
 func set_appearence(appearance: Appearance) -> void:
