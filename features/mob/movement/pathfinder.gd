@@ -35,17 +35,11 @@ func _connect_factory_manager() -> void:
 
 
 func _rebuild() -> void:
-	var cells := grid.grid_data.get_cells()
-	if cells.is_empty():
+	var region := grid.grid_data.playable_region
+	if not region.has_area():
 		return
 
-	var min_c := Vector2i(cells[0].x, cells[0].z)
-	var max_c := min_c
-	for c in cells:
-		min_c = Vector2i(mini(min_c.x, c.x), mini(min_c.y, c.z))
-		max_c = Vector2i(maxi(max_c.x, c.x), maxi(max_c.y, c.z))
-
-	_astar.region = Rect2i(min_c, max_c - min_c + Vector2i.ONE)
+	_astar.region = region
 	_astar.cell_size = Vector2.ONE
 	# Only cut a corner when neither adjacent cell is blocked, so mobs never
 	# clip through the corner of a machine footprint.
@@ -53,8 +47,10 @@ func _rebuild() -> void:
 	_astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_OCTILE
 	_astar.update()
 
+	# A freshly updated AStarGrid2D has no solid points, so only occupied
+	# cells need to be applied.
 	_refresh_port_cells()
-	for c in cells:
+	for c in grid.grid_data.get_occupied_cells():
 		_apply_cell(c)
 
 
@@ -64,8 +60,7 @@ func _apply_cell(cell: Vector3i) -> void:
 	var id := Vector2i(cell.x, cell.z)
 	if not _astar.is_in_boundsv(id):
 		return
-	var data := grid.grid_data.get_cell_data(cell)
-	var blocked := data != null and data.block != null
+	var blocked := grid.grid_data.get_block_at(cell) != null
 	_astar.set_point_solid(id, blocked and not _port_cells.has(id))
 
 
