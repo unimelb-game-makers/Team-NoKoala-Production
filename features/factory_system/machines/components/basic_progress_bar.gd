@@ -1,7 +1,15 @@
 class_name BasicProgressBar
 extends Node3D
 
-@export var machine: Machine
+@export var machine: Machine:
+	set(value):
+		if machine == value:
+			return
+		_disconnect_machine()
+		machine = value
+		if is_node_ready():
+			_connect_machine()
+			_refresh()
 @export var viewport: SubViewport
 @export var progress_bar: ProgressBar
 @export var display: Sprite3D
@@ -13,13 +21,29 @@ func _ready() -> void:
 		display.texture = viewport.get_texture()
 		_apply_world_size()
 
-	if not machine.factory_ticked.is_connected(_on_machine_factory_ticked):
-		machine.factory_ticked.connect(_on_machine_factory_ticked)
-
+	_connect_machine()
 	_refresh()
 
 
-func _on_machine_factory_ticked(ticked_machine: Machine, _delta: float) -> void:
+func _exit_tree() -> void:
+	_disconnect_machine()
+
+
+func _connect_machine() -> void:
+	if not is_instance_valid(machine):
+		return
+	if not machine.factory_ticked.is_connected(_on_machine_factory_ticked):
+		machine.factory_ticked.connect(_on_machine_factory_ticked)
+
+
+func _disconnect_machine() -> void:
+	if not is_instance_valid(machine):
+		return
+	if machine.factory_ticked.is_connected(_on_machine_factory_ticked):
+		machine.factory_ticked.disconnect(_on_machine_factory_ticked)
+
+
+func _on_machine_factory_ticked(_machine: Machine, _delta: float) -> void:
 	_refresh()
 
 
