@@ -11,6 +11,14 @@ extends Resource
 		emit_changed()
 
 @export var recipes: Array[ProductionRecipe] = []
+@export var construction_time_seconds := 1.0:
+	set(value):
+		construction_time_seconds = value
+		emit_changed()
+@export var construction_materials: Array[RecipeItemAmount] = []:
+	set(value):
+		construction_materials = value
+		emit_changed()
 
 
 func has_recipe(recipe: ProductionRecipe) -> bool:

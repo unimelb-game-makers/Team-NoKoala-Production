@@ -56,7 +56,7 @@ size = Vector2(1000, 1000)
 [sub_resource type="Resource" id="Resource_31hri"]
 resource_local_to_scene = true
 script = ExtResource("5_snivj")
-allowed_work_types = Array[int]([0, 1])
+allowed_work_types = Array[int]([0, 1, 2])
 
 [sub_resource type="Resource" id="Resource_4fxb1"]
 resource_local_to_scene = true
@@ -224,6 +224,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 4.5)
 
 [node name="DemoMachine" parent="Machines" unique_id=1273186426 instance=ExtResource("16_yg3by")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
+toggle_blueprint = false
 
 [node name="DemoConveyorBelt" parent="Machines" unique_id=1444147165 instance=ExtResource("19_ekjpc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 3.5)
@@ -239,12 +240,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 8.5)
 [node name="DemoBlock" parent="Buildings" unique_id=1151288400 instance=ExtResource("19_geqkj")]
 process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-<<<<<<< HEAD
 block_data = SubResource("Resource_4fxb1")
-=======
-visible = false
-block_data = SubResource("Resource_h1ur4")
->>>>>>> 0deac65 (feat: isolate work port abstraction + added blue prints for machines)
 
 [node name="map 1209vr" parent="Buildings/DemoBlock/Models" parent_id_path=PackedInt32Array(1151288400, 351359954) index="0" unique_id=1589673536 instance=ExtResource("11_map")]
 transform = Transform3D(-0.15, 0, -1.3113417e-08, 0, 0.15, 0, 1.3113417e-08, 0, -0.15, -2.837449, 1.25, -36.27988)

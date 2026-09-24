@@ -45,22 +45,37 @@ func refresh() -> void:
 		return
 
 	var desired: Array[Dictionary] = []
-	for recipe in _machine.enabled_recipes:
-		if recipe == null:
+	for requirement in _machine.get_pending_input_requirements():
+		if (
+			requirement == null
+			or requirement.item == null
+			or requirement.amount <= 0
+		):
 			continue
-		for requirement in recipe.inputs:
-			if requirement == null or requirement.item == null:
+
+		var input_cells := _machine.get_cells_for_port(
+			MachineCellDefinition.Role.INPUT,
+			requirement.port_id,
+		)
+		var amount_remaining := requirement.amount - _machine.get_delivered_input_amount(
+			requirement.item,
+			input_cells,
+			_factory_manager,
+		)
+		for input_cell in input_cells:
+			if amount_remaining <= 0:
+				break
+			if _reservation_manager.is_reserved(input_cell):
+				amount_remaining -= 1
 				continue
-			for input_cell in _machine.get_cells_for_port(
-				MachineCellDefinition.Role.INPUT,
-				requirement.port_id,
+			if not _factory_manager.can_add_item_at_cell(
+				input_cell,
+				requirement.item,
 			):
-				if not _factory_manager.get_processables_at(input_cell).is_empty():
-					continue
-				if _reservation_manager.is_reserved(input_cell):
-					continue
-				if not _has_need(desired, requirement.item, input_cell):
-					desired.append({"item": requirement.item, "cell": input_cell})
+				continue
+			if not _has_need(desired, requirement.item, input_cell):
+				desired.append({"item": requirement.item, "cell": input_cell})
+				amount_remaining -= 1
 
 	for request in get_requests():
 		var haul_request := request as HaulRequest

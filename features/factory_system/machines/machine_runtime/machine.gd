@@ -1,6 +1,12 @@
 class_name Machine
 extends Node
 
+enum ProgressPhase {
+	NONE,
+	MATERIALS,
+	WORK,
+}
+
 signal factory_ticked(machine: Machine, delta: float)
 signal enabled_recipes_changed
 signal blueprint_constructed
@@ -72,6 +78,93 @@ func get_output_cells() -> Array[Vector3i]:
 
 func get_work_cells() -> Array[Vector3i]:
 	return _get_cells_for_role(MachineCellDefinition.Role.WORK)
+
+
+func get_occupied_cells() -> Array[Vector3i]:
+	var result: Array[Vector3i] = []
+	var assembly := get_parent() as MachineAssembly
+	if (
+		definition == null
+		or assembly == null
+		or assembly.block == null
+		or assembly.block.block_data == null
+	):
+		return result
+
+	for cell_definition in definition.cells:
+		if cell_definition == null:
+			continue
+		result.append(
+			assembly.block.block_data.world_cell_for_offset(
+				cell_definition.local_cell_offset,
+			)
+		)
+	return result
+
+
+func is_processing_recipe() -> bool:
+	return false
+
+
+func get_processing_progress() -> float:
+	return 0.0
+
+
+func get_progress_phase() -> ProgressPhase:
+	return ProgressPhase.NONE
+
+
+func get_progress_text() -> String:
+	if get_progress_phase() != ProgressPhase.WORK:
+		return ""
+	return "Work %d%%" % roundi(get_processing_progress() * 100.0)
+
+
+func get_pending_input_requirements() -> Array[RecipeItemAmount]:
+	var requirements: Array[RecipeItemAmount] = []
+	if disabled or is_shut_down or is_processing_recipe():
+		return requirements
+
+	for recipe in enabled_recipes:
+		if recipe == null:
+			continue
+		for requirement in recipe.inputs:
+			if requirement != null:
+				requirements.append(requirement)
+	return requirements
+
+
+func locks_item_pickup_at_cell(
+	_item: FactoryItemDefinition,
+	_cell: Vector3i,
+) -> bool:
+	return false
+
+
+func allows_stacked_input_at_cell(
+	_item: FactoryItemDefinition,
+	_cell: Vector3i,
+) -> bool:
+	return false
+
+
+func get_delivered_input_amount(
+	item: FactoryItemDefinition,
+	cells: Array[Vector3i],
+	factory_manager: FactoryManager,
+) -> int:
+	var amount := 0
+	for cell in cells:
+		for processable in factory_manager.get_processables_at(cell):
+			var factory_item := processable as FactoryItem
+			if (
+				factory_item != null
+				and factory_item.stack != null
+				and factory_item.stack.item_definition == item
+				and factory_item.is_available_for_processing()
+			):
+				amount += 1
+	return amount
 
 
 func configure_work_ports(recipe: ProductionRecipe) -> bool:
@@ -289,7 +382,7 @@ func _factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
 
 
 func accepts_item_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
-	if item == null or definition == null:
+	if disabled or is_shut_down or item == null or definition == null:
 		return false
 
 	var port_id := _get_input_port_id_for_cell(cell)
@@ -341,6 +434,9 @@ func reactivate() -> void:
 
 func enable() -> void:
 	disabled = false
+	_update_job_requests()
 
 func disable() -> void:
 	disabled = true
+	unregister_active()
+	_update_job_requests()

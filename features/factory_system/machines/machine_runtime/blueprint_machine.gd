@@ -1,295 +1,358 @@
 class_name BlueprintMachine
 extends Machine
 
-@export var hide_inputs_while_processing := true
+const CONSTRUCTION_PORT := &"construction"
 
-var _processing_recipe: ProductionRecipe
-var _processing_elapsed := 0.0
-var _claimed_inputs: Array[FactoryItem] = []
-var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
+var _construction_elapsed := 0.0
+var _construction_started := false
+var _claimed_materials: Dictionary[FactoryItem, int] = {}
+var _claimed_material_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
+
+func configure_construction(machine_definition: MachineDefinition) -> void:
+	definition = machine_definition
+	enabled_recipes.clear()
+	_clear_construction_state()
+
+
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
-	if disabled: return
-
-	if factory_manager == null:
+	if disabled or factory_manager == null or definition == null:
 		return
-	
+
 	_factory_manager = factory_manager
+	_update_job_requests()
 
-	#start processing if currently has no task running
-	if _processing_recipe == null:
-		_update_job_requests()
-		_try_start_processing(factory_manager)
-		return
-
-	var duration := maxf(_processing_recipe.duration_seconds, 0.0)
-	if _processing_elapsed < duration:
-		if not are_work_ports_ready():
+	if not _construction_started:
+		if not _try_begin_construction(factory_manager):
 			unregister_active()
 			return
+		_update_job_requests()
 
-		register_active(faith_drain_rate)
-		_processing_elapsed = minf(_processing_elapsed + delta, duration)
-		if _processing_elapsed < duration:
-			return
-
-		clear_work_ports()
-
+	if not are_work_ports_ready():
+		unregister_active()
+		return
 
 	register_active(faith_drain_rate)
-
-	if not _try_spawn_outputs(factory_manager):
+	if is_shut_down:
 		return
 
-	var completed_recipe := _processing_recipe
-	_consume_claimed_inputs(factory_manager)
-	_clear_processing_state()
-	if not _on_recipe_completed(completed_recipe, factory_manager):
-		unregister_active()
+	_construction_elapsed = minf(
+		_construction_elapsed + delta,
+		definition.construction_time_seconds,
+	)
+	if _construction_elapsed < definition.construction_time_seconds:
 		return
-	
-	# immediately try again, if not then it must be idle
-	_try_start_processing(factory_manager)
-	if _processing_recipe == null:
-		unregister_active()
 
+	_consume_claimed_materials(factory_manager)
+	clear_work_ports()
+	_construction_started = false
+	construction_completed()
+
+
+func construction_completed() -> void:
+	blueprint_constructed.emit()
 
 
 func is_processing_recipe() -> bool:
-	return _processing_recipe != null
+	return _construction_started
+
+
+func get_progress_phase() -> ProgressPhase:
+	if disabled or definition == null:
+		return ProgressPhase.NONE
+	if _construction_started:
+		return ProgressPhase.WORK
+	return ProgressPhase.MATERIALS
+
+
+func get_progress_text() -> String:
+	if _construction_started:
+		return "Build %d%%" % roundi(get_processing_progress() * 100.0)
+	return "Materials %d/%d" % [
+		_get_delivered_material_amount(),
+		_get_total_material_amount(),
+	]
+
 
 func get_processing_progress() -> float:
-	if not is_processing_recipe():
-		return 0.0
-	var duration := _processing_recipe.duration_seconds
-	if duration <= 0.0:
+	if not _construction_started:
+		return get_material_progress()
+	if definition == null or definition.construction_time_seconds <= 0.0:
 		return 1.0
-	return clampf(_processing_elapsed / duration, 0.0, 1.0)
+	return clampf(
+		_construction_elapsed / definition.construction_time_seconds,
+		0.0,
+		1.0,
+	)
 
 
-## Called after outputs have spawned, inputs have been consumed, and the
-## processing state has been cleared. Return false to prevent another recipe
-## from starting during the same factory tick.
-func _on_recipe_completed(
-	_completed_recipe: ProductionRecipe,
-	_factory_manager: FactoryManager,
+func get_material_progress() -> float:
+	var total_required := _get_total_material_amount()
+	if total_required <= 0:
+		return 0.0
+	return clampf(
+		float(_get_delivered_material_amount()) / float(total_required),
+		0.0,
+		1.0,
+	)
+
+
+func get_input_cells() -> Array[Vector3i]:
+	return get_occupied_cells()
+
+
+func get_output_cells() -> Array[Vector3i]:
+	return []
+
+
+func get_work_cells() -> Array[Vector3i]:
+	return get_occupied_cells()
+
+
+func get_cells_for_port(
+	role: MachineCellDefinition.Role,
+	_port_id: StringName,
+) -> Array[Vector3i]:
+	if (
+		role == MachineCellDefinition.Role.INPUT
+		or role == MachineCellDefinition.Role.WORK
+	):
+		return get_occupied_cells()
+	return []
+
+
+func get_pending_input_requirements() -> Array[RecipeItemAmount]:
+	if disabled or is_shut_down or _construction_started or definition == null:
+		return []
+	return definition.construction_materials.duplicate()
+
+
+func accepts_item_at_cell(
+	item: FactoryItemDefinition,
+	cell: Vector3i,
 ) -> bool:
-	return true
-
-func _exit_tree() -> void:
-	_cancel_processing()
-
-
-func _try_start_processing(factory_manager: FactoryManager) -> void:
-	if definition == null or enabled_recipes.is_empty():
-		return
-
-	for recipe in enabled_recipes:
-		if recipe == null:
-			continue
-		if _try_start_recipe(recipe, factory_manager):
-			return
+	if (
+		disabled
+		or _construction_started
+		or definition == null
+		or item == null
+		or not get_occupied_cells().has(cell)
+	):
+		return false
+	return _get_delivered_amount_for(item) < _get_required_amount_for(item)
 
 
-func _try_start_recipe(
-	recipe: ProductionRecipe,
+func locks_item_pickup_at_cell(
+	item: FactoryItemDefinition,
+	cell: Vector3i,
+) -> bool:
+	return (
+		not disabled
+		and not _construction_started
+		and item != null
+		and get_occupied_cells().has(cell)
+		and _get_required_amount_for(item) > 0
+	)
+
+
+func allows_stacked_input_at_cell(
+	item: FactoryItemDefinition,
+	cell: Vector3i,
+) -> bool:
+	return locks_item_pickup_at_cell(item, cell)
+
+
+func get_delivered_input_amount(
+	item: FactoryItemDefinition,
+	cells: Array[Vector3i],
 	factory_manager: FactoryManager,
-) -> bool:
-	var required_input_count := _get_required_input_count(recipe)
-	var candidates := _find_input_items(recipe, factory_manager)
-	if candidates.size() != required_input_count:
+) -> int:
+	var amount := 0
+	for cell in cells:
+		for processable in factory_manager.get_processables_at(cell):
+			var material := processable as FactoryItem
+			if (
+				material != null
+				and material.stack != null
+				and material.stack.item_definition == item
+				and material.is_available_for_processing()
+			):
+				amount += material.stack.quantity
+	return amount
+
+
+func _try_begin_construction(factory_manager: FactoryManager) -> bool:
+	var allocations = _find_material_allocations(factory_manager)
+	if allocations == null:
 		return false
 
-	var claimed_items: Array[FactoryItem] = []
-	var original_positions: Dictionary[FactoryItem, Vector3] = {}
-	for factory_item in candidates:
-		var original_position: Vector3 = factory_item.get(&"global_position")
-		if not factory_item.try_claim(self):
-			_restore_claimed_inputs(
-				claimed_items,
-				original_positions,
-				factory_manager,
-			)
+	var claimed: Array[FactoryItem] = []
+	for material: FactoryItem in allocations:
+		var original_position: Vector3 = material.global_position
+		if not material.try_claim(self):
+			_restore_materials(claimed, factory_manager)
 			return false
+		claimed.append(material)
+		_claimed_materials[material] = allocations[material]
+		_claimed_material_positions[material] = original_position
 
-		claimed_items.append(factory_item)
-		original_positions[factory_item] = original_position
+	for material in claimed:
+		material.set_in_process_hidden(true)
 
-	for factory_item in claimed_items:
-		factory_item.set_in_process_hidden(hide_inputs_while_processing)
-
-	_processing_recipe = recipe
-	_processing_elapsed = 0.0
-	_claimed_inputs = claimed_items
-	_claimed_input_positions = original_positions
-	configure_work_ports(recipe)
-
-	if are_work_ports_ready():
-		register_active(faith_drain_rate)
-	else:
-		unregister_active()
+	_construction_started = true
+	_construction_elapsed = 0.0
+	_configure_construction_work_port()
 	return true
 
-#try to search for the input item in the factory manager
-func _find_input_items(
-	recipe: ProductionRecipe,
-	factory_manager: FactoryManager,
-) -> Array[FactoryItem]:
-	var result: Array[FactoryItem] = []
-	var selected_items: Dictionary[FactoryItem, bool] = {}
 
-	for requirement in recipe.inputs:
+func _configure_construction_work_port() -> void:
+	clear_work_ports()
+	var requirement := RecipeWorkRequirement.new()
+	requirement.port_id = CONSTRUCTION_PORT
+	requirement.work_type = WorkType.Value.CONSTRUCTION
+	var recipe := ProductionRecipe.new()
+	recipe.work_requirements = [requirement]
+	configure_work_ports(recipe)
+
+
+func _find_material_allocations(factory_manager: FactoryManager):
+	var allocations: Dictionary[FactoryItem, int] = {}
+	if definition == null:
+		return null
+
+	for requirement in definition.construction_materials:
 		if (
 			requirement == null
 			or requirement.item == null
 			or requirement.amount <= 0
 		):
-			return []
+			return null
 
 		var amount_remaining := requirement.amount
-		var input_cells := get_cells_for_port(
-			MachineCellDefinition.Role.INPUT,
-			requirement.port_id,
-		)
-		for cell in input_cells:
+		for cell in get_occupied_cells():
 			for processable in factory_manager.get_processables_at(cell):
-				var factory_item := processable as FactoryItem
+				var material := processable as FactoryItem
 				if (
-					factory_item == null
-					or selected_items.has(factory_item)
-					or factory_item.stack.item_definition != requirement.item
-					or not factory_item.is_available_for_processing()
+					material == null
+					or allocations.has(material)
+					or material.stack == null
+					or material.stack.item_definition != requirement.item
+					or not material.is_available_for_processing()
 				):
 					continue
 
-				result.append(factory_item)
-				selected_items[factory_item] = true
-				amount_remaining -= 1
+				var amount := mini(material.stack.quantity, amount_remaining)
+				allocations[material] = amount
+				amount_remaining -= amount
 				if amount_remaining == 0:
 					break
-
 			if amount_remaining == 0:
 				break
 
 		if amount_remaining != 0:
-			return []
+			return null
 
-	return result
-
-
-func _get_required_input_count(recipe: ProductionRecipe) -> int:
-	var result := 0
-	for requirement in recipe.inputs:
-		if requirement == null or requirement.amount <= 0:
-			return -1
-		result += requirement.amount
-	return result
+	return allocations
 
 
-# Machine has been constructed
-func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
-	emit_signal("blueprint_constructed")
-	
-	if _processing_recipe == null:
-		return false
-	# An outputless recipe completes successfully without spawning anything.
-	if _processing_recipe.outputs.is_empty():
-		return true
+func _get_total_material_amount() -> int:
+	if definition == null:
+		return 0
+	var total := 0
+	for requirement in definition.construction_materials:
+		if requirement != null and requirement.amount > 0:
+			total += requirement.amount
+	return total
 
-	var spawned_outputs: Array[FactoryItem] = []
-	var next_output_indices: Dictionary[StringName, int] = {}
 
-	for output in _processing_recipe.outputs:
-		if output == null or output.item == null or output.amount <= 0:
-			_rollback_spawned_outputs(spawned_outputs, factory_manager)
-			return false
-
-		var output_cells := get_cells_for_port(
-			MachineCellDefinition.Role.OUTPUT,
-			output.port_id,
+func _get_delivered_material_amount() -> int:
+	if definition == null or _factory_manager == null:
+		return 0
+	var delivered := 0
+	for requirement in definition.construction_materials:
+		if requirement == null or requirement.item == null:
+			continue
+		delivered += mini(
+			_get_delivered_amount_for(requirement.item),
+			requirement.amount,
 		)
-		if output_cells.is_empty():
-			_rollback_spawned_outputs(spawned_outputs, factory_manager)
-			return false
-
-		for _item_index in output.amount:
-			var next_index: int = next_output_indices.get(output.port_id, 0)
-			var output_cell := output_cells[next_index % output_cells.size()]
-			var factory_item := FactoryItemFactory.spawn_factory_item_at_cell(
-				output.item,
-				output_cell,
-				factory_manager,
-			)
-			if factory_item == null:
-				_rollback_spawned_outputs(spawned_outputs, factory_manager)
-				return false
-
-			spawned_outputs.append(factory_item)
-			next_output_indices[output.port_id] = next_index + 1
-
-	return true
+	return delivered
 
 
-func _rollback_spawned_outputs(
-	spawned_outputs: Array[FactoryItem],
-	factory_manager: FactoryManager,
-) -> void:
-	for factory_item in spawned_outputs:
-		if not is_instance_valid(factory_item):
-			continue
-		factory_manager.unregister_processable(factory_item)
-		factory_item.queue_free()
+func _get_required_amount_for(item: FactoryItemDefinition) -> int:
+	if definition == null:
+		return 0
+	var amount := 0
+	for requirement in definition.construction_materials:
+		if requirement != null and requirement.item == item:
+			amount += maxi(requirement.amount, 0)
+	return amount
 
 
-
-func _consume_claimed_inputs(factory_manager: FactoryManager) -> void:
-	for factory_item in _claimed_inputs:
-		if not is_instance_valid(factory_item):
-			continue
-		factory_manager.unregister_processable(factory_item)
-		factory_item.queue_free()
-
-
-func _cancel_processing() -> void:
-	if _processing_recipe == null:
-		return
-
-	_restore_claimed_inputs(
-		_claimed_inputs,
-		_claimed_input_positions,
+func _get_delivered_amount_for(item: FactoryItemDefinition) -> int:
+	if _factory_manager == null:
+		return 0
+	return get_delivered_input_amount(
+		item,
+		get_occupied_cells(),
 		_factory_manager,
 	)
-	_clear_processing_state()
-	unregister_active()
 
 
-func _restore_claimed_inputs(
-	claimed_items: Array[FactoryItem],
-	original_positions: Dictionary[FactoryItem, Vector3],
-	factory_manager: FactoryManager,
-) -> void:
-	for factory_item in claimed_items:
-		if not is_instance_valid(factory_item):
+func _consume_claimed_materials(factory_manager: FactoryManager) -> void:
+	for material: FactoryItem in _claimed_materials:
+		if not is_instance_valid(material):
+			continue
+		var amount: int = _claimed_materials[material]
+		material.stack.quantity -= amount
+		if material.stack.is_empty():
+			factory_manager.unregister_processable(material)
+			material.queue_free()
 			continue
 
-		var original_position: Vector3 = original_positions.get(
-			factory_item,
-			factory_item.get(&"global_position"),
+		material.set_in_process_hidden(false)
+		material.global_position = _claimed_material_positions.get(
+			material,
+			material.global_position,
 		)
-		factory_item.set_in_process_hidden(false)
-		factory_item.set(&"global_position", original_position)
-		if (
-			factory_manager != null
-			and not factory_manager.is_processable_registered(factory_item)
-		):
-			factory_manager.register_processable(factory_item)
-		factory_item.drop_at(original_position)
+		material.drop_at(material.global_position)
+
+	_claimed_materials.clear()
+	_claimed_material_positions.clear()
 
 
-func _clear_processing_state() -> void:
+func _restore_materials(
+	materials: Array[FactoryItem],
+	factory_manager: FactoryManager,
+) -> void:
+	for material in materials:
+		if not is_instance_valid(material):
+			continue
+		material.set_in_process_hidden(false)
+		material.global_position = _claimed_material_positions.get(
+			material,
+			material.global_position,
+		)
+		if not factory_manager.is_processable_registered(material):
+			factory_manager.register_processable(material)
+		material.drop_at(material.global_position)
+	_claimed_materials.clear()
+	_claimed_material_positions.clear()
+
+
+func _clear_construction_state() -> void:
 	clear_work_ports()
-	_processing_recipe = null
-	_processing_elapsed = 0.0
-	_claimed_inputs.clear()
-	_claimed_input_positions.clear()
+	_construction_started = false
+	_construction_elapsed = 0.0
+	_claimed_materials.clear()
+	_claimed_material_positions.clear()
+
+
+func _exit_tree() -> void:
+	if not _claimed_materials.is_empty() and _factory_manager != null:
+		var materials: Array[FactoryItem] = []
+		for material: FactoryItem in _claimed_materials:
+			materials.append(material)
+		_restore_materials(materials, _factory_manager)
+	unregister_active()
