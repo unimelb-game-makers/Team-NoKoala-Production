@@ -6,7 +6,7 @@ extends Node3D
 @export var machine: Machine
 @export var ui_panels: Array[PackedScene] = []
 @export var blueprint: Machine
-@export var progress_bar: Node3D
+@export var progress_bar: BasicProgressBar
 
 @export var toggle_blueprint: bool
 
@@ -51,7 +51,7 @@ func _ready() -> void:
 		blueprint_constructed()
 		
 func blueprint_constructed() -> void:
-	if progress_bar!= null:
+	if progress_bar != null:
 		progress_bar.machine = machine
 	if blueprint != null: 
 		blueprint.disable()
