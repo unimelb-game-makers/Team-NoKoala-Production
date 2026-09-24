@@ -75,10 +75,9 @@ script = ExtResource("11_xgaqh")
 machine = NodePath("..")
 block = NodePath("../../Block")
 
-[node name="Blueprint" type="Node" parent="." unique_id=1689811962 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+[node name="Blueprint" type="Node" parent="." unique_id=1689811962 node_paths=PackedStringArray("job_provider")]
 script = ExtResource("13_pge4x")
 job_provider = NodePath("BlueprintJobProvider")
-debug_active_indicator = NodePath("")
 disabled = false
 
 [node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=239206421]
