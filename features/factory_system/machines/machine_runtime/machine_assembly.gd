@@ -82,16 +82,25 @@ func configure(
 
 func _ready() -> void:
 	if not toggle_blueprint:
-		blueprint_constructed()
+		_apply_constructed_state()
 
 
+## Swaps the placed blueprint for the real machine, which only becomes known to
+## the factory once it has been built.
 func blueprint_constructed() -> void:
-	if (
+	var placed := (
 		_factory_manager != null
 		and blueprint != null
 		and _factory_manager.is_machine_registered(blueprint)
-	):
+	)
+	if placed:
 		_factory_manager.unregister_machine(blueprint)
+	_apply_constructed_state()
+	if placed:
+		_factory_manager.register_machine(machine)
+
+
+func _apply_constructed_state() -> void:
 	if progress_bar != null:
 		progress_bar.machine = machine
 	if blueprint != null:
@@ -105,19 +114,13 @@ func register_machines(
 	center_cell: Vector3i,
 ) -> bool:
 	machine.center_position = center_cell
-	if not factory_manager.register_machine(machine):
-		return false
-
 	if not toggle_blueprint:
-		return true
+		return factory_manager.register_machine(machine)
 
+	# The machine itself is registered by blueprint_constructed()
 	assert(blueprint != null, "MachineAssembly requires a Blueprint")
 	blueprint.center_position = center_cell
-	if factory_manager.register_machine(blueprint):
-		return true
-
-	factory_manager.unregister_machine(machine)
-	return false
+	return factory_manager.register_machine(blueprint)
 
 
 

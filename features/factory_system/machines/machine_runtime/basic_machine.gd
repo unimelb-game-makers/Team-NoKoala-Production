@@ -10,8 +10,6 @@ var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
-	if disabled: return
-
 	if factory_manager == null:
 		return
 	

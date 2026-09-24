@@ -374,7 +374,7 @@ func _set_debug_indicator(active: bool) -> void:
 
 
 func factory_tick(_delta: float, _factory_manager: FactoryManager) -> void:
-	if is_shut_down:
+	if disabled or is_shut_down:
 		return
 	_factory_tick(_delta, _factory_manager)
 	factory_ticked.emit(self, _delta)
@@ -437,8 +437,15 @@ func reactivate() -> void:
 func enable() -> void:
 	disabled = false
 	_update_job_requests()
+	_on_enabled_changed(true)
 
 func disable() -> void:
 	disabled = true
 	unregister_active()
 	_update_job_requests()
+	_on_enabled_changed(false)
+
+## Override to start or stop effects (animations, particles, sounds) so a
+## disabled machine, such as one still under construction, has none.
+func _on_enabled_changed(_enabled: bool) -> void:
+	pass
