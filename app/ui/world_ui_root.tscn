@@ -3,14 +3,31 @@
 [ext_resource type="Script" path="res://app/ui/world_ui_root.gd" id="1_world_ui_root"]
 [ext_resource type="PackedScene" path="res://features/faith_management/faith_progress_bar.tscn" id="2_faith"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="3_machine_ui"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="4_build_selection"]
 
-[node name="WorldUIRoot" type="Node" node_paths=PackedStringArray("faith_progress_bar", "machine_ui")]
+[node name="WorldUIRoot" type="Node" node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel")]
 script = ExtResource("1_world_ui_root")
 faith_progress_bar = NodePath("FaithProgressBar")
 machine_ui = NodePath("CanvasLayer/MachineUI")
+build_menu_button = NodePath("CanvasLayer/BuildMenuButton")
+build_selection_panel = NodePath("CanvasLayer/MachineBuildSelectionPanel")
 
 [node name="FaithProgressBar" parent="." instance=ExtResource("2_faith")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MachineUI" parent="CanvasLayer" instance=ExtResource("3_machine_ui")]
+
+[node name="BuildMenuButton" type="Button" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -116.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 52.0
+grow_horizontal = 0
+text = "Machines"
+
+[node name="MachineBuildSelectionPanel" parent="CanvasLayer" instance=ExtResource("4_build_selection")]

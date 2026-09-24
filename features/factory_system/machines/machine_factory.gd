@@ -39,6 +39,19 @@ static func create_machine(type: MachineType) -> MachineAssembly:
 	return assembly
 
 
+static func machine_type_for_definition(definition: MachineDefinition) -> int:
+	if definition == null:
+		return -1
+	for machine_type in _SCENES:
+		var scene: PackedScene = _SCENES[machine_type]
+		var assembly := scene.instantiate() as MachineAssembly
+		var matches := assembly.machine.definition == definition
+		assembly.free()
+		if matches:
+			return machine_type
+	return -1
+
+
 static func create_block_data(definition: MachineDefinition) -> BlockData:
 	var block_data := BlockData.new()
 
