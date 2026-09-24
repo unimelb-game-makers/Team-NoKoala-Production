@@ -11,13 +11,19 @@ var _pickup_collision_layer: int
 var _pickup_input_ray_pickable: bool
 var _pickup_enabled := true
 var _in_process_hidden := false
+const BASE_SIZE := Vector2(32.0, 32.0)
 
 func _ready() -> void:
 	if stack == null:
 		return
 	sprite.texture = stack.item_definition.texture
+	var texture_size := sprite.texture.get_size()
+	var scale_factor := 32.0 / maxf(sprite.texture.get_width(), sprite.texture.get_height())
+	sprite.scale = 2* Vector3.ONE * scale_factor
 	_pickup_collision_layer = pickup_area.collision_layer
+	
 	_pickup_input_ray_pickable = pickup_area.input_ray_pickable
+	
 
 func _process(_delta: float) -> void:
 	if debug_label.visible and stack != null:

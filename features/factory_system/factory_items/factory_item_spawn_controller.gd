@@ -5,7 +5,7 @@ extends Node
 @export var grid: Grid
 @export var factory_manager: FactoryManager
 @export var spawn_height := 0.167
-
+@export var item_definition : FactoryItemDefinition
 
 func configure(p_spring_arm: CameraController, p_grid: Grid, p_factory_manager: FactoryManager) -> void:
 	spring_arm = p_spring_arm
@@ -15,7 +15,7 @@ func configure(p_spring_arm: CameraController, p_grid: Grid, p_factory_manager: 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("spawn_factory_item"):
-		spawn_factory_item_at_mouse(FactoryItemDefinition.FactoryItemID.IRON_ORE)
+		spawn_factory_item_at_mouse(item_definition.item_key)
 
 func spawn_factory_item_at_mouse(
 	item_definition: FactoryItemDefinition.FactoryItemID,
