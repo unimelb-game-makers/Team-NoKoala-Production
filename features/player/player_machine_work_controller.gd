@@ -7,7 +7,6 @@ var _player: Node3D
 @export var _grid: Grid
 @export var _factory_manager: FactoryManager
 @export var faith_manager: FaithManager
-var _working_machine: BasicMachine
 var _working_machine: Machine
 var _working_cell: Vector3i
 

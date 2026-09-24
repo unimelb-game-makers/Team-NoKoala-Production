@@ -13,8 +13,9 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="11_4xs0g"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="12_cvu4w"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="13_656wg"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="14_ws37u"]
 
-[sub_resource type="Resource" id="Resource_802ij"]
+[sub_resource type="Resource" id="Resource_6lslr"]
 resource_local_to_scene = true
 script = ExtResource("9_bxgkl")
 allowed_work_types = Array[int]([0, 1, 2])
@@ -42,7 +43,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestConstruction" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "player")]
+[node name="TestConstruction" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player")]
 script = ExtResource("1_802ij")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -51,6 +52,8 @@ placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
+item_spawner = NodePath("FactoryItemSpawnController")
+spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
@@ -78,8 +81,11 @@ script = ExtResource("6_nq36n")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("8_p4joc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
+[node name="Camera3D" parent="Kaguya/SpringArm3D" parent_id_path=PackedInt32Array(21341859, 250538204) index="0" unique_id=1433362386]
+script = null
+
 [node name="PlayerMachineWorkController" parent="Kaguya" index="8" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_802ij")
+capability = SubResource("Resource_6lslr")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
 
@@ -102,9 +108,8 @@ shape = SubResource("GroundShape_machine")
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
 mesh = SubResource("GroundMesh_machine")
 
-[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("camera", "placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("placement_grid", "grid", "factory_manager", "_faith", "_jobs", "_reservations")]
 script = ExtResource("11_4xs0g")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 placement_grid = NodePath("../PlacementGrid")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
@@ -112,9 +117,8 @@ _faith = NodePath("../Services/FaithManager")
 _jobs = NodePath("../Services/JobBoard")
 _reservations = NodePath("../Services/ReservationManager")
 
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("camera", "grid", "factory_manager")]
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("grid", "factory_manager")]
 script = ExtResource("12_cvu4w")
-camera = NodePath("../Kaguya/SpringArm3D/Camera3D")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
 
@@ -123,5 +127,7 @@ factory_manager = NodePath("../Services/FactoryManager")
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
 script = ExtResource("13_656wg")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
+
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("14_ws37u")]
 
 [editable path="Kaguya"]
