@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="9_ge3o7"]
 [ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_yx58f"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="10_3k5q5"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="11_ddmdn"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_dpkl1"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_ddmdn"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="15_construction_amount"]
@@ -42,12 +43,10 @@ metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("15_construction_amount")
 item = ExtResource("16_construction_item")
-amount = 1
 
 [sub_resource type="Resource" id="Resource_kjr54"]
 script = ExtResource("7_441p3")
 cells = Array[ExtResource("5_553q0")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
-construction_time_seconds = 1.0
 construction_materials = Array[ExtResource("15_construction_amount")]([SubResource("Resource_construction_iron")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
@@ -105,10 +104,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
 texture_filter = 0
 texture = ExtResource("9_yx58f")
 
-[node name="Blueprint" type="Node" parent="." unique_id=814475983 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+[node name="Blueprint" type="Node" parent="." unique_id=814475983 node_paths=PackedStringArray("job_provider")]
 script = ExtResource("14_ddmdn")
 job_provider = NodePath("BlueprintJobProvider")
-debug_active_indicator = NodePath("")
 disabled = false
 
 [node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1633841014]

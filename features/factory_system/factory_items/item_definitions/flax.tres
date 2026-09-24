@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://bjtuwhgjsds74"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_vem8r"]
+[ext_resource type="Texture2D" uid="uid://beiif0t7jfpqj" path="res://assets/developer_art/processables/flax.png" id="2_vem8r"]
+
+[resource]
+script = ExtResource("1_vem8r")
+item_key = 2
+item_name = "Flax"
+texture = ExtResource("2_vem8r")
