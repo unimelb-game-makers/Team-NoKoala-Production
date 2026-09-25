@@ -2,7 +2,7 @@ class_name FactoryItem
 extends Processable
 
 @onready var sprite: Sprite3D = $Sprite3D
-@onready var pickup_area: Area3D = $Sprite3D/Area3D
+@export var pickup_area: Area3D
 @onready var debug_label: Label3D = $Sprite3D/StackDebugLabel
 
 var factory_manager: FactoryManager

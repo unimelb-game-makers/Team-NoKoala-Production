@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckcdch3h3p8q5" path="res://app/ui/world_ui_root.gd" id="1_world_ui_root"]
 [ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="2_faith"]
+[ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="3_fqtb0"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="3_machine_ui"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="4_build_selection"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_qnlo1"]
@@ -19,6 +20,10 @@ build_menu_button = NodePath("CanvasLayer/BuildMenuButton")
 build_selection_panel = NodePath("CanvasLayer/MachineBuildSelectionPanel")
 
 [node name="FaithProgressBar" parent="." unique_id=889199016 instance=ExtResource("2_faith")]
+
+[node name="Hotbar" parent="." unique_id=263281179 instance=ExtResource("3_fqtb0")]
+offset_top = -73.0
+offset_bottom = -73.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2089302302]
 

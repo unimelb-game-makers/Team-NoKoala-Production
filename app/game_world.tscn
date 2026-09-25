@@ -20,8 +20,8 @@
 [ext_resource type="PackedScene" uid="uid://b0203k716j73" path="res://assets/developer_art/models/map 1209vr.glb" id="11_map"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="12_faith"]
 [ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="13_jobs"]
+[ext_resource type="Texture2D" uid="uid://cj3n7etfsr04p" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedSand_01/Stylized_HandpaintedSand_01_basecolor.jpg" id="14_jn2gv"]
 [ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="14_reservations"]
-[ext_resource type="Texture2D" uid="uid://bds6g2ekwgakb" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedGrass_02/Stylized_HandpaintedGrass_02_basecolor.jpg" id="14_u3p3f"]
 [ext_resource type="Script" uid="uid://cika06cl7wyhm" path="res://features/dialogue/player_entry_dialogue_trigger.gd" id="15_dialogue_trigger"]
 [ext_resource type="Texture2D" uid="uid://bo6nfkwxmtb0w" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedGrass_02/Stylized_HandpaintedGrass_02_normal.jpg" id="15_jn2gv"]
 [ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="16_jn2gv"]
@@ -31,6 +31,7 @@
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="20_jn2gv"]
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="26_h1ur4"]
 [ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://app/ui/world_ui_root.tscn" id="27_world_ui"]
+[ext_resource type="AudioStream" uid="uid://b4fd1u8nm0iy5" path="res://assets/developer_art/processables/A Mysterious Place.wav" id="28_jn2gv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -56,7 +57,8 @@ material = SubResource("StandardMaterial3D_u3p3f")
 size = Vector2(1000, 1000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xr00m"]
-albedo_texture = ExtResource("14_u3p3f")
+albedo_color = Color(0.23921569, 0.23921569, 0.23921569, 1)
+albedo_texture = ExtResource("14_jn2gv")
 normal_enabled = true
 normal_texture = ExtResource("15_jn2gv")
 uv1_scale = Vector3(0.1, 0.1, 0.1)
@@ -143,66 +145,57 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4076948, 0.03879881, -0.02
 mesh = SubResource("GroundMesh_world")
 surface_material_override/0 = SubResource("StandardMaterial3D_xr00m")
 
-[node name="ResourceAreaMachine" parent="StaticWorld/StaticBody3D" unique_id=1962970161 instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 0, -2.5)
-
-[node name="ResourceAreaMachine2" parent="StaticWorld/StaticBody3D" unique_id=1643237284 instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -0.5)
-
-[node name="ResourceAreaMachine3" parent="StaticWorld/StaticBody3D" unique_id=1276424879 instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -6.5)
-
 [node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("9_yg3by")]
 
 [node name="Kaguya" parent="." unique_id=100141511 instance=ExtResource("4_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 
-[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(100141511, 502972077) index="0" unique_id=1206786317]
-transform = Transform3D(0.9953669, 0.08287377, 0.04874365, -0.047744233, -0.013999979, 0.99876106, 0.08345354, -0.9964613, -0.009978375, -0.005823046, -0.007335376, 0.005859757)
+[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(100141511, 502972077) index="0" unique_id=1185689659]
+transform = Transform3D(0.9934992, 0.09847859, 0.05709379, -0.055382203, -0.020029174, 0.99826396, 0.09945118, -0.99493706, -0.014445023, -0.011362705, -0.006960158, 0.0061346656)
 
-[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=340283246]
-bones/2/rotation = Quaternion(0.022662746, 0.007576449, 0.012740378, 0.9996334)
-bones/3/rotation = Quaternion(-0.11638015, 0.012260745, 0.02545622, 0.9928028)
-bones/4/rotation = Quaternion(-0.08808146, 0.0057246843, 0.027669007, 0.9957125)
-bones/11/rotation = Quaternion(0.1969013, 0.00029470221, -0.00037927314, 0.9804233)
-bones/12/rotation = Quaternion(-0.08492614, 0.0002243717, -0.0004247424, 0.9963872)
-bones/37/rotation = Quaternion(0.14454849, 0.10937103, -0.8095939, 0.5583022)
-bones/38/rotation = Quaternion(0.12916757, 0.15950812, -0.49257675, 0.84571934)
-bones/39/rotation = Quaternion(0.0741349, -0.0055091856, -0.00040965312, 0.997233)
-bones/40/rotation = Quaternion(0.14896461, -0.1526802, 0.04276177, 0.9760481)
-bones/41/rotation = Quaternion(-0.08104713, -0.071414724, -0.06316084, 0.9921402)
-bones/42/rotation = Quaternion(-0.011122765, 0.0039647208, -0.09903252, 0.99501413)
-bones/44/rotation = Quaternion(-0.06300356, 0.040584333, -0.1884896, 0.97921157)
-bones/45/rotation = Quaternion(0.023216467, -0.0008003386, -0.14291112, 0.98946285)
-bones/47/rotation = Quaternion(-0.04466452, -0.014502986, -0.037040893, 0.9982098)
-bones/48/rotation = Quaternion(0.0015433772, 9.5309755e-05, -0.09038382, 0.9959058)
-bones/50/rotation = Quaternion(-0.046521842, 0.0061153458, -0.1105147, 0.9927663)
-bones/51/rotation = Quaternion(-0.0019194677, -0.00095175917, -0.09096463, 0.9958519)
-bones/72/rotation = Quaternion(0.12630051, -0.124508075, 0.79233694, 0.58373636)
-bones/73/rotation = Quaternion(0.10262421, -0.24114071, 0.48134786, 0.836435)
-bones/74/rotation = Quaternion(0.11870128, 0.006152453, 0.0007348306, 0.9929107)
-bones/75/rotation = Quaternion(0.09746799, 0.25750905, -0.14990366, 0.94958836)
-bones/76/rotation = Quaternion(-0.044700585, 0.06577581, 0.065055184, 0.99470764)
-bones/77/rotation = Quaternion(-0.005507848, -0.00028290198, 0.04633429, 0.9989108)
-bones/79/rotation = Quaternion(-0.020378808, -0.007918607, 0.13947694, 0.989984)
-bones/80/rotation = Quaternion(0.03532511, 0.007278371, 0.109912485, 0.9932867)
-bones/82/rotation = Quaternion(-0.03938294, 0.008435558, 0.06514572, 0.9970627)
-bones/83/rotation = Quaternion(0.0030897225, 0.00043165815, 0.09182356, 0.99577045)
-bones/85/rotation = Quaternion(-0.020148052, 0.010534896, 0.12253454, 0.99220383)
-bones/86/rotation = Quaternion(0.0032629822, 0.0028008756, 0.08224642, 0.99660283)
-bones/107/rotation = Quaternion(0.029044375, 0.19390371, 0.97791725, -0.07235826)
-bones/108/rotation = Quaternion(-0.15319, -0.0007524042, -0.0046772882, 0.9881854)
-bones/149/rotation = Quaternion(-0.088294595, 0.70413035, 0.69172937, 0.13384753)
-bones/150/rotation = Quaternion(0.00619191, -0.014645128, -0.023408916, 0.9995995)
-bones/151/rotation = Quaternion(-0.05674778, 0.08540107, 0.9928586, -0.06097746)
-bones/152/rotation = Quaternion(-0.10006965, -0.0001628975, 0.0023871174, 0.9949776)
-bones/193/rotation = Quaternion(0.099157125, 0.6528888, 0.7487187, -0.057657797)
+[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=1945204626]
+bones/2/rotation = Quaternion(0.023452044, 0.005594824, 0.013701383, 0.9996155)
+bones/3/rotation = Quaternion(-0.11483546, 0.007752559, 0.026812382, 0.99299234)
+bones/4/rotation = Quaternion(-0.086532004, 0.0010222016, 0.027891964, 0.9958581)
+bones/11/rotation = Quaternion(0.19718534, 6.921402e-05, 0.0019232772, 0.9803644)
+bones/12/rotation = Quaternion(-0.08463719, 0.0004020921, 0.0018821001, 0.9964101)
+bones/37/rotation = Quaternion(0.14486264, 0.10912519, -0.80938435, 0.55857277)
+bones/38/rotation = Quaternion(0.1313021, 0.15988609, -0.49081746, 0.84634185)
+bones/39/rotation = Quaternion(0.074247815, -0.005078652, -0.0003779927, 0.99722683)
+bones/40/rotation = Quaternion(0.15067415, -0.14685458, 0.038348194, 0.97686255)
+bones/41/rotation = Quaternion(-0.08105438, -0.07143742, -0.06426389, 0.99206704)
+bones/42/rotation = Quaternion(-0.011212054, 0.003961048, -0.100125045, 0.9949038)
+bones/44/rotation = Quaternion(-0.05300889, 0.035183314, -0.2610057, 0.9632385)
+bones/45/rotation = Quaternion(0.035809662, -0.0009019345, -0.21561806, 0.9758206)
+bones/47/rotation = Quaternion(-0.0446041, -0.014551056, -0.038082745, 0.99817264)
+bones/48/rotation = Quaternion(0.0026613676, 3.3409193e-05, -0.116887316, 0.99314165)
+bones/50/rotation = Quaternion(-0.042583354, 0.0034113796, -0.15775175, 0.9865543)
+bones/51/rotation = Quaternion(0.0023435527, -0.001426655, -0.13834006, 0.990381)
+bones/72/rotation = Quaternion(0.12335444, -0.12689437, 0.7949877, 0.58023804)
+bones/73/rotation = Quaternion(0.11292635, -0.23804815, 0.4799631, 0.83678925)
+bones/74/rotation = Quaternion(0.09259169, 0.0076236995, 0.000708757, 0.9956748)
+bones/75/rotation = Quaternion(0.1118925, 0.25884676, -0.14190917, 0.9488627)
+bones/76/rotation = Quaternion(-0.04424879, 0.06592589, 0.07977923, 0.9936454)
+bones/77/rotation = Quaternion(-0.0061387126, 0.00019097519, 0.061064314, 0.99811494)
+bones/79/rotation = Quaternion(-0.020488692, -0.007991306, 0.13868472, 0.9900924)
+bones/80/rotation = Quaternion(0.03524205, 0.0072988505, 0.10910489, 0.9933785)
+bones/82/rotation = Quaternion(-0.039325185, 0.008471695, 0.06600267, 0.9970083)
+bones/83/rotation = Quaternion(0.0031370793, 0.00043333013, 0.09268004, 0.9956909)
+bones/85/rotation = Quaternion(-0.020184686, 0.010518292, 0.12193462, 0.9922772)
+bones/86/rotation = Quaternion(0.003229783, 0.0028002807, 0.08165358, 0.9966517)
+bones/107/rotation = Quaternion(0.027930817, 0.19381903, 0.9776906, -0.07599585)
+bones/108/rotation = Quaternion(-0.15657274, -0.0008634685, -0.004813941, 0.9876544)
+bones/149/rotation = Quaternion(-0.094060294, 0.7023138, 0.6915761, 0.14010923)
+bones/150/rotation = Quaternion(0.0041669123, -0.01567845, -0.02643489, 0.99951893)
+bones/151/rotation = Quaternion(-0.05690023, 0.08085123, 0.9930725, -0.06350185)
+bones/152/rotation = Quaternion(-0.093847625, -0.00015570242, 0.00215049, 0.9955843)
+bones/193/rotation = Quaternion(0.0920495, 0.6565627, 0.74683475, -0.051867653)
 
 [node name="LeftLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(100141511, 502972077, 126443671) index="0" unique_id=1012435759]
-transform = Transform3D(-91.064, 16.933449, -37.69091, -19.369984, -98.06774, 2.7402344, -36.49862, 9.796087, 92.58444, 24.850422, 79.571594, 3.742166)
+transform = Transform3D(-89.84551, 17.477722, -40.27793, -19.907936, -97.98001, 1.891114, -39.133797, 9.717582, 91.5101, 25.00962, 79.69034, 4.104412)
 
 [node name="RightLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(100141511, 502972077, 126443671) index="1" unique_id=1774903563]
-transform = Transform3D(-73.777084, -3.3252244, 67.4232, 7.098267, -99.706985, 2.8497725, 67.1309, 6.888352, 73.79692, -5.3730416, 77.07289, -0.071813166)
+transform = Transform3D(-75.52722, -4.835127, 65.36252, 6.0683975, -99.81495, -0.37162024, 65.259544, 3.6857839, 75.68086, -5.4305487, 76.65091, -0.96921074)
 
 [node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408]
 capability = SubResource("Resource_jn2gv")
@@ -258,19 +251,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 9.5)
 [node name="iron_ore_resourcearea2" parent="Machines" unique_id=1850542118 instance=ExtResource("9_bgpye")]
 transform = Transform3D(0.9993264, -0.03669716, 0, 0.036695488, 0.99928087, -0.0095464755, 0.00035037307, 0.009541258, 0.9998273, -18.5, 0, 5.5)
 
+[node name="ResourceAreaMachine" parent="Machines" unique_id=1962970161 instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 0, -2.5)
+
+[node name="ResourceAreaMachine3" parent="Machines" unique_id=1380489571 instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -0.5)
+
+[node name="ResourceAreaMachine4" parent="Machines" unique_id=123117103 instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -6.5)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1992962174]
+stream = ExtResource("28_jn2gv")
+autoplay = true
+
 [node name="Buildings" type="Node" parent="." unique_id=525662897]
 
 [node name="DemoBlock" parent="Buildings" unique_id=1151288400 instance=ExtResource("19_geqkj")]
 process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-visible = false
 block_data = SubResource("Resource_a5nl5")
 
 [node name="Models" parent="Buildings/DemoBlock" index="0" unique_id=351359954]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.688344)
 
 [node name="map 1209vr" parent="Buildings/DemoBlock/Models" index="0" unique_id=1589673536 instance=ExtResource("11_map")]
-transform = Transform3D(-0.15, 0, -1.3113417e-08, 0, 0.15, 0, 1.3113417e-08, 0, -0.15, -2.837449, 1.25, -36.27988)
+transform = Transform3D(-0.15, 0, -1.3113417e-08, 0, 0.15, 0, 1.3113417e-08, 0, -0.15, -2.837449, 1.25, -27.265541)
 
 [node name="BlockCellGizmo" parent="Buildings/DemoBlock" index="1" unique_id=1067566201 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../GridMap")
