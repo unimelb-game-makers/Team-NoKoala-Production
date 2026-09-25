@@ -80,6 +80,9 @@ machines_root = NodePath("Machines")
 
 [node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("2_4cjtm")]
 
+[node name="FaithManager" parent="WorldServices" index="5" unique_id=1653168022]
+faith_toggle = false
+
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_grid")]
 
 [node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("8_4cjtm")]
@@ -242,6 +245,7 @@ grid = NodePath("../../../../GridMap")
 
 [editable path="Kaguya"]
 [editable path="Kaguya/KaguyaModel"]
+[editable path="WorldServices"]
 [editable path="Machines/DemoMachine"]
 [editable path="Machines/DemoMachine2"]
 [editable path="Machines/DemoMachine3"]
