@@ -136,7 +136,7 @@ collision_layer = 9
 shape = SubResource("GroundShape_world")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=955433886]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4076948, 0.03879881, -0.02239418)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4076948, 0, -0.02239418)
 mesh = SubResource("GroundMesh_world")
 surface_material_override/0 = SubResource("StandardMaterial3D_xr00m")
 
@@ -209,7 +209,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -6.5)
 
 [node name="DemoBlock" parent="Buildings" unique_id=1151288400 instance=ExtResource("19_geqkj")]
 process_mode = 4
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.02, 0.5)
 block_data = SubResource("Resource_u3p3f")
 
 [node name="Models" parent="Buildings/DemoBlock" index="0" unique_id=351359954]
