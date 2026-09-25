@@ -30,7 +30,7 @@
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="20_jn2gv"]
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="26_h1ur4"]
 [ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://app/ui/world_ui_root.tscn" id="27_world_ui"]
-[ext_resource type="AudioStream" uid="uid://b4fd1u8nm0iy5" path="res://assets/developer_art/processables/A Mysterious Place.wav" id="28_jn2gv"]
+[ext_resource type="AudioStream" uid="uid://bevr8kynb7rum" path="res://assets/developer_art/processables/A Mysterious Place.ogg" id="28_jn2gv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
