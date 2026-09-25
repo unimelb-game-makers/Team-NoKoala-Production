@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ctxet2raipe6u"]
 
 [ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_4cjtm"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_factory.tscn" id="machine_factory"]
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_texture"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_on3ec"]
@@ -71,11 +72,12 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
 root_cell = Vector3i(-7, 0, 0)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui", "machines_root")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "machine_factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui", "machines_root")]
 script = ExtResource("1_4cjtm")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
 factory = NodePath("Services/FactoryManager")
+machine_factory = NodePath("Services/MachineFactory")
 placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
@@ -87,6 +89,8 @@ machine_ui = NodePath("CanvasLayer/MachineUI")
 machines_root = NodePath("MachinesRoot")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
+
+[node name="MachineFactory" parent="Services" instance=ExtResource("machine_factory")]
 
 [node name="FixedClock" type="Node" parent="Services" unique_id=1063321843]
 script = ExtResource("5_na4ej")

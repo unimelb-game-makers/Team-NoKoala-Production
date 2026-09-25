@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_mswqi"]
 [ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_v2hao"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_factory.tscn" id="machine_factory"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_n28u7"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="3_lfs7i"]
 [ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="4_6vmk2"]
@@ -48,11 +49,12 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestResourceArea" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "machines_root", "resource_area_manager")]
+[node name="TestResourceArea" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "machine_factory", "placement", "faith", "jobs", "reservations", "pathfinder", "item_spawner", "spring_arm", "player", "machines_root", "resource_area_manager")]
 script = ExtResource("1_v2hao")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
 factory = NodePath("Services/FactoryManager")
+machine_factory = NodePath("Services/MachineFactory")
 placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
@@ -65,6 +67,8 @@ machines_root = NodePath("MachinesRoot")
 resource_area_manager = NodePath("ResourceAreaManager")
 
 [node name="Services" type="Node" parent="." unique_id=1708516012]
+
+[node name="MachineFactory" parent="Services" instance=ExtResource("machine_factory")]
 
 [node name="FixedClock" type="Node" parent="Services" unique_id=6064960]
 script = ExtResource("5_kjr54")
@@ -260,10 +264,11 @@ factory_manager = NodePath("../Services/FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 
-[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root")]
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root", "machine_factory")]
 script = ExtResource("9_21nps")
 grid = NodePath("../GridMap")
 machine_root = NodePath("../MachinesRoot")
+machine_factory = NodePath("../Services/MachineFactory")
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=560824700]
 script = ExtResource("15_6vmk2")

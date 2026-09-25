@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cwuobjtdii7ar"]
 
 [ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_l5y7m"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_factory.tscn" id="machine_factory"]
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_s2pky"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_pwmcq"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="3_d5pf7"]
@@ -42,11 +43,12 @@ resource_local_to_scene = true
 script = ExtResource("5_uxeyo")
 allowed_work_types = Array[int]([0, 1])
 
-[node name="TestMobs" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "spring_arm", "player")]
+[node name="TestMobs" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "machine_factory", "placement", "faith", "jobs", "reservations", "spring_arm", "player")]
 script = ExtResource("1_l5y7m")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
 factory = NodePath("Services/FactoryManager")
+machine_factory = NodePath("Services/MachineFactory")
 placement = NodePath("MachineMousePlacementController")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
@@ -55,6 +57,8 @@ spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 
 [node name="Services" type="Node" parent="." unique_id=515051888]
+
+[node name="MachineFactory" parent="Services" instance=ExtResource("machine_factory")]
 
 [node name="FixedClock" type="Node" parent="Services" unique_id=269799992]
 script = ExtResource("5_l5y7m")

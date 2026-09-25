@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="6_factory"]
 [ext_resource type="Script" uid="uid://cwu84ekhlpfla" path="res://features/dialogue/dialogue_coordinator.gd" id="7_5ria3"]
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="7_placement"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_factory.tscn" id="7_machine_factory"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="8_4h5x5"]
 [ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="8_clock"]
 [ext_resource type="Script" uid="uid://dbs4435dsf3ry" path="res://addons/dialogue_manager/dialogue_resource.gd" id="8_ekjpc"]
@@ -73,11 +74,12 @@ is_placed = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_dialogue_trigger"]
 size = Vector3(4, 3, 4)
 
-[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("grid", "clock", "factory", "faith", "jobs", "reservations", "pathfinder", "player", "spring_arm", "placement", "item_spawner", "mobs_root", "machines_root", "buildings_root", "resource_area_manager", "dialogue_coordinator", "world_ui_root")]
+[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("grid", "clock", "factory", "machine_factory", "faith", "jobs", "reservations", "pathfinder", "player", "spring_arm", "placement", "item_spawner", "mobs_root", "machines_root", "buildings_root", "resource_area_manager", "dialogue_coordinator", "world_ui_root")]
 script = ExtResource("1_world")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
 factory = NodePath("Services/FactoryManager")
+machine_factory = NodePath("Services/MachineFactory")
 faith = NodePath("Services/FaithManager")
 jobs = NodePath("Services/JobBoard")
 reservations = NodePath("Services/ReservationManager")
@@ -94,6 +96,8 @@ dialogue_coordinator = NodePath("Services/DialogueCoordinator")
 world_ui_root = NodePath("WorldUIRoot")
 
 [node name="Services" type="Node" parent="." unique_id=811124390]
+
+[node name="MachineFactory" parent="Services" instance=ExtResource("7_machine_factory")]
 
 [node name="FixedClock" type="Node" parent="Services" unique_id=1477159196]
 script = ExtResource("8_clock")
@@ -149,16 +153,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 script = ExtResource("5_spawn")
 item_definition = ExtResource("20_jn2gv")
 
-[node name="ResourceAreaManager" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid", "machine_root")]
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid", "machine_root", "machine_factory")]
 script = ExtResource("26_h1ur4")
 grid = NodePath("../GridMap")
 machine_root = NodePath("../Machines")
+machine_factory = NodePath("../Services/MachineFactory")
 metadata/_custom_type_script = "uid://dk6ro3ymqhxn8"
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1097951384 node_paths=PackedStringArray("placement_grid")]
 script = ExtResource("7_placement")
 placement_grid = NodePath("../PlacementGrid")
-default_machine = 1
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=36506323]
 script = ExtResource("9_placement_grid")

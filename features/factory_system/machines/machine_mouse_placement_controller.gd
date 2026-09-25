@@ -8,6 +8,7 @@ const GROUND_COLLISION_MASK := 1 << 3
 
 
 func configure(
+	p_machine_factory: MachineFactory,
 	p_grid: Grid,
 	p_factory_manager: FactoryManager,
 	faith: FaithManager,
@@ -19,7 +20,7 @@ func configure(
 	# Godot doesn't allow override a function with different parameters
 	# Not sure if there's a better way to do this
 	spring_arm = p_spring_arm
-	super(p_grid, p_factory_manager, faith, jobs, reservations, mobs_root, p_spring_arm)
+	super(p_machine_factory, p_grid, p_factory_manager, faith, jobs, reservations, mobs_root, p_spring_arm)
 
 
 func _process(_delta: float) -> void:
