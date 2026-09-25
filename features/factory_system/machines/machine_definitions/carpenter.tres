@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://rj3vso2ud1w"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="2_definition"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_recipe"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="4_demo_recipe"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="5_amount"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="6_iron"]
+
+[sub_resource type="Resource" id="Resource_input"]
+script = ExtResource("1_cell")
+port_id = &"input_1"
+
+[sub_resource type="Resource" id="Resource_structure"]
+script = ExtResource("1_cell")
+port_id = &""
+role = 2
+local_cell_offset = Vector3i(1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_output"]
+script = ExtResource("1_cell")
+port_id = &"output_1"
+role = 1
+local_cell_offset = Vector3i(2, 0, 0)
+can_overlap = true
+
+[sub_resource type="Resource" id="Resource_work"]
+script = ExtResource("1_cell")
+port_id = &"work_1"
+role = 3
+local_cell_offset = Vector3i(1, 0, 1)
+
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("5_amount")
+item = ExtResource("6_iron")
+
+[resource]
+script = ExtResource("2_definition")
+machine_name = &"Carpenter Bench"
+machine_description = &"Used to process wood and bamboo"
+cells = Array[ExtResource("1_cell")]([SubResource("Resource_input"), SubResource("Resource_structure"), SubResource("Resource_output"), SubResource("Resource_work")])
+recipes = Array[ExtResource("3_recipe")]([ExtResource("4_demo_recipe")])
+construction_materials = Array[ExtResource("5_amount")]([SubResource("Resource_construction_iron")])

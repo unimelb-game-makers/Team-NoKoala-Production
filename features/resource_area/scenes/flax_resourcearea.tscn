@@ -7,11 +7,8 @@
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_elu57"]
 [ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="6_c2bl3"]
 [ext_resource type="Resource" uid="uid://rt6uewf3icq0" path="res://features/resource_area/resource_area_definitions/spawner_flax_definition.tres" id="7_vbx04"]
-[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="8_pvsmn"]
-[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="9_4cybs"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="10_tiwjd"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="11_1w6nx"]
-[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="12_0xl1h"]
+[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/flax_area.tres" id="12_0xl1h"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_d3l1m"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_xjcmi"]
 [ext_resource type="Texture2D" uid="uid://bwh25616rkcwt" path="res://assets/developer_art/resource_areas/flax resource area.png" id="15_vbx04"]
@@ -25,30 +22,6 @@ overlap_cells = Array[Vector3i]([Vector3i(0, 0, 1)])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
 albedo_color = Color(1, 0.19, 0.19, 1)
-
-[sub_resource type="Resource" id="Resource_lfs7i"]
-script = ExtResource("8_pvsmn")
-port_id = &""
-role = 2
-metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
-
-[sub_resource type="Resource" id="Resource_21nps"]
-script = ExtResource("8_pvsmn")
-port_id = &"output_1"
-role = 1
-local_cell_offset = Vector3i(0, 0, 1)
-can_overlap = true
-metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
-
-[sub_resource type="Resource" id="Resource_construction_iron"]
-script = ExtResource("9_4cybs")
-item = ExtResource("10_tiwjd")
-
-[sub_resource type="Resource" id="Resource_kjr54"]
-script = ExtResource("12_0xl1h")
-cells = Array[ExtResource("8_pvsmn")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
-construction_materials = Array[ExtResource("9_4cybs")]([SubResource("Resource_construction_iron")])
-metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
 [node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("1_vbx04")
@@ -86,7 +59,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 script = ExtResource("6_c2bl3")
 block = NodePath("../Block")
 resource_area_definition = ExtResource("7_vbx04")
-definition = SubResource("Resource_kjr54")
+definition = ExtResource("12_0xl1h")
 job_provider = NodePath("HaulJobProvider")
 disabled = false
 
