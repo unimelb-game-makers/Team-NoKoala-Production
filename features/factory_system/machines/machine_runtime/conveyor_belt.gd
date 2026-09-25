@@ -114,7 +114,7 @@ func _forward_direction() -> Vector3i:
 func _drop_item(item: FactoryItem, factory_manager: FactoryManager) -> void:
 	var drop_position := factory_manager.cell_to_world(_forward_cell())
 	item.global_position = drop_position
-	item.drop_at(drop_position)
+	item.try_drop(drop_position)
 
 func _forward_cell() -> Vector3i:
 	return block.block_data.root_cell + _forward_direction()
