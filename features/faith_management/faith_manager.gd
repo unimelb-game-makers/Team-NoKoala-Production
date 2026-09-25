@@ -1,6 +1,8 @@
 class_name FaithManager
 extends Node
 
+@export var faith_toggle: bool = true
+
 var registered_active: Dictionary[Machine, float] = {} # float = drain rate
 var max_faith: float = 100.0
 var current_faith: float = 100.0
@@ -12,6 +14,10 @@ signal faith_depleted
 signal faith_restored
 
 func _process(delta: float) -> void:
+	# for testing purposes
+	if !faith_toggle:
+		return
+	
 	if registered_active.is_empty():
 		return
 
