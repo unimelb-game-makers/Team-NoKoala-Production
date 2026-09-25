@@ -35,6 +35,7 @@ func _enter_tree() -> void:
 	if _composed == false:
 		compose_world_context()
 		configure_dependencies()
+	add_to_group("world")
 
 func _ready() -> void:
 	if Engine.is_editor_hint() or machines_root == null:
@@ -64,6 +65,7 @@ func compose_world_context() -> WorldContext:
 
 	context = WorldContext.new()
 	context.grid = grid
+	context.pathfinder = pathfinder
 	context.clock = clock
 	context.factory = factory
 	context.faith = faith
@@ -76,10 +78,10 @@ func compose_world_context() -> WorldContext:
 	return context
 
 func configure_dependencies() -> void:
-	world_ui_root.configure(faith)
+	world_ui_root.configure(faith, placement)
 	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
-	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
+	placement.configure(grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
 	item_spawner.configure(spring_arm, grid, factory)
 	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, world_ui_root.machine_ui)
 	spring_arm.configure(player)
@@ -88,7 +90,7 @@ func configure_dependencies() -> void:
 			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
-			child.configure(factory,faith,jobs,reservations,grid)
+			child.configure(factory, faith, jobs, reservations, mobs_root, grid)
 
 func configure_editor_dependencies() -> void:
 	resource_area_manager.configure(grid,machines_root)

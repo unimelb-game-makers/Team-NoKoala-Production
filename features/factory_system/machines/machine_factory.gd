@@ -4,7 +4,10 @@ enum MachineType {
 	DEMO,
 	CONVEYOR,
 	RITUAL,
+	SPIRIT_RITUAL,
 	RESOURCE_AREA,
+	CARPENTER,
+	MASON,
 }
 
 const _SCENES: Dictionary = {
@@ -17,9 +20,20 @@ const _SCENES: Dictionary = {
 	MachineType.RITUAL: preload(
 		"res://features/factory_system/machines/machine_scenes/demo_ritual.tscn"
 	),
+	MachineType.SPIRIT_RITUAL: preload(
+		"res://features/factory_system/machines/machine_scenes/spirit_ritual.tscn"
+	),
 	MachineType.RESOURCE_AREA: preload(
 		"res://features/resource_area/scenes/iron_ore_resourcearea.tscn"
 	),
+	MachineType.CARPENTER: preload(
+		"res://features/factory_system/machines/machine_scenes/carpenter.tscn"
+	),
+	MachineType.MASON: preload(
+		"res://features/factory_system/machines/machine_scenes/mason_bench.tscn"
+	),
+
+
 }
 static func create_machine(type: MachineType) -> MachineAssembly:
 	var scene: PackedScene = _SCENES[type]
@@ -37,6 +51,19 @@ static func create_machine(type: MachineType) -> MachineAssembly:
 
 	assembly.block.block_data = create_block_data(assembly.machine.definition)
 	return assembly
+
+
+static func machine_type_for_definition(definition: MachineDefinition) -> int:
+	if definition == null:
+		return -1
+	for machine_type in _SCENES:
+		var scene: PackedScene = _SCENES[machine_type]
+		var assembly := scene.instantiate() as MachineAssembly
+		var matches := assembly.machine.definition == definition
+		assembly.free()
+		if matches:
+			return machine_type
+	return -1
 
 
 static func create_block_data(definition: MachineDefinition) -> BlockData:

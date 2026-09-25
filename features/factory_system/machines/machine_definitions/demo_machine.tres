@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_77js0"]
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="3_77js0"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="3_h0hwv"]
-[ext_resource type="Resource" uid="uid://b6v4tvbps4ehk" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="4_recipe2"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="5_construction_amount"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="6_construction_item"]
 
 [sub_resource type="Resource" id="Resource_input_1"]
 script = ExtResource("1_2vlft")
@@ -29,7 +30,14 @@ port_id = &"work_1"
 role = 3
 local_cell_offset = Vector3i(1, 0, 1)
 
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("5_construction_amount")
+item = ExtResource("6_construction_item")
+
 [resource]
 script = ExtResource("3_h0hwv")
+machine_name = &"Carpenter Bench"
+machine_description = &"Used to process wood and bamboo"
 cells = Array[ExtResource("1_2vlft")]([SubResource("Resource_input_1"), SubResource("Resource_structure"), SubResource("Resource_output"), SubResource("Resource_work_1")])
-recipes = Array[ExtResource("2_77js0")]([ExtResource("3_77js0"), ExtResource("4_recipe2")])
+recipes = Array[ExtResource("2_77js0")]([ExtResource("3_77js0")])
+construction_materials = Array[ExtResource("5_construction_amount")]([SubResource("Resource_construction_iron")])

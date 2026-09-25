@@ -19,8 +19,8 @@ metadata/_custom_type_script = "uid://hneks0cpqqvj"
 
 [resource]
 script = ExtResource("3_8c5lb")
-recipe_id = &"ritual1"
-display_name = "ritual"
+recipe_id = &"ritual2"
+display_name = "ritual2"
 inputs = Array[ExtResource("1_jkffj")]([SubResource("Resource_1lgse")])
 work_requirements = Array[ExtResource("4_ly0cw")]([SubResource("Resource_rwktf")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"

@@ -106,14 +106,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _try_open_machine_ui() -> void:
 	var assembly := _assembly_from_node(_node_at_mouse())
-	if (
-		_machine_ui == null
-		or assembly == null
-		or assembly.ui_panels.is_empty()
-		or assembly.machine == null
-	):
+	if _machine_ui == null or assembly == null:
 		return
-	_machine_ui.open(assembly.machine, assembly.ui_panels)
+	var machine := assembly.get_ui_machine()
+	var panels := assembly.get_ui_panels()
+	if machine == null or panels.is_empty():
+		return
+	_machine_ui.open(machine, panels)
 	get_viewport().set_input_as_handled()
 
 

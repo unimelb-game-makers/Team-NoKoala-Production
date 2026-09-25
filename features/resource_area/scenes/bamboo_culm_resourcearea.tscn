@@ -8,11 +8,14 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="4_vy8n8"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_k8uwt"]
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="5_x31wi"]
-[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_m0r6p"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="7_3q5xe"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="8_ow4k7"]
 [ext_resource type="Texture2D" uid="uid://i4b78mishubc" path="res://assets/developer_art/resource_areas/bamboo_resource.png" id="9_1tqxr"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5m02j"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="11_af4u5"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_af4u5"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="15_construction_amount"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="16_construction_item"]
 
 [sub_resource type="Resource" id="Resource_vy8n8"]
 resource_local_to_scene = true
@@ -37,15 +40,21 @@ local_cell_offset = Vector3i(0, 0, 1)
 can_overlap = true
 metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("15_construction_amount")
+item = ExtResource("16_construction_item")
+
 [sub_resource type="Resource" id="Resource_kjr54"]
 script = ExtResource("7_3q5xe")
 cells = Array[ExtResource("5_x31wi")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
+construction_materials = Array[ExtResource("15_construction_amount")]([SubResource("Resource_construction_iron")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
-[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("1_2r36o")
 block = NodePath("Block")
 machine = NodePath("Machine")
+blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_h5qhg")
@@ -78,6 +87,7 @@ script = ExtResource("3_clsrq")
 block = NodePath("../Block")
 resource_area_definition = ExtResource("4_8fy3l")
 definition = SubResource("Resource_kjr54")
+disabled = false
 
 [node name="HaulJobProvider" type="Node" parent="Machine" unique_id=971752523]
 script = ExtResource("8_ow4k7")
@@ -92,3 +102,12 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
 texture_filter = 0
 texture = ExtResource("9_1tqxr")
+
+[node name="Blueprint" type="Node" parent="." unique_id=1908129799 node_paths=PackedStringArray("job_provider")]
+script = ExtResource("14_af4u5")
+job_provider = NodePath("BlueprintJobProvider")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1280569052]
+script = ExtResource("8_ow4k7")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"

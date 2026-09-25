@@ -5,5 +5,7 @@ extends Resource
 
 
 func can_perform(work_type: WorkType.Value) -> bool:
-	return allowed_work_types.has(work_type)
-
+	for allowed_type in allowed_work_types:
+		if allowed_type != null and allowed_type == work_type:
+			return true
+	return false

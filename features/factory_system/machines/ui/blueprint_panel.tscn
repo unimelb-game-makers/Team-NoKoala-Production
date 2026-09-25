@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/factory_system/machines/ui/blueprint_panel.gd" id="1_panel"]
+
+[node name="BlueprintPanel" type="VBoxContainer" node_paths=PackedStringArray("name_label", "construction_time_label", "materials_list", "progress_bar", "status_label")]
+theme_override_constants/separation = 8
+script = ExtResource("1_panel")
+name_label = NodePath("Name")
+construction_time_label = NodePath("ConstructionTime")
+materials_list = NodePath("Materials/List")
+progress_bar = NodePath("Progress")
+status_label = NodePath("Status")
+tab_title = "Blueprint"
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Machine"
+
+[node name="ConstructionTime" type="Label" parent="."]
+layout_mode = 2
+text = "Construction time"
+
+[node name="Separator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="MaterialsCaption" type="Label" parent="."]
+layout_mode = 2
+text = "Supplied materials:"
+
+[node name="Materials" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Materials"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Status" type="Label" parent="."]
+layout_mode = 2
+text = "Status"
+
+[node name="Progress" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+show_percentage = false

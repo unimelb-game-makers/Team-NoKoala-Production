@@ -2,6 +2,8 @@
 class_name MachineDefinition
 extends Resource
 
+@export var machine_name : StringName = &"demomachine"
+@export var machine_description : StringName = &""
 
 @export var cells: Array[MachineCellDefinition] = []:
 	set(value):
@@ -11,6 +13,14 @@ extends Resource
 		emit_changed()
 
 @export var recipes: Array[ProductionRecipe] = []
+@export var construction_time_seconds := 1.0:
+	set(value):
+		construction_time_seconds = value
+		emit_changed()
+@export var construction_materials: Array[RecipeItemAmount] = []:
+	set(value):
+		construction_materials = value
+		emit_changed()
 
 
 func has_recipe(recipe: ProductionRecipe) -> bool:
@@ -92,6 +102,45 @@ func get_recipe_validation_errors(
 			MachineCellDefinition.Role.OUTPUT,
 		)
 	)
+	errors.append_array(
+		_get_work_requirement_errors(recipe.work_requirements)
+	)
+
+	return errors
+
+
+func _get_work_requirement_errors(
+	requirements: Array[RecipeWorkRequirement],
+) -> PackedStringArray:
+	var errors := PackedStringArray()
+	var available_ports := _get_ports_for_role(MachineCellDefinition.Role.WORK)
+	var seen_ports: Dictionary[StringName, bool] = {}
+
+	for index in requirements.size():
+		var requirement := requirements[index]
+		var label := "Work requirement %d" % index
+		if requirement == null:
+			errors.append("%s cannot be empty." % label)
+			continue
+		if requirement.port_id.is_empty():
+			errors.append("%s must specify a port ID." % label)
+			continue
+		if not available_ports.has(requirement.port_id):
+			errors.append(
+				"%s references unknown port '%s'." % [
+					label,
+					requirement.port_id,
+				]
+			)
+		if seen_ports.has(requirement.port_id):
+			errors.append(
+				"%s duplicates port '%s'." % [
+					label,
+					requirement.port_id,
+				]
+			)
+		else:
+			seen_ports[requirement.port_id] = true
 
 	return errors
 

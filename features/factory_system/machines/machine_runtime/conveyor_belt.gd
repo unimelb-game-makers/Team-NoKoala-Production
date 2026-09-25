@@ -1,13 +1,35 @@
 class_name ConveyorBelt
 extends Machine
 
+const RUN_ANIMATION := &"run"
+
 @export var speed: float = 1.0
 @export var block: Block
 @export var path: Path3D
 @export var follow: PathFollow3D
 @export var middle: Node3D
+@export var animation_player: AnimationPlayer
 
 var items_on_belt: Array[Dictionary] = []
+
+
+func _ready() -> void:
+	_update_animation()
+
+
+func _on_enabled_changed(_enabled: bool) -> void:
+	if is_node_ready():
+		_update_animation()
+
+
+func _update_animation() -> void:
+	if animation_player == null:
+		return
+	if disabled:
+		animation_player.stop()
+	else:
+		animation_player.play(RUN_ANIMATION)
+
 
 func is_straight_corner(other: ConveyorBelt) -> bool:
 	return (

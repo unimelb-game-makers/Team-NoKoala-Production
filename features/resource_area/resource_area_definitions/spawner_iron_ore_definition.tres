@@ -8,4 +8,3 @@
 script = ExtResource("1_12qnp")
 spawner_recipe = ExtResource("2_12qnp")
 texture = ExtResource("3_864da")
-metadata/_custom_type_script = "uid://b54bkkwhtlhed"

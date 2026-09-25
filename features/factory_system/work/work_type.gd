@@ -4,4 +4,5 @@ extends RefCounted
 enum Value {
 	CRAFTING,
 	RITUAL,
+	CONSTRUCTION,
 }

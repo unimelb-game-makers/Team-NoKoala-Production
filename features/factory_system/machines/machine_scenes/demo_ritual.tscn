@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_xgaqh"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="12_spksd"]
 [ext_resource type="PackedScene" uid="uid://dhue7p6vhxki0" path="res://assets/developer_art/models/gohei_model_draft_1.glb" id="13_g7rvc"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="13_pge4x"]
 
 [sub_resource type="Resource" id="Resource_yg6ku"]
 resource_local_to_scene = true
@@ -26,10 +27,11 @@ albedo_color = Color(0.538, 1, 0.33999997, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
 albedo_color = Color(0.1, 0.42, 1, 1)
 
-[node name="DemoRitual" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+[node name="DemoRitual" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("1_ggs0f")
 block = NodePath("Block")
 machine = NodePath("Machine")
+blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_eg25d")
@@ -72,6 +74,15 @@ metadata/_custom_type_script = "uid://bgxakqgck66y6"
 script = ExtResource("11_xgaqh")
 machine = NodePath("..")
 block = NodePath("../../Block")
+
+[node name="Blueprint" type="Node" parent="." unique_id=1689811962 node_paths=PackedStringArray("job_provider")]
+script = ExtResource("13_pge4x")
+job_provider = NodePath("BlueprintJobProvider")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=239206421]
+script = ExtResource("11_5hdis")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
