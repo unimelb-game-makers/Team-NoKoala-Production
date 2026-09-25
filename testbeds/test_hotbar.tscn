@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="11_k702n"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="12_nrw72"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="13_8r4s3"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="14_5cb32"]
 [ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="14_ad3lv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
@@ -115,6 +116,7 @@ _reservations = NodePath("../Services/ReservationManager")
 script = ExtResource("12_nrw72")
 grid = NodePath("../GridMap")
 factory_manager = NodePath("../Services/FactoryManager")
+item_definition = ExtResource("14_5cb32")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 

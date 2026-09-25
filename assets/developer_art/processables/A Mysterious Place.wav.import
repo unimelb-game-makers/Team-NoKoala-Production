@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b4fd1u8nm0iy5"
+path="res://.godot/imported/A Mysterious Place.wav-3b3ca8e9dcde40f8820830682bc4cc8a.sample"
+
+[deps]
+
+source_file="res://assets/developer_art/processables/A Mysterious Place.wav"
+dest_files=["res://.godot/imported/A Mysterious Place.wav-3b3ca8e9dcde40f8820830682bc4cc8a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
