@@ -20,9 +20,9 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_factory_manager = factory_manager
 	_update_job_requests()
 
-	#start processing if currently has no task running
+	# if no recipe, must be idle
 	if _processing_recipe == null:
-		_try_start_processing(factory_manager)
+		unregister_active()
 		return
 
 
@@ -56,10 +56,7 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		unregister_active()
 		return
 	
-	# immediately try again, if not then it must be idle
-	_try_start_processing(factory_manager)
-	if _processing_recipe == null:
-		unregister_active()
+	unregister_active()
 
 
 
@@ -225,7 +222,7 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 	if (
 		is_shut_down
 		or capability == null
-		or _processing_recipe == null
+		#or _processing_recipe == null
 		or get_processing_progress() >= 1.0
 	):
 		return false
@@ -236,6 +233,12 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 		or _occupied_work_cells.has(port_id)
 		or _occupied_work_cells.values().has(capability)
 	):
+		return false
+	
+	if _processing_recipe == null:
+		_try_start_processing(_factory_manager)
+	
+	if _processing_recipe == null:
 		return false
 
 	for requirement in _processing_recipe.work_requirements:
@@ -248,7 +251,7 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 
 		_occupied_work_cells[port_id] = capability
 		return true
-
+	
 	return false
 
 
