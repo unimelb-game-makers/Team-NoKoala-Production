@@ -57,6 +57,7 @@ func try_merge_item_at_cell(item: FactoryItem, cell: Vector3i) -> bool:
 					return true
 				else:
 					return false
+		return false
 	
 	var world_position = grid.cell_to_world(cell)
 	item.global_position = world_position
