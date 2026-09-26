@@ -1,11 +1,9 @@
-@tool
 class_name ResourceAreaMachine
 extends Machine
 
 var _processing_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _factory_manager: FactoryManager
-@export var block: Block
 @export var resource_area_definition: ResourceAreaDefinition
 @export var _spawn_if_output_present_toggle: bool
 
@@ -103,6 +101,7 @@ func _clear_processing_state() -> void:
 	_factory_manager = null
 
 func _detect_items_in_output() -> bool:
-	if len(_factory_manager.get_processables_at(block.block_data.world_cell_for_offset(Vector3i(0, 0, 1)))) > 0:
-		return true
-	else: return false
+	for cell in get_output_cells():
+		if not _factory_manager.get_processables_at(cell).is_empty():
+			return true
+	return false

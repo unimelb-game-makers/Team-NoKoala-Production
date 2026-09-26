@@ -1,4 +1,3 @@
-@tool
 class_name MachineFactory
 extends Node
 
@@ -63,8 +62,7 @@ func _create_block_data(definition: MachineDefinition) -> BlockData:
 	return block_data
 
 func _ensure_index() -> void:
-	# Editor scene edits do not reliably emit a change on this resource.
-	if _index_built and not Engine.is_editor_hint():
+	if _index_built:
 		return
 	_index_built = true
 	_scenes_by_definition_path.clear()

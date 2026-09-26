@@ -7,8 +7,8 @@ var block_data: BlockData
 @export var transform_root: Node3D
 
 const translucent_alpha := 0.6
-## Physics layer 5 ("Blueprint"): hit by mouse picking, collides with nothing
-const BLUEPRINT_COLLISION_LAYER := 1 << 4
+## Physics layer 5 ("MousePickOnly"): hit by mouse picking, collides with nothing
+const MOUSE_PICK_ONLY_COLLISION_LAYER := 1 << 4
 static var _red_material: StandardMaterial3D
 static var _blue_material: StandardMaterial3D
 
@@ -118,7 +118,7 @@ func set_blueprint_layer(enabled: bool) -> void:
 
 func _move_to_blueprint_layer(node: Node) -> void:
 	_original_collision_layers[node] = [node.collision_layer, node.collision_mask]
-	node.collision_layer = BLUEPRINT_COLLISION_LAYER
+	node.collision_layer = MOUSE_PICK_ONLY_COLLISION_LAYER
 	node.collision_mask = 0
 
 

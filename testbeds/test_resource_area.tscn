@@ -17,9 +17,9 @@
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_manager.gd" id="9_21nps"]
 [ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="10_ix74w"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="15_6vmk2"]
-[ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="16_3ugm5"]
-[ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="17_ix74w"]
-[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="19_rtwa6"]
+[ext_resource type="Script" uid="uid://b0hv3yfr5g24w" path="res://features/resource_area/resource_area_definition.gd" id="ra_definition_script"]
+[ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="ra_bamboo_culm"]
+[ext_resource type="Resource" uid="uid://cfkivar1brd46" path="res://features/resource_area/resource_area_definitions/spawner_iron_ore_definition.tres" id="ra_iron_ore"]
 
 [sub_resource type="Resource" id="Resource_ix74w"]
 resource_local_to_scene = true
@@ -87,6 +87,9 @@ script = ExtResource("6_3ugm5")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("2_n28u7")]
 mesh_library = ExtResource("3_lfs7i")
+data = {
+"cells": PackedInt32Array(0, 0, 0, 3, 0, 1, 1, 6, 1, 6, 3, 1, 65534, 6, 1, 65532, 6, 1)
+}
 
 [node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("7_rpij7")]
 
@@ -264,47 +267,20 @@ factory_manager = NodePath("../Services/FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 
-[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root", "machine_factory")]
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root")]
 script = ExtResource("9_21nps")
 grid = NodePath("../GridMap")
 machine_root = NodePath("../MachinesRoot")
-machine_factory = NodePath("../Services/MachineFactory")
+definitions_by_mesh_name = Dictionary[String, ExtResource("ra_definition_script")]({
+"RA_BAMBOO_CULM": ExtResource("ra_bamboo_culm"),
+"RA_IRON_ORE": ExtResource("ra_iron_ore")
+})
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=560824700]
 script = ExtResource("15_6vmk2")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="MachinesRoot" type="Node3D" parent="." unique_id=298661791]
-
-[node name="ResourceAreaMachine" parent="MachinesRoot" unique_id=1962970161 instance=ExtResource("16_3ugm5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-
-[node name="ResourceAreaMachine2" parent="MachinesRoot" unique_id=1086297010 instance=ExtResource("17_ix74w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0.5)
-
-[node name="iron_ore_resourcearea" type="Node3D" parent="MachinesRoot" unique_id=1236580896 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 6.5)
-script = ExtResource("19_rtwa6")
-block = NodePath("Block")
-machine = NodePath("Machine")
-
-[node name="@Node3D@37991" type="Node3D" parent="MachinesRoot" unique_id=1135071318 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 3.5)
-script = ExtResource("19_rtwa6")
-block = NodePath("Block")
-machine = NodePath("Machine")
-
-[node name="@Node3D@37992" type="Node3D" parent="MachinesRoot" unique_id=1556649208 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 6.5)
-script = ExtResource("19_rtwa6")
-block = NodePath("Block")
-machine = NodePath("Machine")
-
-[node name="@Node3D@37993" type="Node3D" parent="MachinesRoot" unique_id=296884364 node_paths=PackedStringArray("block", "machine") instance=ExtResource("17_ix74w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 6.5)
-script = ExtResource("19_rtwa6")
-block = NodePath("Block")
-machine = NodePath("Machine")
 
 [editable path="Kaguya"]
 [editable path="Kaguya/KaguyaModel"]
