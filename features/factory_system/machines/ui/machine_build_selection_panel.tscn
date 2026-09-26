@@ -2,9 +2,6 @@
 
 [ext_resource type="Script" path="res://features/factory_system/machines/ui/machine_build_selection_panel.gd" id="1_panel"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_definition_panel.tscn" id="2_definition_panel"]
-[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="3_demo"]
-[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="4_conveyor"]
-[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="5_ritual"]
 
 [node name="MachineBuildSelectionPanel" type="Control" node_paths=PackedStringArray("machine_list", "definition_panel", "build_button", "close_button")]
 visible = false
@@ -16,7 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 script = ExtResource("1_panel")
-allowed_definitions = Array[MachineDefinition]([ExtResource("3_demo"), ExtResource("4_conveyor"), ExtResource("5_ritual")])
 machine_list = NodePath("Center/Card/Margin/Content/Body/Machines")
 definition_panel = NodePath("Center/Card/Margin/Content/Body/Definition")
 build_button = NodePath("Center/Card/Margin/Content/Header/Build")

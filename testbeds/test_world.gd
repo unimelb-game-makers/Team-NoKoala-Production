@@ -7,6 +7,7 @@ extends Node3D
 @export var grid: Grid
 @export var clock: FixedClock
 @export var factory: FactoryManager
+@export var machine_factory: MachineFactory
 
 
 @export_group("Optional Dependency")
@@ -38,6 +39,9 @@ func _enter_tree() -> void:
 	assert(grid != null, "TestWorld requires a Grid")
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")
+	if placement != null or resource_area_manager != null:
+		assert(machine_factory != null, "Machine features require a MachineFactory")
+
 	if _composed == false:
 		compose_world_context()
 		configure_dependencies()
@@ -62,7 +66,8 @@ func configure_dependencies() -> void:
 		assert(jobs != null, "Placement requires a JobBoard")
 		assert(reservations != null, "Placement requires a ReservationManager")
 		assert(spring_arm != null, "Placement requires a SpringArm")
-		placement.configure(grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
+		placement.configure(machine_factory, grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
+
 
 	if item_spawner != null:
 		assert(spring_arm != null, "ItemSpawner requires a SpringArm")
@@ -113,14 +118,14 @@ func configure_dependencies() -> void:
 	if resource_area_manager != null:
 			assert(grid != null)
 			assert(factory != null)
-			resource_area_manager.configure(grid, machines_root)
+			resource_area_manager.configure(grid, machines_root, machine_factory)
 
 
 func configure_editor_dependencies() -> void:
 	if resource_area_manager != null:
 			assert(grid != null)
 			assert(factory != null)
-			resource_area_manager.configure(grid, machines_root)
+			resource_area_manager.configure(grid, machines_root, machine_factory)
 
 func compose_world_context() -> WorldContext:
 	if _composed:
