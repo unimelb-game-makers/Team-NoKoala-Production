@@ -1,19 +1,42 @@
 [gd_resource type="MeshLibrary" format=3 uid="uid://m1x2wqq3wkah"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ll53q"]
+[ext_resource type="Texture2D" uid="uid://i4b78mishubc" path="res://assets/developer_art/resource_areas/bamboo_resource.png" id="1_1ner3"]
+[ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="2_1tfs2"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_nwpmh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t01go"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_1ner3")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_2cc1i"]
+material = SubResource("StandardMaterial3D_t01go")
+size = Vector2(2, 2)
+center_offset = Vector3(0, 1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmimv"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("2_1tfs2")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_1tfs2"]
+material = SubResource("StandardMaterial3D_kmimv")
+size = Vector2(2, 2)
+center_offset = Vector3(0, 1, 0)
 
 [resource]
 item/0/name = "RA_BAMBOO_CULM"
-item/0/mesh = SubResource("CapsuleMesh_ll53q")
+item/0/mesh = SubResource("QuadMesh_2cc1i")
 item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/mesh_cast_shadow = 1
 item/0/shapes = []
 item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/navigation_layers = 1
 item/1/name = "RA_IRON_ORE"
-item/1/mesh = SubResource("CapsuleMesh_nwpmh")
+item/1/mesh = SubResource("QuadMesh_1tfs2")
 item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/1/mesh_cast_shadow = 1
 item/1/shapes = []

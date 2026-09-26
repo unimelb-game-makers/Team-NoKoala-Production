@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b0hv3yfr5g24w" path="res://features/resource_area/resource_area_definition.gd" id="1_uxhlh"]
 [ext_resource type="Resource" uid="uid://wwt5ka88sp2m" path="res://features/factory_system/recipes/recipe_definitions/resource_area/spawner_bamboo_culm.tres" id="2_fiypk"]
-[ext_resource type="Texture2D" uid="uid://i4b78mishubc" path="res://assets/developer_art/resource_areas/bamboo_resource.png" id="3_u77n0"]
 
 [resource]
 script = ExtResource("1_uxhlh")
 spawner_recipe = ExtResource("2_fiypk")
-texture = ExtResource("3_u77n0")

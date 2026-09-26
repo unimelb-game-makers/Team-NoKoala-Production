@@ -1,4 +1,3 @@
-@tool
 class_name GameWorld
 extends Node3D
 
@@ -21,17 +20,12 @@ extends Node3D
 @export var dialogue_coordinator : DialogueCoordinator
 @export var world_ui_root: WorldUIRoot
 
-@export_tool_button("Configure Editor Dependency", "Callable")
-var configure_editor = configure_editor_dependencies
-
 var context: WorldContext
 var _composed := false
 
 
 
 func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		return
 	if _composed == false:
 		validate_dependencies()
 		compose_world_context()
@@ -39,8 +33,13 @@ func _enter_tree() -> void:
 	add_to_group("world")
 
 func _ready() -> void:
-	if Engine.is_editor_hint() or machines_root == null:
+	if machines_root == null:
 		return
+	# Resource areas are added after configure_dependencies(), so configure
+	# them here before they are registered with the other preplaced machines.
+	if resource_area_manager != null:
+		for assembly in resource_area_manager.create_resource_areas():
+			_configure_machine(assembly)
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
 			child.register_preplaced(grid, factory)
@@ -91,10 +90,12 @@ func configure_dependencies() -> void:
 			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
-			child.configure(factory, faith, jobs, reservations, mobs_root, grid)
+			_configure_machine(child)
+	if resource_area_manager != null:
+		resource_area_manager.configure(grid, machines_root)
 
-func configure_editor_dependencies() -> void:
-	resource_area_manager.configure(grid, machines_root, machine_factory)
+func _configure_machine(assembly: MachineAssembly) -> void:
+	assembly.configure(factory, faith, jobs, reservations, mobs_root, grid)
 
 
 func shutdown() -> void:
