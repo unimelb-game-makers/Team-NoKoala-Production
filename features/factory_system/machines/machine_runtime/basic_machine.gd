@@ -157,29 +157,32 @@ func _try_start_recipe(
 	var original_positions: Dictionary[FactoryItem, Vector3] = {}
 	for factory_item in candidates:
 		var original_position: Vector3 = factory_item.get(&"global_position")
-		if not factory_item.try_claim(self):
-			_restore_claimed_inputs(
-				claimed_items,
-				original_positions,
-				factory_manager,
-			)
-			return false
-		
-		# TO DO: split off claims
 		var recipe_quantity = _get_required_input_count(recipe)
+		
+		# try and split
 		if factory_item.stack.quantity > recipe_quantity:
 			var split_stack = factory_item.stack.split(recipe_quantity)
 			var claimed_item = FactoryItemFactory.spawn_factory_item(
 				factory_item.stack.item_definition, 
 				factory_item.transform.origin, 
 				factory_item.factory_manager,
-				split_stack)
+				split_stack, true)
+			
+			if not claimed_item.try_claim(self):
+				factory_item.stack.quantity += split_stack.quantity
+				claimed_item.queue_free()
+				_restore_claimed_inputs(claimed_items, original_positions, factory_manager)
+				return false
+				
 			claimed_items.append(claimed_item)
-			print("split")
+			original_positions[claimed_item] = original_position
 		else:
+			# doesn't need to be split
+			if not factory_item.try_claim(self):
+				_restore_claimed_inputs(claimed_items, original_positions, factory_manager)
+				return false
 			claimed_items.append(factory_item)
-		#claimed_items.append(factory_item)
-		original_positions[factory_item] = original_position
+			original_positions[factory_item] = original_position
 
 	for factory_item in claimed_items:
 		factory_item.set_in_process_hidden(hide_inputs_while_processing)
@@ -346,14 +349,6 @@ func _find_input_items(
 			return []
 
 	return result
-
-func _try_split_required_input(item: FactoryItem, recipe: ProductionRecipe) -> bool:
-	var recipe_quantity = recipe.inputs[item].amount
-	if item.stack.quantity > recipe_quantity:
-		item.stack.split(recipe_quantity)
-		return true
-		
-	return false
 
 func _get_required_input_count(recipe: ProductionRecipe) -> int:
 	var result := 0
