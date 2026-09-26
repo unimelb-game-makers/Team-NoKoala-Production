@@ -2,6 +2,9 @@ class_name PlayerInteractionController
 extends Node
 
 const NO_JOB_TEXT := "No available job"
+## Item lookups see through mouse-pick-only colliders (blueprints, resource
+## areas), so items inside them can still be clicked.
+const ITEM_PICK_MASK := 0xFFFFFFFF & ~Block.MOUSE_PICK_ONLY_COLLISION_LAYER
 
 @export var spring_arm: CameraController
 
@@ -66,7 +69,7 @@ func _try_handle_npc_interaction(event: InputEvent) -> bool:
 	if _selected_consumer == null:
 		return false
 
-	var item := _item_from_node(hit_node)
+	var item := _factory_item_at_mouse()
 	if item != null:
 		_open_item_job_menu(item, event.position)
 		get_viewport().set_input_as_handled()
@@ -132,16 +135,17 @@ func _try_drop_held_item() -> void:
 
 
 func _factory_item_at_mouse() -> FactoryItem:
-	return _item_from_node(_node_at_mouse())
+	return _item_from_node(_node_at_mouse(ITEM_PICK_MASK))
 
 
-func _node_at_mouse() -> Node:
+func _node_at_mouse(collision_mask := 0xFFFFFFFF) -> Node:
 	if spring_arm == null:
 		return null
 	var mouse_position := get_viewport().get_mouse_position()
 	var ray_origin := spring_arm.camera.project_ray_origin(mouse_position)
 	var ray_end := ray_origin + spring_arm.camera.project_ray_normal(mouse_position) * 1000.0
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.collision_mask = collision_mask
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
 	var result := player.get_world_3d().direct_space_state.intersect_ray(query)
