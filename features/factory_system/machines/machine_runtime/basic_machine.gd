@@ -4,6 +4,9 @@ extends Machine
 @export var hide_inputs_while_processing := true
 
 var _processing_recipe: ProductionRecipe
+## Recipe whose inputs are in place and whose work ports are open, waiting for
+## workers before its inputs are claimed.
+var _pending_recipe: ProductionRecipe
 var _processing_elapsed := 0.0
 var _claimed_inputs: Array[FactoryItem] = []
 var _claimed_input_positions: Dictionary[FactoryItem, Vector3] = {}
@@ -16,9 +19,11 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_factory_manager = factory_manager
 	_update_job_requests()
 
-	#start processing if currently has no task running
+	# only claim inputs and start once workers are at every work port
 	if _processing_recipe == null:
 		_try_start_processing(factory_manager)
+		if _processing_recipe == null:
+			unregister_active()
 		return
 
 
@@ -52,10 +57,7 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		unregister_active()
 		return
 	
-	# immediately try again, if not then it must be idle
-	_try_start_processing(factory_manager)
-	if _processing_recipe == null:
-		unregister_active()
+	unregister_active()
 
 
 
@@ -105,13 +107,41 @@ func _exit_tree() -> void:
 
 func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if definition == null or enabled_recipes.is_empty():
+		_clear_pending_recipe()
 		return
 
-	for recipe in enabled_recipes:
-		if recipe == null:
-			continue
-		if _try_start_recipe(recipe, factory_manager):
-			return
+	if (
+		_pending_recipe != null
+		and (
+			not enabled_recipes.has(_pending_recipe)
+			or not has_all_required_inputs_in_place(_pending_recipe, factory_manager)
+		)
+	):
+		_clear_pending_recipe()
+
+	if _pending_recipe == null:
+		for recipe in enabled_recipes:
+			if (
+				recipe != null
+				and has_all_required_inputs_in_place(recipe, factory_manager)
+			):
+				_pending_recipe = recipe
+				configure_work_ports(recipe)
+				_update_job_requests()
+				break
+
+	if _pending_recipe == null or not are_work_ports_ready():
+		return
+
+	_try_start_recipe(_pending_recipe, factory_manager)
+
+
+func _clear_pending_recipe() -> void:
+	if _pending_recipe == null:
+		return
+	_pending_recipe = null
+	clear_work_ports()
+	_update_job_requests()
 
 
 func _try_start_recipe(
@@ -160,7 +190,10 @@ func _try_start_recipe(
 	_processing_elapsed = 0.0
 	_claimed_inputs = claimed_items
 	_claimed_input_positions = original_positions
-	configure_work_ports(recipe)
+	# keep workers already allocated to the pending recipe's ports
+	if recipe != _pending_recipe:
+		configure_work_ports(recipe)
+	_pending_recipe = null
 
 	if are_work_ports_ready():
 		register_active(faith_drain_rate)
@@ -285,6 +318,7 @@ func _consume_claimed_inputs(factory_manager: FactoryManager) -> void:
 
 
 func _cancel_processing() -> void:
+	_clear_pending_recipe()
 	if _processing_recipe == null:
 		return
 
