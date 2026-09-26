@@ -164,8 +164,21 @@ func _try_start_recipe(
 				factory_manager,
 			)
 			return false
-
-		claimed_items.append(factory_item)
+		
+		# TO DO: split off claims
+		var recipe_quantity = _get_required_input_count(recipe)
+		if factory_item.stack.quantity > recipe_quantity:
+			var split_stack = factory_item.stack.split(recipe_quantity)
+			var claimed_item = FactoryItemFactory.spawn_factory_item(
+				factory_item.stack.item_definition, 
+				factory_item.transform.origin, 
+				factory_item.factory_manager,
+				split_stack)
+			claimed_items.append(claimed_item)
+			print("split")
+		else:
+			claimed_items.append(factory_item)
+		#claimed_items.append(factory_item)
 		original_positions[factory_item] = original_position
 
 	for factory_item in claimed_items:
@@ -319,7 +332,7 @@ func _find_input_items(
 					or not factory_item.is_available_for_processing()
 				):
 					continue
-
+				
 				result.append(factory_item)
 				selected_items[factory_item] = true
 				amount_remaining -= 1
@@ -334,6 +347,13 @@ func _find_input_items(
 
 	return result
 
+func _try_split_required_input(item: FactoryItem, recipe: ProductionRecipe) -> bool:
+	var recipe_quantity = recipe.inputs[item].amount
+	if item.stack.quantity > recipe_quantity:
+		item.stack.split(recipe_quantity)
+		return true
+		
+	return false
 
 func _get_required_input_count(recipe: ProductionRecipe) -> int:
 	var result := 0
