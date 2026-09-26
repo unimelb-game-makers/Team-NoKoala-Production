@@ -29,6 +29,7 @@ static func spawn_factory_item(
 	world_position: Vector3,
 	factory_manager: FactoryManager,
 	stack: ItemStack = null,
+	claimed: bool = false
 ) -> FactoryItem:
 	if (
 		factory_manager == null
@@ -44,6 +45,13 @@ static func spawn_factory_item(
 
 	factory_manager.add_child(factory_item)
 	factory_item.set(&"global_position", world_position)
+	
+	if claimed:
+		# already claimed by machine
+		factory_item.global_position = world_position
+		factory_item.set_available_for_processing(true)
+		return factory_item
+	
 	if not factory_manager.register_processable(factory_item):
 		factory_item.queue_free()
 		return null
