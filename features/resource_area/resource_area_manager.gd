@@ -4,43 +4,44 @@ class_name ResourceAreaManager
 
 @export var grid: Grid
 @export var machine_root: Node
-@export var machine_factory: MachineFactory
 
 @export_tool_button("Create Machines", "Callable")
 var create_machines_button = _create_machines_from_grid
 
 
-const BAMBOO_CULM_DEFINITION = preload("res://features/factory_system/machines/machine_definitions/bamboo_culm_area.tres")
-const IRON_ORE_DEFINITION = preload("res://features/factory_system/machines/machine_definitions/iron_ore_area.tres")
+const BAMBOO_CULM_SCENE = preload("res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn")
+const IRON_ORE_SCENE = preload("res://features/resource_area/scenes/iron_ore_resourcearea.tscn")
 
-var machine_definition_by_mesh_name: Dictionary = {
-	"RA_BAMBOO_CULM": BAMBOO_CULM_DEFINITION,
-	"RA_IRON_ORE": IRON_ORE_DEFINITION,
+var machine_scene_by_mesh_name: Dictionary[StringName, Resource] = {
+	&"RA_BAMBOO_CULM": BAMBOO_CULM_SCENE,
+	&"RA_IRON_ORE": IRON_ORE_SCENE,
 }
 
 func configure(
 	p_grid: Grid,
 	p_machine_root: Node,
-	p_machine_factory: MachineFactory,
 ) -> void:
 	grid = p_grid
 	machine_root = p_machine_root
-	machine_factory = p_machine_factory
 
 func _create_machines_from_grid() -> void:
-	if grid == null or machine_root == null or grid.mesh_library == null or machine_factory == null:
+	if grid == null or machine_root == null or grid.mesh_library == null:
 		return
 
 	var resources_created = 0
 	for cell in grid.get_used_cells():
 		var mesh_name := grid.mesh_library.get_item_name(grid.get_cell_item(cell))
-		var definition := machine_definition_by_mesh_name.get(mesh_name) as MachineDefinition
-		if definition == null:
+		var scene := machine_scene_by_mesh_name.get(mesh_name) as PackedScene
+		if scene == null:
 			continue
 
-		var assembly := machine_factory.create_machine(definition)
-		if assembly == null:
+		var root := scene.instantiate()
+		var assembly := root as MachineAssembly
+		if assembly == null or assembly.block == null or assembly.machine == null or assembly.machine.definition == null:
+			root.free()
 			continue
+		var definition := assembly.machine.definition as MachineDefinition
+		assembly.block.block_data = definition.create_block_data()
 		assembly.name = definition.resource_path.get_file().get_basename()
 		var world_position := grid.cell_to_world(cell)
 		assembly.position = machine_root.to_local(world_position)

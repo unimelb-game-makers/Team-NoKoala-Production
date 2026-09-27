@@ -23,6 +23,17 @@ extends Resource
 		emit_changed()
 
 
+func create_block_data() -> BlockData:
+	var block_data := BlockData.new()
+	for machine_cell in cells:
+		if machine_cell == null:
+			continue
+		block_data.footprint.append(machine_cell.local_cell_offset)
+		if machine_cell.can_overlap:
+			block_data.overlap_cells.append(machine_cell.local_cell_offset)
+	return block_data
+
+
 func has_recipe(recipe: ProductionRecipe) -> bool:
 	return recipe != null and recipes.has(recipe)
 

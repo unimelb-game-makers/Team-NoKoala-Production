@@ -1,4 +1,3 @@
-@tool 
 class_name TestWorld
 extends Node3D
 
@@ -27,15 +26,10 @@ extends Node3D
 @export var resource_area_manager: ResourceAreaManager
 @export var dialogue_coordinator : DialogueCoordinator
 
-@export_tool_button("Configure Editor Dependency", "Callable")
-var configure_editor = configure_editor_dependencies
-
 var context: WorldContext
 var _composed := false
 
 func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		return
 	assert(grid != null, "TestWorld requires a Grid")
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")
@@ -118,14 +112,8 @@ func configure_dependencies() -> void:
 	if resource_area_manager != null:
 			assert(grid != null)
 			assert(factory != null)
-			resource_area_manager.configure(grid, machines_root, machine_factory)
+			resource_area_manager.configure(grid, machines_root)
 
-
-func configure_editor_dependencies() -> void:
-	if resource_area_manager != null:
-			assert(grid != null)
-			assert(factory != null)
-			resource_area_manager.configure(grid, machines_root, machine_factory)
 
 func compose_world_context() -> WorldContext:
 	if _composed:
