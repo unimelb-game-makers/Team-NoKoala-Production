@@ -153,11 +153,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4202173, 0)
 script = ExtResource("5_spawn")
 item_definition = ExtResource("20_jn2gv")
 
-[node name="ResourceAreaManager" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid", "machine_root", "machine_factory")]
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid", "machine_root")]
 script = ExtResource("26_h1ur4")
 grid = NodePath("../GridMap")
 machine_root = NodePath("../Machines")
-machine_factory = NodePath("../Services/MachineFactory")
 metadata/_custom_type_script = "uid://dk6ro3ymqhxn8"
 
 [node name="MachineMousePlacementController" type="Node" parent="." unique_id=1097951384 node_paths=PackedStringArray("placement_grid")]

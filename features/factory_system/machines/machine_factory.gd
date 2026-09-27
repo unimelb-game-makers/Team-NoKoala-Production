@@ -1,4 +1,3 @@
-@tool
 class_name MachineFactory
 extends Node
 
@@ -42,7 +41,7 @@ func create_machine(definition: MachineDefinition) -> MachineAssembly:
 		if assembly != null:
 			assembly.free()
 		return null
-	assembly.block.block_data = _create_block_data(assembly.machine.definition)
+	assembly.block.block_data = assembly.machine.definition.create_block_data()
 	return assembly
 
 func _instantiate_scene(scene: PackedScene) -> MachineAssembly:
@@ -52,19 +51,8 @@ func _instantiate_scene(scene: PackedScene) -> MachineAssembly:
 		root.free()
 	return assembly
 
-func _create_block_data(definition: MachineDefinition) -> BlockData:
-	var block_data := BlockData.new()
-	for machine_cell in definition.cells:
-		if machine_cell == null:
-			continue
-		block_data.footprint.append(machine_cell.local_cell_offset)
-		if machine_cell.can_overlap:
-			block_data.overlap_cells.append(machine_cell.local_cell_offset)
-	return block_data
-
 func _ensure_index() -> void:
-	# Editor scene edits do not reliably emit a change on this resource.
-	if _index_built and not Engine.is_editor_hint():
+	if _index_built:
 		return
 	_index_built = true
 	_scenes_by_definition_path.clear()
