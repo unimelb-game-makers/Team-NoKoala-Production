@@ -49,6 +49,7 @@ block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1298217599]
+collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=324697783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

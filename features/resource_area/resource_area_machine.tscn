@@ -47,6 +47,7 @@ texture_filter = 0
 texture = ExtResource("9_ibtvi")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1749182662]
+collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=963038657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
