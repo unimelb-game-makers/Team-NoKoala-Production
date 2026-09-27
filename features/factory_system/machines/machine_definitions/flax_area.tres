@@ -10,7 +10,6 @@
 script = ExtResource("1_cell")
 port_id = &"output_1"
 role = 1
-can_overlap = true
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("3_amount")

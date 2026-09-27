@@ -17,7 +17,6 @@
 resource_local_to_scene = true
 script = ExtResource("3_4wqi2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
-overlap_cells = Array[Vector3i]([Vector3i(0, 0, 0)])
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2kugo"]
 size = Vector3(1, 2, 1)
