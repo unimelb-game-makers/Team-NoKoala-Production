@@ -24,13 +24,21 @@ func configure(
 	grid = p_grid
 	machine_root = p_machine_root
 
+## Editor-only: goes through the editor's undo history so the whole batch can be undone.
 func _create_machines_from_grid() -> void:
+	if not Engine.is_editor_hint():
+		return
 	if grid == null or machine_root == null or grid.mesh_library == null:
 		return
 
+	var scene_root := get_tree().edited_scene_root
+	var undo_redo := EditorInterface.get_editor_undo_redo()
+	undo_redo.create_action("Create Resource Area Machines", UndoRedo.MERGE_DISABLE, scene_root)
+
 	var resources_created = 0
 	for cell in grid.get_used_cells():
-		var mesh_name := grid.mesh_library.get_item_name(grid.get_cell_item(cell))
+		var item := grid.get_cell_item(cell)
+		var mesh_name := grid.mesh_library.get_item_name(item)
 		var scene := machine_scene_by_mesh_name.get(mesh_name) as PackedScene
 		if scene == null:
 			continue
@@ -46,12 +54,16 @@ func _create_machines_from_grid() -> void:
 		var world_position := grid.cell_to_world(cell)
 		assembly.position = machine_root.to_local(world_position)
 
-		machine_root.add_child(assembly)
-		if Engine.is_editor_hint():
-			assembly.owner = get_tree().edited_scene_root
+		undo_redo.add_do_method(machine_root, "add_child", assembly, true)
+		undo_redo.add_do_property(assembly, "owner", scene_root)
+		# Keeps the node alive while it is only referenced by the history.
+		undo_redo.add_do_reference(assembly)
+		undo_redo.add_undo_method(machine_root, "remove_child", assembly)
 
 		# Clear mesh from gridmap cell
-		grid.set_cell_item(cell, -1)
+		undo_redo.add_do_method(grid, "set_cell_item", cell, -1)
+		undo_redo.add_undo_method(grid, "set_cell_item", cell, item, grid.get_cell_item_orientation(cell))
 		resources_created += 1
 
+	undo_redo.commit_action()
 	print(resources_created, " resource areas created")
