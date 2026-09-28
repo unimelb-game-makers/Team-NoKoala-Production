@@ -28,6 +28,7 @@ shape = SubResource("CylinderShape3D_nwpmh")
 transform = Transform3D(2, 0, 0, 0, 1.4142135, 1.4142135, 0, -1.4142135, 1.4142135, 0, 0.167, 0)
 billboard = 1
 texture_filter = 2
+render_priority = 5
 texture = ExtResource("2_1bsx1")
 
 [node name="StackDebugLabel" type="Label3D" parent="Sprite3D" unique_id=623548694]

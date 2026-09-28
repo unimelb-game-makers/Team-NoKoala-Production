@@ -264,11 +264,10 @@ factory_manager = NodePath("../Services/FactoryManager")
 
 [node name="Processables" type="Node3D" parent="." unique_id=973865482]
 
-[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root", "machine_factory")]
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=9102489 node_paths=PackedStringArray("grid", "machine_root")]
 script = ExtResource("9_21nps")
 grid = NodePath("../GridMap")
 machine_root = NodePath("../MachinesRoot")
-machine_factory = NodePath("../Services/MachineFactory")
 
 [node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=560824700]
 script = ExtResource("15_6vmk2")

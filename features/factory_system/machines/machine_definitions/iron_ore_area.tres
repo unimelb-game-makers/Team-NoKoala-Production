@@ -6,17 +6,10 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_c0ku5"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="4_iron"]
 
-[sub_resource type="Resource" id="Resource_structure"]
-script = ExtResource("1_cell")
-port_id = &""
-role = 2
-
 [sub_resource type="Resource" id="Resource_output"]
 script = ExtResource("1_cell")
 port_id = &"output_1"
 role = 1
-local_cell_offset = Vector3i(0, 0, 1)
-can_overlap = true
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("3_amount")
@@ -25,5 +18,5 @@ item = ExtResource("4_iron")
 [resource]
 script = ExtResource("2_definition")
 machine_name = &"Iron Ore Deposit"
-cells = Array[ExtResource("1_cell")]([SubResource("Resource_structure"), SubResource("Resource_output")])
+cells = Array[ExtResource("1_cell")]([SubResource("Resource_output")])
 construction_materials = Array[ExtResource("3_amount")]([SubResource("Resource_construction_iron")])
