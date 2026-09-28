@@ -73,8 +73,7 @@ func has_all_required_inputs_in_place(
 ) -> bool:
 	if recipe == null or factory_manager == null or definition == null:
 		return false
-	var assembly := get_parent() as MachineAssembly
-	if assembly == null or assembly.block == null or assembly.block.block_data == null:
+	if machine_assembly == null or machine_assembly.block == null or machine_assembly.block.block_data == null:
 		return false
 	var required_count := _get_required_input_count(recipe)
 	return (
@@ -237,10 +236,9 @@ func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
 		for _item_index in output.amount:
 			var next_index: int = next_output_indices.get(output.port_id, 0)
 			var output_cell := output_cells[next_index % output_cells.size()]
-			var factory_item := FactoryItemFactory.spawn_factory_item_at_cell(
+			var factory_item := factory_manager.item_spawner.spawn_factory_item_at_cell(
 				output.item,
 				output_cell,
-				factory_manager,
 			)
 			if factory_item == null:
 				_rollback_spawned_outputs(spawned_outputs, factory_manager)

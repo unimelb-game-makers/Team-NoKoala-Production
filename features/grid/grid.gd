@@ -2,6 +2,8 @@
 class_name Grid
 extends GridMap
 
+@export var pathfinder: Pathfinder
+
 var grid_data: GridData = GridData.new()
 var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 
@@ -18,6 +20,10 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	add_to_group("grid")
+
+
+func configure(factory_manager: FactoryManager) -> void:
+	pathfinder.configure(factory_manager)
 
 
 func reset_grid() -> void:

@@ -1,5 +1,5 @@
 class_name Processable
-extends Node
+extends Node3D
 
 signal availability_changed(processable: Processable, is_available: bool)
 signal claim_changed(processable: Processable, claimant: Object)

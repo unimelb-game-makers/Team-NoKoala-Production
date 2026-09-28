@@ -10,6 +10,7 @@ signal place_mode_changed(enabled: bool)
 @export var _reservations: ReservationManager
 
 var machine_factory: MachineFactory
+var spirit_spawner: SpiritSpawner
 var place_mode: bool = false:
 	get:
 		return place_mode
@@ -33,25 +34,31 @@ var _floating_assembly: MachineAssembly
 var _selected_machine_definition: MachineDefinition
 var _last_rotation: BlockData.Rotation = BlockData.Rotation.DEG0
 var _allowed_machine_definitions: Array[MachineDefinition] = []
+var _machines_root: Node
 var _mobs_root: Node
+var _warned_missing_root := false
 
 
 func configure(
 	p_machine_factory: MachineFactory,
 	p_grid: Grid,
 	p_factory_manager: FactoryManager,
+	p_spirit_spawner: SpiritSpawner,
 	faith: FaithManager,
 	jobs: JobBoard,
 	reservations: ReservationManager,
+	machines_root: Node,
 	mobs_root: Node,
 	_spring_arm: CameraController,
 ) -> void:
 	machine_factory = p_machine_factory
 	grid = p_grid
 	factory_manager = p_factory_manager
+	spirit_spawner = p_spirit_spawner
 	_faith = faith
 	_jobs = jobs
 	_reservations = reservations
+	_machines_root = machines_root
 	_mobs_root = mobs_root
 	_allowed_machine_definitions = machine_factory.get_machine_definitions() if machine_factory != null else []
 	_select_initial_definition()
@@ -78,11 +85,18 @@ func begin_placement() -> MachineAssembly:
 		_faith,
 		_jobs,
 		_reservations,
+		spirit_spawner,
 		_mobs_root,
 		grid,
 	)
 	_floating_assembly.block.disable_collisions()
-	get_parent().add_child(_floating_assembly)
+	if _machines_root != null:
+		_machines_root.add_child(_floating_assembly)
+	else:
+		if not _warned_missing_root:
+			printerr("MachinePlacementController has no machines_root; adding machines to the scene root")
+			_warned_missing_root = true
+		get_tree().root.add_child(_floating_assembly)
 	_floating_assembly.block.set_appearence(Block.Appearance.TRANSLUCENT)
 	_floating_assembly.block.set_rotation_data(_last_rotation)
 	return _floating_assembly

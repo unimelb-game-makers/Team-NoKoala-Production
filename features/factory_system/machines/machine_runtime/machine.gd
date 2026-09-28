@@ -27,14 +27,23 @@ signal work_port_allocation_changed(port: WorkPort, worker: WorkerCapability)
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
 var is_shut_down: bool = false
+var machine_assembly: MachineAssembly
 var faith_manager: FaithManager
+var spirit_spawner: SpiritSpawner
 var work_ports: Array[WorkPort] = []
 var _work_ports_valid := true
 var mobs_root: Node
 
 
-func configure(p_faith_manager: FaithManager, p_mobs_root: Node) -> void:
+func configure(
+	p_machine_assembly: MachineAssembly,
+	p_faith_manager: FaithManager,
+	p_spirit_spawner: SpiritSpawner,
+	p_mobs_root: Node
+) -> void:
+	machine_assembly = p_machine_assembly
 	faith_manager = p_faith_manager
+	spirit_spawner = p_spirit_spawner
 	mobs_root = p_mobs_root
 
 
@@ -84,12 +93,11 @@ func get_work_cells() -> Array[Vector3i]:
 
 func get_occupied_cells() -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
-	var assembly := get_parent() as MachineAssembly
 	if (
 		definition == null
-		or assembly == null
-		or assembly.block == null
-		or assembly.block.block_data == null
+		or machine_assembly == null
+		or machine_assembly.block == null
+		or machine_assembly.block.block_data == null
 	):
 		return result
 
@@ -97,7 +105,7 @@ func get_occupied_cells() -> Array[Vector3i]:
 		if cell_definition == null:
 			continue
 		result.append(
-			assembly.block.block_data.world_cell_for_offset(
+			machine_assembly.block.block_data.world_cell_for_offset(
 				cell_definition.local_cell_offset,
 			)
 		)
@@ -318,14 +326,13 @@ func get_cells_for_port(
 	port_id: StringName,
 ) -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
-	var assembly := get_parent() as MachineAssembly
 	for cell_definition in definition.cells:
 		if (
 			cell_definition.role == role
 			and cell_definition.port_id == port_id
 		):
 			result.append(
-				assembly.block.block_data.world_cell_for_offset(
+				machine_assembly.block.block_data.world_cell_for_offset(
 					cell_definition.local_cell_offset,
 				)
 			)
@@ -336,11 +343,10 @@ func _get_cells_for_role(
 	role: MachineCellDefinition.Role,
 ) -> Array[Vector3i]:
 	var result: Array[Vector3i] = []
-	var assembly := get_parent() as MachineAssembly
 	for cell_definition in definition.cells:
 		if cell_definition.role == role:
 			result.append(
-				assembly.block.block_data.world_cell_for_offset(
+				machine_assembly.block.block_data.world_cell_for_offset(
 					cell_definition.local_cell_offset,
 				)
 			)
@@ -406,15 +412,14 @@ func accepts_item_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
 
 
 func _get_input_port_id_for_cell(cell: Vector3i) -> StringName:
-	var assembly := get_parent() as MachineAssembly
-	if assembly == null:
+	if machine_assembly == null:
 		return &""
 
 	for cell_definition in definition.cells:
 		if cell_definition.role != MachineCellDefinition.Role.INPUT:
 			continue
 		if (
-			assembly.block.block_data.world_cell_for_offset(
+			machine_assembly.block.block_data.world_cell_for_offset(
 				cell_definition.local_cell_offset,
 			) == cell
 		):

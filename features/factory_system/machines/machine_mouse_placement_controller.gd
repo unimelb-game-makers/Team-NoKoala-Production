@@ -11,16 +11,29 @@ func configure(
 	p_machine_factory: MachineFactory,
 	p_grid: Grid,
 	p_factory_manager: FactoryManager,
+	p_spirit_spawner: SpiritSpawner,
 	faith: FaithManager,
 	jobs: JobBoard,
 	reservations: ReservationManager,
+	machines_root: Node,
 	mobs_root: Node,
 	p_spring_arm: CameraController,
 ) -> void:
 	# Godot doesn't allow override a function with different parameters
 	# Not sure if there's a better way to do this
 	spring_arm = p_spring_arm
-	super(p_machine_factory, p_grid, p_factory_manager, faith, jobs, reservations, mobs_root, p_spring_arm)
+	super(
+		p_machine_factory,
+		p_grid,
+		p_factory_manager,
+		p_spirit_spawner,
+		faith,
+		jobs,
+		reservations,
+		machines_root,
+		mobs_root,
+		p_spring_arm
+	)
 
 
 func _process(_delta: float) -> void:

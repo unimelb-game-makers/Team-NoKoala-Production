@@ -9,6 +9,7 @@ signal processable_unregistered(processable: Processable)
 @export var grid: Grid
 @export var fixed_clock: FixedClock
 @export var faith_manager: FaithManager
+@export var item_spawner: ItemSpawner
 
 var _machines: Array[Machine] = []
 var _processables: Array[Processable] = []
@@ -16,10 +17,16 @@ var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
 
 
-func configure(p_grid: Grid, p_fixed_clock: FixedClock, p_faith_manager: FaithManager) -> void:
+func configure(
+	p_grid: Grid,
+	p_fixed_clock: FixedClock,
+	p_faith_manager: FaithManager,
+	p_item_spawner: ItemSpawner,
+) -> void:
 	grid = p_grid
 	fixed_clock = p_fixed_clock
 	faith_manager = p_faith_manager
+	item_spawner = p_item_spawner
 	_connect_clock()
 	_connect_faith_manager()
 

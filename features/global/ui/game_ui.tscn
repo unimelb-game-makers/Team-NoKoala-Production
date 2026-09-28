@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bu0a23dpjdenr"]
+
+[ext_resource type="Script" uid="uid://c8nfhkmdlok2o" path="res://features/global/ui/game_ui.gd" id="1_1ystk"]
+[ext_resource type="PackedScene" uid="uid://r6di5sx0nlw7" path="res://features/dialogue/dialogue_ui.tscn" id="2_42pju"]
+
+[node name="GameUI" type="Node" unique_id=1167631386 node_paths=PackedStringArray("dialogue_ui")]
+script = ExtResource("1_1ystk")
+dialogue_ui = NodePath("DialogueUI")
+
+[node name="DialogueUI" parent="." unique_id=1901639110 instance=ExtResource("2_42pju")]
