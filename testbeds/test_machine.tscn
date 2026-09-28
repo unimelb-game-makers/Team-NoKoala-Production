@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="14_7mxvq"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="15_mkb8f"]
 
-[sub_resource type="Resource" id="Resource_mkb8f"]
+[sub_resource type="Resource" id="Resource_cptpm"]
 resource_local_to_scene = true
 script = ExtResource("4_nguo2")
 allowed_work_types = Array[int]([0, 1])
@@ -51,27 +51,31 @@ script = ExtResource("15_mkb8f")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
 block_rotation = 180
+is_placed = true
 root_cell = Vector3i(1, 0, 3)
 
 [sub_resource type="Resource" id="Resource_58jip"]
 script = ExtResource("15_mkb8f")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+is_placed = true
 root_cell = Vector3i(-1, 0, 0)
 
 [sub_resource type="Resource" id="Resource_eivec"]
 script = ExtResource("15_mkb8f")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+is_placed = true
 root_cell = Vector3i(-7, 0, 2)
 
 [sub_resource type="Resource" id="Resource_j02vo"]
 script = ExtResource("15_mkb8f")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
 overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+is_placed = true
 root_cell = Vector3i(-7, 0, 0)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machine_ui", "machines_root")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machines_root", "machine_ui")]
 script = ExtResource("1_4cjtm")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -83,8 +87,8 @@ reservations = NodePath("Services/ReservationManager")
 item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
-machine_ui = NodePath("CanvasLayer/MachineUI")
 machines_root = NodePath("MachinesRoot")
+machine_ui = NodePath("CanvasLayer/MachineUI")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
 
@@ -99,6 +103,7 @@ fixed_clock = NodePath("../FixedClock")
 
 [node name="FaithManager" type="Node" parent="Services" unique_id=1063098932]
 script = ExtResource("11_faith")
+faith_toggle = false
 
 [node name="JobBoard" type="Node" parent="Services" unique_id=420515087]
 script = ExtResource("12_jobs")
@@ -113,8 +118,55 @@ script = ExtResource("13_reservations")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("3_u0wh0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
+[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(21341859, 502972077) index="0" unique_id=203715250]
+transform = Transform3D(0.995883, 0.07729703, 0.04734425, -0.046482164, -0.012915264, 0.99883527, 0.07781848, -0.99692386, -0.009269164, -0.0063659837, -0.007260544, 0.0045477916)
+
+[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=2108451974]
+bones/2/rotation = Quaternion(0.023340069, 0.008005057, 0.012638264, 0.99961567)
+bones/3/rotation = Quaternion(-0.11523226, 0.012840349, 0.025416026, 0.99293035)
+bones/4/rotation = Quaternion(-0.08693039, 0.0062967488, 0.027770491, 0.9958074)
+bones/11/rotation = Quaternion(0.19722016, 0.00072996865, -0.0005257195, 0.98035884)
+bones/12/rotation = Quaternion(-0.08456207, 0.00067220815, -0.00067385513, 0.9964178)
+bones/37/rotation = Quaternion(0.14417551, 0.109636955, -0.80936277, 0.55868155)
+bones/38/rotation = Quaternion(0.12864569, 0.15987901, -0.48834032, 0.84818214)
+bones/39/rotation = Quaternion(0.07430003, -0.005653693, -0.00042118784, 0.9972198)
+bones/40/rotation = Quaternion(0.15050809, -0.14999278, 0.04078842, 0.9763124)
+bones/41/rotation = Quaternion(-0.081045926, -0.07141094, -0.06297602, 0.9921522)
+bones/42/rotation = Quaternion(-0.011103869, 0.003965548, -0.0988021, 0.9950373)
+bones/44/rotation = Quaternion(-0.06355719, 0.04087493, -0.18439956, 0.97994214)
+bones/45/rotation = Quaternion(0.022507899, -0.0007944318, -0.13881905, 0.99006164)
+bones/47/rotation = Quaternion(-0.044892814, -0.014316105, -0.033012252, 0.9983436)
+bones/48/rotation = Quaternion(0.0013473441, 0.00010592001, -0.085731514, 0.99631745)
+bones/50/rotation = Quaternion(-0.0479882, 0.007126288, -0.09262407, 0.9945186)
+bones/51/rotation = Quaternion(-0.0035268164, -0.0007716121, -0.07303308, 0.9973231)
+bones/72/rotation = Quaternion(0.1294097, -0.12220973, 0.7933998, 0.5820952)
+bones/73/rotation = Quaternion(0.109501, -0.23323475, 0.48565885, 0.8353123)
+bones/74/rotation = Quaternion(0.09381562, 0.0074254735, 0.0006995761, 0.99556166)
+bones/75/rotation = Quaternion(0.11375718, 0.25054637, -0.1442886, 0.95050865)
+bones/76/rotation = Quaternion(-0.045049973, 0.06500446, 0.06225922, 0.99492145)
+bones/77/rotation = Quaternion(-0.005684578, -0.000944901, 0.043478675, 0.99903774)
+bones/79/rotation = Quaternion(-0.02198746, -0.0083147865, 0.1371159, 0.99027616)
+bones/80/rotation = Quaternion(0.035044335, 0.0073451228, 0.10722908, 0.9935894)
+bones/82/rotation = Quaternion(-0.039497137, 0.0083606895, 0.06339623, 0.9971716)
+bones/83/rotation = Quaternion(0.002992825, 0.00042835277, 0.09007519, 0.99593043)
+bones/85/rotation = Quaternion(-0.02031379, 0.010464312, 0.11993647, 0.9925186)
+bones/86/rotation = Quaternion(0.0031126994, 0.0027978604, 0.07959735, 0.9968183)
+bones/107/rotation = Quaternion(0.028521523, 0.19260491, 0.9781691, -0.07263026)
+bones/108/rotation = Quaternion(-0.14863239, -0.00076856074, -0.0045077223, 0.988882)
+bones/149/rotation = Quaternion(-0.08689186, 0.7066026, 0.68949574, 0.1332598)
+bones/150/rotation = Quaternion(0.004731661, -0.014631147, -0.02575588, 0.99955)
+bones/151/rotation = Quaternion(-0.057045598, 0.08368705, 0.9929295, -0.061912917)
+bones/152/rotation = Quaternion(-0.09575126, -0.00021313876, 0.0022020983, 0.9954029)
+bones/193/rotation = Quaternion(0.10141127, 0.65367377, 0.7477037, -0.058013827)
+
+[node name="LeftLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="0" unique_id=1012435759]
+transform = Transform3D(-91.002945, 17.910551, -37.38545, -20.055449, -97.94989, 1.8928866, -36.27999, 9.220402, 92.72936, 25.371881, 79.65085, 3.5023234)
+
+[node name="RightLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="1" unique_id=1774903563]
+transform = Transform3D(-73.71629, -4.8497515, 67.397194, 6.3702435, -99.7966, -0.21364021, 67.27049, 4.1358833, 73.875336, -5.407183, 76.77696, -0.48705584)
+
 [node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid", "_factory_manager")]
-capability = SubResource("Resource_mkb8f")
+capability = SubResource("Resource_cptpm")
 _grid = NodePath("../../GridMap")
 _factory_manager = NodePath("../../Services/FactoryManager")
 
@@ -170,17 +222,17 @@ transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, 
 [node name="Block" parent="MachinesRoot/DemoMachine" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_u1dg4")
 
-[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 gizmo_height = 0.2
 occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
 overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
 conflict_color = Color(1, 0.12, 0.12, 0.7)
 
-[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine/Machine" parent_id_path=PackedInt32Array(1962970161, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine2" parent="MachinesRoot" unique_id=492139455 instance=ExtResource("14_7mxvq")]
@@ -189,17 +241,17 @@ transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, -0.5, 0, 0.
 [node name="Block" parent="MachinesRoot/DemoMachine2" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_58jip")
 
-[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine2/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine2/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 gizmo_height = 0.2
 occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
 overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
 conflict_color = Color(1, 0.12, 0.12, 0.7)
 
-[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine2/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine2/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine2/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine2/Machine" parent_id_path=PackedInt32Array(492139455, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine3" parent="MachinesRoot" unique_id=1061425926 instance=ExtResource("14_7mxvq")]
@@ -208,17 +260,17 @@ transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 2.5)
 [node name="Block" parent="MachinesRoot/DemoMachine3" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_eivec")
 
-[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine3/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine3/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 gizmo_height = 0.2
 occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
 overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
 conflict_color = Color(1, 0.12, 0.12, 0.7)
 
-[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine3/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine3/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine3/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine3/Machine" parent_id_path=PackedInt32Array(1061425926, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine4" parent="MachinesRoot" unique_id=1181246573 instance=ExtResource("14_7mxvq")]
@@ -227,20 +279,21 @@ transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 0.5)
 [node name="Block" parent="MachinesRoot/DemoMachine4" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_j02vo")
 
-[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine4/Block" index="4" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+[node name="BlockCellGizmo" parent="MachinesRoot/DemoMachine4/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 gizmo_height = 0.2
 occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
 overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
 conflict_color = Color(1, 0.12, 0.12, 0.7)
 
-[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine4/Block" index="5" unique_id=159894150 node_paths=PackedStringArray("grid")]
+[node name="BlockGridRegistration" parent="MachinesRoot/DemoMachine4/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine4/Machine" index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+[node name="MachineEditorSynchoniser" parent="MachinesRoot/DemoMachine4/Machine" parent_id_path=PackedInt32Array(1181246573, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
 [editable path="Kaguya"]
+[editable path="Kaguya/KaguyaModel"]
 [editable path="MachinesRoot/DemoMachine"]
 [editable path="MachinesRoot/DemoMachine2"]
 [editable path="MachinesRoot/DemoMachine3"]
