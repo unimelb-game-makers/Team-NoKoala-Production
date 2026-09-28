@@ -1,4 +1,3 @@
-@tool
 class_name ResourceAreaMachine
 extends Machine
 
@@ -103,6 +102,7 @@ func _clear_processing_state() -> void:
 	_factory_manager = null
 
 func _detect_items_in_output() -> bool:
-	if len(_factory_manager.get_processables_at(block.block_data.world_cell_for_offset(Vector3i(0, 0, 1)))) > 0:
-		return true
-	else: return false
+	for cell in get_output_cells():
+		if not _factory_manager.get_processables_at(cell).is_empty():
+			return true
+	return false

@@ -1,7 +1,9 @@
 class_name MachineBuildSelectionPanel
 extends Control
 
-@export var allowed_definitions: Array[MachineDefinition] = []
+var allowed_definitions: Array[MachineDefinition] = []
+
+var machine_factory: MachineFactory
 @export var machine_list: ItemList
 @export var definition_panel: MachineDefinitionPanel
 @export var build_button: Button
@@ -9,7 +11,6 @@ extends Control
 
 var placement: MachinePlacementController
 var _definitions: Array[MachineDefinition] = []
-var _machine_types: Array[int] = []
 
 
 func _ready() -> void:
@@ -25,14 +26,12 @@ func _ready() -> void:
 func configure(p_placement: MachinePlacementController) -> void:
 	placement = p_placement
 	if placement != null:
-		placement.set_allowed_definitions(allowed_definitions)
+		machine_factory = placement.machine_factory
 	if is_node_ready():
 		_update_build_button()
 
 
 func open() -> void:
-	if placement != null:
-		placement.set_allowed_definitions(allowed_definitions)
 	_rebuild_machine_list()
 	show()
 
@@ -49,19 +48,25 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _rebuild_machine_list() -> void:
 	_definitions.clear()
-	_machine_types.clear()
+	allowed_definitions.clear()
 	machine_list.clear()
+	if machine_factory == null:
+		definition_panel.display(null)
+		_update_build_button()
+		return
+
+	allowed_definitions = machine_factory.get_machine_definitions()
+
 	for definition in allowed_definitions:
 		if definition == null or _definitions.has(definition):
 			continue
-		var machine_type := MachineFactory.machine_type_for_definition(definition)
-		if machine_type < 0:
+		if not machine_factory.has_machine_definition(definition):
 			push_warning("Machine definition is not registered in MachineFactory: %s" % definition.resource_path)
 			continue
 		_definitions.append(definition)
-		_machine_types.append(machine_type)
 		var title := String(definition.machine_name)
 		machine_list.add_item(title if not title.is_empty() else "Unnamed machine")
+
 	if _definitions.is_empty():
 		definition_panel.display(null)
 	else:
@@ -82,9 +87,9 @@ func _on_build_pressed() -> void:
 	if placement == null:
 		return
 	var selected := machine_list.get_selected_items()
-	if selected.is_empty() or selected[0] >= _machine_types.size():
+	if selected.is_empty() or selected[0] >= _definitions.size():
 		return
-	placement.select_machine(_machine_types[selected[0]] as MachineFactory.MachineType)
+	placement.select_machine(_definitions[selected[0]])
 	placement.place_mode = true
 	close()
 
@@ -94,5 +99,5 @@ func _update_build_button() -> void:
 	build_button.disabled = (
 		placement == null
 		or selected.is_empty()
-		or selected[0] >= _machine_types.size()
+		or selected[0] >= _definitions.size()
 	)

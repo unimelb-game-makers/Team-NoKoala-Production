@@ -2,27 +2,28 @@
 
 [ext_resource type="Script" uid="uid://ckcdch3h3p8q5" path="res://app/ui/world_ui_root.gd" id="1_world_ui_root"]
 [ext_resource type="PackedScene" uid="uid://cym1682grgdqy" path="res://features/faith_management/faith_progress_bar.tscn" id="2_faith"]
+[ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="3_fqtb0"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="3_machine_ui"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="4_build_selection"]
-[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_qnlo1"]
-[ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="6_ffw0x"]
-[ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="7_fqtb0"]
-[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="8_vvu2a"]
-[ext_resource type="Resource" uid="uid://cw8yo611glthk" path="res://features/factory_system/machines/machine_definitions/mason_bench.tres" id="9_p4jux"]
-[ext_resource type="Resource" uid="uid://de4l0osan2lf3" path="res://features/factory_system/machines/machine_definitions/spirit_ritual.tres" id="10_ffw0x"]
 
-[node name="WorldUIRoot" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel")]
+[node name="WorldUIRoot" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar")]
 script = ExtResource("1_world_ui_root")
 faith_progress_bar = NodePath("FaithProgressBar")
 machine_ui = NodePath("CanvasLayer/MachineUI")
 build_menu_button = NodePath("CanvasLayer/BuildMenuButton")
 build_selection_panel = NodePath("CanvasLayer/MachineBuildSelectionPanel")
+hotbar = NodePath("Hotbar")
 
 [node name="FaithProgressBar" parent="." unique_id=889199016 instance=ExtResource("2_faith")]
+
+[node name="Hotbar" parent="." unique_id=263281179 instance=ExtResource("3_fqtb0")]
+offset_top = -73.0
+offset_bottom = -73.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2089302302]
 
 [node name="MachineUI" parent="CanvasLayer" unique_id=378136023 instance=ExtResource("3_machine_ui")]
+visible = false
 
 [node name="BuildMenuButton" type="Button" parent="CanvasLayer" unique_id=1933539879]
 anchors_preset = 1
@@ -36,4 +37,3 @@ grow_horizontal = 0
 text = "Machines"
 
 [node name="MachineBuildSelectionPanel" parent="CanvasLayer" unique_id=1618381881 instance=ExtResource("4_build_selection")]
-allowed_definitions = Array[ExtResource("5_qnlo1")]([ExtResource("6_ffw0x"), ExtResource("7_fqtb0"), ExtResource("8_vvu2a"), ExtResource("9_p4jux"), ExtResource("10_ffw0x")])

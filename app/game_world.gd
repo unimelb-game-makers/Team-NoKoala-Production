@@ -1,10 +1,10 @@
-@tool
 class_name GameWorld
 extends Node3D
 
 @export var grid: Grid
 @export var clock: FixedClock
 @export var factory: FactoryManager
+@export var machine_factory: MachineFactory
 @export var faith: FaithManager
 @export var jobs: JobBoard
 @export var reservations: ReservationManager
@@ -14,15 +14,11 @@ extends Node3D
 @export var placement: MachinePlacementController
 @export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
-@export var hotbar: Hotbar
 @export var machines_root: Node
 @export var buildings_root: Node
 @export var resource_area_manager: ResourceAreaManager
 @export var dialogue_coordinator : DialogueCoordinator
 @export var world_ui_root: WorldUIRoot
-
-@export_tool_button("Configure Editor Dependency", "Callable")
-var configure_editor = configure_editor_dependencies
 
 var context: WorldContext
 var _composed := false
@@ -30,15 +26,14 @@ var _composed := false
 
 
 func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		return
 	if _composed == false:
+		validate_dependencies()
 		compose_world_context()
 		configure_dependencies()
 	add_to_group("world")
 
 func _ready() -> void:
-	if Engine.is_editor_hint() or machines_root == null:
+	if machines_root == null:
 		return
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
@@ -78,12 +73,12 @@ func compose_world_context() -> WorldContext:
 	return context
 
 func configure_dependencies() -> void:
-	world_ui_root.configure(faith, placement)
 	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
-	placement.configure(grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
+	placement.configure(machine_factory, grid, factory, faith, jobs, reservations, mobs_root, spring_arm)
+	world_ui_root.configure(faith, placement)
 	item_spawner.configure(spring_arm, grid, factory)
-	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, world_ui_root.machine_ui)
+	player.configure(spring_arm, placement, jobs, grid, factory, world_ui_root.hotbar, world_ui_root.machine_ui)
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:
@@ -91,10 +86,6 @@ func configure_dependencies() -> void:
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
 			child.configure(factory, faith, jobs, reservations, mobs_root, grid)
-
-func configure_editor_dependencies() -> void:
-	resource_area_manager.configure(grid,machines_root)
-
 
 func shutdown() -> void:
 	pass
@@ -104,6 +95,7 @@ func validate_dependencies() -> void:
 	assert(grid != null, "GameWorld requires a Grid")
 	assert(clock != null, "GameWorld requires a FixedClock")
 	assert(factory != null, "GameWorld requires a FactoryManager")
+	assert(machine_factory != null, "GameWorld requires a MachineFactory")
 	assert(faith != null, "GameWorld requires a FaithManager")
 	assert(jobs != null, "GameWorld requires a JobBoard")
 	assert(reservations != null, "GameWorld requires a ReservationManager")

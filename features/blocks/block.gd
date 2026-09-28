@@ -7,8 +7,9 @@ var block_data: BlockData
 @export var transform_root: Node3D
 
 const translucent_alpha := 0.6
-## Physics layer 5 ("Blueprint"): hit by mouse picking, collides with nothing
-const BLUEPRINT_COLLISION_LAYER := 1 << 4
+## Physics layer 5 ("Selectable"): hit by mouse picking, collides with nothing.
+## Used by blueprints and resource areas.
+const SELECTABLE_COLLISION_LAYER := 1 << 4
 static var _red_material: StandardMaterial3D
 static var _blue_material: StandardMaterial3D
 
@@ -93,7 +94,7 @@ func enable_collisions() -> void:
 			shape.use_collision = !_collision_shapes_disabled[i]
 
 
-## Moves this block's collision objects onto the blueprint layer, so they can
+## Moves this block's collision objects onto the selectable layer, so they can
 ## still be picked with the mouse but no longer block anything.
 func set_blueprint_layer(enabled: bool) -> void:
 	if enabled == _blueprint_layer_enabled:
@@ -118,7 +119,7 @@ func set_blueprint_layer(enabled: bool) -> void:
 
 func _move_to_blueprint_layer(node: Node) -> void:
 	_original_collision_layers[node] = [node.collision_layer, node.collision_mask]
-	node.collision_layer = BLUEPRINT_COLLISION_LAYER
+	node.collision_layer = SELECTABLE_COLLISION_LAYER
 	node.collision_mask = 0
 
 

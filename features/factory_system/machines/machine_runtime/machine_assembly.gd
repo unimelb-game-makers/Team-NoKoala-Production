@@ -1,4 +1,3 @@
-@tool
 class_name MachineAssembly
 extends Node3D
 

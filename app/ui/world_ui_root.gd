@@ -5,6 +5,7 @@ extends Node
 @export var machine_ui: MachineUI
 @export var build_menu_button: Button
 @export var build_selection_panel: MachineBuildSelectionPanel
+@export var hotbar: Hotbar
 
 
 func _ready() -> void:
