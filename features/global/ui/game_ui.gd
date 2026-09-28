@@ -1,4 +1,4 @@
-class_name UIRoot
+class_name GameUI
 extends Node
 
 
@@ -8,9 +8,10 @@ var _context: WorldContext
 
 
 func _ready() -> void:
-	assert(dialogue_ui != null, "UIRoot requires a DialogueUI")
+	assert(dialogue_ui != null, "GameUI requires a DialogueUI")
 	dialogue_ui.hide()
 	dialogue_ui.finished.connect(_on_dialogue_finished)
+
 
 func bind_world(context: WorldContext) -> void:
 	if _context == context:
@@ -41,7 +42,6 @@ func is_dialogue_active() -> bool:
 
 func _on_dialogue_requested(entry: DialogueEntry) -> void:
 	start_dialogue(entry.dialogue, entry.cue)
-
 
 
 func _on_dialogue_finished() -> void:

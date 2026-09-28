@@ -65,10 +65,9 @@ func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
 		for _item_index in output.amount:
 			var next_index: int = next_output_indices.get(output.port_id, 0)
 			var output_cell := output_cells[next_index % output_cells.size()]
-			var factory_item := FactoryItemFactory.spawn_factory_item_at_cell(
+			var factory_item := factory_manager.item_spawner.spawn_factory_item_at_cell(
 				output.item,
 				output_cell,
-				factory_manager,
 			)
 			if factory_item == null:
 				_rollback_spawned_outputs(spawned_outputs, factory_manager)
