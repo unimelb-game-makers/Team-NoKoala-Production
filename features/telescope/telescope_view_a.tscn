@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://leg41jabuhbu"]
+
+[ext_resource type="Texture2D" uid="uid://hwr0rw4ksbw4" path="res://features/telescope/telescope-1.png" id="1_058ii"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_owhf0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_130qg"]
+
+[node name="TelescopeViewA" type="TextureRect" unique_id=1208084381]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_058ii")
+
+[node name="zone_1" type="Area2D" parent="." unique_id=1753363533]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_1" unique_id=1648575537]
+position = Vector2(242.00002, 943)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_8ts2w")
+
+[node name="zone_2" type="Area2D" parent="." unique_id=162612844]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_2" unique_id=45269305]
+position = Vector2(1000, 177)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_owhf0")
+
+[node name="zone_3" type="Area2D" parent="." unique_id=139949335]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_3" unique_id=742752613]
+position = Vector2(1589, 726.00006)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_130qg")
