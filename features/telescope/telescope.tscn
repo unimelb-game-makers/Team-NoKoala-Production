@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c3runqrrrmdm3" path="res://features/telescope/telescope.gd" id="1_pmcgo"]
 [ext_resource type="Texture2D" uid="uid://shfyk8gmv2ry" path="res://features/telescope/telescope.png" id="1_wfmd0"]
+[ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/telescope_overlay.tscn" id="3_3juyr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
 
@@ -16,3 +17,5 @@ texture = ExtResource("1_wfmd0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=292451193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
 shape = SubResource("BoxShape3D_8ts2w")
+
+[node name="TelescopeOverlay" parent="." unique_id=368901389 instance=ExtResource("3_3juyr")]

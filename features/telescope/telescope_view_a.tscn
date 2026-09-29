@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://leg41jabuhbu"]
 
 [ext_resource type="Texture2D" uid="uid://hwr0rw4ksbw4" path="res://features/telescope/telescope-1.png" id="1_058ii"]
+[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="1_jwwap"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
 
@@ -12,27 +13,56 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 768.0
+offset_bottom = 432.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("1_058ii")
+stretch_mode = 2
 
-[node name="zone_1" type="Area2D" parent="." unique_id=1753363533]
+[node name="zone_1" type="Control" parent="." unique_id=1010208217]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jwwap")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_1" unique_id=1648575537]
+[node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_1/zone" unique_id=1648575537]
 position = Vector2(242.00002, 943)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_8ts2w")
 
-[node name="zone_2" type="Area2D" parent="." unique_id=162612844]
+[node name="zone_2" type="Control" parent="." unique_id=1248492461]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jwwap")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_2" unique_id=45269305]
+[node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_2/zone" unique_id=45269305]
 position = Vector2(1000, 177)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_owhf0")
 
-[node name="zone_3" type="Area2D" parent="." unique_id=139949335]
+[node name="zone_3" type="Control" parent="." unique_id=907489777]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jwwap")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_3" unique_id=742752613]
+[node name="zone" type="Area2D" parent="zone_3" unique_id=139949335]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_3/zone" unique_id=742752613]
 position = Vector2(1589, 726.00006)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_130qg")
+
+[connection signal="mouse_entered" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_exited"]
+[connection signal="mouse_entered" from="zone_2/zone" to="zone_2" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_2/zone" to="zone_2" method="_on_zone_mouse_exited"]
+[connection signal="mouse_entered" from="zone_3/zone" to="zone_3" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_3/zone" to="zone_3" method="_on_zone_mouse_exited"]

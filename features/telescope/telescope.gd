@@ -1,7 +1,7 @@
 extends StaticBody3D
 
-@export var view_scene : PackedScene
+@export var view_scene : PackedScene = preload("res://features/telescope/telescope_view_a.tscn")
+@onready var overlay = $TelescopeOverlay
 
-func on_interact():
-	# open the scene
-	pass
+func _ready() -> void:
+	overlay.open(view_scene)
