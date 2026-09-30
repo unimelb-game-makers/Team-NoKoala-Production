@@ -90,6 +90,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton or not event.pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_RIGHT:
+		if _try_open_telescope():
+			return
 		_try_open_machine_ui()
 		return
 	if event.button_index != MOUSE_BUTTON_LEFT:
@@ -103,6 +105,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if factory_item != null:
 		_try_pick_up_item_at_mouse(factory_item)
 
+func _try_open_telescope() -> bool:
+	var telescope := _node_at_mouse() as Telescope
+	if telescope == null:
+		return false
+	
+	telescope.interact()
+	get_viewport().set_input_as_handled()
+	return true
 
 func _try_open_machine_ui() -> void:
 	var assembly := _assembly_from_node(_node_at_mouse())

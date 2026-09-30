@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://leg41jabuhbu"]
 
-[ext_resource type="Texture2D" uid="uid://hwr0rw4ksbw4" path="res://features/telescope/telescope-1.png" id="1_058ii"]
+[ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/hero-background.jpg" id="1_57ucm"]
 [ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="1_jwwap"]
+[ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/aoi.png" id="3_gykh2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
 
@@ -18,7 +19,7 @@ offset_bottom = 432.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_058ii")
+texture = ExtResource("1_57ucm")
 stretch_mode = 2
 
 [node name="zone_1" type="Control" parent="." unique_id=1010208217]
@@ -34,6 +35,12 @@ position = Vector2(242.00002, 943)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_8ts2w")
 
+[node name="Sprite2D" type="Sprite2D" parent="zone_1" unique_id=1702439718]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(243, 942.00006)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_gykh2")
+
 [node name="zone_2" type="Control" parent="." unique_id=1248492461]
 anchors_preset = 0
 offset_right = 40.0
@@ -47,6 +54,12 @@ position = Vector2(1000, 177)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_owhf0")
 
+[node name="Sprite2D" type="Sprite2D" parent="zone_2" unique_id=646361523]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(1000.00006, 178)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_gykh2")
+
 [node name="zone_3" type="Control" parent="." unique_id=907489777]
 anchors_preset = 0
 offset_right = 40.0
@@ -59,6 +72,12 @@ script = ExtResource("1_jwwap")
 position = Vector2(1589, 726.00006)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_130qg")
+
+[node name="Sprite2D" type="Sprite2D" parent="zone_3" unique_id=842019659]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(1588.0001, 727)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_gykh2")
 
 [connection signal="mouse_entered" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_entered"]
 [connection signal="mouse_exited" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_exited"]

@@ -1,3 +1,4 @@
+class_name TelescopeOverlay
 extends CanvasLayer
 
 @export var edge_margin: float = 120.0

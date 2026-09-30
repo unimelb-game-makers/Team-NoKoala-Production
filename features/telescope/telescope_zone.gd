@@ -1,11 +1,17 @@
 class_name TelescopeZone
 extends Control
 
+@onready var area_of_interest: Sprite2D = $Sprite2D
+
 var is_hovered: bool = false
+var is_unlocked: bool = false
 
 func try_unlock() -> void:
 	# TO DO: add signals here for progress unlocks
-	modulate = Color.GREEN
+	if is_unlocked:
+		return
+	is_unlocked = true
+	area_of_interest.modulate = Color.GREEN
 
 func is_mouse_over() -> bool:
 	return is_hovered
