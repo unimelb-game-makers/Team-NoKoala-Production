@@ -124,3 +124,4 @@ script = ExtResource("14_jp2bf")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="telescope" parent="." unique_id=66367921 instance=ExtResource("15_wk6gm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6922781, 0, 0)

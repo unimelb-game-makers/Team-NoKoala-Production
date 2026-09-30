@@ -58,7 +58,7 @@ func open(view_scene: PackedScene) -> void:
 
 func close() -> void:
 	hide()
-	get_tree().pasued = false
+	get_tree().paused = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
@@ -68,4 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if zone.is_mouse_over():
 				zone.try_unlock()
 				break
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel"):
+		close()
 		get_viewport().set_input_as_handled()
