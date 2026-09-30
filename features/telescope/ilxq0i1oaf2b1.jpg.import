@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6gfnuxoqokv4"
-path="res://.godot/imported/hero-background.jpg-0326aa9b288b8853cb05279b58693154.ctex"
+uid="uid://cqgp4eg3rrwct"
+path="res://.godot/imported/ilxq0i1oaf2b1.jpg-8ee76c403fea02dc39ae426e71ac8966.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/telescope/hero-background.jpg"
-dest_files=["res://.godot/imported/hero-background.jpg-0326aa9b288b8853cb05279b58693154.ctex"]
+source_file="res://features/telescope/ilxq0i1oaf2b1.jpg"
+dest_files=["res://.godot/imported/ilxq0i1oaf2b1.jpg-8ee76c403fea02dc39ae426e71ac8966.ctex"]
 
 [params]
 

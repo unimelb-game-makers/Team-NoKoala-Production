@@ -9,6 +9,7 @@ extends CanvasLayer
 var current_view: Control
 
 var _remainder: Vector2 = Vector2.ZERO
+const SCALE: float = 1.5
 
 func _process(delta: float) -> void:
 	if not visible:
@@ -38,23 +39,31 @@ func _scroll_by(amount: Vector2) -> void:
 	_remainder -= Vector2(step)
 	scroll.scroll_horizontal += step.x
 	scroll.scroll_vertical += step.y
-	
 
 func open(view_scene: PackedScene) -> void:
 	if current_view:
 		current_view.queue_free()
-	
 	current_view = view_scene.instantiate()
 	content.add_child(current_view)
-	
-	# set content to be as big as the png texture
+
+	var viewport_size := get_viewport().get_visible_rect().size
 	var tex_size: Vector2 = current_view.texture.get_size()
+
+	# scale so the image covers the screen with room to scroll
+	var scale_by = maxf(viewport_size.x / tex_size.x, viewport_size.y / tex_size.y) * SCALE
 	current_view.position = Vector2.ZERO
-	current_view.custom_minimum_size = tex_size
-	content.custom_minimum_size = tex_size
-	
+	current_view.scale = Vector2(scale_by, scale_by)
+	content.custom_minimum_size = tex_size * scale_by
+
 	show()
 	get_tree().paused = true
+
+	# center the image
+	await get_tree().process_frame
+	var extra = content.custom_minimum_size - scroll.size
+	scroll.scroll_horizontal = int(maxf(extra.x, 0.0) / 2.0)
+	scroll.scroll_vertical = int(maxf(extra.y, 0.0) / 2.0)
+	_remainder = Vector2.ZERO
 
 func close() -> void:
 	hide()
