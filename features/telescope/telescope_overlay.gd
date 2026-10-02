@@ -11,6 +11,9 @@ var current_view: Control
 var _remainder: Vector2 = Vector2.ZERO
 const SCALE: float = 1.5
 
+func _ready() -> void:
+	hide()
+
 func _process(delta: float) -> void:
 	if not visible:
 		return

@@ -106,7 +106,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_pick_up_item_at_mouse(factory_item)
 
 func _try_open_telescope() -> bool:
-	var telescope := _node_at_mouse() as TelescopeMachine
+	var telescope := _node_at_mouse() as Telescope
 	if telescope == null:
 		return false
 	
