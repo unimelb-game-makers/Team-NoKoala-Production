@@ -1,4 +1,4 @@
-class_name WorldUIRoot
+class_name WorldUI
 extends Node
 
 @export var faith_progress_bar: FaithProgressBar

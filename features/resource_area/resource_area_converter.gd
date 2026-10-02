@@ -1,6 +1,6 @@
 @tool
 extends Node
-class_name ResourceAreaManager
+class_name ResourceAreaConverter
 
 @export var grid: Grid
 @export var machine_root: Node
@@ -20,12 +20,6 @@ var machine_scene_by_mesh_name: Dictionary[StringName, Resource] = {
 	&"RA_IRON_ORE": IRON_ORE_SCENE,
 }
 
-func configure(
-	p_grid: Grid,
-	p_machine_root: Node,
-) -> void:
-	grid = p_grid
-	machine_root = p_machine_root
 
 ## Editor-only: goes through the editor's undo history so the whole batch can be undone.
 func _create_machines_from_grid() -> void:

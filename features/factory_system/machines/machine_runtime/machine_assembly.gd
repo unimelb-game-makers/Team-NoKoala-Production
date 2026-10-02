@@ -36,6 +36,7 @@ func configure(
 	faith_manager: FaithManager,
 	job_board: JobBoard,
 	reservation_manager: ReservationManager,
+	spirit_spawner: SpiritSpawner,
 	mobs_root: Node,
 	_grid: Grid
 ) -> void:
@@ -43,7 +44,7 @@ func configure(
 	assert(machine != null, "MachineAssembly requires a Machine")
 	_factory_manager = factory_manager
 	
-	machine.configure(faith_manager, mobs_root)
+	machine.configure(self, faith_manager, spirit_spawner, mobs_root)
 	if machine.job_provider != null:
 		machine.job_provider.configure(
 			factory_manager,
@@ -66,7 +67,7 @@ func configure(
 		machine.disable()
 		blueprint.enable()
 
-		blueprint.configure(faith_manager, mobs_root)
+		blueprint.configure(self, faith_manager, spirit_spawner, mobs_root)
 		if not blueprint.blueprint_constructed.is_connected(blueprint_constructed):
 			blueprint.blueprint_constructed.connect(blueprint_constructed)
 		if blueprint.job_provider != null:

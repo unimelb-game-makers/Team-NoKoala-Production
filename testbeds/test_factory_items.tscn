@@ -2,12 +2,10 @@
 
 [ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_l4pfl"]
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="1_sr4kc"]
+[ext_resource type="PackedScene" uid="uid://dv3umk5dytxh3" path="res://features/global/world_services.tscn" id="2_i8b8k"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="2_rmc3w"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_l4pfl"]
-[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="6_2nodk"]
-[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="6_spawn"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="6_wmhx0"]
-[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="8_manager"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ne2ia"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -32,11 +30,16 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_pr4p8")
 size = Vector2(1000, 1000)
 
-[node name="TestFactoryItem" type="Node3D" unique_id=194163689 node_paths=PackedStringArray("grid", "clock", "factory")]
+[node name="TestFactoryItem" type="Node3D" unique_id=194163689 node_paths=PackedStringArray("world_services", "grid", "spring_arm", "player", "items_root", "machines_root")]
 script = ExtResource("1_l4pfl")
+world_services = NodePath("WorldServices")
 grid = NodePath("GridMap")
-clock = NodePath("FixedClock")
-factory = NodePath("FactoryManager")
+spring_arm = NodePath("SpringArm3D")
+player = NodePath("Kaguya")
+items_root = NodePath("Items")
+machines_root = NodePath("Machines")
+
+[node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("2_i8b8k")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479210000]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
@@ -58,16 +61,6 @@ mesh = SubResource("PlaneMesh_hly03")
 
 [node name="GridMap" parent="." unique_id=1048428204 instance=ExtResource("2_rmc3w")]
 
-[node name="FactoryManager" type="Node" parent="." unique_id=1222756863 node_paths=PackedStringArray("grid", "fixed_clock")]
-script = ExtResource("8_manager")
-grid = NodePath("../GridMap")
-fixed_clock = NodePath("../FixedClock")
-
-[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1839979240 node_paths=PackedStringArray("grid", "factory_manager")]
-script = ExtResource("6_spawn")
-grid = NodePath("../GridMap")
-factory_manager = NodePath("../FactoryManager")
-
 [node name="SpringArm3D" parent="." unique_id=1371171314 node_paths=PackedStringArray("player") instance=ExtResource("6_wmhx0")]
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 2.465, 0)
 player = NodePath("../Kaguya")
@@ -76,8 +69,6 @@ player = NodePath("../Kaguya")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.165, 0)
 spring_arm = NodePath("../SpringArm3D")
 
-[node name="Processables" type="Node3D" parent="." unique_id=1675194942]
+[node name="Items" type="Node3D" parent="." unique_id=1675194942]
 
-[node name="FixedClock" type="Node" parent="." unique_id=884297419]
-script = ExtResource("6_2nodk")
-metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
+[node name="Machines" type="Node3D" parent="." unique_id=921749420]
