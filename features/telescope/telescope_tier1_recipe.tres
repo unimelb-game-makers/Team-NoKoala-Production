@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dnpwtxgv2wm5s"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_u53em"]
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="2_ovn2t"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_4clbj"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_yx8be"]
+
+[sub_resource type="Resource" id="Resource_rus5m"]
+script = ExtResource("2_ovn2t")
+metadata/_custom_type_script = "uid://h0igrbsvxkh0"
+
+[sub_resource type="Resource" id="Resource_43jfs"]
+script = ExtResource("1_u53em")
+item = SubResource("Resource_rus5m")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[resource]
+script = ExtResource("3_4clbj")
+recipe_id = &"telescope_tier1"
+display_name = "Tier 1"
+duration_seconds = 5.0
+inputs = Array[ExtResource("1_u53em")]([SubResource("Resource_43jfs")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

@@ -3,11 +3,57 @@
 [ext_resource type="Script" uid="uid://c3runqrrrmdm3" path="res://features/telescope/telescope.gd" id="1_pmcgo"]
 [ext_resource type="Texture2D" uid="uid://shfyk8gmv2ry" path="res://features/telescope/telescope.png" id="1_wfmd0"]
 [ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/telescope_overlay.tscn" id="3_3juyr"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="4_ovkha"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="5_ps3n2"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_fik6m"]
+[ext_resource type="Script" uid="uid://bvxbvyytysk3v" path="res://features/factory_system/machines/machine_runtime/ritual_machine.gd" id="7_lum82"]
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="8_4akha"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="9_i2vs8"]
+[ext_resource type="Resource" uid="uid://dnpwtxgv2wm5s" path="res://features/telescope/telescope_tier1_recipe.tres" id="10_hlg4g"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="10_qm4r3"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_fn7j0"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="14_lum82"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
 height = 1.46
 
-[node name="telescope" type="StaticBody3D" unique_id=378712394]
+[sub_resource type="Resource" id="Resource_lum82"]
+script = ExtResource("5_ps3n2")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1), Vector3i(1, 0, 0)])
+metadata/_custom_type_script = "uid://ygqk0vj2ah23"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_offao"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlg4g"]
+albedo_color = Color(0.1, 0.42, 1, 1)
+
+[sub_resource type="Resource" id="Resource_ps3n2"]
+script = ExtResource("8_4akha")
+role = 2
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_kqlvo"]
+script = ExtResource("8_4akha")
+port_id = &"input_1"
+local_cell_offset = Vector3i(0, 0, 1)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_fik6m"]
+script = ExtResource("8_4akha")
+port_id = &"work_1"
+role = 3
+local_cell_offset = Vector3i(1, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_ovkha"]
+script = ExtResource("10_qm4r3")
+cells = Array[ExtResource("8_4akha")]([SubResource("Resource_ps3n2"), SubResource("Resource_kqlvo"), SubResource("Resource_fik6m")])
+recipes = Array[ExtResource("9_i2vs8")]([ExtResource("10_hlg4g")])
+metadata/_custom_type_script = "uid://cxu884kmx2bg1"
+
+[node name="telescope" type="Node3D" unique_id=1551355452]
 script = ExtResource("1_pmcgo")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1148772474]
@@ -15,8 +61,50 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.6444027, 0)
 billboard = 1
 texture = ExtResource("1_wfmd0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=292451193]
+[node name="TelescopeOverlay" parent="." unique_id=368901389 instance=ExtResource("3_3juyr")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=568869453]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=292451193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
 shape = SubResource("CapsuleShape3D_3juyr")
 
-[node name="TelescopeOverlay" parent="." unique_id=368901389 instance=ExtResource("3_3juyr")]
+[node name="Block" type="Node3D" parent="." unique_id=670377321 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("4_ovkha")
+block_data = SubResource("Resource_lum82")
+transform_root = NodePath("..")
+
+[node name="Input1" type="CSGBox3D" parent="Block" unique_id=1019724141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_offao")
+
+[node name="Work1" type="CSGBox3D" parent="Block" unique_id=1074181598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_hlg4g")
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=1629270770 node_paths=PackedStringArray("block")]
+script = ExtResource("7_fik6m")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="Machine" type="Node" parent="." unique_id=261251624 node_paths=PackedStringArray("job_provider")]
+script = ExtResource("7_lum82")
+hide_inputs_while_processing = false
+definition = SubResource("Resource_ovkha")
+enabled_recipes = Array[ExtResource("9_i2vs8")]([ExtResource("10_hlg4g")])
+job_provider = NodePath("MachineJobProvider")
+
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=1800785118]
+script = ExtResource("13_fn7j0")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=1200839865 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("14_y7utk")
+machine = NodePath("..")
+block = NodePath("../../Block")
+
+[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("14_lum82")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+machine = NodePath("../Machine")
