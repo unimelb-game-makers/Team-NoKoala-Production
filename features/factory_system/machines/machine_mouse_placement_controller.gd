@@ -71,11 +71,16 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			_place_machine()
+			_place_machine(event.shift_pressed)
 
-func _place_machine() -> void:
-	if confirm_placement(cell_at_mouse_position()):
+## Holding shift keeps place mode on so several machines can be placed in a row.
+func _place_machine(keep_placing: bool) -> void:
+	if not confirm_placement(cell_at_mouse_position()):
+		return
+	if keep_placing:
 		begin_placement()
+	else:
+		place_mode = false
 
 func cell_at_mouse_position() -> Vector3i:
 	var result := _raycast_ground()
