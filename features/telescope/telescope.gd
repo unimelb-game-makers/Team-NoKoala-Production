@@ -10,18 +10,24 @@ var in_discovery : bool = false
 
 func _ready() -> void:
 	if telescope_machine != null:
-		telescope_machine.repair_completed.connect(_advance_stage)
+		telescope_machine.repair_completed.connect(_enter_discovery)
 		for view in view_scenes:
 			view.unlocked_all_zones.connect(_on_zones_unlocked)
 
 func interact() -> void:
-	if overlay == null or current_stage == 0:
+	if overlay == null or not in_discovery:
 		return
+
 	overlay.show()
 	overlay.open(view_scenes[current_stage - 1])
+	
+func _enter_discovery() -> void:
+	in_discovery = true
 
 func _advance_stage() -> void:
 	current_stage = mini(current_stage + 1, view_scenes.size()) # can't go past last stage
 
 func _on_zones_unlocked() -> void:
-	pass
+	in_discovery = false
+	telescope_machine.resume()
+	_advance_stage()
