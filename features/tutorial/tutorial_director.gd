@@ -13,6 +13,7 @@ var _gate: FeatureGate
 var _index := -1
 var _step: TutorialStep
 var _condition: TutorialCondition
+var _back_condition: TutorialCondition
 
 
 func configure(
@@ -21,6 +22,7 @@ func configure(
 	dialogue_coordinator: DialogueCoordinator,
 	player: Player,
 	camera: CameraController,
+	placement: MachinePlacementController,
 ) -> void:
 	_gate = gate
 	_ctx.gate = gate
@@ -28,6 +30,7 @@ func configure(
 	_ctx.dialogue_coordinator = dialogue_coordinator
 	_ctx.player = player
 	_ctx.camera = camera
+	_ctx.placement = placement
 
 
 func _ready() -> void:
@@ -75,7 +78,7 @@ func skip() -> void:
 		_end(true)
 
 
-func _enter_step(index: int) -> void:
+func _enter_step(index: int, forward := true) -> void:
 	if index >= sequence.steps.size():
 		_end(false)
 		return
@@ -84,7 +87,7 @@ func _enter_step(index: int) -> void:
 	_gate.restrict_to(_step.allowed_features)
 	step_started.emit(_step, index)
 
-	if not _step.dialogue_cue.is_empty() and _ctx.dialogue_coordinator != null:
+	if forward and not _step.dialogue_cue.is_empty() and _ctx.dialogue_coordinator != null:
 		_ctx.dialogue_coordinator.request_by_cue(_step.dialogue_cue)
 
 	if _step.complete_when == null:
@@ -94,6 +97,12 @@ func _enter_step(index: int) -> void:
 	_condition.progress_changed.connect(_on_progress_changed)
 	_condition.satisfied.connect(_advance.bind(index), CONNECT_DEFERRED | CONNECT_ONE_SHOT)
 	_condition.start(_ctx)
+	if _condition == null or index != _index:
+		return # satisfied synchronously and already moved on
+	_back_condition = _step.back_when
+	if _back_condition != null:
+		_back_condition.satisfied.connect(_go_back.bind(index), CONNECT_DEFERRED | CONNECT_ONE_SHOT)
+		_back_condition.start(_ctx)
 
 
 func _advance(from_index: int) -> void:
@@ -101,6 +110,13 @@ func _advance(from_index: int) -> void:
 		return
 	_clear_condition()
 	_enter_step(from_index + 1)
+
+
+func _go_back(from_index: int) -> void:
+	if from_index != _index or not is_running() or from_index == 0:
+		return
+	_clear_condition()
+	_enter_step(from_index - 1, false)
 
 
 func _on_progress_changed(ratio: float) -> void:
@@ -112,10 +128,18 @@ func _clear_condition() -> void:
 		return
 	_condition.stop()
 	_condition.progress_changed.disconnect(_on_progress_changed)
-	for connection in _condition.satisfied.get_connections():
-		if connection.callable.get_object() == self:
-			_condition.satisfied.disconnect(connection.callable)
+	_disconnect_from_self(_condition)
 	_condition = null
+	if _back_condition != null:
+		_back_condition.stop()
+		_disconnect_from_self(_back_condition)
+		_back_condition = null
+
+
+func _disconnect_from_self(condition: TutorialCondition) -> void:
+	for connection in condition.satisfied.get_connections():
+		if connection.callable.get_object() == self:
+			condition.satisfied.disconnect(connection.callable)
 
 
 func _end(skipped: bool) -> void:

@@ -54,6 +54,7 @@ func _on_step_started(step: TutorialStep, _index: int) -> void:
 	progress_bar.value = 0.0
 	progress_bar.visible = step.complete_when != null and step.complete_when.has_progress()
 	_target = null
+	highlight.hide()
 	if not step.highlight_group.is_empty():
 		_target = get_tree().get_first_node_in_group(step.highlight_group) as Control
 		if _target == null:

@@ -12,3 +12,4 @@ var factory: FactoryManager
 var dialogue_coordinator: DialogueCoordinator
 var player: Player
 var camera: CameraController
+var placement: MachinePlacementController

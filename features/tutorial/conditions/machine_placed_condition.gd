@@ -1,8 +1,8 @@
 class_name MachinePlacedCondition
 extends TutorialCondition
 
-## Satisfied once [member count] machines are registered. With a definition set, only
-## machines of that definition count. Machines that already exist count too.
+## Satisfied once [member count] machines are registered after the step starts. With a
+## definition set, only machines of that definition count.
 @export var machine_definition: MachineDefinition
 @export var count := 1
 
@@ -14,11 +14,6 @@ func start(ctx: TutorialContext) -> void:
 	_ctx = ctx
 	_placed = 0
 	ctx.factory.machine_registered.connect(_on_machine_registered)
-	for machine in ctx.factory.get_machines():
-		_count(machine)
-		if _placed >= count:
-			satisfied.emit()
-			return
 
 
 func stop() -> void:

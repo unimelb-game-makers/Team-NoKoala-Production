@@ -82,6 +82,7 @@ func configure_dependencies() -> void:
 		world_services.dialogue_coordinator,
 		player,
 		spring_arm,
+		world_services.machine_placement_controller,
 	)
 
 	if world_ui != null:

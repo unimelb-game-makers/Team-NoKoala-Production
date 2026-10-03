@@ -89,6 +89,7 @@ func configure_dependencies() -> void:
 		world_services.dialogue_coordinator,
 		player,
 		spring_arm,
+		world_services.machine_placement_controller,
 	)
 	for child in mobs_root.get_children():
 		if child is Npc:

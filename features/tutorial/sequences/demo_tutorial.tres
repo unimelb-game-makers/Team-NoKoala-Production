@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://features/tutorial/tutorial_step.gd" id="2_step"]
 [ext_resource type="Script" path="res://features/tutorial/conditions/distance_moved_condition.gd" id="3_distance"]
 [ext_resource type="Script" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="5_placed"]
+[ext_resource type="Script" path="res://features/tutorial/conditions/control_visible_condition.gd" id="10_visible"]
+[ext_resource type="Script" path="res://features/tutorial/conditions/place_mode_condition.gd" id="11_place"]
 [ext_resource type="Script" path="res://features/tutorial/conditions/camera_zoomed_condition.gd" id="6_zoom"]
 [ext_resource type="Script" path="res://features/tutorial/conditions/camera_rotated_condition.gd" id="7_rotate"]
 [ext_resource type="Script" path="res://features/tutorial/conditions/all_of_condition.gd" id="8_all"]
@@ -39,17 +41,50 @@ objective_text = "Scroll to zoom, and hold the middle mouse button and drag to r
 allowed_features = Array[int]([0, 2])
 complete_when = SubResource("zoom_and_rotate")
 
+[sub_resource type="Resource" id="panel_open"]
+script = ExtResource("10_visible")
+control_group = &"tutorial_build_panel"
+
+[sub_resource type="Resource" id="step_open_menu"]
+script = ExtResource("2_step")
+id = &"open_menu"
+objective_text = "Open the Machines menu."
+allowed_features = Array[int]([0, 2, 8])
+highlight_group = &"tutorial_build_menu_button"
+complete_when = SubResource("panel_open")
+
+[sub_resource type="Resource" id="place_mode_on"]
+script = ExtResource("11_place")
+
+[sub_resource type="Resource" id="panel_closed"]
+script = ExtResource("10_visible")
+control_group = &"tutorial_build_panel"
+visible = false
+
+[sub_resource type="Resource" id="step_press_build"]
+script = ExtResource("2_step")
+id = &"press_build"
+objective_text = "Pick a machine and press Build."
+allowed_features = Array[int]([0, 2, 8, 9])
+highlight_group = &"tutorial_build_button"
+complete_when = SubResource("place_mode_on")
+back_when = SubResource("panel_closed")
+
 [sub_resource type="Resource" id="placed_any"]
 script = ExtResource("5_placed")
 
-[sub_resource type="Resource" id="step_build"]
+[sub_resource type="Resource" id="place_mode_off"]
+script = ExtResource("11_place")
+enabled = false
+
+[sub_resource type="Resource" id="step_place"]
 script = ExtResource("2_step")
-id = &"build"
-objective_text = "Open the Machines menu and place a machine."
-allowed_features = Array[int]([0, 2, 8, 9])
-highlight_group = &"tutorial_build_menu_button"
+id = &"place_machine"
+objective_text = "Click on the ground to place the machine."
+allowed_features = Array[int]([0, 2, 9])
 complete_when = SubResource("placed_any")
+back_when = SubResource("place_mode_off")
 
 [resource]
 script = ExtResource("1_seq")
-steps = Array[ExtResource("2_step")]([SubResource("step_move"), SubResource("step_camera"), SubResource("step_build")])
+steps = Array[ExtResource("2_step")]([SubResource("step_move"), SubResource("step_camera"), SubResource("step_open_menu"), SubResource("step_press_build"), SubResource("step_place")])

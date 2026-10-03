@@ -13,3 +13,6 @@ extends Resource
 @export var highlight_group: StringName
 ## Finishes the step. A step without one completes immediately.
 @export var complete_when: TutorialCondition
+## Optional. When met, the tutorial returns to the previous step. It should not already
+## hold when this step is entered, otherwise the tutorial bounces back immediately.
+@export var back_when: TutorialCondition
