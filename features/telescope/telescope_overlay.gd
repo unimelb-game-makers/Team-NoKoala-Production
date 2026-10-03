@@ -6,7 +6,7 @@ extends CanvasLayer
 
 @onready var content: Control = $ScrollContainer/Content
 @onready var scroll: ScrollContainer = $ScrollContainer
-var current_view: Control
+var current_view: TelescopeView
 
 var _remainder: Vector2 = Vector2.ZERO
 const SCALE: float = 1.5
@@ -43,12 +43,15 @@ func _scroll_by(amount: Vector2) -> void:
 	scroll.scroll_horizontal += step.x
 	scroll.scroll_vertical += step.y
 
-func open(view_scene: PackedScene) -> void:
-	if current_view:
-		current_view.queue_free()
-	current_view = view_scene.instantiate()
-	content.add_child(current_view)
-
+func open(view: TelescopeView) -> void:
+	if current_view != null:
+		current_view.hide()
+		
+	current_view = view
+	if view.get_parent() != content:
+		view.reparent(content, false)
+	view.show()
+	
 	var viewport_size := get_viewport().get_visible_rect().size
 	var tex_size: Vector2 = current_view.texture.get_size()
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/telescope_1.jpg" id="1_57ucm"]
 [ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="1_jwwap"]
+[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/telescope_view.gd" id="2_gykh2"]
 [ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/aoi.png" id="3_gykh2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
@@ -10,7 +11,7 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_130qg"]
 
-[node name="TelescopeViewA" type="TextureRect" unique_id=1208084381]
+[node name="TelescopeViewA" type="TextureRect" unique_id=1208084381 node_paths=PackedStringArray("zones")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,6 +22,8 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_57ucm")
 stretch_mode = 2
+script = ExtResource("2_gykh2")
+zones = [NodePath("zone_1"), NodePath("zone_2"), NodePath("zone_3")]
 
 [node name="zone_1" type="Control" parent="." unique_id=1010208217]
 anchors_preset = 0
