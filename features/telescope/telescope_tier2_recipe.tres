@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dl262qrqucae7"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_8uudv"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_2w7ix"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_lxlnc"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_qnl3k"]
+
+[sub_resource type="Resource" id="Resource_8uudv"]
+script = ExtResource("1_8uudv")
+port_id = &"input_1"
+item = ExtResource("2_2w7ix")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_uwe65"]
+script = ExtResource("4_qnl3k")
+port_id = &"work_1"
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("3_lxlnc")
+recipe_id = &"telescope_tier2"
+display_name = "Tier 2"
+duration_seconds = 2.0
+inputs = Array[ExtResource("1_8uudv")]([SubResource("Resource_8uudv")])
+work_requirements = Array[ExtResource("4_qnl3k")]([SubResource("Resource_uwe65")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dnpwtxgv2wm5s"]
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://yps3nfbdsk8u"]
 
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_u53em"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_u53em"]

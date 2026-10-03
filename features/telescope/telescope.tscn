@@ -11,10 +11,13 @@
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_fik6m"]
 [ext_resource type="Resource" uid="uid://d00op5umm6dl3" path="res://features/telescope/telescope_machine_def.tres" id="8_hlg4g"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="9_i2vs8"]
-[ext_resource type="Resource" uid="uid://dnpwtxgv2wm5s" path="res://features/telescope/telescope_tier1_recipe.tres" id="10_hlg4g"]
+[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/telescope_tier1_recipe.tres" id="10_hlg4g"]
+[ext_resource type="Resource" uid="uid://dl262qrqucae7" path="res://features/telescope/telescope_tier2_recipe.tres" id="11_lo7ii"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_fn7j0"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="14_lum82"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
+[ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/telescope_view_a.tscn" id="16_qm4r3"]
+[ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/telescope_view_b.tscn" id="17_lo7ii"]
 
 [sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
@@ -69,8 +72,9 @@ block = NodePath("..")
 
 [node name="Machine" type="Node" parent="." unique_id=261251624]
 script = ExtResource("7_6j3a8")
+recipes = Array[ExtResource("9_i2vs8")]([ExtResource("10_hlg4g"), ExtResource("11_lo7ii")])
 definition = ExtResource("8_hlg4g")
-enabled_recipes = Array[ExtResource("9_i2vs8")]([ExtResource("10_hlg4g")])
+enabled_recipes = Array[ExtResource("9_i2vs8")]([ExtResource("10_hlg4g"), ExtResource("11_lo7ii")])
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=1800785118]
 script = ExtResource("13_fn7j0")
@@ -85,8 +89,10 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 machine = NodePath("../Machine")
 
-[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("overlay")]
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay")]
 script = ExtResource("1_pmcgo")
+view_scenes = Array[PackedScene]([ExtResource("16_qm4r3"), ExtResource("17_lo7ii")])
+telescope_machine = NodePath("../Machine")
 overlay = NodePath("../TelescopeOverlay")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
