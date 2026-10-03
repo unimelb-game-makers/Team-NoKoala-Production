@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ch01oq03ku680"]
+
+[ext_resource type="Script" uid="uid://csn7l12bp2kf0" path="res://features/factory_system/machines/ui/item_selection_panel.gd" id="1_edh51"]
+
+[node name="ItemSelectionPanel" type="VBoxContainer" unique_id=212163548 node_paths=PackedStringArray("grid")]
+theme_override_constants/separation = 8
+script = ExtResource("1_edh51")
+grid = NodePath("Recipes/Grid")
+tab_title = "Allowed Items"
+
+[node name="Recipes" type="ScrollContainer" parent="." unique_id=1374405955]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Recipes" unique_id=1577137970]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 5

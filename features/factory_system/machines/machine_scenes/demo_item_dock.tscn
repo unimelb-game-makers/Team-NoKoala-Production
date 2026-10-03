@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dgxt1cjgru6dm"]
+
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_kv3sn"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="3_1kp42"]
+[ext_resource type="PackedScene" uid="uid://ch01oq03ku680" path="res://features/factory_system/machines/ui/item_selection_panel.tscn" id="3_yi7qd"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="4_b3ns1"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_21mxi"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_tm3vv"]
+[ext_resource type="Resource" uid="uid://dfchswr13gf2u" path="res://features/factory_system/machines/machine_definitions/demo_item_dock.tres" id="9_kv3sn"]
+[ext_resource type="Script" uid="uid://t7ci5f2fmhb3" path="res://features/factory_system/machines/machine_runtime/item_dock.gd" id="9_sygwa"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="12_5tdjk"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="13_nd3f2"]
+
+[sub_resource type="Resource" id="Resource_gn37f"]
+resource_local_to_scene = true
+script = ExtResource("4_b3ns1")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0)])
+overlap_cells = Array[Vector3i]([Vector3i(1, 0, 0)])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
+albedo_color = Color(1, 0.19, 0.19, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+
+[node name="DemoItemDock" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
+script = ExtResource("1_kv3sn")
+block = NodePath("Block")
+machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("3_yi7qd")])
+
+[node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("3_1kp42")
+block_data = SubResource("Resource_gn37f")
+transform_root = NodePath("..")
+
+[node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_q0umq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1187394682]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=926086277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_structure")
+
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
+script = ExtResource("6_21mxi")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
+script = ExtResource("7_tm3vv")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("9_sygwa")
+definition = ExtResource("9_kv3sn")
+job_provider = NodePath("MachineJobProvider")
+faith_drain_rate = 60.0
+debug_active_indicator = NodePath("../DebugLight")
+
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("12_5tdjk")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("13_nd3f2")
+machine = NodePath("..")
+block = NodePath("../../Block")
+
+[node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
+visible = false
+light_indirect_energy = 0.0
+spot_range = 2.0
+spot_attenuation = 0.0
+spot_angle = 15.0
