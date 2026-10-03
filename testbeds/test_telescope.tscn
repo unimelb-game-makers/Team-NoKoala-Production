@@ -39,7 +39,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "hotbar")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machines_root", "hotbar")]
 script = ExtResource("1_7ip8x")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -51,6 +51,7 @@ reservations = NodePath("Services/ReservationManager")
 item_spawner = NodePath("FactoryItemSpawnController")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
+machines_root = NodePath("Machines")
 hotbar = NodePath("Hotbar")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
@@ -123,5 +124,7 @@ factory_manager = NodePath("../Services/FactoryManager")
 script = ExtResource("14_jp2bf")
 metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
-[node name="telescope" parent="." unique_id=66367921 instance=ExtResource("15_wk6gm")]
+[node name="Machines" type="Node3D" parent="." unique_id=2126576772]
+
+[node name="telescope" parent="Machines" unique_id=66367921 instance=ExtResource("15_wk6gm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0.5)

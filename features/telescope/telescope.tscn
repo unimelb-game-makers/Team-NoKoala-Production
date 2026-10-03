@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://brotbmlwb1jik"]
 
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_lum82"]
 [ext_resource type="Script" uid="uid://c3runqrrrmdm3" path="res://features/telescope/telescope.gd" id="1_pmcgo"]
 [ext_resource type="Texture2D" uid="uid://shfyk8gmv2ry" path="res://features/telescope/telescope.png" id="1_wfmd0"]
 [ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/telescope_overlay.tscn" id="3_3juyr"]
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="4_ovkha"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="5_ps3n2"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_kqlvo"]
 [ext_resource type="Script" uid="uid://cxc8vn1ffre8h" path="res://features/telescope/telescope_machine.gd" id="7_6j3a8"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_fik6m"]
 [ext_resource type="Resource" uid="uid://d00op5umm6dl3" path="res://features/telescope/telescope_machine_def.tres" id="8_hlg4g"]
@@ -14,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="14_lum82"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
 
-[sub_resource type="Resource" id="Resource_lum82"]
+[sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1), Vector3i(1, 0, 0)])
 root_cell = Vector3i(-3, 0, 0)
@@ -29,8 +31,10 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
 height = 1.46
 
-[node name="telescope" type="StaticBody3D" unique_id=516035500]
-script = ExtResource("1_pmcgo")
+[node name="telescope" type="Node3D" unique_id=491409680 node_paths=PackedStringArray("block", "machine")]
+script = ExtResource("1_lum82")
+block = NodePath("Block")
+machine = NodePath("Machine")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1148772474]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.6444027, 0)
@@ -41,8 +45,8 @@ texture = ExtResource("1_wfmd0")
 
 [node name="Block" type="Node3D" parent="." unique_id=670377321 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("4_ovkha")
-block_data = SubResource("Resource_lum82")
-transform_root = NodePath("")
+block_data = SubResource("Resource_4akha")
+transform_root = NodePath("..")
 
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1019724141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
@@ -58,6 +62,10 @@ material = SubResource("StandardMaterial3D_hlg4g")
 script = ExtResource("7_fik6m")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1958023883 node_paths=PackedStringArray("block")]
+script = ExtResource("6_kqlvo")
+block = NodePath("..")
 
 [node name="Machine" type="Node" parent="." unique_id=261251624]
 script = ExtResource("7_6j3a8")
@@ -77,6 +85,10 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 machine = NodePath("../Machine")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=292451193]
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("overlay")]
+script = ExtResource("1_pmcgo")
+overlay = NodePath("../TelescopeOverlay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
 shape = SubResource("CapsuleShape3D_3juyr")
