@@ -89,12 +89,20 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 machine = NodePath("../Machine")
 
-[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay")]
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("view_scenes", "telescope_machine", "overlay")]
 script = ExtResource("1_pmcgo")
-view_scenes = Array[PackedScene]([ExtResource("16_qm4r3"), ExtResource("17_lo7ii")])
+view_scenes = [NodePath("../TelescopeViews/TelescopeViewA"), NodePath("../TelescopeViews/TelescopeViewB")]
 telescope_machine = NodePath("../Machine")
 overlay = NodePath("../TelescopeOverlay")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
 shape = SubResource("CapsuleShape3D_3juyr")
+
+[node name="TelescopeViews" type="Node3D" parent="." unique_id=930598009]
+
+[node name="TelescopeViewA" parent="TelescopeViews" unique_id=1208084381 instance=ExtResource("16_qm4r3")]
+visible = false
+
+[node name="TelescopeViewB" parent="TelescopeViews" unique_id=703560994 instance=ExtResource("17_lo7ii")]
+visible = false
