@@ -9,6 +9,7 @@
 script = ExtResource("1_8uudv")
 port_id = &"input_1"
 item = ExtResource("2_2w7ix")
+amount = 2
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_uwe65"]

@@ -25,9 +25,5 @@ func _on_recipe_completed(
 func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if definition == null or repair_stage >= recipes.size():
 		return
-	_try_start_recipe(recipes[repair_stage], factory_manager)
-	if _processing_recipe != null:
-		print("started: ", _processing_recipe.recipe_id,
-			" workable: ", _check_workable(_processing_recipe))
-		for req in _processing_recipe.work_requirements:
-			print("  needs port=", req.port_id, " type=", req.work_type)
+	var recipe := recipes[repair_stage]
+	_try_start_recipe(recipe, factory_manager)
