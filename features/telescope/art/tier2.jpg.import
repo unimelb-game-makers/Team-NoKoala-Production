@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxn33gtdl5lm3"
-path="res://.godot/imported/telescope_1.jpg-6e86d4a59aa951bd664a2dd693778923.ctex"
+uid="uid://djpg7hssxxecq"
+path="res://.godot/imported/tier2.jpg-40bff493b33ed34750ab69ab7eadfaef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/telescope/telescope_1.jpg"
-dest_files=["res://.godot/imported/telescope_1.jpg-6e86d4a59aa951bd664a2dd693778923.ctex"]
+source_file="res://features/telescope/art/tier2.jpg"
+dest_files=["res://.godot/imported/tier2.jpg-40bff493b33ed34750ab69ab7eadfaef.ctex"]
 
 [params]
 

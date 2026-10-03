@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://leg41jabuhbu"]
 
-[ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/telescope_1.jpg" id="1_57ucm"]
-[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="1_jwwap"]
-[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/telescope_view.gd" id="2_gykh2"]
-[ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/aoi.png" id="3_gykh2"]
+[ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="1_t8t6y"]
+[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/telescope_view.gd" id="2_qlsor"]
+[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="3_pg33w"]
+[ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/art/aoi.png" id="4_t8t6y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
 
@@ -20,16 +20,16 @@ offset_bottom = 432.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_57ucm")
+texture = ExtResource("1_t8t6y")
 stretch_mode = 2
-script = ExtResource("2_gykh2")
+script = ExtResource("2_qlsor")
 zones = [NodePath("zone_1"), NodePath("zone_2"), NodePath("zone_3")]
 
 [node name="zone_1" type="Control" parent="." unique_id=1010208217]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_jwwap")
+script = ExtResource("3_pg33w")
 
 [node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
 
@@ -42,13 +42,13 @@ shape = SubResource("CircleShape2D_8ts2w")
 modulate = Color(1, 0, 0, 1)
 position = Vector2(243, 942.00006)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_gykh2")
+texture = ExtResource("4_t8t6y")
 
 [node name="zone_2" type="Control" parent="." unique_id=1248492461]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_jwwap")
+script = ExtResource("3_pg33w")
 
 [node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
 
@@ -61,13 +61,13 @@ shape = SubResource("CircleShape2D_owhf0")
 modulate = Color(1, 0, 0, 1)
 position = Vector2(1000.00006, 178)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_gykh2")
+texture = ExtResource("4_t8t6y")
 
 [node name="zone_3" type="Control" parent="." unique_id=907489777]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_jwwap")
+script = ExtResource("3_pg33w")
 
 [node name="zone" type="Area2D" parent="zone_3" unique_id=139949335]
 
@@ -80,7 +80,7 @@ shape = SubResource("CircleShape2D_130qg")
 modulate = Color(1, 0, 0, 1)
 position = Vector2(1588.0001, 727)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_gykh2")
+texture = ExtResource("4_t8t6y")
 
 [connection signal="mouse_entered" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_entered"]
 [connection signal="mouse_exited" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_exited"]

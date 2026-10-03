@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_e6qmh"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_4j271"]
-[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/telescope_tier1_recipe.tres" id="3_sigys"]
+[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_tier1_recipe.tres" id="3_sigys"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="4_hyw0b"]
 
 [sub_resource type="Resource" id="Resource_ps3n2"]
