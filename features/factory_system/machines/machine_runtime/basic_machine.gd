@@ -147,7 +147,7 @@ func _try_start_recipe(
 ) -> bool:
 	var required_input_count := _get_required_input_count(recipe)
 	var candidates := _find_input_items(recipe, factory_manager)
-	if candidates.size() != required_input_count:
+	if candidates.is_empty() and required_input_count > 0:
 		return false
 
 	var claimed_items: Array[FactoryItem] = []
@@ -312,6 +312,7 @@ func _find_input_items(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> Array[FactoryItem]:
+	
 	var result: Array[FactoryItem] = []
 	var selected_items: Dictionary[FactoryItem, bool] = {}
 
@@ -341,15 +342,16 @@ func _find_input_items(
 				
 				result.append(factory_item)
 				selected_items[factory_item] = true
-				amount_remaining -= 1
-				if amount_remaining == 0:
+				amount_remaining -= factory_item.stack.quantity
+				if amount_remaining <= 0:
 					break
 
-			if amount_remaining == 0:
+			if amount_remaining <= 0:
 				break
 
-		if amount_remaining != 0:
+		if amount_remaining > 0:
 			return []
+	
 
 	return result
 
