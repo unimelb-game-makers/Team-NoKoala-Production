@@ -20,9 +20,9 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	_factory_manager = factory_manager
 	_update_job_requests()
 
-	#start processing if currently has no task running
+	# if no recipe, must be idle
 	if _processing_recipe == null:
-		_try_start_processing(factory_manager)
+		unregister_active()
 		return
 
 
@@ -56,10 +56,7 @@ func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 		unregister_active()
 		return
 	
-	# immediately try again, if not then it must be idle
-	_try_start_processing(factory_manager)
-	if _processing_recipe == null:
-		unregister_active()
+	unregister_active()
 
 
 
@@ -157,16 +154,32 @@ func _try_start_recipe(
 	var original_positions: Dictionary[FactoryItem, Vector3] = {}
 	for factory_item in candidates:
 		var original_position: Vector3 = factory_item.get(&"global_position")
-		if not factory_item.try_claim(self):
-			_restore_claimed_inputs(
-				claimed_items,
-				original_positions,
-				factory_manager,
-			)
-			return false
-
-		claimed_items.append(factory_item)
-		original_positions[factory_item] = original_position
+		var recipe_quantity = _get_required_input_count(recipe)
+		
+		# try and split
+		if factory_item.stack.quantity > recipe_quantity:
+			var split_stack = factory_item.stack.split(recipe_quantity)
+			var claimed_item = FactoryItemFactory.spawn_factory_item(
+				factory_item.stack.item_definition, 
+				factory_item.transform.origin, 
+				factory_item.factory_manager,
+				split_stack, true)
+			
+			if not claimed_item.try_claim(self):
+				factory_item.stack.quantity += split_stack.quantity
+				claimed_item.queue_free()
+				_restore_claimed_inputs(claimed_items, original_positions, factory_manager)
+				return false
+				
+			claimed_items.append(claimed_item)
+			original_positions[claimed_item] = original_position
+		else:
+			# doesn't need to be split
+			if not factory_item.try_claim(self):
+				_restore_claimed_inputs(claimed_items, original_positions, factory_manager)
+				return false
+			claimed_items.append(factory_item)
+			original_positions[factory_item] = original_position
 
 	for factory_item in claimed_items:
 		factory_item.set_in_process_hidden(hide_inputs_while_processing)
@@ -209,7 +222,7 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 	if (
 		is_shut_down
 		or capability == null
-		or _processing_recipe == null
+		#or _processing_recipe == null
 		or get_processing_progress() >= 1.0
 	):
 		return false
@@ -220,6 +233,12 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 		or _occupied_work_cells.has(port_id)
 		or _occupied_work_cells.values().has(capability)
 	):
+		return false
+	
+	if _processing_recipe == null:
+		_try_start_processing(_factory_manager)
+	
+	if _processing_recipe == null:
 		return false
 
 	for requirement in _processing_recipe.work_requirements:
@@ -232,7 +251,7 @@ func try_working_at_port(coord: Vector3i, capability: WorkerCapability) -> bool:
 
 		_occupied_work_cells[port_id] = capability
 		return true
-
+	
 	return false
 
 
@@ -319,7 +338,7 @@ func _find_input_items(
 					or not factory_item.is_available_for_processing()
 				):
 					continue
-
+				
 				result.append(factory_item)
 				selected_items[factory_item] = true
 				amount_remaining -= 1
@@ -333,7 +352,6 @@ func _find_input_items(
 			return []
 
 	return result
-
 
 func _get_required_input_count(recipe: ProductionRecipe) -> int:
 	var result := 0
