@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="12_81gg7"]
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="13_sy5ev"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="14_jp2bf"]
-[ext_resource type="PackedScene" uid="uid://brotbmlwb1jik" path="res://features/telescope/telescope.tscn" id="15_wk6gm"]
+[ext_resource type="PackedScene" uid="uid://brotbmlwb1jik" path="res://features/telescope/telescope_interactable.tscn" id="15_wk6gm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
