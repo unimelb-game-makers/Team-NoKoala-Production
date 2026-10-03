@@ -14,6 +14,7 @@ var _selected_consumer: JobConsumer
 var _context_menu: ContextMenu
 var _selection_box: SelectionBox
 var _machine_ui: MachineUI
+var _gate: FeatureGate
 
 
 func configure(
@@ -21,11 +22,13 @@ func configure(
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
 	machine_ui: MachineUI,
+	gate: FeatureGate = null,
 ) -> void:
 	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_machine_ui = machine_ui
+	_bind_gate(gate)
 	_bind_placement_controller()
 
 
@@ -45,7 +48,23 @@ func _ready() -> void:
 	selection_layer.add_child(_selection_box)
 
 
+func _bind_gate(gate: FeatureGate) -> void:
+	if _gate != null and _gate.changed.is_connected(_on_gate_changed):
+		_gate.changed.disconnect(_on_gate_changed)
+	_gate = gate
+	if _gate != null:
+		_gate.changed.connect(_on_gate_changed)
+
+
+func _on_gate_changed() -> void:
+	if not FeatureGate.check(_gate, GameFeature.Id.NPC_COMMAND):
+		_clear_consumer_selection()
+		_context_menu.close()
+
+
 func _try_handle_npc_interaction(event: InputEvent) -> bool:
+	if not FeatureGate.check(_gate, GameFeature.Id.NPC_COMMAND):
+		return false
 	if _selected_consumer != null and not is_instance_valid(_selected_consumer):
 		_clear_consumer_selection()
 	if event.is_action_pressed("ui_cancel"):
@@ -91,9 +110,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton or not event.pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_RIGHT:
-		_try_open_machine_ui()
+		if FeatureGate.check(_gate, GameFeature.Id.MACHINE_UI):
+			_try_open_machine_ui()
 		return
 	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if not FeatureGate.check(_gate, GameFeature.Id.ITEM_PICKUP):
 		return
 
 	# LMB -> pick up logic

@@ -7,15 +7,23 @@ extends Node
 @export var spawn_height := 0.167
 @export var item_definition : FactoryItemDefinition
 
+var _gate: FeatureGate
 
-func configure(p_spring_arm: CameraController, p_grid: Grid, p_item_spawner: ItemSpawner) -> void:
+
+func configure(
+	p_spring_arm: CameraController,
+	p_grid: Grid,
+	p_item_spawner: ItemSpawner,
+	gate: FeatureGate = null,
+) -> void:
 	spring_arm = p_spring_arm
 	grid = p_grid
 	item_spawner = p_item_spawner
+	_gate = gate
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("spawn_factory_item"):
+	if event.is_action_pressed("spawn_factory_item") and FeatureGate.check(_gate, GameFeature.Id.ITEM_SPAWN):
 		spawn_factory_item_at_mouse(item_definition.item_key)
 
 
