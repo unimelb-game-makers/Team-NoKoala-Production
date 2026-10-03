@@ -25,10 +25,11 @@ zones = [NodePath("zone_1"), NodePath("zone_2")]
 
 [node name="zone_1" type="Control" parent="." unique_id=1010208217]
 anchors_preset = 0
-offset_left = 530.0
-offset_top = -647.0
-offset_right = 570.0
-offset_bottom = -607.0
+offset_left = 219.00003
+offset_top = -14.0000305
+offset_right = 259.00003
+offset_bottom = 25.99997
+scale = Vector2(0.8, 0.8)
 script = ExtResource("2_2wsk5")
 
 [node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
@@ -46,10 +47,11 @@ texture = ExtResource("3_m7ejl")
 
 [node name="zone_2" type="Control" parent="." unique_id=1248492461]
 anchors_preset = 0
-offset_left = 285.0
-offset_top = -45.0
-offset_right = 325.0
-offset_bottom = -5.0
+offset_left = 487.0
+offset_top = -11.000004
+offset_right = 527.0
+offset_bottom = 28.999996
+scale = Vector2(0.8, 0.8)
 script = ExtResource("2_2wsk5")
 
 [node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
