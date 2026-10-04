@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://5kcu8ylgwlfv"]
+
+[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="1_dma58"]
+[ext_resource type="PackedScene" uid="uid://dmyxw12d1qiup" path="res://features/telescope/circle_progress_bar.tscn" id="2_knn78"]
+
+[node name="ItemProgressUI" type="Control" unique_id=1891149963]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1103745088]
+layout_mode = 1
+offset_right = 235.0
+offset_bottom = 64.0
+theme_override_constants/separation = 30
+
+[node name="Item" type="Control" parent="HBoxContainer" unique_id=1576255816]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CircleProgressBar" parent="HBoxContainer/Item" unique_id=1466048364 instance=ExtResource("2_knn78")]
+layout_mode = 1
+
+[node name="ProcessableTexture" type="TextureRect" parent="HBoxContainer/Item" unique_id=259482693]
+z_as_relative = false
+texture_filter = 1
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -3.0
+offset_right = 10.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_dma58")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1132691464]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=552008588]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Bamboo"
+
+[node name="ItemProgress" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=130751366]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "40/50"

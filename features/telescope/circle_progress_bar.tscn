@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dmyxw12d1qiup"]
+
+[ext_resource type="Texture2D" uid="uid://ckyeeu2mmoqul" path="res://features/telescope/circle.png" id="1_v1d38"]
+
+[node name="CircleProgressBar" type="Control" unique_id=1466048364]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1320345428]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 720.0
+offset_bottom = 720.0
+scale = Vector2(0.1, 0.1)
+value = 37.0
+fill_mode = 4
+texture_progress = ExtResource("1_v1d38")
+tint_progress = Color(3.5616756e-06, 0.63341105, 0.6003173, 1)
