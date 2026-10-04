@@ -3,30 +3,33 @@ extends Node
 
 @export var spring_arm: CameraController
 @export var grid: Grid
-@export var factory_manager: FactoryManager
+@export var item_spawner: ItemSpawner
 @export var spawn_height := 0.167
+@export var item_definition : FactoryItemDefinition
 
 
-func configure(p_spring_arm: CameraController, p_grid: Grid, p_factory_manager: FactoryManager) -> void:
+func configure(p_spring_arm: CameraController, p_grid: Grid, p_item_spawner: ItemSpawner) -> void:
 	spring_arm = p_spring_arm
 	grid = p_grid
-	factory_manager = p_factory_manager
+	item_spawner = p_item_spawner
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("spawn_factory_item"):
-		spawn_factory_item_at_mouse(FactoryItemDefinition.FactoryItemID.IRON_ORE)
+		spawn_factory_item_at_mouse(item_definition.item_key)
+
 
 func spawn_factory_item_at_mouse(
 	item_definition: FactoryItemDefinition.FactoryItemID,
 ) -> FactoryItem:
-	if spring_arm == null or grid == null or factory_manager == null:
+	if spring_arm == null or grid == null or item_spawner == null:
 		return null
 
 	var cell := cell_at_mouse_position()
 	var world_position := grid.cell_to_world(cell)
 	world_position.y = spawn_height
 	return spawn_factory_item(item_definition, world_position)
+
 
 func cell_at_mouse_position() -> Vector3i:
 	if spring_arm == null or grid == null:
@@ -51,6 +54,7 @@ func cell_at_mouse_position() -> Vector3i:
 	cell.y = 0
 	return cell
 
+
 func spawn_factory_item(
 	item_definition: FactoryItemDefinition.FactoryItemID,
 	world_position: Vector3,
@@ -59,15 +63,11 @@ func spawn_factory_item(
 		item_definition,
 		"",
 	)
-	if definition_path.is_empty() or factory_manager == null:
+	if definition_path.is_empty() or item_spawner == null:
 		return null
 
 	var definition := load(definition_path) as FactoryItemDefinition
 	if definition == null:
 		return null
 
-	return FactoryItemFactory.spawn_factory_item(
-		definition,
-		world_position,
-		factory_manager,
-	)
+	return item_spawner.spawn_factory_item(definition, world_position)

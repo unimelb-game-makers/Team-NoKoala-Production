@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://b0lgfvmfrlodi"]
 
 [ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_6h1ah"]
-[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="2_1p7kd"]
+[ext_resource type="Texture2D" uid="uid://dw0kwyyt1vlct" path="res://assets/developer_art/processables/bamboo bundle.png" id="2_6h1ah"]
 
 [resource]
 script = ExtResource("1_6h1ah")
 item_key = 1
 item_name = "Bamboo Culm"
-texture = ExtResource("2_1p7kd")
+texture = ExtResource("2_6h1ah")

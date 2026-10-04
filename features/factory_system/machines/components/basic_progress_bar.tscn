@@ -21,11 +21,12 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="BasicProgressBar" type="Node3D" unique_id=387532001 node_paths=PackedStringArray("viewport", "progress_bar", "display")]
+[node name="BasicProgressBar" type="Node3D" unique_id=387532001 node_paths=PackedStringArray("viewport", "progress_bar", "status_label", "display")]
 visible = false
 script = ExtResource("1_4a0xa")
 viewport = NodePath("SubViewport")
 progress_bar = NodePath("SubViewport/ProgressBar")
+status_label = NodePath("SubViewport/StatusLabel")
 display = NodePath("Display")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1485612179]
@@ -41,6 +42,18 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 max_value = 1.0
 step = 0.001
 show_percentage = false
+
+[node name="StatusLabel" type="Label" parent="SubViewport"]
+offset_right = 160.0
+offset_bottom = 20.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "1/2 Materials 0/0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Display" type="Sprite3D" parent="." unique_id=867962616]
 pixel_size = 0.00625

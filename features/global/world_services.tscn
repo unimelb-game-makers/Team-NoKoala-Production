@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://dv3umk5dytxh3"]
+
+[ext_resource type="Script" uid="uid://j1mahytk4te1" path="res://features/global/world_services.gd" id="1_gcxo1"]
+[ext_resource type="PackedScene" uid="uid://dgcc5jrxwcho1" path="res://features/factory_system/machines/machine_factory.tscn" id="1_s7ysm"]
+[ext_resource type="Script" uid="uid://dwrjahf6sv6a6" path="res://features/clock/fixed_clock.gd" id="2_gcxo1"]
+[ext_resource type="Script" uid="uid://cmkpbpvhytx0g" path="res://features/factory_system/factory_manager.gd" id="3_74s8g"]
+[ext_resource type="Script" uid="uid://cbkibgytch6pi" path="res://features/faith_management/faith_manager.gd" id="4_mknxg"]
+[ext_resource type="Script" uid="uid://dpj27fqryo381" path="res://features/mob/ai/job/job_board.gd" id="5_7gnne"]
+[ext_resource type="Script" uid="uid://brryqdteqj23b" path="res://features/mob/ai/job/reservation_manager.gd" id="6_som1n"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="8_74s8g"]
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="9_yu6gr"]
+[ext_resource type="PackedScene" uid="uid://cvpwfgroj8cpj" path="res://features/factory_system/machines/machine_mouse_placement_controller.tscn" id="11_4jmok"]
+[ext_resource type="Script" uid="uid://cwu84ekhlpfla" path="res://features/dialogue/dialogue_coordinator.gd" id="11_yu6gr"]
+[ext_resource type="Script" uid="uid://dbs4435dsf3ry" path="res://addons/dialogue_manager/dialogue_resource.gd" id="12_4jmok"]
+[ext_resource type="Resource" uid="uid://tw2taeu4gnyx" path="res://features/dialogue/dialogues/demo_dialogue.dialogue" id="13_d15cr"]
+[ext_resource type="Script" uid="uid://bqv5g7o144tn8" path="res://features/factory_system/factory_items/item_spawner.gd" id="14_spawner"]
+[ext_resource type="Script" uid="uid://e03bymnw2dhw" path="res://features/mob/spirit_spawner.gd" id="15_ni8ip"]
+
+[sub_resource type="Resource" id="Resource_dfq7n"]
+script = ExtResource("9_yu6gr")
+metadata/_custom_type_script = "uid://h0igrbsvxkh0"
+
+[node name="WorldServices" type="Node" unique_id=64125197 node_paths=PackedStringArray("fixed_clock", "factory_manager", "machine_factory", "item_spawner", "spirit_spawner", "faith_manager", "job_board", "reservation_manager", "machine_placement_controller", "item_spawn_controller", "dialogue_coordinator")]
+script = ExtResource("1_gcxo1")
+fixed_clock = NodePath("FixedClock")
+factory_manager = NodePath("FactoryManager")
+machine_factory = NodePath("MachineFactory")
+item_spawner = NodePath("ItemSpawner")
+spirit_spawner = NodePath("SpiritSpawner")
+faith_manager = NodePath("FaithManager")
+job_board = NodePath("JobBoard")
+reservation_manager = NodePath("ReservationManager")
+machine_placement_controller = NodePath("MachineMousePlacementController")
+item_spawn_controller = NodePath("FactoryItemSpawnController")
+dialogue_coordinator = NodePath("DialogueCoordinator")
+
+[node name="MachineFactory" parent="." unique_id=331273636 instance=ExtResource("1_s7ysm")]
+
+[node name="FixedClock" type="Node" parent="." unique_id=228487099]
+script = ExtResource("2_gcxo1")
+metadata/_custom_type_script = "uid://dwrjahf6sv6a6"
+
+[node name="FactoryManager" type="Node" parent="." unique_id=1220873126 node_paths=PackedStringArray("fixed_clock")]
+script = ExtResource("3_74s8g")
+fixed_clock = NodePath("../FixedClock")
+
+[node name="ItemSpawner" type="Node" parent="." unique_id=1873402519]
+script = ExtResource("14_spawner")
+
+[node name="SpiritSpawner" type="Node" parent="." unique_id=1985874355]
+script = ExtResource("15_ni8ip")
+metadata/_custom_type_script = "uid://e03bymnw2dhw"
+
+[node name="FaithManager" type="Node" parent="." unique_id=1653168022]
+script = ExtResource("4_mknxg")
+
+[node name="JobBoard" type="Node" parent="." unique_id=1628110229]
+script = ExtResource("5_7gnne")
+
+[node name="ReservationManager" type="Node" parent="." unique_id=632166308]
+script = ExtResource("6_som1n")
+
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=13302633]
+script = ExtResource("8_74s8g")
+item_definition = SubResource("Resource_dfq7n")
+
+[node name="MachineMousePlacementController" parent="." unique_id=559494764 instance=ExtResource("11_4jmok")]
+
+[node name="DialogueCoordinator" type="Node" parent="." unique_id=1442993442]
+script = ExtResource("11_yu6gr")
+dialogues = Array[ExtResource("12_4jmok")]([ExtResource("13_d15cr")])
+metadata/_custom_type_script = "uid://cwu84ekhlpfla"

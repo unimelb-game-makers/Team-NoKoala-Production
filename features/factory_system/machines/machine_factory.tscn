@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dgcc5jrxwcho1"]
+
+[ext_resource type="Script" uid="uid://dsgpjw4yvee2c" path="res://features/factory_system/machines/machine_factory.gd" id="1_factory"]
+[ext_resource type="PackedScene" uid="uid://bhwdm7kxqsbfm" path="res://features/factory_system/machines/machine_scenes/conveyor_belt.tscn" id="3_xy7gt"]
+[ext_resource type="PackedScene" uid="uid://cs7maerb8evpm" path="res://features/factory_system/machines/machine_scenes/faith_ritual.tscn" id="4_043md"]
+[ext_resource type="PackedScene" uid="uid://b64va0mtfx6a2" path="res://features/factory_system/machines/machine_scenes/spirit_ritual.tscn" id="5_spirit_ritual"]
+[ext_resource type="PackedScene" uid="uid://bpma6ownlsdnt" path="res://features/factory_system/machines/machine_scenes/carpenter.tscn" id="6_carpenter"]
+[ext_resource type="PackedScene" uid="uid://cytrfy11plthh" path="res://features/factory_system/machines/machine_scenes/mason_bench.tscn" id="7_mason"]
+[ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="11_default_definition"]
+
+[node name="MachineFactory" type="Node" unique_id=331273636]
+script = ExtResource("1_factory")
+machine_scenes = Array[PackedScene]([ExtResource("6_carpenter"), ExtResource("3_xy7gt"), ExtResource("4_043md"), ExtResource("7_mason"), ExtResource("5_spirit_ritual")])
+default_machine_definition = ExtResource("11_default_definition")

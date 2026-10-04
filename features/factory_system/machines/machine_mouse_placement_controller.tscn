@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cvpwfgroj8cpj"]
+
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="1_b8q30"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="2_lp4u0"]
+
+[node name="MachineMousePlacementController" type="Node" unique_id=559494764 node_paths=PackedStringArray("placement_grid")]
+script = ExtResource("1_b8q30")
+placement_grid = NodePath("PlacementGrid")
+
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=1967067683]
+script = ExtResource("2_lp4u0")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
