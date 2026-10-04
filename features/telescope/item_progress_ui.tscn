@@ -1,15 +1,21 @@
 [gd_scene format=3 uid="uid://5kcu8ylgwlfv"]
 
 [ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="1_dma58"]
+[ext_resource type="Script" uid="uid://dxqgt3an5r545" path="res://features/telescope/item_progress_ui.gd" id="1_knn78"]
 [ext_resource type="PackedScene" uid="uid://dmyxw12d1qiup" path="res://features/telescope/circle_progress_bar.tscn" id="2_knn78"]
 
-[node name="ItemProgressUI" type="Control" unique_id=1891149963]
+[node name="ItemProgressUI" type="Control" unique_id=1891149963 node_paths=PackedStringArray("item_name", "item_progress", "item_texture", "progress_bar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_knn78")
+item_name = NodePath("HBoxContainer/VBoxContainer/ItemName")
+item_progress = NodePath("HBoxContainer/VBoxContainer/ItemProgress")
+item_texture = NodePath("HBoxContainer/Item/ProcessableTexture")
+progress_bar = NodePath("HBoxContainer/Item/CircleProgressBar")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1103745088]
 layout_mode = 1
@@ -34,10 +40,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = -3.0
-offset_right = 10.0
-offset_bottom = -3.0
+offset_left = 16.0
+offset_top = 7.0
+offset_right = 16.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_dma58")
