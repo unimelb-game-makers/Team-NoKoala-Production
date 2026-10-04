@@ -11,11 +11,14 @@ signal place_mode_changed(enabled: bool)
 
 var machine_factory: MachineFactory
 var spirit_spawner: SpiritSpawner
+var _gate: FeatureGate
 var place_mode: bool = false:
 	get:
 		return place_mode
 	set(value):
 		if place_mode == value:
+			return
+		if value and not FeatureGate.check(_gate, GameFeature.Id.PLACE_MACHINE):
 			return
 		if value and (
 			machine_factory == null
@@ -50,6 +53,7 @@ func configure(
 	machines_root: Node,
 	mobs_root: Node,
 	_spring_arm: CameraController,
+	gate: FeatureGate = null,
 ) -> void:
 	machine_factory = p_machine_factory
 	grid = p_grid
@@ -60,12 +64,26 @@ func configure(
 	_reservations = reservations
 	_machines_root = machines_root
 	_mobs_root = mobs_root
+	_bind_gate(gate)
 	_allowed_machine_definitions = machine_factory.get_machine_definitions() if machine_factory != null else []
 	_select_initial_definition()
 
 
 func _ready() -> void:
 	_select_initial_definition()
+
+
+func _bind_gate(gate: FeatureGate) -> void:
+	if _gate != null and _gate.changed.is_connected(_on_gate_changed):
+		_gate.changed.disconnect(_on_gate_changed)
+	_gate = gate
+	if _gate != null:
+		_gate.changed.connect(_on_gate_changed)
+
+
+func _on_gate_changed() -> void:
+	if place_mode and not FeatureGate.check(_gate, GameFeature.Id.PLACE_MACHINE):
+		place_mode = false
 
 
 func get_allowed_machine_definitions() -> Array[MachineDefinition]:

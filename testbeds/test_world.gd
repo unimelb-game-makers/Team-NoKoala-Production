@@ -42,12 +42,13 @@ func configure_dependencies() -> void:
 			grid,
 			world_services.factory_manager,
 			world_ui.hotbar if world_ui != null else null,
-			world_ui.machine_ui if world_ui != null else null
+			world_ui.machine_ui if world_ui != null else null,
+			world_services.feature_gate,
 		)
 
 	if spring_arm != null:
 		assert(player != null, "SpringArm requires a Player")
-		spring_arm.configure(player)
+		spring_arm.configure(player, world_services.feature_gate)
 
 	if mobs_root != null:
 		for child in mobs_root.get_children():
@@ -75,7 +76,21 @@ func configure_dependencies() -> void:
 					grid
 				)
 	
+	world_services.tutorial_director.configure(
+		world_services.feature_gate,
+		world_services.factory_manager,
+		world_services.dialogue_coordinator,
+		player,
+		spring_arm,
+		world_services.machine_placement_controller,
+	)
+
 	if world_ui != null:
-		world_ui.configure(world_services.faith_manager, world_services.machine_placement_controller)
+		world_ui.configure(
+			world_services.faith_manager,
+			world_services.machine_placement_controller,
+			world_services.feature_gate,
+			world_services.tutorial_director,
+		)
 	
 	print(world_services.factory_manager._machines.size())
