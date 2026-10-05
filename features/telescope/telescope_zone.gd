@@ -1,7 +1,7 @@
 class_name TelescopeZone
 extends Control
 
-@onready var area_of_interest: Sprite2D = $Sprite2D
+@export var area_of_interest: Sprite2D
 
 var is_hovered: bool = false
 var is_unlocked: bool = false
