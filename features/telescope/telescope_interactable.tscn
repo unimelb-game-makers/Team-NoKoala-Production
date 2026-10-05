@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_lum82"]
 [ext_resource type="Script" uid="uid://c3runqrrrmdm3" path="res://features/telescope/telescope_interactable.gd" id="1_pmcgo"]
 [ext_resource type="Texture2D" uid="uid://shfyk8gmv2ry" path="res://features/telescope/art/telescope.png" id="1_wfmd0"]
-[ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/views/telescope_overlay.tscn" id="3_3juyr"]
+[ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/overlay/telescope_overlay.tscn" id="3_3juyr"]
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="4_ovkha"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="5_ps3n2"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_kqlvo"]
@@ -11,15 +11,19 @@
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_fik6m"]
 [ext_resource type="Resource" uid="uid://d00op5umm6dl3" path="res://features/telescope/telescope_machine_def.tres" id="8_hlg4g"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="9_i2vs8"]
-[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_tier1_recipe.tres" id="10_hlg4g"]
-[ext_resource type="Resource" uid="uid://dl262qrqucae7" path="res://features/telescope/recipes/telescope_tier2_recipe.tres" id="11_lo7ii"]
+[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_stage1_recipe.tres" id="10_hlg4g"]
+[ext_resource type="Resource" uid="uid://dl262qrqucae7" path="res://features/telescope/recipes/telescope_stage2_recipe.tres" id="11_lo7ii"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_fn7j0"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="14_lum82"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
-[ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/views/telescope_view_a.tscn" id="16_qm4r3"]
-[ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/views/telescope_view_b.tscn" id="17_lo7ii"]
+[ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/overlay/views/telescope_stage1_view.tscn" id="16_qm4r3"]
+[ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/overlay/views/telescope_stage2_view.tscn" id="17_lo7ii"]
 [ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="17_m8qp3"]
+[ext_resource type="Resource" uid="uid://b7j30b3v348rq" path="res://features/telescope/stages/telescope_stage1.tres" id="18_k0tq0"]
+[ext_resource type="Resource" uid="uid://b6c4skmcx3mc8" path="res://features/telescope/stages/telescope_stage2.tres" id="19_4j276"]
 [ext_resource type="PackedScene" uid="uid://dhodig4kwkd18" path="res://features/telescope/UI/telescope_ui.tscn" id="19_k1cjg"]
+[ext_resource type="Resource" uid="uid://dokdyo7v1driu" path="res://features/telescope/stages/telescope_stage3.tres" id="20_fopis"]
+[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="21_71bjp"]
 
 [sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
@@ -32,22 +36,6 @@ albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlg4g"]
 albedo_color = Color(0.1, 0.42, 1, 1)
-
-[sub_resource type="Resource" id="Resource_s8hvm"]
-script = ExtResource("17_m8qp3")
-title = "Recreate Scaffolding"
-details = "Tier 1 Structural Repair"
-recipe = ExtResource("10_hlg4g")
-view_scene = ExtResource("16_qm4r3")
-metadata/_custom_type_script = "uid://bcnv01v3q4v3c"
-
-[sub_resource type="Resource" id="Resource_nmcsg"]
-script = ExtResource("17_m8qp3")
-title = "Recreate Movement"
-details = "Tier 2 Emulate Transportation"
-recipe = ExtResource("11_lo7ii")
-view_scene = ExtResource("17_lo7ii")
-metadata/_custom_type_script = "uid://bcnv01v3q4v3c"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
 height = 1.46
@@ -109,7 +97,7 @@ machine = NodePath("../Machine")
 
 [node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay", "telescope_ui")]
 script = ExtResource("1_pmcgo")
-stages = Array[ExtResource("17_m8qp3")]([SubResource("Resource_s8hvm"), SubResource("Resource_nmcsg")])
+stages = Array[ExtResource("17_m8qp3")]([ExtResource("19_4j276"), ExtResource("18_k0tq0"), ExtResource("20_fopis")])
 telescope_machine = NodePath("../Machine")
 overlay = NodePath("../TelescopeOverlay")
 telescope_ui = NodePath("../TelescopeUI")
@@ -125,5 +113,7 @@ visible = false
 
 [node name="TelescopeViewB" parent="TelescopeViews" unique_id=703560994 instance=ExtResource("17_lo7ii")]
 visible = false
+anchors_preset = 15
 
 [node name="TelescopeUI" parent="." unique_id=1426281375 instance=ExtResource("19_k1cjg")]
+ITEM_PROGRESS = ExtResource("21_71bjp")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TelescopeStage" format=3 uid="uid://dokdyo7v1driu"]
+
+[ext_resource type="Resource" uid="uid://d3dui5mif2gh7" path="res://features/telescope/recipes/telescope_stage3_recipe.tres" id="1_ahjc5"]
+[ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="6_icume"]
+[ext_resource type="PackedScene" uid="uid://cnm35elm6hhe1" path="res://features/telescope/overlay/views/telescope_stage3_view.tscn" id="7_h0eht"]
+
+[resource]
+script = ExtResource("6_icume")
+title = "Embrace Nature"
+details = "Tier 3 Recognize Beauty"
+recipe = ExtResource("1_ahjc5")
+view_scene = ExtResource("7_h0eht")
+metadata/_custom_type_script = "uid://bcnv01v3q4v3c"

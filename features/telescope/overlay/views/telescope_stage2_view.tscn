@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cx5ok58puyi4k"]
 
 [ext_resource type="Texture2D" uid="uid://djpg7hssxxecq" path="res://features/telescope/art/tier2.jpg" id="1_gw6rc"]
-[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/views/telescope_view.gd" id="2_bl7ov"]
-[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/views/telescope_zone.gd" id="3_braue"]
+[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/overlay/telescope_view.gd" id="2_bl7ov"]
+[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/overlay/telescope_zone.gd" id="3_braue"]
 [ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/art/aoi.png" id="4_gw6rc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
@@ -10,7 +10,6 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_owhf0"]
 
 [node name="TelescopeViewB" type="TextureRect" unique_id=1208084381 node_paths=PackedStringArray("zones")]
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 768.0

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://d3dui5mif2gh7"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_8s3ej"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_xxvnr"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_nwwef"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_34ehx"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_f0qos"]
+
+[sub_resource type="Resource" id="Resource_dvsbd"]
+script = ExtResource("1_8s3ej")
+item = ExtResource("2_xxvnr")
+amount = 5
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_agebt"]
+script = ExtResource("1_8s3ej")
+item = ExtResource("3_nwwef")
+amount = 3
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_mbdea"]
+script = ExtResource("5_f0qos")
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("4_34ehx")
+recipe_id = &"telescope_tier3"
+display_name = "Tier 3"
+duration_seconds = 2.0
+inputs = Array[ExtResource("1_8s3ej")]([SubResource("Resource_dvsbd"), SubResource("Resource_agebt")])
+work_requirements = Array[ExtResource("5_f0qos")]([SubResource("Resource_mbdea")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"
