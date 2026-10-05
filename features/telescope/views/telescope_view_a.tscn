@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://leg41jabuhbu"]
 
 [ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="1_t8t6y"]
-[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/telescope_view.gd" id="2_qlsor"]
-[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/telescope_zone.gd" id="3_pg33w"]
+[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/views/telescope_view.gd" id="2_qlsor"]
+[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/views/telescope_zone.gd" id="3_pg33w"]
 [ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/art/aoi.png" id="4_t8t6y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
