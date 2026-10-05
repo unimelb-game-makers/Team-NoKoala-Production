@@ -5,6 +5,7 @@ enum MachineType {
 	CONVEYOR,
 	RITUAL,
 	ITEM_DOCK,
+	ITEM_FILTER,
 	RESOURCE_AREA,
 }
 
@@ -20,6 +21,9 @@ const _SCENES: Dictionary = {
 	),
 	MachineType.ITEM_DOCK: preload(
 		"res://features/factory_system/machines/machine_scenes/demo_item_dock.tscn"
+	),
+	MachineType.ITEM_FILTER: preload(
+		"res://features/factory_system/machines/machine_scenes/demo_item_filter.tscn"
 	),
 	MachineType.RESOURCE_AREA: preload(
 		"res://features/resource_area/scenes/iron_ore_resourcearea.tscn"
