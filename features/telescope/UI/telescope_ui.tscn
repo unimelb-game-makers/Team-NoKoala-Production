@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dhodig4kwkd18"]
 
-[ext_resource type="Script" uid="uid://bsvhdbit5kpf3" path="res://features/telescope/telescope_ui.gd" id="1_jjnxh"]
+[ext_resource type="Script" uid="uid://bsvhdbit5kpf3" path="res://features/telescope/UI/telescope_ui.gd" id="1_jjnxh"]
 [ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="2_jltwv"]
 [ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_tier1_recipe.tres" id="2_yqrjc"]
 [ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="3_86mgy"]
 [ext_resource type="Texture2D" uid="uid://bol3u7wag2eo1" path="res://assets/developer_art/processables/iron_ore.png" id="4_yqrjc"]
-[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/item_progress_ui.tscn" id="5_86mgy"]
+[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="5_86mgy"]
 
 [node name="TelescopeUI" type="Control" unique_id=1426281375 node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "tbd_parent", "ingredients_parent", "close_button")]
 layout_mode = 3
@@ -67,6 +67,7 @@ text = "X"
 
 [node name="Content" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=136159710]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="LHS" type="VBoxContainer" parent="Panel/Margin/VBox/Content" unique_id=1184249133]
 layout_mode = 2
