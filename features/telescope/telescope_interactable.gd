@@ -43,6 +43,10 @@ func interact() -> void:
 	
 	
 func _enter_discovery() -> void:
+	if telescope_ui.visible:
+		telescope_ui.close()
+	# TO DO: check if we want to open it immediately or need another interaction
+	overlay.open(_views[current_stage])
 	in_discovery = true
 
 func _advance_stage() -> void:
@@ -57,6 +61,7 @@ func _on_zones_unlocked(view: TelescopeView) -> void:
 	in_discovery = false
 	telescope_machine.resume()
 	_advance_stage()
+	# TO DO: signal to progress manager 
 
 func _show_stage() -> void:
 	var stage = stages[current_stage]
