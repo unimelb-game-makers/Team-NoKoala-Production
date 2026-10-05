@@ -3,10 +3,10 @@ extends CanvasLayer
 
 @export var edge_margin: float = 120.0
 @export var max_speed: float = 800.0
+@export var current_view: TelescopeView
 
 @onready var content: Control = $ScrollContainer/Content
 @onready var scroll: ScrollContainer = $ScrollContainer
-var current_view: TelescopeView
 
 var _remainder: Vector2 = Vector2.ZERO
 const SCALE: float = 1.5
