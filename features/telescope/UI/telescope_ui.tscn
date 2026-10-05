@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dhodig4kwkd18"]
 
-[ext_resource type="Script" uid="uid://bsvhdbit5kpf3" path="res://features/telescope/UI/telescope_ui.gd" id="1_jjnxh"]
-[ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="2_jltwv"]
-[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_tier1_recipe.tres" id="2_yqrjc"]
-[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="3_86mgy"]
-[ext_resource type="Texture2D" uid="uid://bol3u7wag2eo1" path="res://assets/developer_art/processables/iron_ore.png" id="4_yqrjc"]
-[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="5_86mgy"]
+[ext_resource type="Script" uid="uid://bsvhdbit5kpf3" path="res://features/telescope/UI/telescope_ui.gd" id="1_dxa3e"]
+[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_stage1_recipe.tres" id="2_632bv"]
+[ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="3_daw6s"]
+[ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="4_pp5ww"]
+[ext_resource type="Texture2D" uid="uid://bol3u7wag2eo1" path="res://assets/developer_art/processables/iron_ore.png" id="5_13muc"]
+[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="6_ll2it"]
 
 [node name="TelescopeUI" type="Control" unique_id=1426281375 node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "tbd_parent", "ingredients_parent", "close_button")]
 layout_mode = 3
@@ -15,14 +15,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_jjnxh")
+script = ExtResource("1_dxa3e")
 repair_title_label = NodePath("Panel/Margin/VBox/Content/LHS/RepairName")
 repair_details_label = NodePath("Panel/Margin/VBox/Content/LHS/TechnicalLabel")
 repair_texture = NodePath("Panel/Margin/VBox/Content/LHS/TextureRect")
 tbd_parent = NodePath("Panel/Margin/VBox/Content/LHS/HintBox")
 ingredients_parent = NodePath("Panel/Margin/VBox/Content/RHS")
 close_button = NodePath("Panel/Margin/VBox/Header/Close")
-recipe = ExtResource("2_yqrjc")
+recipe = ExtResource("2_632bv")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=782732644]
 custom_minimum_size = Vector2(440, 440)
@@ -76,7 +76,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("2_jltwv")
+texture = ExtResource("3_daw6s")
 expand_mode = 1
 stretch_mode = 6
 
@@ -110,19 +110,19 @@ theme_override_constants/separation = 20
 [node name="TextureRect" type="TextureRect" parent="Panel/Margin/VBox/Content/LHS/HintBox" unique_id=134185362]
 texture_filter = 1
 layout_mode = 2
-texture = ExtResource("3_86mgy")
+texture = ExtResource("4_pp5ww")
 
 [node name="TextureRect2" type="TextureRect" parent="Panel/Margin/VBox/Content/LHS/HintBox" unique_id=1266845839]
 texture_filter = 1
 layout_mode = 2
-texture = ExtResource("4_yqrjc")
+texture = ExtResource("5_13muc")
 
 [node name="RHS" type="VBoxContainer" parent="Panel/Margin/VBox/Content" unique_id=1500758350]
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="ItemProgressUI" parent="Panel/Margin/VBox/Content/RHS" unique_id=1891149963 instance=ExtResource("5_86mgy")]
+[node name="ItemProgressUI" parent="Panel/Margin/VBox/Content/RHS" unique_id=1891149963 instance=ExtResource("6_ll2it")]
 layout_mode = 2
 
-[node name="ItemProgressUI2" parent="Panel/Margin/VBox/Content/RHS" unique_id=1607625496 instance=ExtResource("5_86mgy")]
+[node name="ItemProgressUI2" parent="Panel/Margin/VBox/Content/RHS" unique_id=1607625496 instance=ExtResource("6_ll2it")]
 layout_mode = 2

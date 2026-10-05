@@ -1,6 +1,7 @@
 class_name TelescopeUI
 extends Control
 
+@export var ITEM_PROGRESS: PackedScene
 @export var repair_title_label: Label
 @export var repair_details_label: Label
 @export var repair_texture: TextureRect
@@ -11,8 +12,6 @@ extends Control
 @export var recipe: ProductionRecipe
 
 var _rows: Dictionary = {}
-
-const ITEM_PROGRESS = preload("res://features/telescope/item_progress_ui.tscn")
 
 func _ready() -> void:
 	close_button.pressed.connect(close)
