@@ -24,8 +24,25 @@ func open() -> void:
 func close() -> void:
 	hide()
 
-func update_tier() -> void:
-	pass
+func update_tier(view: TelescopeView) -> void:
+	for child in tbd_parent.get_children():
+		child.queue_free()
+	
+	repair_texture.texture = view.texture
+	
+	var overlay = view.get_parent() as TelescopeOverlay
+	if overlay == null:
+		return
+	
+	for zone: TelescopeZone in overlay.zones:
+		var rect = TextureRect.new()
+		rect.texture = zone.area_of_interest.texture
+		rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		rect.custom_minimum_size = Vector2(32, 32)
+		rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tbd_parent.add_child(rect)
+	
 	
 func update_recipe() -> void:
 	for child in ingredients_parent.get_children():

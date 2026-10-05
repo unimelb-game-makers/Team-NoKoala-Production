@@ -16,6 +16,7 @@ func _ready() -> void:
 			view.unlocked_all_zones.connect(_on_zones_unlocked)
 		telescope_ui.recipe = telescope_machine.recipes[current_stage]
 		telescope_ui.update_recipe()
+		telescope_ui.update_tier(view_scenes[current_stage])
 
 func interact() -> void:
 	if overlay == null:
@@ -26,16 +27,19 @@ func interact() -> void:
 		return
 
 	overlay.show()
-	overlay.open(view_scenes[current_stage - 1])
+	overlay.open(view_scenes[current_stage])
+	
 	
 func _enter_discovery() -> void:
 	in_discovery = true
 
 func _advance_stage() -> void:
-	current_stage = mini(current_stage + 1, view_scenes.size()) # can't go past last stage
-	
+	if current_stage + 1 >= view_scenes.size():
+		return
+	current_stage += 1
 	telescope_ui.recipe = telescope_machine.recipes[current_stage]
 	telescope_ui.update_recipe()
+	telescope_ui.update_tier(view_scenes[current_stage])
 	
 func _on_zones_unlocked() -> void:
 	in_discovery = false
