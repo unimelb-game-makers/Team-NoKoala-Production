@@ -25,11 +25,12 @@ stretch_mode = 2
 script = ExtResource("2_qlsor")
 zones = [NodePath("zone_1"), NodePath("zone_2"), NodePath("zone_3")]
 
-[node name="zone_1" type="Control" parent="." unique_id=1010208217]
+[node name="zone_1" type="Control" parent="." unique_id=1010208217 node_paths=PackedStringArray("area_of_interest")]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_pg33w")
+area_of_interest = NodePath("Sprite2D")
 
 [node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
 
@@ -44,11 +45,12 @@ position = Vector2(243, 942.00006)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("4_t8t6y")
 
-[node name="zone_2" type="Control" parent="." unique_id=1248492461]
+[node name="zone_2" type="Control" parent="." unique_id=1248492461 node_paths=PackedStringArray("area_of_interest")]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_pg33w")
+area_of_interest = NodePath("Sprite2D")
 
 [node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
 
@@ -63,11 +65,12 @@ position = Vector2(1000.00006, 178)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("4_t8t6y")
 
-[node name="zone_3" type="Control" parent="." unique_id=907489777]
+[node name="zone_3" type="Control" parent="." unique_id=907489777 node_paths=PackedStringArray("area_of_interest")]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_pg33w")
+area_of_interest = NodePath("Sprite2D")
 
 [node name="zone" type="Area2D" parent="zone_3" unique_id=139949335]
 

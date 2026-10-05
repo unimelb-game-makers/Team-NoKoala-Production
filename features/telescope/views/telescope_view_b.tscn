@@ -23,7 +23,7 @@ stretch_mode = 2
 script = ExtResource("2_bl7ov")
 zones = [NodePath("zone_1"), NodePath("zone_2")]
 
-[node name="zone_1" type="Control" parent="." unique_id=1010208217]
+[node name="zone_1" type="Control" parent="." unique_id=1010208217 node_paths=PackedStringArray("area_of_interest")]
 anchors_preset = 0
 offset_left = 219.00003
 offset_top = -14.0000305
@@ -31,6 +31,7 @@ offset_right = 259.00003
 offset_bottom = 25.99997
 scale = Vector2(0.8, 0.8)
 script = ExtResource("3_braue")
+area_of_interest = NodePath("Sprite2D")
 
 [node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
 
@@ -45,7 +46,7 @@ position = Vector2(243, 942.00006)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("4_gw6rc")
 
-[node name="zone_2" type="Control" parent="." unique_id=1248492461]
+[node name="zone_2" type="Control" parent="." unique_id=1248492461 node_paths=PackedStringArray("area_of_interest")]
 anchors_preset = 0
 offset_left = 487.0
 offset_top = -11.000004
@@ -53,6 +54,7 @@ offset_right = 527.0
 offset_bottom = 28.999996
 scale = Vector2(0.8, 0.8)
 script = ExtResource("3_braue")
+area_of_interest = NodePath("Sprite2D")
 
 [node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
 
