@@ -20,6 +20,7 @@ func _ready() -> void:
 		recipes.append(stage.recipe)
 	telescope_machine.recipes = recipes
 	telescope_machine.repair_completed.connect(_enter_discovery)
+	telescope_machine.input_supplied.connect(_on_input_supplied)
 	
 	for stage in stages:
 		var view = stage.view_scene.instantiate() as TelescopeView
@@ -63,3 +64,6 @@ func _show_stage() -> void:
 	telescope_ui.update_recipe()
 	telescope_ui.update_stage_text(stage)
 	telescope_ui.update_tier(_views[current_stage])
+
+func _on_input_supplied(item: FactoryItemDefinition, total: int) -> void:
+	telescope_ui.update_quantity(item, total)

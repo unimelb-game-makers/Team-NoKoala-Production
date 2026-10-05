@@ -18,12 +18,13 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
 [ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/views/telescope_view_a.tscn" id="16_qm4r3"]
 [ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/views/telescope_view_b.tscn" id="17_lo7ii"]
-[ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://telescope_stage.gd" id="17_m8qp3"]
+[ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="17_m8qp3"]
 [ext_resource type="PackedScene" uid="uid://dhodig4kwkd18" path="res://features/telescope/telescope_ui.tscn" id="19_k1cjg"]
 
 [sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1), Vector3i(1, 0, 0)])
+is_placed = true
 root_cell = Vector3i(-3, 0, 0)
 metadata/_custom_type_script = "uid://ygqk0vj2ah23"
 
