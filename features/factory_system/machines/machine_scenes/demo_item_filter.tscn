@@ -194,7 +194,7 @@ point_count = 2
 [node name="DemoItemFilter" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("1_k7xji")
 block = NodePath("Block")
-machine = NodePath("ConveyorBelt")
+machine = NodePath("ItemFilter")
 ui_panels = Array[PackedScene]([ExtResource("2_gfgb0")])
 
 [node name="Block" type="Node3D" parent="." unique_id=1197696269 node_paths=PackedStringArray("transform_root")]
@@ -237,7 +237,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40063477, 0)
 shape = SubResource("BoxShape3D_owhf0")
 
-[node name="ConveyorBelt" type="Node" parent="." unique_id=1600706499 node_paths=PackedStringArray("block", "path", "follow", "middle", "debug_active_indicator")]
+[node name="ItemFilter" type="Node" parent="." unique_id=1600706499 node_paths=PackedStringArray("block", "path", "follow", "middle", "debug_active_indicator")]
 script = ExtResource("8_hqh0b")
 block = NodePath("../Block")
 path = NodePath("../Path3D")
@@ -247,7 +247,7 @@ definition = ExtResource("8_53t3h")
 faith_drain_rate = 10.0
 debug_active_indicator = NodePath("../DebugLight")
 
-[node name="MachineEditorSynchoniser" type="Node" parent="ConveyorBelt" unique_id=347408545 node_paths=PackedStringArray("machine", "block")]
+[node name="MachineEditorSynchoniser" type="Node" parent="ItemFilter" unique_id=347408545 node_paths=PackedStringArray("machine", "block")]
 script = ExtResource("9_1wxaw")
 machine = NodePath("..")
 block = NodePath("../../Block")

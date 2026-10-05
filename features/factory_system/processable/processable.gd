@@ -27,7 +27,6 @@ var _drop_world_position := Vector3.ZERO
 func try_claim(consumer: Object) -> bool:
 	if consumer == null:
 		return false
-
 	_clear_invalid_claimant()
 	if not is_available_for_processing():\
 		return false
