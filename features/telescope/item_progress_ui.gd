@@ -13,6 +13,11 @@ var quantity_supplied: int = 0
 var _tween: Tween
 
 func _ready() -> void:
+	_update_ui()
+
+func _update_ui() -> void:
+	if item == null:
+		return
 	item_name.text = item.item_name
 	item_texture.texture = item.texture
 	item_progress.text = str(quantity_supplied) + "/" + str(quantity_needed)

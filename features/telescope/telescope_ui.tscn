@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bsvhdbit5kpf3" path="res://features/telescope/telescope_ui.gd" id="1_jjnxh"]
 [ext_resource type="Texture2D" uid="uid://cxn33gtdl5lm3" path="res://features/telescope/art/telescope_1.jpg" id="2_jltwv"]
+[ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_tier1_recipe.tres" id="2_yqrjc"]
 [ext_resource type="Texture2D" uid="uid://1b7t3lccphwr" path="res://assets/developer_art/processables/bamboo_culm.png" id="3_86mgy"]
 [ext_resource type="Texture2D" uid="uid://bol3u7wag2eo1" path="res://assets/developer_art/processables/iron_ore.png" id="4_yqrjc"]
 [ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/item_progress_ui.tscn" id="5_86mgy"]
 
-[node name="TelescopeUI" type="Control" unique_id=1426281375]
+[node name="TelescopeUI" type="Control" unique_id=1426281375 node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "tbd_parent", "ingredients_parent", "close_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +16,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_jjnxh")
+repair_title_label = NodePath("Panel/Margin/VBox/Content/LHS/RepairName")
+repair_details_label = NodePath("Panel/Margin/VBox/Content/LHS/TechnicalLabel")
+repair_texture = NodePath("Panel/Margin/VBox/Content/LHS/TextureRect")
+tbd_parent = NodePath("Panel/Margin/VBox/Content/LHS/HintBox")
+ingredients_parent = NodePath("Panel/Margin/VBox/Content/RHS")
+close_button = NodePath("Panel/Margin/VBox/Header/Close")
+recipe = ExtResource("2_yqrjc")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=782732644]
 custom_minimum_size = Vector2(440, 440)
