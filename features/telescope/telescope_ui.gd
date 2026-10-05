@@ -54,4 +54,8 @@ func update_recipe() -> void:
 func update_quantity(item: FactoryItemDefinition, amount: int) -> void:
 	if _rows.has(item):
 		_rows[item].update_quantity(amount)
+
+func update_stage_text(stage: TelescopeStage) -> void:
+	repair_title_label.text = stage.title
+	repair_details_label.text = stage.details
 		

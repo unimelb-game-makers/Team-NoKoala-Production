@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
 [ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/views/telescope_view_a.tscn" id="16_qm4r3"]
 [ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/views/telescope_view_b.tscn" id="17_lo7ii"]
+[ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://telescope_stage.gd" id="17_m8qp3"]
 [ext_resource type="PackedScene" uid="uid://dhodig4kwkd18" path="res://features/telescope/telescope_ui.tscn" id="19_k1cjg"]
 
 [sub_resource type="Resource" id="Resource_4akha"]
@@ -31,6 +32,22 @@ albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlg4g"]
 albedo_color = Color(0.1, 0.42, 1, 1)
+
+[sub_resource type="Resource" id="Resource_s8hvm"]
+script = ExtResource("17_m8qp3")
+title = "Recreate Scaffolding"
+details = "Tier 1 Structural Repair"
+recipe = ExtResource("10_hlg4g")
+view_scene = ExtResource("16_qm4r3")
+metadata/_custom_type_script = "uid://bcnv01v3q4v3c"
+
+[sub_resource type="Resource" id="Resource_nmcsg"]
+script = ExtResource("17_m8qp3")
+title = "Recreate Movement"
+details = "Tier 2 Emulate Transportation"
+recipe = ExtResource("11_lo7ii")
+view_scene = ExtResource("17_lo7ii")
+metadata/_custom_type_script = "uid://bcnv01v3q4v3c"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
 height = 1.46
@@ -90,9 +107,9 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 machine = NodePath("../Machine")
 
-[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("view_scenes", "telescope_machine", "overlay", "telescope_ui")]
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay", "telescope_ui")]
 script = ExtResource("1_pmcgo")
-view_scenes = [NodePath("../TelescopeViews/TelescopeViewA"), NodePath("../TelescopeViews/TelescopeViewB")]
+stages = Array[ExtResource("17_m8qp3")]([SubResource("Resource_s8hvm"), SubResource("Resource_nmcsg")])
 telescope_machine = NodePath("../Machine")
 overlay = NodePath("../TelescopeOverlay")
 telescope_ui = NodePath("../TelescopeUI")
