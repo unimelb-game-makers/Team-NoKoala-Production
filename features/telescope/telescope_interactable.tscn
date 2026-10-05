@@ -18,11 +18,11 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_y7utk"]
 [ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/views/telescope_view_a.tscn" id="16_qm4r3"]
 [ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/views/telescope_view_b.tscn" id="17_lo7ii"]
+[ext_resource type="PackedScene" uid="uid://dhodig4kwkd18" path="res://features/telescope/telescope_ui.tscn" id="19_k1cjg"]
 
 [sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1), Vector3i(1, 0, 0)])
-is_placed = true
 root_cell = Vector3i(-3, 0, 0)
 metadata/_custom_type_script = "uid://ygqk0vj2ah23"
 
@@ -90,11 +90,12 @@ block = NodePath("../../Block")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 machine = NodePath("../Machine")
 
-[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("view_scenes", "telescope_machine", "overlay")]
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("view_scenes", "telescope_machine", "overlay", "telescope_ui")]
 script = ExtResource("1_pmcgo")
 view_scenes = [NodePath("../TelescopeViews/TelescopeViewA"), NodePath("../TelescopeViews/TelescopeViewB")]
 telescope_machine = NodePath("../Machine")
 overlay = NodePath("../TelescopeOverlay")
+telescope_ui = NodePath("../TelescopeUI")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
@@ -107,3 +108,5 @@ visible = false
 
 [node name="TelescopeViewB" parent="TelescopeViews" unique_id=703560994 instance=ExtResource("17_lo7ii")]
 visible = false
+
+[node name="TelescopeUI" parent="." unique_id=1426281375 instance=ExtResource("19_k1cjg")]
