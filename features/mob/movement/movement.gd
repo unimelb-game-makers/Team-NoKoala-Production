@@ -3,7 +3,8 @@ extends Node
 
 @export var move_speed: float = 1.0
 @export var rotation_speed: float = 5.0
-@export var stop_distance: float = 1.5
+@export var stop_distance: float = 0.01
+@export var place_stop_distance: float = 1.5
 ## How close the body must get to an intermediate path waypoint before it
 ## advances to the next one. Looser than `stop_distance` so mobs don't stall
 ## trying to hit exact cell centres.
@@ -120,11 +121,13 @@ func _fail_move() -> void:
 	status = Status.FAILED
 	move_failed.emit()
 
-
 func within_stop_distance(position: Vector3):
 	var distance := character_body.global_position.distance_to(position)
 	return distance <= stop_distance
 
+func within_place_distance(position: Vector3):
+	var distance := character_body.global_position.distance_to(position)
+	return distance <= place_stop_distance
 
 func get_remaining_path() -> PackedVector3Array:
 	if status != Status.MOVING or _path.is_empty():

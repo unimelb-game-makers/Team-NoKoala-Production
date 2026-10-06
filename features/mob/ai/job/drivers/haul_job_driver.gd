@@ -76,7 +76,7 @@ func tick(delta: float) -> Status:
 ## aborts the job when the pathfinder reports the target unreachable (e.g. a
 ## machine was placed across the only route).
 func _drive_to(target: Vector3, next_state: State) -> Status:
-	if movement.within_stop_distance(target):
+	if movement.within_stop_distance(target) or (state==State.MOVE_TO_DESTINATION && movement.within_place_distance(target)):
 		state = next_state
 		return Status.RUNNING
 
