@@ -9,6 +9,14 @@ var _factory_manager: FactoryManager
 
 var allowed_items: Array[FactoryItemDefinition] = []
 
+func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+
+	if factory_manager == null:
+		return
+
+	_factory_manager = factory_manager
+	_update_job_requests()
+'''
 func _factory_tick(_delta: float, factory_manager: FactoryManager) -> void:
 
 	if factory_manager == null:
@@ -51,3 +59,4 @@ func _find_input_items(
 func has_allowed_item(item: FactoryItemDefinition) -> bool:
 	if item in allowed_items: return true
 	return false
+'''

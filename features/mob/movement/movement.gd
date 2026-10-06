@@ -3,7 +3,7 @@ extends Node
 
 @export var move_speed: float = 1.0
 @export var rotation_speed: float = 5.0
-@export var stop_distance: float = 0.01
+@export var stop_distance: float = 1.5
 ## How close the body must get to an intermediate path waypoint before it
 ## advances to the next one. Looser than `stop_distance` so mobs don't stall
 ## trying to hit exact cell centres.

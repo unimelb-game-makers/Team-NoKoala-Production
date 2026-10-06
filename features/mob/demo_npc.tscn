@@ -31,8 +31,8 @@ shape = SubResource("CapsuleShape3D_hly03")
 script = ExtResource("2_3v4j7")
 job_priorities = Dictionary[StringName, int]({
 &"haul": 5,
-&"work": 6,
-&"wander": 1
+&"wander": 1,
+&"work": 6
 })
 metadata/_custom_type_script = "uid://b3wo3jleh8jbk"
 
