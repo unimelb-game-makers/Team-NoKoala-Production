@@ -3,7 +3,7 @@ extends Job
 
 var destination: Vector3i
 var work_type: WorkType.Value
-var machine: BasicMachine
+var machine: Machine
 
 
 const JOB_TYPE := &"work"
@@ -12,7 +12,7 @@ const JOB_TYPE := &"work"
 func _init(
 	p_work_type: WorkType.Value,
 	p_destination: Vector3i,
-	p_machine: BasicMachine,
+	p_machine: Machine,
 ) -> void:
 	work_type = p_work_type
 	destination = p_destination

@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_21mxi"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_tm3vv"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="8_kv3sn"]
-[ext_resource type="Resource" uid="uid://dfchswr13gf2u" path="res://features/factory_system/machines/machine_definitions/demo_item_dock.tres" id="9_kv3sn"]
+[ext_resource type="Resource" uid="uid://dfchswr13gf2u" path="res://features/factory_system/machines/machine_definitions/item_dock.tres" id="9_kv3sn"]
 [ext_resource type="Script" uid="uid://t7ci5f2fmhb3" path="res://features/factory_system/machines/machine_runtime/item_dock.gd" id="9_sygwa"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="9_yi7qd"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="10_1kp42"]

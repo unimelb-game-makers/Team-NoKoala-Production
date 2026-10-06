@@ -2,6 +2,7 @@ class_name PlayerInteractionController
 extends Node
 
 const NO_JOB_TEXT := "No available job"
+const ALL_COLLISION_LAYERS := 0xFFFFFFFF
 
 @export var spring_arm: CameraController
 
@@ -66,7 +67,7 @@ func _try_handle_npc_interaction(event: InputEvent) -> bool:
 	if _selected_consumer == null:
 		return false
 
-	var item := _item_from_node(hit_node)
+	var item := _factory_item_at_mouse()
 	if item != null:
 		_open_item_job_menu(item, event.position)
 		get_viewport().set_input_as_handled()
@@ -106,14 +107,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _try_open_machine_ui() -> void:
 	var assembly := _assembly_from_node(_node_at_mouse())
-	if (
-		_machine_ui == null
-		or assembly == null
-		or assembly.ui_panels.is_empty()
-		or assembly.machine == null
-	):
+	if _machine_ui == null or assembly == null:
 		return
-	_machine_ui.open(assembly.machine, assembly.ui_panels)
+	var machine := assembly.get_ui_machine()
+	var panels := assembly.get_ui_panels()
+	if machine == null or panels.is_empty():
+		return
+	_machine_ui.open(machine, panels)
 	get_viewport().set_input_as_handled()
 
 
@@ -132,11 +132,12 @@ func _try_drop_held_item() -> void:
 		get_viewport().set_input_as_handled()
 
 
+## Ignores the selectable layer, so items on resource areas or blueprints can be picked.
 func _factory_item_at_mouse() -> FactoryItem:
-	return _item_from_node(_node_at_mouse())
+	return _item_from_node(_node_at_mouse(ALL_COLLISION_LAYERS & ~Block.SELECTABLE_COLLISION_LAYER))
 
 
-func _node_at_mouse() -> Node:
+func _node_at_mouse(collision_mask := ALL_COLLISION_LAYERS) -> Node:
 	if spring_arm == null:
 		return null
 	var mouse_position := get_viewport().get_mouse_position()
@@ -145,6 +146,7 @@ func _node_at_mouse() -> Node:
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
+	query.collision_mask = collision_mask
 	var result := player.get_world_3d().direct_space_state.intersect_ray(query)
 	return result.get("collider") as Node
 

@@ -7,9 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://bsm5tu4x6k6uf" path="res://assets/developer_art/models/machines/new/conveyor_belt_GameCube - The Legend of Zelda_ The Wind Waker - Locations - Island Textures.png" id="4_4j714"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="5_4mb06"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="6_83f3h"]
-[ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="8_53t3h"]
 [ext_resource type="Script" uid="uid://cnasgus70ywc6" path="res://features/factory_system/machines/machine_runtime/item_filter.gd" id="8_hqh0b"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_1wxaw"]
+[ext_resource type="Resource" uid="uid://b1ygruv6esqa3" path="res://features/factory_system/machines/machine_definitions/item_filter.tres" id="9_4j714"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="11_4j714"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="12_4mb06"]
 
 [sub_resource type="Resource" id="Resource_c2e4d"]
 resource_local_to_scene = true
@@ -197,11 +199,13 @@ _data = {
 }
 point_count = 2
 
-[node name="DemoItemFilter" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine")]
+[node name="DemoItemFilter" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine", "blueprint")]
 script = ExtResource("1_k7xji")
 block = NodePath("Block")
 machine = NodePath("ItemFilter")
 ui_panels = Array[PackedScene]([ExtResource("2_gfgb0")])
+blueprint = NodePath("Blueprint")
+toggle_blueprint = true
 
 [node name="Block" type="Node3D" parent="." unique_id=1197696269 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_hqh0b")
@@ -214,6 +218,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0
 [node name="Cube" type="MeshInstance3D" parent="Block/model" unique_id=777853693]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("ArrayMesh_f5yxk")
+surface_material_override/0 = SubResource("StandardMaterial3D_jx3o8")
 
 [node name="Cylinder" type="MeshInstance3D" parent="Block/model" unique_id=1888316714]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.24999999, 0.5500001, 0)
@@ -251,7 +256,7 @@ block = NodePath("../Block")
 path = NodePath("../Path3D")
 follow = NodePath("../Path3D/PathFollow3D")
 middle = NodePath("../Middle")
-definition = ExtResource("8_53t3h")
+definition = ExtResource("9_4j714")
 faith_drain_rate = 10.0
 debug_active_indicator = NodePath("../DebugLight")
 
@@ -279,3 +284,12 @@ light_indirect_energy = 0.0
 spot_range = 1.5
 spot_attenuation = 0.0
 spot_angle = 20.0
+
+[node name="Blueprint" type="Node" parent="." unique_id=860975788 node_paths=PackedStringArray("job_provider")]
+script = ExtResource("11_4j714")
+job_provider = NodePath("BlueprintJobProvider")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1346733391]
+script = ExtResource("12_4mb06")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"

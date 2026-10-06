@@ -112,13 +112,15 @@ func _destination_is_available(ignoring: Object = null) -> bool:
 		return false
 	if not _factory_manager.accepts_item_at_cell(destination, item_definition):
 		return false
-	if not _factory_manager.get_processables_at(destination).is_empty():
+	if not _factory_manager.can_add_item_at_cell(destination, item_definition):
 		return false
 	return not _reservation_manager.is_reserved(destination, ignoring)
 
 
 func _is_available_matching_item(item: FactoryItem) -> bool:
 	if item == null or not is_instance_valid(item):
+		return false
+	if not item.can_pick_up():
 		return false
 	if item.stack.item_definition != item_definition:
 		return false

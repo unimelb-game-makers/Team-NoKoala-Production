@@ -41,6 +41,8 @@ func set_held_item(item: FactoryItem) -> void:
 func try_pick_up_item(item: FactoryItem) -> bool:
 	if item == null:
 		return false
+	if not item.can_pick_up():
+		return false
 	if actor.global_position.distance_to(item.global_position) > pickup_distance:
 		return false
 	if not item.try_claim(actor):
@@ -106,10 +108,9 @@ func try_split_item(item: FactoryItem = null) -> bool:
 	var new_stack = item.stack.split(half)
 	# TO DO: fix this as well if we want different behavior
 	var spawn_position = item.transform.origin + Vector3(0.5, 0, 0)
-	var factory_item = FactoryItemFactory.spawn_factory_item(
-		item.stack.item_definition, 
-		spawn_position, 
-		item.factory_manager,
+	var factory_item = item.factory_manager.item_spawner.spawn_factory_item(
+		item.stack.item_definition,
+		spawn_position,
 		new_stack)
 		
 	if factory_item == null:

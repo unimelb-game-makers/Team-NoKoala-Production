@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c2er2mffyxett"]
+
+[ext_resource type="Script" uid="uid://dppq0jc4q4srt" path="res://features/mob/npc.gd" id="1_pkmol"]
+[ext_resource type="Resource" uid="uid://b7retm6o3fpqt" path="res://features/mob/npc_definitions/worker_npc.tres" id="2_22a45"]
+[ext_resource type="Texture2D" uid="uid://contalhobgcse" path="res://assets/characters/spirits/porter 2.png" id="3_o2l4q"]
+[ext_resource type="Script" uid="uid://b3wo3jleh8jbk" path="res://features/mob/ai/job/job_consumer.gd" id="4_7lx0k"]
+[ext_resource type="Script" uid="uid://byobdql8wp8yt" path="res://features/mob/ai/job/providers/idle_job_provider.gd" id="5_nnbgk"]
+[ext_resource type="Script" uid="uid://c8p3sixfla6lw" path="res://features/mob/movement/movement.gd" id="6_gq6mq"]
+[ext_resource type="Script" uid="uid://pu03676qi1ub" path="res://features/mob/movement/path_agent.gd" id="7_cabb8"]
+[ext_resource type="Script" uid="uid://84aunrfvor0l" path="res://features/mob/movement/path_debug_draw.gd" id="8_c5evt"]
+[ext_resource type="Script" uid="uid://cfhdxwnq6250f" path="res://features/inventory/inventory_owner.gd" id="9_mqjde"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hly03"]
+radius = 0.2
+
+[node name="DemoNpc" type="CharacterBody3D" unique_id=670937746 node_paths=PackedStringArray("job_consumer", "idle_job_provider", "movement", "inventory_owner")]
+script = ExtResource("1_pkmol")
+job_consumer = NodePath("JobConsumer")
+idle_job_provider = NodePath("WanderJobProvider")
+movement = NodePath("Movement")
+inventory_owner = NodePath("InventoryOwner")
+definition = ExtResource("2_22a45")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1362271164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35006487, 0)
+pixel_size = 0.0002
+billboard = 1
+texture = ExtResource("3_o2l4q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1010080115]
+shape = SubResource("CapsuleShape3D_hly03")
+
+[node name="JobConsumer" type="Node" parent="." unique_id=1296019535]
+script = ExtResource("4_7lx0k")
+job_priorities = Dictionary[StringName, int]({
+&"haul": 5,
+&"wander": 1,
+&"work": 6
+})
+metadata/_custom_type_script = "uid://b3wo3jleh8jbk"
+
+[node name="WanderJobProvider" type="Node" parent="." unique_id=1296019536]
+script = ExtResource("5_nnbgk")
+
+[node name="Movement" type="Node" parent="." unique_id=1419771016]
+script = ExtResource("6_gq6mq")
+metadata/_custom_type_script = "uid://c8p3sixfla6lw"
+
+[node name="PathAgent" type="Node" parent="." unique_id=1419771017]
+script = ExtResource("7_cabb8")
+metadata/_custom_type_script = "uid://pu03676qi1ub"
+
+[node name="PathDebugDraw" type="MeshInstance3D" parent="." unique_id=1419771018]
+script = ExtResource("8_c5evt")
+metadata/_custom_type_script = "uid://84aunrfvor0l"
+
+[node name="InventoryOwner" type="Node" parent="." unique_id=182432514]
+script = ExtResource("9_mqjde")
+pickup_distance = 2.0
+hold_item_offset = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://cfhdxwnq6250f"

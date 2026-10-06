@@ -7,7 +7,7 @@ var _player: Node3D
 @export var _grid: Grid
 @export var _factory_manager: FactoryManager
 @export var faith_manager: FaithManager
-var _working_machine: BasicMachine
+var _working_machine: Machine
 var _working_cell: Vector3i
 
 
@@ -44,6 +44,8 @@ func _physics_process(_delta: float) -> void:
 
 	if (
 		not is_instance_valid(_working_machine)
+		or _working_machine.disabled
+		or _working_machine.is_shut_down
 		or _get_player_cell() != _working_cell
 	):
 		_stop_working()
@@ -63,18 +65,27 @@ func toggle_work() -> bool:
 func is_working() -> bool:
 	return (
 		is_instance_valid(_working_machine)
+		and not _working_machine.disabled
+		and not _working_machine.is_shut_down
 		and _working_machine.is_working_at_port(_working_cell, capability)
 	)
 
 
 func _try_start_working() -> bool:
-	if _grid == null or _factory_manager == null:
+	if (
+		_player == null
+		or _grid == null
+		or _factory_manager == null
+		or capability == null
+	):
 		return false
 
 	var player_cell := _get_player_cell()
 	for candidate in _factory_manager.get_machines_at(player_cell):
-		var machine := candidate as BasicMachine
+		var machine := candidate as Machine
 		if machine == null:
+			continue
+		if machine.disabled:
 			continue
 		if not machine.try_working_at_port(player_cell, capability):
 			continue

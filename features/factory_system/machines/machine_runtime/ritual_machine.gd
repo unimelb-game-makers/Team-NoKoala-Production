@@ -10,18 +10,17 @@ func _on_recipe_completed(
 ) -> bool:
 	faith_manager.apply_delta(faith_restored)
 
-	var assembly := get_parent() as MachineAssembly
 	if factory_manager != null:
 		factory_manager.unregister_machine(self)
 		if (
 			factory_manager.grid != null
-			and assembly != null
-			and assembly.block != null
+			and machine_assembly != null
+			and machine_assembly.block != null
 		):
-			factory_manager.grid.remove_block(assembly.block)
+			factory_manager.grid.remove_block(machine_assembly.block)
 
-	if assembly != null:
-		assembly.queue_free()
+	if machine_assembly != null:
+		machine_assembly.queue_free()
 	else:
 		queue_free()
 

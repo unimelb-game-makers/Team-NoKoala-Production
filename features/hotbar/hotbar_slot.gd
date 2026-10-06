@@ -1,6 +1,8 @@
 class_name HotbarSlot
 extends Button
 
+const ICON_MAX_SIZE := 48.0
+
 @onready var label: Label = $Label
 @onready var qty_label: Label = $QtyLabel
 @onready var sprite: Sprite2D = $Sprite2D
@@ -30,6 +32,12 @@ func display(item: FactoryItem) -> void:
 
 	_item = item
 	sprite.texture = _item.sprite.texture if _has_stack(_item) else null
+	if sprite.texture != null:
+		var texture_size := sprite.texture.get_size()
+		var longest_side := maxf(1.0, maxf(texture_size.x, texture_size.y))
+		sprite.scale = Vector2.ONE * (ICON_MAX_SIZE / longest_side)
+	else:
+		sprite.scale = Vector2.ONE
 	if _has_stack(_item):
 		_item.stack.quantity_changed.connect(_update_quantity)
 	_update_quantity()

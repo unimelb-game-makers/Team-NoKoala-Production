@@ -1,51 +1,37 @@
-@tool
 class_name GameWorld
 extends Node3D
 
+@export var world_services: WorldServices
 @export var grid: Grid
-@export var clock: FixedClock
-@export var factory: FactoryManager
-@export var faith: FaithManager
-@export var jobs: JobBoard
-@export var reservations: ReservationManager
-@export var pathfinder: Pathfinder
 @export var player: Player
 @export var spring_arm: CameraController
-@export var placement: MachinePlacementController
-@export var item_spawner: FactoryItemSpawnController
 @export var mobs_root: Node
-@export var hotbar: Hotbar
 @export var machines_root: Node
 @export var buildings_root: Node
-@export var resource_area_manager: ResourceAreaManager
-@export var dialogue_coordinator : DialogueCoordinator
-@export var world_ui_root: WorldUIRoot
-
-@export_tool_button("Configure Editor Dependency", "Callable")
-var configure_editor = configure_editor_dependencies
+@export var items_root: Node
+@export var world_ui: WorldUI
 
 var context: WorldContext
 var _composed := false
 
 
-
 func _enter_tree() -> void:
-	if Engine.is_editor_hint():
-		return
 	if _composed == false:
+		validate_dependencies()
 		compose_world_context()
 		configure_dependencies()
+	add_to_group("world")
+
 
 func _ready() -> void:
-	if Engine.is_editor_hint() or machines_root == null:
-		return
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
-			child.register_preplaced(grid, factory)
+			child.register_preplaced(grid, world_services.factory_manager)
 	for block in buildings_root.get_children():
 		if block is Block:
 			if block.block_data != null:
 				grid.register_block(block)
+
 
 func configure_world() -> WorldContext:
 	if _composed:
@@ -57,6 +43,7 @@ func configure_world() -> WorldContext:
 	_composed = true
 	return context
 
+
 # world context is what pass to other components like ui
 func compose_world_context() -> WorldContext:
 	if _composed:
@@ -64,34 +51,52 @@ func compose_world_context() -> WorldContext:
 
 	context = WorldContext.new()
 	context.grid = grid
-	context.clock = clock
-	context.factory = factory
-	context.faith = faith
-	context.jobs = jobs
-	context.reservations = reservations
+	context.clock = world_services.fixed_clock
+	context.factory = world_services.factory_manager
+	context.faith = world_services.faith_manager
+	context.jobs = world_services.job_board
+	context.reservations = world_services.reservation_manager
 	context.player = player
-	context.dialogue_coordinator = dialogue_coordinator
+	context.dialogue_coordinator = world_services.dialogue_coordinator
 
 	_composed = true
 	return context
 
+
 func configure_dependencies() -> void:
-	world_ui_root.configure(faith)
-	factory.configure(grid, clock, faith)
-	pathfinder.configure(factory)
-	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
-	item_spawner.configure(spring_arm, grid, factory)
-	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, world_ui_root.machine_ui)
+	world_services.configure(grid, spring_arm, machines_root, mobs_root, items_root)
+	world_ui.configure(world_services.faith_manager, world_services.machine_placement_controller)
+	grid.configure(world_services.factory_manager)
+	player.configure(
+		spring_arm,
+		world_services.machine_placement_controller,
+		world_services.job_board,
+		grid,
+		world_services.factory_manager,
+		world_ui.hotbar,
+		world_ui.machine_ui
+	)
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
 		if child is Npc:
-			child.configure(clock, jobs, reservations, grid, pathfinder, faith)
+			child.configure(
+				world_services.fixed_clock,
+				world_services.job_board,
+				world_services.reservation_manager,
+				grid,
+				world_services.faith_manager
+			)
 	for child in machines_root.get_children():
 		if child is MachineAssembly:
-			child.configure(factory,faith,jobs,reservations,grid)
-
-func configure_editor_dependencies() -> void:
-	resource_area_manager.configure(grid,machines_root)
+			child.configure(
+				world_services.factory_manager,
+				world_services.faith_manager,
+				world_services.job_board,
+				world_services.reservation_manager,
+				world_services.spirit_spawner,
+				mobs_root,
+				grid
+			)
 
 
 func shutdown() -> void:
@@ -99,15 +104,12 @@ func shutdown() -> void:
 
 
 func validate_dependencies() -> void:
+	assert(world_services != null, "GameWorld requires a WorldServices")
 	assert(grid != null, "GameWorld requires a Grid")
-	assert(clock != null, "GameWorld requires a FixedClock")
-	assert(factory != null, "GameWorld requires a FactoryManager")
-	assert(faith != null, "GameWorld requires a FaithManager")
-	assert(jobs != null, "GameWorld requires a JobBoard")
-	assert(reservations != null, "GameWorld requires a ReservationManager")
-	assert(pathfinder != null, "GameWorld requires a Pathfinder")
 	assert(player != null, "GameWorld requires a Player")
-	assert(placement != null, "GameWorld requires a MachinePlacementController")
-	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
+	assert(spring_arm != null, "GameWorld requires a SpringArm")
+	assert(machines_root != null, "GameWorld requires a machines root")
+	assert(buildings_root != null, "GameWorld requires a buildings root")
+	assert(items_root != null, "GameWorld requires an items root")
+	assert(world_ui != null, "GameWorld requires a WorldUI")
 	assert(mobs_root != null, "GameWorld requires a mobs root")
-	assert(dialogue_coordinator != null, "GameWorld requires a DialogueCoordinator")

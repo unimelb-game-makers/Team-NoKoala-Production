@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://de4l0osan2lf3"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_us8ad"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_d1bun"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_wblel"]
+[ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="3_wblel"]
+[ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="4_d1bun"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="4_i7ptv"]
+
+[sub_resource type="Resource" id="Resource_ls2ej"]
+script = ExtResource("1_us8ad")
+port_id = &"input_1"
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_4cjtm"]
+script = ExtResource("1_us8ad")
+port_id = &"work_1"
+role = 3
+local_cell_offset = Vector3i(3, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_7mxvq"]
+script = ExtResource("1_us8ad")
+role = 2
+local_cell_offset = Vector3i(1, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[resource]
+script = ExtResource("4_i7ptv")
+machine_name = &"Spirit Ritual"
+machine_description = &"summons a spirit when the ritual ceremony is completed"
+cells = Array[ExtResource("1_us8ad")]([SubResource("Resource_ls2ej"), SubResource("Resource_4cjtm"), SubResource("Resource_7mxvq")])
+recipes = Array[ExtResource("2_d1bun")]([ExtResource("3_wblel"), ExtResource("4_d1bun")])
+metadata/_custom_type_script = "uid://cxu884kmx2bg1"
