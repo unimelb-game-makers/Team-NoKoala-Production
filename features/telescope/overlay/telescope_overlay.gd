@@ -65,7 +65,6 @@ func open(view: TelescopeView) -> void:
 	get_tree().paused = true
 
 	# center the image
-	await get_tree().process_frame
 	var extra = content.custom_minimum_size - scroll.size
 	scroll.scroll_horizontal = int(maxf(extra.x, 0.0) / 2.0)
 	scroll.scroll_vertical = int(maxf(extra.y, 0.0) / 2.0)
