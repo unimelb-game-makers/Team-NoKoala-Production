@@ -8,6 +8,7 @@ extends StaticBody3D
 
 var current_stage : int = 0
 var in_discovery : bool = false
+var is_max_progress : bool = false
 
 var _views: Array[TelescopeView] = []
 
@@ -32,7 +33,7 @@ func _ready() -> void:
 	_show_stage()
 
 func interact() -> void:
-	if overlay == null:
+	if overlay == null or is_max_progress:
 		return
 		
 	if not in_discovery:
@@ -51,6 +52,7 @@ func _enter_discovery() -> void:
 
 func _advance_stage() -> void:
 	if current_stage + 1 >= stages.size():
+		is_max_progress = true
 		return
 	current_stage += 1
 	_show_stage()
