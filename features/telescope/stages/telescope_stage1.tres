@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="TelescopeStage" format=3 uid="uid://b7j30b3v348rq"]
 
 [ext_resource type="Resource" uid="uid://dl262qrqucae7" path="res://features/telescope/recipes/telescope_stage2_recipe.tres" id="1_03rwh"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_haqmv"]
+[ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="2_0hvc4"]
 [ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="2_nbeci"]
 [ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/overlay/views/telescope_stage2_view.tscn" id="3_86qyj"]
 
@@ -10,4 +12,5 @@ title = "Recreate Movement"
 details = "Tier 2 Emulate Transportation"
 recipe = ExtResource("1_03rwh")
 view_scene = ExtResource("3_86qyj")
+machine_unlocks = Array[ExtResource("1_haqmv")]([ExtResource("2_0hvc4")])
 metadata/_custom_type_script = "uid://bcnv01v3q4v3c"

@@ -14,11 +14,12 @@ func configure(
 	jobs: JobBoard,
 	reservations: ReservationManager,
 	p_spring_arm: CameraController,
+	p_progression_manager: ProgressionManager
 ) -> void:
 	# Godot doesn't allow override a function with different parameters
 	# Not sure if there's a better way to do this
 	spring_arm = p_spring_arm
-	super(p_grid, p_factory_manager, faith, jobs, reservations, p_spring_arm)
+	super(p_grid, p_factory_manager, faith, jobs, reservations, p_spring_arm, _progression_manager)
 
 
 func _process(_delta: float) -> void:

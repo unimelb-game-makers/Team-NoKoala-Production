@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="13_sy5ev"]
 [ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="14_jp2bf"]
 [ext_resource type="PackedScene" uid="uid://brotbmlwb1jik" path="res://features/telescope/telescope_interactable.tscn" id="15_wk6gm"]
+[ext_resource type="Script" uid="uid://bmfs7248bdrbd" path="res://testbeds/progression_manager.gd" id="16_0cvnq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -39,7 +40,7 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machines_root", "hotbar")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("grid", "clock", "factory", "placement", "faith", "jobs", "reservations", "item_spawner", "spring_arm", "player", "machines_root", "hotbar", "telescope_assembly")]
 script = ExtResource("1_7ip8x")
 grid = NodePath("GridMap")
 clock = NodePath("Services/FixedClock")
@@ -53,6 +54,7 @@ spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
 machines_root = NodePath("Machines")
 hotbar = NodePath("Hotbar")
+telescope_assembly = NodePath("Machines/telescope")
 
 [node name="Services" type="Node" parent="." unique_id=403234449]
 
@@ -128,3 +130,6 @@ metadata/_custom_type_script = "uid://b64ywlwc58ira"
 
 [node name="telescope" parent="Machines" unique_id=66367921 instance=ExtResource("15_wk6gm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0.5)
+
+[node name="ProgressManager" type="Node" parent="." unique_id=265527229]
+script = ExtResource("16_0cvnq")

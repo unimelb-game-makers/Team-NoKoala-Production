@@ -9,6 +9,7 @@ signal place_mode_changed(enabled: bool)
 @export var _faith: FaithManager
 @export var _jobs: JobBoard
 @export var _reservations: ReservationManager
+@export var _progression_manager: ProgressionManager
 
 var place_mode: bool = false:
 	get:
@@ -35,14 +36,20 @@ func configure(
 	jobs: JobBoard,
 	reservations: ReservationManager,
 	_spring_arm: CameraController,
+	p_progession_manager: ProgressionManager
 ) -> void:
 	grid = p_grid
 	factory_manager = p_factory_manager
 	_faith = faith
 	_jobs = jobs
 	_reservations = reservations
+	_progression_manager = p_progession_manager
+	_bind_progression_manager()
 
-
+func _bind_progression_manager() -> void:
+	if not _progression_manager.telescope_stage_advanced.is_connected(_on_telescope_stage_advanced):
+		_progression_manager.telescope_stage_advanced.connect(_on_telescope_stage_advanced)
+		
 func _ready() -> void:
 	_selected_machine = default_machine
 
@@ -114,3 +121,7 @@ func select_machine(machine: MachineFactory.MachineType) -> void:
 func select_next_machine() -> void:
 	var count := MachineFactory.MachineType.size()
 	select_machine(wrapi(_selected_machine + 1, 0, count) as MachineFactory.MachineType)
+
+func _on_telescope_stage_advanced() -> void:
+	# TO DO: change the selection of machines that can be placed
+	pass

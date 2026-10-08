@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brotbmlwb1jik"]
 
-[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_lum82"]
+[ext_resource type="Script" uid="uid://dfpinugxi8jm3" path="res://features/telescope/telescope_assembly.gd" id="1_4j276"]
 [ext_resource type="Script" uid="uid://c3runqrrrmdm3" path="res://features/telescope/telescope_interactable.gd" id="1_pmcgo"]
 [ext_resource type="Texture2D" uid="uid://shfyk8gmv2ry" path="res://features/telescope/art/telescope.png" id="1_wfmd0"]
 [ext_resource type="PackedScene" uid="uid://dekpxnpad5mwt" path="res://features/telescope/overlay/telescope_overlay.tscn" id="3_3juyr"]
@@ -40,8 +40,9 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
 height = 1.46
 
-[node name="telescope" type="Node3D" unique_id=491409680 node_paths=PackedStringArray("block", "machine")]
-script = ExtResource("1_lum82")
+[node name="telescope" type="Node3D" unique_id=491409680 node_paths=PackedStringArray("telescope", "block", "machine")]
+script = ExtResource("1_4j276")
+telescope = NodePath("telescope")
 block = NodePath("Block")
 machine = NodePath("Machine")
 

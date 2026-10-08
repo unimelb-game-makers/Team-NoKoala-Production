@@ -24,6 +24,8 @@ extends Node3D
 @export var hotbar: Hotbar
 @export var machine_ui: MachineUI
 @export var resource_area_manager: ResourceAreaManager
+@export var progression_manager: ProgressionManager
+@export var telescope_assembly: TelescopeAssembly
 
 @export_tool_button("Configure Editor Dependency", "Callable")
 var configure_editor = configure_editor_dependencies
@@ -53,7 +55,8 @@ func configure_dependencies() -> void:
 		assert(jobs != null, "Placement requires a JobBoard")
 		assert(reservations != null, "Placement requires a ReservationManager")
 		assert(spring_arm != null, "Placement requires a SpringArm")
-		placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
+		assert(progression_manager != null, "Placement requires a ProgressionManager")
+		placement.configure(grid, factory, faith, jobs, reservations, spring_arm, progression_manager)
 
 	if item_spawner != null:
 		assert(spring_arm != null, "ItemSpawner requires a SpringArm")
@@ -105,6 +108,10 @@ func configure_dependencies() -> void:
 			assert(grid != null)
 			assert(factory != null)
 			resource_area_manager.configure(grid, machines_root)
+	
+	if progression_manager != null:
+		assert(telescope_assembly != null)
+		progression_manager.configure(telescope_assembly)
 
 
 func configure_editor_dependencies() -> void:
