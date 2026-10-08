@@ -10,5 +10,5 @@ title = "Recreate Scaffolding"
 details = "Tier 1 Structural Repair"
 recipe = ExtResource("1_rtr0e")
 view_scene = ExtResource("3_gb7ch")
-machine_unlocks = Array[int]([2])
+machine_unlocks = Array[int]([1])
 metadata/_custom_type_script = "uid://bcnv01v3q4v3c"
