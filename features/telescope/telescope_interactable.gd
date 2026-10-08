@@ -32,7 +32,9 @@ func _ready() -> void:
 		overlay.add_child(view)
 		_views.append(view)
 		view.unlocked_all_zones.connect(_on_zones_unlocked.bind(view))
-	telescope_machine.repair_completed.connect(_enter_discovery)
+		
+	if not telescope_machine.repair_completed.is_connected(_enter_discovery):
+		telescope_machine.repair_completed.connect(_enter_discovery)
 	_show_stage()
 
 func interact() -> void:
