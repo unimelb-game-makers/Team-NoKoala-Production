@@ -9,7 +9,6 @@ var is_unlocked: bool = false
 signal unlocked
 
 func try_unlock() -> void:
-	# TO DO: add signals here for progress unlocks
 	if is_unlocked:
 		return
 	is_unlocked = true

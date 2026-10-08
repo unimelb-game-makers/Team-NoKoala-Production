@@ -54,11 +54,10 @@ func _enter_discovery() -> void:
 	in_discovery = true
 
 func _advance_stage() -> void:
+	stage_advanced.emit(stages[current_stage])
 	if current_stage + 1 >= stages.size():
 		is_max_progress = true
 		return
-	# before incrementing stage, do relevant unlocks of stage we're leaving
-	stage_advanced.emit(current_stage)
 	current_stage += 1
 	_show_stage()
 	
