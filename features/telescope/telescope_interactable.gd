@@ -12,6 +12,9 @@ var is_max_progress : bool = false
 
 var _views: Array[TelescopeView] = []
 
+# note: emitted before internal stage advancement
+signal stage_advanced(stage: TelescopeStage)
+
 func _ready() -> void:
 	if telescope_machine == null or stages.is_empty():
 		return
@@ -54,6 +57,8 @@ func _advance_stage() -> void:
 	if current_stage + 1 >= stages.size():
 		is_max_progress = true
 		return
+	# before incrementing stage, do relevant unlocks of stage we're leaving
+	stage_advanced.emit(current_stage)
 	current_stage += 1
 	_show_stage()
 	
@@ -63,7 +68,6 @@ func _on_zones_unlocked(view: TelescopeView) -> void:
 	in_discovery = false
 	telescope_machine.resume()
 	_advance_stage()
-	# TO DO: signal to progress manager 
 
 func _show_stage() -> void:
 	var stage = stages[current_stage]
