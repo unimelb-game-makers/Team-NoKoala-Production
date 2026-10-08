@@ -31,6 +31,8 @@ extends Node3D
 var configure_editor = configure_editor_dependencies
 
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	assert(grid != null, "TestWorld requires a Grid")
 	assert(clock != null, "TestWorld requires a FixedClock")
 	assert(factory != null, "TestWorld requires a FactoryManager")

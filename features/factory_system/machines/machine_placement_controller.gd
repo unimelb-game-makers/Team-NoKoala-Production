@@ -11,6 +11,10 @@ signal place_mode_changed(enabled: bool)
 @export var _reservations: ReservationManager
 @export var _progression_manager: ProgressionManager
 
+# debug purposes
+@export var all_machines_unlocked = false
+var _unlocked_machines: Array[MachineFactory.MachineType] = [MachineFactory.MachineType.DEMO]
+
 var place_mode: bool = false:
 	get:
 		return place_mode
@@ -114,14 +118,28 @@ func has_active_placement() -> bool:
 	return _floating_assembly != null
 
 func select_machine(machine: MachineFactory.MachineType) -> void:
+	if not is_unlocked(machine):
+		return
 	_selected_machine = machine
 	if has_active_placement():
 		begin_placement()
 
 func select_next_machine() -> void:
-	var count := MachineFactory.MachineType.size()
-	select_machine(wrapi(_selected_machine + 1, 0, count) as MachineFactory.MachineType)
+	if all_machines_unlocked:
+		var count := MachineFactory.MachineType.size()
+		select_machine(wrapi(_selected_machine + 1, 0, count) as MachineFactory.MachineType)
+	else:
+		var index := _unlocked_machines.find(_selected_machine)
+		var next := _unlocked_machines[wrapi(index + 1, 0, _unlocked_machines.size())]
+		select_machine(next)
 
-func _on_telescope_stage_advanced() -> void:
-	# TO DO: change the selection of machines that can be placed
-	pass
+func _on_telescope_stage_advanced(stage: TelescopeStage) -> void:
+	for machine_type in stage.machine_unlocks:
+		unlock_machine(machine_type)
+
+func unlock_machine(machine: MachineFactory.MachineType) -> void:
+	if machine not in _unlocked_machines:
+		_unlocked_machines.append(machine)
+
+func is_unlocked(machine: MachineFactory.MachineType) -> bool:
+	return machine in _unlocked_machines

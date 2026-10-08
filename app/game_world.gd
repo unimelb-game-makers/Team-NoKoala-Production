@@ -20,6 +20,8 @@ extends Node3D
 @export var resource_area_manager: ResourceAreaManager
 @export var dialogue_coordinator : DialogueCoordinator
 @export var world_ui_root: WorldUIRoot
+@export var progression_manager: ProgressionManager
+@export var telescope_assembly: TelescopeAssembly
 
 @export_tool_button("Configure Editor Dependency", "Callable")
 var configure_editor = configure_editor_dependencies
@@ -79,7 +81,7 @@ func configure_dependencies() -> void:
 	world_ui_root.configure(faith)
 	factory.configure(grid, clock, faith)
 	pathfinder.configure(factory)
-	placement.configure(grid, factory, faith, jobs, reservations, spring_arm)
+	placement.configure(grid, factory, faith, jobs, reservations, spring_arm, progression_manager)
 	item_spawner.configure(spring_arm, grid, factory)
 	player.configure(spring_arm, placement, jobs, grid, factory, hotbar, world_ui_root.machine_ui)
 	spring_arm.configure(player)
@@ -111,3 +113,5 @@ func validate_dependencies() -> void:
 	assert(item_spawner != null, "GameWorld requires a FactoryItemSpawnController")
 	assert(mobs_root != null, "GameWorld requires a mobs root")
 	assert(dialogue_coordinator != null, "GameWorld requires a DialogueCoordinator")
+	assert(progression_manager != null, "GameWorld requires a ProgressionManager")
+	assert(telescope_assembly != null, "GameWorld requires a Telescope")
