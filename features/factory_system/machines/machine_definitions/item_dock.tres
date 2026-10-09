@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://dfchswr13gf2u"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_10wh8"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_33e2w"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_v0mue"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="4_c4de5"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="5_ihorx"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="6_r43mk"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="7_h3qkr"]
+
+[sub_resource type="Resource" id="Resource_input_1"]
+script = ExtResource("1_10wh8")
+port_id = &"input_1"
+can_overlap = true
+
+[sub_resource type="Resource" id="Resource_vssse"]
+script = ExtResource("2_33e2w")
+port_id = &"input_1"
+item = ExtResource("4_c4de5")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_xcovn"]
+script = ExtResource("2_33e2w")
+port_id = &"input_1"
+item = ExtResource("5_ihorx")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_o080y"]
+script = ExtResource("3_v0mue")
+recipe_id = &"a"
+display_name = "a"
+inputs = Array[ExtResource("2_33e2w")]([SubResource("Resource_vssse"), SubResource("Resource_xcovn")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"
+
+[resource]
+script = ExtResource("7_h3qkr")
+machine_name = &"Item Dock"
+cells = Array[ExtResource("1_10wh8")]([SubResource("Resource_input_1")])
+recipes = Array[ExtResource("3_v0mue")]([SubResource("Resource_o080y")])
