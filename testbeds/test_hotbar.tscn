@@ -65,7 +65,6 @@ fixed_clock = NodePath("../FixedClock")
 
 [node name="FaithManager" type="Node" parent="Services" unique_id=1063098932]
 script = ExtResource("4_ahsdp")
-faith_toggle = false
 
 [node name="JobBoard" type="Node" parent="Services" unique_id=420515087]
 script = ExtResource("5_hvcga")
