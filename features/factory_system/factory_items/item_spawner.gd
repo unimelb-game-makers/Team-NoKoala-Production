@@ -22,6 +22,7 @@ func spawn_factory_item(
 	definition: FactoryItemDefinition,
 	global_position: Vector3,
 	stack: ItemStack = null,
+	claimed: bool = false,
 ) -> FactoryItem:
 	if factory_manager == null:
 		return null
@@ -41,6 +42,12 @@ func spawn_factory_item(
 		get_tree().root.add_child(factory_item)
 
 	factory_item.global_position = global_position
+
+	if claimed:
+		# already claimed by machine
+		factory_item.set_available_for_processing(true)
+		return factory_item
+
 	if not factory_manager.register_processable(factory_item):
 		factory_item.queue_free()
 		return null

@@ -54,7 +54,7 @@ func _create_machines_from_grid() -> void:
 			Basis.from_euler(Vector3(0.0, deg_to_rad(grid.grid_to_world_rotation(grid_rotation)), 0.0)),
 			grid.cell_to_world(cell),
 		)
-		assembly.transform = machine_root.global_transform.affine_inverse() * world_transform
+		assembly.transform = _get_machine_root_global_transform().affine_inverse() * world_transform
 
 		undo_redo.add_do_method(machine_root, "add_child", assembly, true)
 		undo_redo.add_do_property(assembly, "owner", scene_root)
@@ -112,6 +112,17 @@ func _convert_machines_to_grid() -> void:
 
 	undo_redo.commit_action()
 	print(resources_converted, " resource areas converted")
+
+
+## Children of a plain [Node] inherit the transform of its nearest [Node3D] ancestor, so use that.
+func _get_machine_root_global_transform() -> Transform3D:
+	var node := machine_root
+	while node != null:
+		var node_3d := node as Node3D
+		if node_3d != null:
+			return node_3d.global_transform
+		node = node.get_parent()
+	return Transform3D.IDENTITY
 
 
 func _get_mesh_name_for_scene(scene_path: String) -> StringName:
