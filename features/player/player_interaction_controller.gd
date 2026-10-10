@@ -113,7 +113,7 @@ func _try_open_machine_ui() -> void:
 	var panels := assembly.get_ui_panels()
 	if machine == null or panels.is_empty():
 		return
-	_machine_ui.open(machine, panels)
+	_machine_ui.open(assembly)
 	get_viewport().set_input_as_handled()
 
 
