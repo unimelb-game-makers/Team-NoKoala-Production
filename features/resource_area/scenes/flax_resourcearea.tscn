@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_xjcmi"]
 [ext_resource type="Texture2D" uid="uid://bwh25616rkcwt" path="res://assets/developer_art/resource_areas/flax resource area.png" id="15_vbx04"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="16_vhbhw"]
+[ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="harvest_panel"]
 
 [sub_resource type="Resource" id="Resource_52k3o"]
 resource_local_to_scene = true
@@ -25,6 +26,7 @@ size = Vector3(1, 2, 1)
 script = ExtResource("1_vbx04")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
 blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]

@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="10_3k5q5"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_dpkl1"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_ddmdn"]
+[ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="harvest_panel"]
 
 [sub_resource type="Resource" id="Resource_52k3o"]
 resource_local_to_scene = true
@@ -24,6 +25,7 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
 script = ExtResource("1_602gf")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
 blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]

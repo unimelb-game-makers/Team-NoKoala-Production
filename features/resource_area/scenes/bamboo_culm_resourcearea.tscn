@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://i4b78mishubc" path="res://assets/developer_art/resource_areas/bamboo_resource.png" id="9_1tqxr"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5m02j"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_af4u5"]
+[ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="harvest_panel"]
 
 [sub_resource type="Resource" id="Resource_vy8n8"]
 resource_local_to_scene = true
@@ -25,6 +26,7 @@ size = Vector3(1, 2, 1)
 script = ExtResource("1_2r36o")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
 blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
@@ -55,11 +57,12 @@ collision_layer = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_vy8n8")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block")]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block", "job_provider")]
 script = ExtResource("3_clsrq")
 block = NodePath("../Block")
 resource_area_definition = ExtResource("4_8fy3l")
 definition = ExtResource("7_3q5xe")
+job_provider = NodePath("MachineJobProvider")
 disabled = false
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
