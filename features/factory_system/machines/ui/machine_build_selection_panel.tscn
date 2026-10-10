@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://features/factory_system/machines/ui/machine_build_selection_panel.gd" id="1_panel"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_definition_panel.tscn" id="2_definition_panel"]
 
-[node name="MachineBuildSelectionPanel" type="Control" node_paths=PackedStringArray("machine_list", "definition_panel", "build_button", "close_button")]
+[node name="MachineBuildSelectionPanel" type="Control" node_paths=PackedStringArray("machine_list", "definition_panel", "build_button", "close_button") groups=["tutorial_build_panel"]]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -65,7 +65,7 @@ text = "Build a machine"
 layout_mode = 2
 text = "X"
 
-[node name="Build" type="Button" parent="Center/Card/Margin/Content/Header"]
+[node name="Build" type="Button" parent="Center/Card/Margin/Content/Header" groups=["tutorial_build_button"]]
 layout_mode = 2
 disabled = true
 text = "Build"
