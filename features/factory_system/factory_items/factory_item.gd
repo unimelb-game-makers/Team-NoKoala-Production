@@ -7,7 +7,7 @@ signal landed(item: FactoryItem)
 
 @onready var sprite: Sprite3D = $Sprite3D
 @export var pickup_area: Area3D
-@onready var debug_label: Label3D = $Sprite3D/StackDebugLabel
+@onready var debug_label: Label3D = $StackDebugLabel
 
 var factory_manager: FactoryManager
 
@@ -33,11 +33,11 @@ func _ready() -> void:
 	
 
 func _process(_delta: float) -> void:
-	if debug_label.visible and stack != null:
-		if stack.quantity > 1:
-			debug_label.text = str(stack.quantity)
-		else:
-			debug_label.text = ""
+	# Not a child of the sprite, so follow its visibility (hidden slots, items
+	# inside machines) by hand.
+	debug_label.visible = sprite.visible and stack != null and stack.quantity > 1
+	if debug_label.visible:
+		debug_label.text = str(stack.quantity)
 
 func _physics_process(delta: float) -> void:
 	if not _in_flight:
