@@ -20,6 +20,7 @@ var player_speed: float = 1.5
 var rotation_speed: float = 10.0
 var target_y_velocity: float = 0.0
 var is_working: bool = false
+var is_currying: bool = false
 
 
 func configure(
@@ -37,6 +38,13 @@ func configure(
 	inventory_owner.configure(hotbar)
 
 
+func _ready() -> void:
+	var inventory := inventory_owner.inventory
+	inventory.slot_changed.connect(_on_inventory_changed.unbind(1))
+	inventory.selected_index_changed.connect(_on_inventory_changed.unbind(2))
+	_on_inventory_changed()
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_echo(): return
 	
@@ -50,9 +58,9 @@ func _process(_delta: float) -> void:
 		var xz_velocity := velocity
 		xz_velocity.y = 0
 		var forward := xz_velocity.length_squared() / MIN_PLAYER_SPEED_SQUARED
-		animation_tree.set(&"parameters/Normal/blend_position", forward)
+		_set_move_scalar(forward)
 	else:
-		animation_tree.set(&"parameters/Normal/blend_position", 0)
+		_set_move_scalar(0)
 
 
 func _physics_process(delta: float) -> void:
@@ -107,6 +115,15 @@ func _physics_process(delta: float) -> void:
 	elif is_on_floor():
 		target_y_velocity = 0.0
 
+
 func jump() -> void:
 	if is_on_floor() and can_jump:
 		target_y_velocity = JUMP_STRENGTH
+
+
+func _on_inventory_changed() -> void:
+	is_currying = inventory_owner.inventory.hand_slot != null
+
+func _set_move_scalar(scalar: float) -> void:
+	animation_tree.set(&"parameters/Normal/blend_position", scalar)
+	animation_tree.set(&"parameters/Currying/blend_position", scalar)
