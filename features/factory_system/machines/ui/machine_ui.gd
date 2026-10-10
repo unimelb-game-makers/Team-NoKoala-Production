@@ -27,7 +27,12 @@ func open(p_assembly: MachineAssembly) -> void:
 	assembly.removing_from_world.connect(close)
 	machine.tree_exiting.connect(close)
 	machine.blueprint_constructed.connect(close)
-	title_label.text = String(assembly.name).capitalize()
+	var title := ""
+	if machine.definition != null:
+		title = String(machine.definition.machine_name)
+	if title.is_empty():
+		title = String(assembly.name).capitalize()
+	title_label.text = title
 	for scene in assembly.get_ui_panels():
 		if scene == null:
 			continue
