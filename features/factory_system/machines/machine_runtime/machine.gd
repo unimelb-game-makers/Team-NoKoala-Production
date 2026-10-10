@@ -9,11 +9,17 @@ enum ProgressPhase {
 
 signal factory_ticked(machine: Machine, delta: float)
 signal enabled_recipes_changed
+signal available_recipes_changed
 signal blueprint_constructed
 signal work_port_enabled_changed(port: WorkPort, enabled: bool)
 signal work_port_allocation_changed(port: WorkPort, worker: WorkerCapability)
 
-@export var definition: MachineDefinition
+@export var definition: MachineDefinition:
+	set(value):
+		if definition == value:
+			return
+		definition = value
+		available_recipes_changed.emit()
 
 ## Recipes that the player has enabled
 @export var enabled_recipes: Array[ProductionRecipe] = []
@@ -28,6 +34,16 @@ var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
 var is_shut_down: bool = false
 var machine_assembly: MachineAssembly
+var recipe_unlocks: RecipeUnlocks:
+	set(value):
+		if recipe_unlocks == value:
+			return
+		if recipe_unlocks != null and recipe_unlocks.recipe_unlocked.is_connected(_on_recipe_unlocked):
+			recipe_unlocks.recipe_unlocked.disconnect(_on_recipe_unlocked)
+		recipe_unlocks = value
+		if recipe_unlocks != null:
+			recipe_unlocks.recipe_unlocked.connect(_on_recipe_unlocked)
+		available_recipes_changed.emit()
 var faith_manager: FaithManager
 var spirit_spawner: SpiritSpawner
 var work_ports: Array[WorkPort] = []
@@ -51,8 +67,37 @@ func is_recipe_enabled(recipe: ProductionRecipe) -> bool:
 	return recipe != null and enabled_recipes.has(recipe)
 
 
+func is_recipe_unlocked(recipe: ProductionRecipe) -> bool:
+	# Standalone testbeds without WorldServices retain their existing recipes.
+	return recipe != null and (recipe_unlocks == null or recipe_unlocks.is_unlocked(recipe))
+
+
+## Recipes this machine can offer right now.
+func get_recipes(include_locked: bool = false) -> Array[ProductionRecipe]:
+	var result: Array[ProductionRecipe] = []
+	if definition == null:
+		return result
+	for recipe in definition.recipes:
+		if recipe != null and (include_locked or is_recipe_unlocked(recipe)):
+			result.append(recipe)
+	return result
+
+
+## Full authored recipe list, including globally locked recipes.
+func get_all_recipes() -> Array[ProductionRecipe]:
+	return get_recipes(true)
+
+
+func is_recipe_available(recipe: ProductionRecipe) -> bool:
+	return definition != null and definition.has_recipe(recipe) and is_recipe_unlocked(recipe)
+
+
+func can_process_recipe(recipe: ProductionRecipe) -> bool:
+	return is_recipe_available(recipe) and is_recipe_enabled(recipe)
+
+
 func enable_recipe(recipe: ProductionRecipe) -> bool:
-	if definition == null or not definition.has_recipe(recipe):
+	if not is_recipe_available(recipe):
 		return false
 	if not enabled_recipes.has(recipe):
 		enabled_recipes.append(recipe)
@@ -69,10 +114,14 @@ func disable_recipe(recipe: ProductionRecipe) -> void:
 func set_enabled_recipes(recipes: Array[ProductionRecipe]) -> void:
 	var result: Array[ProductionRecipe] = []
 	for recipe in recipes:
-		if definition != null and definition.has_recipe(recipe) and not result.has(recipe):
+		if is_recipe_available(recipe) and not result.has(recipe):
 			result.append(recipe)
 	enabled_recipes = result
 	enabled_recipes_changed.emit()
+
+
+func _on_recipe_unlocked(_recipe: ProductionRecipe) -> void:
+	available_recipes_changed.emit()
 
 
 func _exit_tree() -> void:
@@ -136,7 +185,7 @@ func get_pending_input_requirements() -> Array[RecipeItemAmount]:
 		return requirements
 
 	for recipe in enabled_recipes:
-		if recipe == null:
+		if not can_process_recipe(recipe):
 			continue
 		for requirement in recipe.inputs:
 			if requirement != null:
@@ -398,7 +447,7 @@ func accepts_item_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
 		return false
 
 	for recipe in enabled_recipes:
-		if recipe == null:
+		if not can_process_recipe(recipe):
 			continue
 		for requirement in recipe.inputs:
 			if (

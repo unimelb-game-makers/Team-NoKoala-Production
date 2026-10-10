@@ -73,7 +73,7 @@ func has_all_required_inputs_in_place(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> bool:
-	if recipe == null or factory_manager == null or definition == null:
+	if not can_process_recipe(recipe) or factory_manager == null:
 		return false
 	if machine_assembly == null or machine_assembly.block == null or machine_assembly.block.block_data == null:
 		return false
@@ -113,7 +113,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if (
 		_pending_recipe != null
 		and (
-			not enabled_recipes.has(_pending_recipe)
+			not can_process_recipe(_pending_recipe)
 			or not has_all_required_inputs_in_place(_pending_recipe, factory_manager)
 		)
 	):
@@ -122,7 +122,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if _pending_recipe == null:
 		for recipe in enabled_recipes:
 			if (
-				recipe != null
+				can_process_recipe(recipe)
 				and has_all_required_inputs_in_place(recipe, factory_manager)
 			):
 				_pending_recipe = recipe
@@ -148,6 +148,8 @@ func _try_start_recipe(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> bool:
+	if not can_process_recipe(recipe):
+		return false
 	var required_input_count := _get_required_input_count(recipe)
 	var candidates := _find_input_items(recipe, factory_manager)
 	if candidates.size() != required_input_count:

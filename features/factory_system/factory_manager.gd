@@ -10,6 +10,7 @@ signal processable_unregistered(processable: Processable)
 @export var fixed_clock: FixedClock
 @export var faith_manager: FaithManager
 @export var item_spawner: ItemSpawner
+var recipe_unlocks: RecipeUnlocks
 
 var _machines: Array[Machine] = []
 var _processables: Array[Processable] = []
@@ -22,17 +23,23 @@ func configure(
 	p_fixed_clock: FixedClock,
 	p_faith_manager: FaithManager,
 	p_item_spawner: ItemSpawner,
+	p_recipe_unlocks: RecipeUnlocks = null,
 ) -> void:
 	grid = p_grid
 	fixed_clock = p_fixed_clock
 	faith_manager = p_faith_manager
 	item_spawner = p_item_spawner
+	recipe_unlocks = p_recipe_unlocks
 	_connect_clock()
 	_connect_faith_manager()
+	if recipe_unlocks != null and not recipe_unlocks.recipe_unlocked.is_connected(_on_recipe_unlocked):
+		recipe_unlocks.recipe_unlocked.connect(_on_recipe_unlocked)
 
 func _exit_tree() -> void:
 	if fixed_clock != null and fixed_clock.tick.is_connected(_on_tick):
 		fixed_clock.tick.disconnect(_on_tick)
+	if recipe_unlocks != null and recipe_unlocks.recipe_unlocked.is_connected(_on_recipe_unlocked):
+		recipe_unlocks.recipe_unlocked.disconnect(_on_recipe_unlocked)
 
 
 func _connect_clock() -> void:
@@ -88,6 +95,13 @@ func _on_faith_restored() -> void:
 			machine.reactivate()
 
 
+func _on_recipe_unlocked(_recipe: ProductionRecipe) -> void:
+	for machine in get_machines():
+		if _can_tick(machine):
+			machine._update_job_requests()
+	_refresh_item_pickup_states()
+
+
 # --- machine apis ---
 
 func register_machine(machine: Machine) -> bool:
@@ -95,6 +109,7 @@ func register_machine(machine: Machine) -> bool:
 		return false
 
 	_machines.append(machine)
+	machine.recipe_unlocks = recipe_unlocks
 
 	var exit_callback := _on_machine_tree_exiting.bind(machine)
 	if not machine.tree_exiting.is_connected(exit_callback):
