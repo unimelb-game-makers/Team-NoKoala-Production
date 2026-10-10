@@ -1,6 +1,10 @@
 class_name FactoryItem
 extends Processable
 
+## Emitted when a flight started by [method fall_from] or [method launch_to]
+## reaches its target.
+signal landed(item: FactoryItem)
+
 @onready var sprite: Sprite3D = $Sprite3D
 @export var pickup_area: Area3D
 @onready var debug_label: Label3D = $Sprite3D/StackDebugLabel
@@ -11,9 +15,9 @@ var _pickup_collision_layer: int
 var _pickup_input_ray_pickable: bool
 var _pickup_enabled := true
 var _in_process_hidden := false
-var _is_falling := false
-var _fall_velocity := 0.0
-var _fall_target := Vector3.ZERO
+var _in_flight := false
+var _flight_velocity := Vector3.ZERO
+var _flight_target := Vector3.ZERO
 const BASE_SIZE := Vector2(32.0, 32.0)
 
 func _ready() -> void:
@@ -36,19 +40,19 @@ func _process(_delta: float) -> void:
 			debug_label.text = ""
 
 func _physics_process(delta: float) -> void:
-	if not _is_falling:
+	if not _in_flight:
 		return
 	# Someone grabbed it mid-air; whoever holds it now owns its position.
 	if is_claimed():
-		_is_falling = false
+		_in_flight = false
 		return
 
-	_fall_velocity += ProjectSettings.get_setting("physics/3d/default_gravity") * delta
-	var next_position := global_position
-	next_position.y -= _fall_velocity * delta
-	if next_position.y <= _fall_target.y:
-		global_position = _fall_target
-		_is_falling = false
+	_flight_velocity.y -= _get_gravity() * delta
+	var next_position := global_position + _flight_velocity * delta
+	if _flight_velocity.y < 0.0 and next_position.y <= _flight_target.y:
+		global_position = _flight_target
+		_in_flight = false
+		landed.emit(self)
 	else:
 		global_position = next_position
 
@@ -56,12 +60,29 @@ func _physics_process(delta: float) -> void:
 ## Visually drops the item from `start_position` down onto its current
 ## (already grid-snapped) position, snapping to the cell when it lands.
 func fall_from(start_position: Vector3) -> void:
-	_fall_target = global_position
-	if start_position.y <= _fall_target.y:
+	_flight_target = global_position
+	if start_position.y <= _flight_target.y:
 		return
 	global_position = start_position
-	_fall_velocity = 0.0
-	_is_falling = true
+	_flight_velocity = Vector3.ZERO
+	_in_flight = true
+
+
+## Throws the item from its current position so that it lands exactly on
+## `target` after `flight_time` seconds.
+func launch_to(target: Vector3, flight_time: float) -> void:
+	var offset := target - global_position
+	_flight_velocity = Vector3(
+		offset.x / flight_time,
+		(offset.y + 0.5 * _get_gravity() * flight_time * flight_time) / flight_time,
+		offset.z / flight_time,
+	)
+	_flight_target = target
+	_in_flight = true
+
+
+func _get_gravity() -> float:
+	return ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func set_in_process_hidden(is_hidden: bool) -> void:

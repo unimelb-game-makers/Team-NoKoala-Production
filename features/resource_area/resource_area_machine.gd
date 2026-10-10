@@ -1,107 +1,224 @@
+## A resource deposit that yields items only while someone works on it.
+##
+## Anyone able to gather can harvest it by standing on it and working. Spirits
+## are only asked to work it while it has a harvest order: a remaining amount
+## set by the player in the machine UI, or "forever".
 class_name ResourceAreaMachine
 extends Machine
 
-var _processing_recipe: ProductionRecipe
-var _processing_elapsed := 0.0
-var _factory_manager: FactoryManager
+signal harvest_order_changed
+
+enum LandingKind { BLOCKED, EMPTY, STACK }
+
+const HARVEST_PORT := &"harvest"
+
 @export var block: Block
 @export var resource_area_definition: ResourceAreaDefinition
-@export var _spawn_if_output_present_toggle: bool
+## Height above the area that harvested items are thrown from.
+@export var launch_height := 1.0
+@export var min_flight_time := 0.8
+@export var max_flight_time := 1.1
+## How far (in cells) harvested items can be thrown.
+@export var max_throw_distance := 2
 
-func factory_tick(delta: float, factory_manager: FactoryManager) -> void:
+## Items still to harvest for the current order; ignored when harvesting forever.
+var harvest_target := 0
+var harvest_forever := false
+var _harvest_elapsed := 0.0
+var _factory_manager: FactoryManager
+
+
+func has_harvest_order() -> bool:
+	return harvest_forever or harvest_target > 0
+
+
+func set_harvest_target(amount: int) -> void:
+	amount = maxi(amount, 0)
+	if harvest_target == amount:
+		return
+	harvest_target = amount
+	_on_harvest_order_changed()
+
+
+func set_harvest_forever(forever: bool) -> void:
+	if harvest_forever == forever:
+		return
+	harvest_forever = forever
+	_on_harvest_order_changed()
+
+
+func get_recipe() -> ProductionRecipe:
+	if resource_area_definition == null:
+		return null
+	return resource_area_definition.spawner_recipe
+
+
+func is_processing_recipe() -> bool:
+	return are_work_ports_ready() or _harvest_elapsed > 0.0
+
+
+func get_progress_phase() -> ProgressPhase:
+	return ProgressPhase.WORK if is_processing_recipe() else ProgressPhase.NONE
+
+
+func get_processing_progress() -> float:
+	var recipe := get_recipe()
+	if recipe == null or recipe.duration_seconds <= 0.0:
+		return 0.0
+	return clampf(_harvest_elapsed / recipe.duration_seconds, 0.0, 1.0)
+
+
+func get_progress_text() -> String:
+	if get_progress_phase() != ProgressPhase.WORK:
+		return ""
+	return "Harvest %d%%" % roundi(get_processing_progress() * 100.0)
+
+
+## Only advertise work to spirits while there is an order to fill. Players can
+## still harvest by hand at any time.
+func get_remaining_work_needs() -> Array[Dictionary]:
+	if not has_harvest_order():
+		return []
+	return super()
+
+
+func keeps_assigned_workers() -> bool:
+	return has_harvest_order()
+
+
+func try_working_at_port(
+	cell: Vector3i,
+	capability: WorkerCapability,
+) -> bool:
+	_ensure_harvest_port()
+	return super(cell, capability)
+
+
+func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
 	if factory_manager == null:
 		return
-	
+
 	_factory_manager = factory_manager
+	_ensure_harvest_port()
+	_update_job_requests()
 
-	#start processing if currently has no task running
-	if _processing_recipe == null:
-		_try_start_processing()
+	var recipe := get_recipe()
+	if recipe == null or not are_work_ports_ready():
+		unregister_active()
 		return
 
-	_processing_elapsed += delta
-	if _processing_elapsed < _processing_recipe.duration_seconds:
+	register_active(faith_drain_rate)
+	if is_shut_down:
 		return
 
-	if not _try_spawn_outputs(factory_manager):
-		return
-	
-	_clear_processing_state()
-
-
-func _exit_tree() -> void:
-	_cancel_processing()
-
-
-func _try_start_processing() -> void:
-	if resource_area_definition == null or resource_area_definition.spawner_recipe == null:
-		return
-	if not _spawn_if_output_present_toggle and _detect_items_in_output(): return
-
-	var recipe := resource_area_definition.spawner_recipe
-	if recipe == null:
+	_harvest_elapsed += delta
+	if _harvest_elapsed < recipe.duration_seconds:
 		return
 
-	_processing_recipe = recipe
-	_processing_elapsed = 0.0
-
-func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
-	var spawned_outputs: Array[FactoryItem] = []
-	var next_output_indices: Dictionary[StringName, int] = {}
-
-	for output in _processing_recipe.outputs:
-		if output == null or output.item == null or output.amount <= 0:
-			_rollback_spawned_outputs(spawned_outputs, factory_manager)
-			return false
-
-		var output_cells := get_cells_for_port(
-			MachineCellDefinition.Role.OUTPUT,
-			output.port_id,
-		)
-		if output_cells.is_empty():
-			_rollback_spawned_outputs(spawned_outputs, factory_manager)
-			return false
-
-		for _item_index in output.amount:
-			var next_index: int = next_output_indices.get(output.port_id, 0)
-			var output_cell := output_cells[next_index % output_cells.size()]
-			var factory_item := factory_manager.item_spawner.spawn_factory_item_at_cell(
-				output.item,
-				output_cell,
-			)
-			if factory_item == null:
-				_rollback_spawned_outputs(spawned_outputs, factory_manager)
-				return false
-
-			spawned_outputs.append(factory_item)
-			next_output_indices[output.port_id] = next_index + 1
-
-	return true
+	_harvest_elapsed = 0.0
+	var harvested := _launch_outputs(recipe, factory_manager)
+	if harvested > 0 and not harvest_forever and harvest_target > 0:
+		set_harvest_target(harvest_target - harvested)
 
 
-func _rollback_spawned_outputs(
-	spawned_outputs: Array[FactoryItem],
+func _ensure_harvest_port() -> void:
+	if not work_ports.is_empty() or machine_assembly == null:
+		return
+	var cells := get_cells_for_port(MachineCellDefinition.Role.WORK, HARVEST_PORT)
+	if cells.is_empty():
+		_work_ports_valid = false
+		return
+	var port := WorkPort.new(HARVEST_PORT, WorkType.Value.GATHERING, cells)
+	port.enabled_changed.connect(_on_work_port_enabled_changed)
+	port.allocation_changed.connect(_on_work_port_allocation_changed)
+	work_ports.append(port)
+	_work_ports_valid = true
+
+
+## Throws every output of `recipe` out of the area; returns how many items were
+## thrown.
+func _launch_outputs(
+	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
-) -> void:
-	for factory_item in spawned_outputs:
-		if not is_instance_valid(factory_item):
+) -> int:
+	var launched := 0
+	var origin := _get_area_cell()
+	var from_position := factory_manager.grid.cell_to_world(origin)
+	from_position.y += launch_height
+
+	for output in recipe.outputs:
+		if output == null or output.item == null or output.amount <= 0:
 			continue
-		factory_manager.unregister_processable(factory_item)
-		factory_item.queue_free()
+		for _i in output.amount:
+			var landing_cell := _pick_landing_cell(output.item, factory_manager)
+			var factory_item := factory_manager.item_spawner.launch_factory_item(
+				output.item,
+				from_position,
+				landing_cell,
+				randf_range(min_flight_time, max_flight_time),
+			)
+			if factory_item != null:
+				launched += 1
+	return launched
 
-func _cancel_processing() -> void:
-	if _processing_recipe == null:
-		return
-	
-	_clear_processing_state()
 
-func _clear_processing_state() -> void:
-	_processing_recipe = null
-	_processing_elapsed = 0.0
-	_factory_manager = null
+## Picks a free cell around the area to throw an item onto. Cells that already
+## hold a stack the item can join are preferred so harvests pile up together.
+func _pick_landing_cell(
+	item: FactoryItemDefinition,
+	factory_manager: FactoryManager,
+) -> Vector3i:
+	var origin := _get_area_cell()
+	for distance in range(1, max_throw_distance + 1):
+		var empty_cells: Array[Vector3i] = []
+		var stack_cells: Array[Vector3i] = []
+		for dx in range(-distance, distance + 1):
+			for dz in range(-distance, distance + 1):
+				if maxi(absi(dx), absi(dz)) != distance:
+					continue
+				var cell := origin + Vector3i(dx, 0, dz)
+				match _get_landing_kind(cell, item, factory_manager):
+					LandingKind.EMPTY:
+						empty_cells.append(cell)
+					LandingKind.STACK:
+						stack_cells.append(cell)
+		if not stack_cells.is_empty():
+			return stack_cells.pick_random()
+		if not empty_cells.is_empty():
+			return empty_cells.pick_random()
+	# Boxed in: drop it back onto the area itself.
+	return origin
 
-func _detect_items_in_output() -> bool:
-	for cell in get_output_cells():
-		if not _factory_manager.get_processables_at(cell).is_empty():
-			return true
-	return false
+
+func _get_landing_kind(
+	cell: Vector3i,
+	item: FactoryItemDefinition,
+	factory_manager: FactoryManager,
+) -> LandingKind:
+	var grid := factory_manager.grid
+	if not grid.grid_data.is_in_bounds(cell) or not grid.get_blocks_at(cell).is_empty():
+		return LandingKind.BLOCKED
+
+	var processables := factory_manager.get_processables_at(cell)
+	if processables.is_empty():
+		return LandingKind.EMPTY
+	for processable in processables:
+		var factory_item := processable as FactoryItem
+		if (
+			factory_item != null
+			and factory_item.stack != null
+			and factory_item.stack.item_definition == item
+			and not factory_item.stack.is_full()
+		):
+			return LandingKind.STACK
+	return LandingKind.BLOCKED
+
+
+func _get_area_cell() -> Vector3i:
+	var cells := get_occupied_cells()
+	return cells[0] if not cells.is_empty() else center_position
+
+
+func _on_harvest_order_changed() -> void:
+	_update_job_requests()
+	harvest_order_changed.emit()

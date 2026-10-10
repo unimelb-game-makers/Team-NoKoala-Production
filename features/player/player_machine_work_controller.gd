@@ -53,6 +53,7 @@ func _physics_process(_delta: float) -> void:
 
 	if not _working_machine.is_working_at_port(_working_cell, capability):
 		_clear_working_session()
+		_player.is_working = false
 
 
 func toggle_work() -> bool:

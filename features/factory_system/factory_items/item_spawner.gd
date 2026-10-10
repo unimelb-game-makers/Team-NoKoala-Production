@@ -31,16 +31,7 @@ func spawn_factory_item(
 	if factory_item == null:
 		return null
 
-	factory_item.factory_manager = factory_manager
-
-	if items_root != null:
-		items_root.add_child(factory_item)
-	else:
-		if not _warned_missing_root:
-			printerr("ItemSpawner has no items_root; adding items to the scene root")
-			_warned_missing_root = true
-		get_tree().root.add_child(factory_item)
-
+	_add_to_level(factory_item)
 	factory_item.global_position = global_position
 
 	if claimed:
@@ -67,6 +58,56 @@ func spawn_factory_item_at_cell(
 	var world_position := factory_manager.grid.cell_to_world(cell)
 	world_position.y = DEFAULT_SPAWN_HEIGHT
 	return spawn_factory_item(definition, world_position)
+
+
+## Throws a new item from `from_position` so it lands on `landing_cell` after
+## `flight_time` seconds. It only joins the grid (and can be picked up or
+## hauled) once it has landed.
+func launch_factory_item(
+	definition: FactoryItemDefinition,
+	from_position: Vector3,
+	landing_cell: Vector3i,
+	flight_time: float,
+) -> FactoryItem:
+	if factory_manager == null or factory_manager.grid == null:
+		return null
+
+	var factory_item := create_factory_item(definition)
+	if factory_item == null:
+		return null
+
+	_add_to_level(factory_item)
+	factory_item.global_position = from_position
+
+	if not factory_manager.register_processable(factory_item):
+		factory_item.queue_free()
+		return null
+
+	factory_item.landed.connect(_on_launched_item_landed, CONNECT_ONE_SHOT)
+	factory_item.launch_to(
+		factory_manager.grid.cell_to_world(landing_cell),
+		flight_time,
+	)
+	return factory_item
+
+
+func _on_launched_item_landed(factory_item: FactoryItem) -> void:
+	if factory_item.try_drop(factory_item.global_position):
+		return
+	# The landing cell filled up mid-flight; settle here as a separate stack.
+	if not factory_item.is_queued_for_deletion():
+		factory_item.drop_at(factory_item.global_position)
+
+
+func _add_to_level(factory_item: FactoryItem) -> void:
+	factory_item.factory_manager = factory_manager
+	if items_root != null:
+		items_root.add_child(factory_item)
+	else:
+		if not _warned_missing_root:
+			printerr("ItemSpawner has no items_root; adding items to the scene root")
+			_warned_missing_root = true
+		get_tree().root.add_child(factory_item)
 
 
 static func create_factory_item(

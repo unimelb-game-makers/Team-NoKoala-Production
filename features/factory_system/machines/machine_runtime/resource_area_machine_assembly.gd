@@ -14,9 +14,9 @@ func _ready() -> void:
 		$Sprite3D.texture = resource_area_definition.texture
 	
 	if not Engine.is_editor_hint():
-		machine._processing_recipe = resource_area_definition.spawner_recipe
 		machine.resource_area_definition = resource_area_definition
 		block.block_data = block_data
+		super()
 
 func delete_self() -> void:
 	queue_free()
