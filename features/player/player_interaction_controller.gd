@@ -107,7 +107,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _try_handle_npc_interaction(event):
 		return
-		
+	if event.is_action_pressed(&"drop_item") and _inventory_owner.inventory.hand_slot != null:
+		_try_drop_held_item()
+		return
 	if not event is InputEventMouseButton or not event.pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -122,9 +124,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	# LMB -> pick up logic
-	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
-		_try_drop_held_item()
-		return
 	var factory_item := _factory_item_at_mouse()
 	if factory_item != null:
 		_try_pick_up_item_at_mouse(factory_item)
