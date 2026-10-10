@@ -127,7 +127,6 @@ collision_layer = 9
 shape = SubResource("ConvexPolygonShape3D_6vmk2")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1554009554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008407235, 0.026550055, -0.011634588)
 mesh = SubResource("PlaneMesh_rgwlo")
 
 [node name="WorldUI" parent="." unique_id=2084672617 instance=ExtResource("9_rpij7")]
