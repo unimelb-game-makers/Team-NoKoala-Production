@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://features/factory_system/machines/ui/machine_ui.gd" id="1_ui"]
 
-[node name="MachineUI" type="Control" node_paths=PackedStringArray("title_label", "close_button", "tabs")]
+[node name="MachineUI" type="Control" node_paths=PackedStringArray("title_label", "close_button", "tabs", "dismantle_button", "dismantle_status")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,8 @@ script = ExtResource("1_ui")
 title_label = NodePath("Panel/Margin/VBox/Header/Title")
 close_button = NodePath("Panel/Margin/VBox/Header/Close")
 tabs = NodePath("Panel/Margin/VBox/Tabs")
+dismantle_button = NodePath("Panel/Margin/VBox/Dismantle")
+dismantle_status = NodePath("Panel/Margin/VBox/DismantleStatus")
 
 [node name="Panel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(440, 520)
@@ -59,3 +61,14 @@ text = "X"
 [node name="Tabs" type="TabContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="DismantleStatus" type="Label" parent="Panel/Margin/VBox"]
+visible = false
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Dismantle" type="Button" parent="Panel/Margin/VBox"]
+visible = false
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Dismantle"
