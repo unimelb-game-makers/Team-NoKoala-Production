@@ -57,8 +57,10 @@ func is_processing_recipe() -> bool:
 	return are_work_ports_ready() or _harvest_elapsed > 0.0
 
 
+## Only while someone is working it, so a half-finished harvest left behind
+## doesn't keep the progress bar up.
 func get_progress_phase() -> ProgressPhase:
-	return ProgressPhase.WORK if is_processing_recipe() else ProgressPhase.NONE
+	return ProgressPhase.WORK if are_work_ports_ready() else ProgressPhase.NONE
 
 
 func get_processing_progress() -> float:
