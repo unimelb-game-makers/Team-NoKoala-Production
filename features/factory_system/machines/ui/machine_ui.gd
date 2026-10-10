@@ -18,7 +18,12 @@ func open(p_machine: Machine, panel_scenes: Array[PackedScene]) -> void:
 	machine = p_machine
 	machine.tree_exiting.connect(close)
 	machine.blueprint_constructed.connect(close)
-	title_label.text = String(machine.get_parent().name).capitalize()
+	var title := ""
+	if machine.definition != null:
+		title = String(machine.definition.machine_name)
+	if title.is_empty():
+		title = String(machine.get_parent().name).capitalize()
+	title_label.text = title
 	for scene in panel_scenes:
 		if scene == null:
 			continue
