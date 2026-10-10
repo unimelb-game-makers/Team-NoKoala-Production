@@ -3,6 +3,7 @@ extends Node
 
 @export var fixed_clock: FixedClock
 @export var factory_manager: FactoryManager
+@export var recipe_unlocks: RecipeUnlocks
 @export var machine_factory: MachineFactory
 @export var item_spawner: ItemSpawner
 @export var spirit_spawner: SpiritSpawner
@@ -21,7 +22,7 @@ func configure(
 	mobs_root: Node,
 	items_root: Node,
 ) -> void:
-	factory_manager.configure(grid, fixed_clock, faith_manager, item_spawner)
+	factory_manager.configure(grid, fixed_clock, faith_manager, item_spawner, recipe_unlocks)
 	item_spawner.configure(items_root, factory_manager)
 	machine_placement_controller.configure(
 		machine_factory,
