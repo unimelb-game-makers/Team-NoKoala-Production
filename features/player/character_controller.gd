@@ -19,6 +19,7 @@ var move_direction: Vector3 = Vector3(0,0,0)
 var player_speed: float = 1.5
 var rotation_speed: float = 10.0
 var target_y_velocity: float = 0.0
+var is_working: bool = false
 
 
 func configure(
