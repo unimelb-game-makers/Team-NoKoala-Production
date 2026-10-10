@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://features/global/ui/world_ui.tscn" id="10_nguo2"]
 [ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="11_4cjtm"]
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_converter.gd" id="11_nguo2"]
-[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="12_7mxvq"]
 [ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="14_7mxvq"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="15_mkb8f"]
 
@@ -173,6 +172,7 @@ grid = NodePath("../../../../GridMap")
 
 [node name="DemoMachine4" parent="Machines" unique_id=1181246573 instance=ExtResource("14_7mxvq")]
 transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 0.5)
+toggle_blueprint = false
 
 [node name="Block" parent="Machines/DemoMachine4" index="0" unique_id=1151288400]
 block_data = SubResource("Resource_j02vo")
@@ -190,19 +190,11 @@ grid = NodePath("../../../../GridMap")
 [node name="MachineEditorSynchoniser" parent="Machines/DemoMachine4/Machine" parent_id_path=PackedInt32Array(1181246573, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
 grid = NodePath("../../../../GridMap")
 
-[node name="bamboo_culm_area" type="Node3D" parent="Machines" unique_id=2022764336 node_paths=PackedStringArray("block", "machine", "blueprint") instance=ExtResource("11_4cjtm")]
+[node name="bamboo_culm_area" parent="Machines" unique_id=2022764336 instance=ExtResource("11_4cjtm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 0.5)
-script = ExtResource("12_7mxvq")
-block = NodePath("Block")
-machine = NodePath("Machine")
-blueprint = NodePath("Blueprint")
 
-[node name="bamboo_culm_area2" type="Node3D" parent="Machines" unique_id=811720140 node_paths=PackedStringArray("block", "machine", "blueprint") instance=ExtResource("11_4cjtm")]
+[node name="bamboo_culm_area2" parent="Machines" unique_id=811720140 instance=ExtResource("11_4cjtm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 3.5)
-script = ExtResource("12_7mxvq")
-block = NodePath("Block")
-machine = NodePath("Machine")
-blueprint = NodePath("Blueprint")
 
 [node name="ResourceAreaConverter" type="Node" parent="." unique_id=138275656 node_paths=PackedStringArray("grid", "machine_root")]
 script = ExtResource("11_nguo2")

@@ -11,6 +11,34 @@ const RUN_ANIMATION := &"run"
 @export var animation_player: AnimationPlayer
 
 var items_on_belt: Array[Dictionary] = []
+var _handoffs: Dictionary[int, Dictionary] = {}
+
+
+func prepare_for_removal() -> void:
+	_release_carried_items()
+	super.prepare_for_removal()
+
+
+func _exit_tree() -> void:
+	_release_carried_items()
+	super._exit_tree()
+
+
+func _release_carried_items() -> void:
+	for transfer in _handoffs.values():
+		transfer.tween.kill()
+		if is_instance_valid(transfer.item):
+			_release_item(transfer.item)
+	_handoffs.clear()
+	for entry in items_on_belt:
+		if is_instance_valid(entry.item):
+			_release_item(entry.item)
+	items_on_belt.clear()
+
+
+func _release_item(item: FactoryItem) -> void:
+	if is_instance_valid(item) and not item.is_queued_for_deletion():
+		item.drop_at(item.global_position)
 
 
 func _ready() -> void:
@@ -98,13 +126,32 @@ func _detect_indexed_items(factory_manager: FactoryManager) -> void:
 			add_item(item)
 
 func _hand_off(	item: FactoryItem, next_belt: ConveyorBelt, overflow: float = 0.0,) -> void:
+	if not is_instance_valid(item) or item.is_queued_for_deletion():
+		return
 	if is_straight_corner(next_belt):
 		overflow += 0.5
 		var target_pos: Vector3 = next_belt.middle.global_position
 		var tween = create_tween()
+		var item_id := item.get_instance_id()
+		_handoffs[item_id] = {"item": item, "tween": tween}
 		tween.tween_property(item, "global_position", target_pos, 0.6)
 		await tween.finished
-	next_belt.add_item(item, overflow)
+		_handoffs.erase(item_id)
+	if not is_instance_valid(item) or item.is_queued_for_deletion():
+		return
+	# The destination may have been dismantled while the corner tween ran.
+	if (
+		not is_instance_valid(next_belt)
+		or next_belt.is_queued_for_deletion()
+		or next_belt.disabled
+	):
+		_release_item(item)
+		return
+	item.release_claim()
+	if item.try_claim(next_belt):
+		next_belt.add_item(item, overflow)
+	else:
+		_release_item(item)
 
 ## Returns the conveyor occupying the forward cell, if one exists.
 func _get_next_belt(factory_manager: FactoryManager) -> ConveyorBelt:
