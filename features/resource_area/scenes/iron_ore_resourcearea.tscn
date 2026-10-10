@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_dpkl1"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_ddmdn"]
 [ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="harvest_panel"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="progress_bar"]
 
 [sub_resource type="Resource" id="Resource_52k3o"]
 resource_local_to_scene = true
@@ -21,11 +22,12 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hly03"]
 
-[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint", "progress_bar")]
 script = ExtResource("1_602gf")
 block = NodePath("Block")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
+progress_bar = NodePath("BasicProgressBar")
 blueprint = NodePath("Blueprint")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
@@ -81,3 +83,7 @@ disabled = false
 [node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1633841014]
 script = ExtResource("8_upytq")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="BasicProgressBar" parent="." unique_id=387532002 node_paths=PackedStringArray("machine") instance=ExtResource("progress_bar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0)
+machine = NodePath("../Machine")
