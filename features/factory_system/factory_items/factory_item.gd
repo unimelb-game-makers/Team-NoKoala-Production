@@ -11,6 +11,9 @@ var _pickup_collision_layer: int
 var _pickup_input_ray_pickable: bool
 var _pickup_enabled := true
 var _in_process_hidden := false
+var _is_falling := false
+var _fall_velocity := 0.0
+var _fall_target := Vector3.ZERO
 const BASE_SIZE := Vector2(32.0, 32.0)
 
 func _ready() -> void:
@@ -31,6 +34,35 @@ func _process(_delta: float) -> void:
 			debug_label.text = str(stack.quantity)
 		else:
 			debug_label.text = ""
+
+func _physics_process(delta: float) -> void:
+	if not _is_falling:
+		return
+	# Someone grabbed it mid-air; whoever holds it now owns its position.
+	if is_claimed():
+		_is_falling = false
+		return
+
+	_fall_velocity += ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+	var next_position := global_position
+	next_position.y -= _fall_velocity * delta
+	if next_position.y <= _fall_target.y:
+		global_position = _fall_target
+		_is_falling = false
+	else:
+		global_position = next_position
+
+
+## Visually drops the item from `start_position` down onto its current
+## (already grid-snapped) position, snapping to the cell when it lands.
+func fall_from(start_position: Vector3) -> void:
+	_fall_target = global_position
+	if start_position.y <= _fall_target.y:
+		return
+	global_position = start_position
+	_fall_velocity = 0.0
+	_is_falling = true
+
 
 func set_in_process_hidden(is_hidden: bool) -> void:
 	_in_process_hidden = is_hidden

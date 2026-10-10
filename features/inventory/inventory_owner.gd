@@ -70,12 +70,15 @@ func try_drop_held_item() -> bool:
 	var dropped_item = inventory.hand_slot
 	var drop_position = actor.global_position
 	drop_position.y = 0
+	var held_position: Vector3 = dropped_item.global_position
 
 	if not dropped_item.try_drop(drop_position):
 		return false
 
 	_show_item(dropped_item)
 	inventory.hand_slot = null
+	if not dropped_item.is_queued_for_deletion():
+		dropped_item.fall_from(held_position)
 	return true
 
 
