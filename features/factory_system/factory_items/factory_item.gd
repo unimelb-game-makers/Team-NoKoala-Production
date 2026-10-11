@@ -1,8 +1,8 @@
 class_name FactoryItem
 extends Processable
 
-## Emitted when a flight started by [method fall_from] or [method launch_to]
-## reaches its target.
+## Emitted when a flight started by [method fall_from] or [method launch]
+## reaches the floor.
 signal landed(item: FactoryItem)
 
 @onready var sprite: Sprite3D = $Sprite3D
@@ -17,7 +17,12 @@ var _pickup_enabled := true
 var _in_process_hidden := false
 var _in_flight := false
 var _flight_velocity := Vector3.ZERO
+## Height of the floor the current flight ends on.
+var _flight_floor := 0.0
+## Exact landing spot for [method fall_from]; launched items land wherever they
+## hit the floor.
 var _flight_target := Vector3.ZERO
+var _has_flight_target := false
 const BASE_SIZE := Vector2(32.0, 32.0)
 
 func _ready() -> void:
@@ -49,8 +54,9 @@ func _physics_process(delta: float) -> void:
 
 	_flight_velocity.y -= _get_gravity() * delta
 	var next_position := global_position + _flight_velocity * delta
-	if _flight_velocity.y < 0.0 and next_position.y <= _flight_target.y:
-		global_position = _flight_target
+	if _flight_velocity.y < 0.0 and next_position.y <= _flight_floor:
+		next_position.y = _flight_floor
+		global_position = _flight_target if _has_flight_target else next_position
 		_in_flight = false
 		landed.emit(self)
 	else:
@@ -63,21 +69,19 @@ func fall_from(start_position: Vector3) -> void:
 	_flight_target = global_position
 	if start_position.y <= _flight_target.y:
 		return
+	_flight_floor = _flight_target.y
+	_has_flight_target = true
 	global_position = start_position
 	_flight_velocity = Vector3.ZERO
 	_in_flight = true
 
 
-## Throws the item from its current position so that it lands exactly on
-## `target` after `flight_time` seconds.
-func launch_to(target: Vector3, flight_time: float) -> void:
-	var offset := target - global_position
-	_flight_velocity = Vector3(
-		offset.x / flight_time,
-		(offset.y + 0.5 * _get_gravity() * flight_time * flight_time) / flight_time,
-		offset.z / flight_time,
-	)
-	_flight_target = target
+## Throws the item from its current position with `velocity`; it flies under
+## gravity until it comes down to `floor_height`.
+func launch(velocity: Vector3, floor_height: float) -> void:
+	_flight_velocity = velocity
+	_flight_floor = floor_height
+	_has_flight_target = false
 	_in_flight = true
 
 

@@ -60,14 +60,13 @@ func spawn_factory_item_at_cell(
 	return spawn_factory_item(definition, world_position)
 
 
-## Throws a new item from `from_position` so it lands on `landing_cell` after
-## `flight_time` seconds. It only joins the grid (and can be picked up or
-## hauled) once it has landed.
+## Throws a new item from `from_position` with `velocity`. It snaps to the
+## cell it lands in, and only joins the grid (and can be picked up or hauled)
+## once it has landed.
 func launch_factory_item(
 	definition: FactoryItemDefinition,
 	from_position: Vector3,
-	landing_cell: Vector3i,
-	flight_time: float,
+	velocity: Vector3,
 ) -> FactoryItem:
 	if factory_manager == null or factory_manager.grid == null:
 		return null
@@ -83,10 +82,12 @@ func launch_factory_item(
 		factory_item.queue_free()
 		return null
 
+	var floor_cell := factory_manager.grid.world_to_cell(from_position)
+	floor_cell.y = 0
 	factory_item.landed.connect(_on_launched_item_landed, CONNECT_ONE_SHOT)
-	factory_item.launch_to(
-		factory_manager.grid.cell_to_world(landing_cell),
-		flight_time,
+	factory_item.launch(
+		velocity,
+		factory_manager.grid.cell_to_world(floor_cell).y,
 	)
 	return factory_item
 
@@ -94,7 +95,7 @@ func launch_factory_item(
 func _on_launched_item_landed(factory_item: FactoryItem) -> void:
 	if factory_item.try_drop(factory_item.global_position):
 		return
-	# The landing cell filled up mid-flight; settle here as a separate stack.
+	# Couldn't fully join a stack in the landing cell; settle as a separate one.
 	if not factory_item.is_queued_for_deletion():
 		factory_item.drop_at(factory_item.global_position)
 
