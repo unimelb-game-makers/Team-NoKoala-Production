@@ -31,14 +31,20 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 		return
 	var recipe := recipes[repair_stage]
 	
+	if _pending_recipe != recipe:
+		_pending_recipe = recipe
+		configure_work_ports(recipe)
+		_update_job_requests()
+
 	# try to do the whole thing first
-	if _is_fully_supplied(recipe):
+	if _is_fully_supplied(recipe) and are_work_ports_ready():
 		_processing_recipe = recipe
 		_processing_elapsed = 0.0
 		_claimed_inputs = _held.duplicate()
 		_held.clear()
+		_pending_recipe = null
 		# TO DO: check if spirits will operate this?
-		if _check_workable(recipe):
+		if are_work_ports_ready():
 			register_active(faith_drain_rate)
 		else:
 			unregister_active()
@@ -76,10 +82,9 @@ func _try_partial_input(recipe: ProductionRecipe, factory_manager: FactoryManage
 					if item.stack.quantity > needed:
 						# split off only what is needed
 						var split_stack = item.stack.split(needed)
-						claimed = FactoryItemFactory.spawn_factory_item(
+						claimed = factory_manager.item_spawner.spawn_factory_item(
 							item.stack.item_definition,
 							item.transform.origin,
-							factory_manager,
 							split_stack,
 							true)
 						if not claimed.try_claim(self):

@@ -3,7 +3,7 @@ extends JobRequest
 
 var work_type: WorkType.Value
 var destination: Vector3i
-var machine: BasicMachine
+var machine: Machine
 var _factory_manager: FactoryManager
 var _reservation_manager: ReservationManager
 
@@ -13,7 +13,7 @@ func _init(
 	p_destination: Vector3i,
 	p_factory_manager: FactoryManager,
 	p_reservation_manager: ReservationManager,
-	p_machine: BasicMachine,
+	p_machine: Machine,
 ) -> void:
 	work_type = p_work_type
 	destination = p_destination

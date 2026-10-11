@@ -7,17 +7,15 @@ signal world_unloaded(world: GameWorld)
 
 ## world scene are created from the packedscene in runtime: this is to ensure the consistentn dependency injection
 @export var initial_world_scene: PackedScene
-@export var ui_root: UIRoot
+@export var game_ui: GameUI
 
 var current_world: GameWorld
 
 
 func _ready() -> void:
-	assert(ui_root != null, "App requires a UIRoot")
+	assert(game_ui != null, "App requires a GameUI")
 	assert(initial_world_scene != null, "App requires a world scene")
 	load_world(initial_world_scene)
-
-
 
 
 func load_world(world_scene: PackedScene):
@@ -36,7 +34,7 @@ func load_world(world_scene: PackedScene):
 	#configure: fixed, one-time world dependency
 	#bind: replaceable dependency that pair with an unbind 
 	world.configure_world()
-	ui_root.bind_world(world.context)
+	game_ui.bind_world(world.context)
 
 	#_ready only triggers after a node enters the tree.
 	add_child(world)
@@ -51,7 +49,7 @@ func unload_world() -> void:
 		return
 
 	#unbind world
-	ui_root.unbind_world()
+	game_ui.unbind_world()
 	
 	#unload world
 	current_world.shutdown()

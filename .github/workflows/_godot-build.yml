@@ -79,6 +79,12 @@ jobs:
           mkdir -p "build/${{ inputs.platform }}"
           godot --headless --export-release "$preset" "$output"
 
+      - name: Prepare Web package for static hosting
+        if: inputs.platform == 'web'
+        working-directory: ${{ inputs.project_path }}
+        shell: bash
+        run: bash "$GITHUB_WORKSPACE/.github/scripts/prepare-web-package.sh" build/web
+
       - name: Add cross-origin isolation service worker
         if: inputs.platform == 'web'
         working-directory: ${{ inputs.project_path }}

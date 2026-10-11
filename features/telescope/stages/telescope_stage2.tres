@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="2_8rsln"]
 [ext_resource type="PackedScene" uid="uid://cx5ok58puyi4k" path="res://features/telescope/overlay/views/telescope_stage2_view.tscn" id="3_syvbk"]
 
+[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="4_unlock"]
+
 [resource]
 script = ExtResource("2_8rsln")
 title = "Recreate Movement"
 details = "Tier 2 Emulate Transportation"
 recipe = ExtResource("1_hy5id")
 view_scene = ExtResource("3_syvbk")
-machine_unlocks = Array[int]([2])
+machine_unlocks = [ExtResource("4_unlock")]
 metadata/_custom_type_script = "uid://bcnv01v3q4v3c"

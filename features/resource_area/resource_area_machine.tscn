@@ -8,27 +8,25 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="5_av6lk"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="6_ibtvi"]
 [ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_ibtvi"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="10_construction_amount"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="11_construction_item"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
-albedo_color = Color(1, 0.19, 0.19, 1)
-
-[sub_resource type="Resource" id="Resource_lfs7i"]
-script = ExtResource("4_h2iij")
-port_id = &""
-role = 2
-metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+[sub_resource type="BoxShape3D" id="BoxShape3D_hly03"]
 
 [sub_resource type="Resource" id="Resource_21nps"]
 script = ExtResource("4_h2iij")
 port_id = &"output_1"
 role = 1
-local_cell_offset = Vector3i(0, 0, 1)
-can_overlap = true
 metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("10_construction_amount")
+item = ExtResource("11_construction_item")
 
 [sub_resource type="Resource" id="Resource_kjr54"]
 script = ExtResource("6_ibtvi")
-cells = Array[ExtResource("4_h2iij")]([SubResource("Resource_lfs7i"), SubResource("Resource_21nps")])
+cells = Array[ExtResource("4_h2iij")]([SubResource("Resource_21nps")])
+construction_materials = Array[ExtResource("10_construction_amount")]([SubResource("Resource_construction_iron")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
 [node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine") groups=["resource_area"]]
@@ -41,22 +39,20 @@ machine = NodePath("Machine")
 script = ExtResource("2_wynfa")
 transform_root = NodePath("..")
 
-[node name="Structure" type="CSGBox3D" parent="Block" unique_id=24173530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
-size = Vector3(1, 2, 1)
+[node name="Sprite3D" type="Sprite3D" parent="Block" unique_id=17269070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("9_ibtvi")
 
-[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
-size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_q0umq")
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1749182662]
+collision_layer = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=963038657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_hly03")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block")]
 script = ExtResource("3_xcxxg")
 block = NodePath("../Block")
 definition = SubResource("Resource_kjr54")
-
-[node name="Sprite3D" type="Sprite3D" parent="." unique_id=17269070]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
-texture_filter = 0
-texture = ExtResource("9_ibtvi")

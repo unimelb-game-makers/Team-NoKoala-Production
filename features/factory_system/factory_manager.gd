@@ -9,6 +9,7 @@ signal processable_unregistered(processable: Processable)
 @export var grid: Grid
 @export var fixed_clock: FixedClock
 @export var faith_manager: FaithManager
+@export var item_spawner: ItemSpawner
 
 var _machines: Array[Machine] = []
 var _processables: Array[Processable] = []
@@ -16,10 +17,16 @@ var _processables_by_cell: Dictionary = {}
 var _processable_cells: Dictionary = {}
 
 
-func configure(p_grid: Grid, p_fixed_clock: FixedClock, p_faith_manager: FaithManager) -> void:
+func configure(
+	p_grid: Grid,
+	p_fixed_clock: FixedClock,
+	p_faith_manager: FaithManager,
+	p_item_spawner: ItemSpawner,
+) -> void:
 	grid = p_grid
 	fixed_clock = p_fixed_clock
 	faith_manager = p_faith_manager
+	item_spawner = p_item_spawner
 	_connect_clock()
 	_connect_faith_manager()
 
@@ -94,6 +101,7 @@ func register_machine(machine: Machine) -> bool:
 		machine.tree_exiting.connect(exit_callback)
 
 	machine_registered.emit(machine)
+	_refresh_item_pickup_states()
 	return true
 
 func unregister_machine(
@@ -111,6 +119,7 @@ func unregister_machine(
 			machine.tree_exiting.disconnect(exit_callback)
 
 	machine_unregistered.emit(machine)
+	_refresh_item_pickup_states()
 	return true
 
 func is_machine_registered(machine: Machine) -> bool:
@@ -137,6 +146,16 @@ func get_machines_at(cell: Vector3i) -> Array[Machine]:
 			and not result.has(machine)
 		):
 			result.append(machine)
+		
+		if assembly.toggle_blueprint:
+			machine = assembly.blueprint
+			if (
+				is_instance_valid(machine)
+				and not machine.is_queued_for_deletion()
+				and is_machine_registered(machine)
+				and not result.has(machine)
+			):
+				result.append(machine)
 
 	return result
 
@@ -153,6 +172,37 @@ func accepts_item_at_cell(cell: Vector3i, item: FactoryItemDefinition) -> bool:
 	for machine in get_machines_at(cell):
 		if machine.accepts_item_at_cell(item, cell):
 			return true
+	return false
+
+
+func locks_item_pickup_at_cell(
+	cell: Vector3i,
+	item: FactoryItemDefinition,
+) -> bool:
+	for machine in get_machines_at(cell):
+		if machine.locks_item_pickup_at_cell(item, cell):
+			return true
+	return false
+
+
+func can_add_item_at_cell(
+	cell: Vector3i,
+	item: FactoryItemDefinition,
+) -> bool:
+	var processables := get_processables_at(cell)
+	if processables.is_empty():
+		return true
+	for processable in processables:
+		var factory_item := processable as FactoryItem
+		if (
+			factory_item != null
+			and factory_item.stack != null
+			and factory_item.stack.item_definition == item
+			and not factory_item.stack.is_full()
+		):
+			for machine in get_machines_at(cell):
+				if machine.allows_stacked_input_at_cell(item, cell):
+					return true
 	return false
 
 # --- processable apis ---
@@ -257,6 +307,7 @@ func _on_processable_dropped(
 	world_position: Vector3,
 ) -> void:
 	_index_processable(processable, world_position)
+	_refresh_item_pickup_state(processable)
 
 func _on_processable_claim_changed(
 	processable: Processable,
@@ -266,6 +317,7 @@ func _on_processable_claim_changed(
 		_remove_processable_from_index(processable)
 	elif processable.is_dropped():
 		_index_processable(processable, processable.global_position)
+		_refresh_item_pickup_state(processable)
 
 
 func _on_processable_tree_exiting(processable: Processable) -> void:
@@ -286,4 +338,19 @@ func _can_tick(machine: Node) -> bool:
 		is_instance_valid(machine)
 		and not machine.is_queued_for_deletion()
 		and is_machine_registered(machine)
+	)
+
+
+func _refresh_item_pickup_states() -> void:
+	for processable in _processables:
+		_refresh_item_pickup_state(processable)
+
+
+func _refresh_item_pickup_state(processable: Processable) -> void:
+	var item := processable as FactoryItem
+	if item == null or item.stack == null or not item.is_dropped():
+		return
+	var cell := grid.world_to_cell(item.get_drop_world_position())
+	item.set_pickup_enabled(
+		not locks_item_pickup_at_cell(cell, item.stack.item_definition)
 	)
