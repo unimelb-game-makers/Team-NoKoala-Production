@@ -8,18 +8,18 @@ extends Machine
 
 signal harvest_order_changed
 
-enum LandingKind { BLOCKED, EMPTY, STACK }
-
 const HARVEST_PORT := &"harvest"
 
 @export var block: Block
 @export var resource_area_definition: ResourceAreaDefinition
 ## Height above the area that harvested items are thrown from.
 @export var launch_height := 1.0
-@export var min_flight_time := 0.8
-@export var max_flight_time := 1.1
-## How far (in cells) harvested items can be thrown.
-@export var max_throw_distance := 2
+## Horizontal speed range of harvested items, thrown in a random direction.
+@export var min_launch_speed := 0.4
+@export var max_launch_speed := 0.8
+## Upward speed range of harvested items.
+@export var min_launch_up_speed := 1.0
+@export var max_launch_up_speed := 1.5
 
 ## Items still to harvest for the current order; ignored when harvesting forever.
 var harvest_target := 0
@@ -152,68 +152,26 @@ func _launch_outputs(
 		if output == null or output.item == null or output.amount <= 0:
 			continue
 		for _i in output.amount:
-			var landing_cell := _pick_landing_cell(output.item, factory_manager)
 			var factory_item := factory_manager.item_spawner.launch_factory_item(
 				output.item,
 				from_position,
-				landing_cell,
-				randf_range(min_flight_time, max_flight_time),
+				_random_launch_velocity(),
 			)
 			if factory_item != null:
 				launched += 1
 	return launched
 
 
-## Picks a free cell around the area to throw an item onto. Cells that already
-## hold a stack the item can join are preferred so harvests pile up together.
-func _pick_landing_cell(
-	item: FactoryItemDefinition,
-	factory_manager: FactoryManager,
-) -> Vector3i:
-	var origin := _get_area_cell()
-	for distance in range(1, max_throw_distance + 1):
-		var empty_cells: Array[Vector3i] = []
-		var stack_cells: Array[Vector3i] = []
-		for dx in range(-distance, distance + 1):
-			for dz in range(-distance, distance + 1):
-				if maxi(absi(dx), absi(dz)) != distance:
-					continue
-				var cell := origin + Vector3i(dx, 0, dz)
-				match _get_landing_kind(cell, item, factory_manager):
-					LandingKind.EMPTY:
-						empty_cells.append(cell)
-					LandingKind.STACK:
-						stack_cells.append(cell)
-		if not stack_cells.is_empty():
-			return stack_cells.pick_random()
-		if not empty_cells.is_empty():
-			return empty_cells.pick_random()
-	# Boxed in: drop it back onto the area itself.
-	return origin
-
-
-func _get_landing_kind(
-	cell: Vector3i,
-	item: FactoryItemDefinition,
-	factory_manager: FactoryManager,
-) -> LandingKind:
-	var grid := factory_manager.grid
-	if not grid.grid_data.is_in_bounds(cell) or not grid.get_blocks_at(cell).is_empty():
-		return LandingKind.BLOCKED
-
-	var processables := factory_manager.get_processables_at(cell)
-	if processables.is_empty():
-		return LandingKind.EMPTY
-	for processable in processables:
-		var factory_item := processable as FactoryItem
-		if (
-			factory_item != null
-			and factory_item.stack != null
-			and factory_item.stack.item_definition == item
-			and not factory_item.stack.is_full()
-		):
-			return LandingKind.STACK
-	return LandingKind.BLOCKED
+func _random_launch_velocity() -> Vector3:
+	var horizontal := Vector2.from_angle(randf() * TAU) * randf_range(
+		min_launch_speed,
+		max_launch_speed,
+	)
+	return Vector3(
+		horizontal.x,
+		randf_range(min_launch_up_speed, max_launch_up_speed),
+		horizontal.y,
+	)
 
 
 func _get_area_cell() -> Vector3i:
