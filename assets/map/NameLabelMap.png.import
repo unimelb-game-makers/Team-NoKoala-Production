@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://sxvwhkjx484n"
-path="res://.godot/imported/NameLabelMap.png-193fe79d1a26a965c2fb43c366d2b174.ctex"
+path="res://.godot/imported/NameLabelMap.png-4968e7967209130b34c9057a999386de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/map/icons/NameLabelMap.png"
-dest_files=["res://.godot/imported/NameLabelMap.png-193fe79d1a26a965c2fb43c366d2b174.ctex"]
+source_file="res://assets/map/NameLabelMap.png"
+dest_files=["res://.godot/imported/NameLabelMap.png-4968e7967209130b34c9057a999386de.ctex"]
 
 [params]
 
