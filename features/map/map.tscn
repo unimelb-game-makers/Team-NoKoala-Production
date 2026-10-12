@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://b6ifjm6dc03c4"]
+
+[ext_resource type="Script" uid="uid://bxamf40ppqq8l" path="res://features/map/map.gd" id="1_a5vrk"]
+[ext_resource type="Texture2D" uid="uid://b44kc0u5uni0w" path="res://assets/map/full/MapNoLabels.png" id="1_sq6h7"]
+
+[node name="Map" type="Control" unique_id=901774776]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a5vrk")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=108969578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_sq6h7")
+expand_mode = 2

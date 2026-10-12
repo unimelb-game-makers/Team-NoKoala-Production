@@ -88,6 +88,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _try_handle_npc_interaction(event):
 		return
+		
 	if not event is InputEventMouseButton or not event.pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_RIGHT:

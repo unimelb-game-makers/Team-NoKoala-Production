@@ -6,6 +6,7 @@ extends Node
 @export var build_menu_button: Button
 @export var build_selection_panel: MachineBuildSelectionPanel
 @export var hotbar: Hotbar
+@export var map: Map
 
 
 func _ready() -> void:
@@ -22,3 +23,12 @@ func _on_build_menu_pressed() -> void:
 		build_selection_panel.close()
 	else:
 		build_selection_panel.open()
+
+func toggle_map() -> void:
+	map.visible = not map.visible
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_map"):
+		toggle_map()
+		get_viewport().set_input_as_handled()
+		
