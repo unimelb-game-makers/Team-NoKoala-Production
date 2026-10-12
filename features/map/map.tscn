@@ -21,3 +21,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_sq6h7")
 expand_mode = 2
+
+[node name="Regions" type="Control" parent="." unique_id=2127688760]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
