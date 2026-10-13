@@ -29,6 +29,7 @@ func _on_build_menu_pressed() -> void:
 
 func toggle_map() -> void:
 	map.visible = not map.visible
+	map.fade_in_discovered_queue()
 	
 func _update_map(id: StringName) -> void:
 	print("unlocked " + id + "!!")

@@ -10,6 +10,7 @@ var _locations := {}  # maps id to icon texture
 var _labels := {}  # maps id to label texture
 var _undiscovered := {}  # maps id to undiscovered texture
 var _discovered := {}  # map id to bool
+var _discovered_queue = []
 
 func _ready() -> void:
 	for region in regions:
@@ -45,7 +46,14 @@ func discover_region(id: StringName) -> void:
 	if _discovered.has(id) or not _locations.has(id) or not _labels.has(id):
 		return
 	_discovered[id] = true
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(_undiscovered[id], "modulate:a", 0.0, 1.5)
-	tween.tween_property(_locations[id], "modulate:a", 1.0, 1.5)
-	tween.tween_property(_labels[id], "modulate:a", 1.0, 1.5)
+	_discovered_queue.append(id)
+	if visible:
+		fade_in_discovered_queue()
+		
+func fade_in_discovered_queue() -> void:
+	for id in _discovered_queue:
+		var tween := create_tween().set_parallel(true)
+		tween.tween_property(_undiscovered[id], "modulate:a", 0.0, 1.5)
+		tween.tween_property(_locations[id], "modulate:a", 1.0, 1.5)
+		tween.tween_property(_labels[id], "modulate:a", 1.0, 1.5)
+		_discovered_queue.erase(id)
