@@ -12,7 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://cfgonqb746333" path="res://assets/map/labels/LockedAltarLabel.png" id="10_5xq7k"]
 [ext_resource type="Texture2D" uid="uid://kdwv22volyui" path="res://assets/map/icons/BridgeMap.png" id="11_drot5"]
 [ext_resource type="Texture2D" uid="uid://3rj57p0kxvr7" path="res://assets/map/labels/BridgeLabel.png" id="12_jtrti"]
+[ext_resource type="Texture2D" uid="uid://caqhimnivf62q" path="res://assets/map/base/BlankMap.png" id="13_drot5"]
 [ext_resource type="Texture2D" uid="uid://i2imuotjxh43" path="res://assets/map/full/MapNoBuildings.png" id="13_hw0yn"]
+[ext_resource type="Texture2D" uid="uid://2sljhn1ax36a" path="res://assets/map/base/LeftScroll.png" id="14_drot5"]
+[ext_resource type="Texture2D" uid="uid://d3in0qi6fd4on" path="res://assets/map/base/RightScroll.png" id="15_jtrti"]
 
 [sub_resource type="Resource" id="Resource_a5vrk"]
 script = ExtResource("2_ufgmf")
@@ -26,7 +29,6 @@ script = ExtResource("2_ufgmf")
 id = &"town"
 label = ExtResource("6_hw0yn")
 icon = ExtResource("5_esvw2")
-map_position = Vector2(390, 260)
 discovered_by_default = true
 metadata/_custom_type_script = "uid://coypu1xmuhdfg"
 
@@ -51,7 +53,7 @@ label = ExtResource("12_jtrti")
 icon = ExtResource("11_drot5")
 metadata/_custom_type_script = "uid://coypu1xmuhdfg"
 
-[node name="Map" type="Control" unique_id=901774776 node_paths=PackedStringArray("_region_container", "_map_rect")]
+[node name="Map" type="Control" unique_id=901774776 node_paths=PackedStringArray("_region_container", "_empty_map", "_base_map", "scroll_rhs", "scroll_lhs")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,9 +63,22 @@ grow_vertical = 2
 script = ExtResource("1_a5vrk")
 regions = Array[ExtResource("2_ufgmf")]([SubResource("Resource_a5vrk"), SubResource("Resource_x82xl"), SubResource("Resource_vfjve"), SubResource("Resource_jtrti"), SubResource("Resource_k8jbc")])
 _region_container = NodePath("Regions")
-_map_rect = NodePath("TextureRect")
+_empty_map = NodePath("EmptyBase")
+_base_map = NodePath("Base")
+scroll_rhs = NodePath("ScrollRight")
+scroll_lhs = NodePath("ScrollLeft")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=108969578]
+[node name="EmptyBase" type="TextureRect" parent="." unique_id=108969578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_drot5")
+expand_mode = 2
+
+[node name="Base" type="TextureRect" parent="." unique_id=2034486330]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,3 +95,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ScrollRight" type="TextureRect" parent="." unique_id=1376320427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_drot5")
+expand_mode = 2
+
+[node name="ScrollLeft" type="TextureRect" parent="." unique_id=1617724092]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_jtrti")
+expand_mode = 2

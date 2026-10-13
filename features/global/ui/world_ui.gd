@@ -7,11 +7,14 @@ extends Node
 @export var build_selection_panel: MachineBuildSelectionPanel
 @export var hotbar: Hotbar
 @export var map: Map
+@export var map_regions: Node
 
 
 func _ready() -> void:
 	build_menu_button.pressed.connect(_on_build_menu_pressed)
-
+	
+	for region : MapAreaTrigger in map_regions.get_children():
+		region.region_entered.connect(_update_map)
 
 func configure(faith: FaithManager, placement: MachinePlacementController) -> void:
 	faith_progress_bar.bind(faith)
@@ -26,6 +29,10 @@ func _on_build_menu_pressed() -> void:
 
 func toggle_map() -> void:
 	map.visible = not map.visible
+	
+func _update_map(id: StringName) -> void:
+	print("unlocked " + id + "!!")
+	map.discover_region(id)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_map"):
