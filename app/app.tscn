@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://btp56cxpinviy" path="res://app/app.gd" id="1_app"]
 [ext_resource type="PackedScene" uid="uid://ckphf16k2pkoi" path="res://app/game_world.tscn" id="2_world"]
-[ext_resource type="PackedScene" path="res://app/ui/ui_root.tscn" id="3_ui"]
+[ext_resource type="PackedScene" uid="uid://bu0a23dpjdenr" path="res://features/global/ui/game_ui.tscn" id="3_ui"]
 
-[node name="App" type="Node" unique_id=889283947 node_paths=PackedStringArray("ui_root")]
+[node name="App" type="Node" unique_id=889283947 node_paths=PackedStringArray("game_ui")]
 script = ExtResource("1_app")
 initial_world_scene = ExtResource("2_world")
-ui_root = NodePath("UIRoot")
+game_ui = NodePath("GameUI")
 
-[node name="UIRoot" parent="." unique_id=573136856 instance=ExtResource("3_ui")]
+[node name="GameUI" parent="." unique_id=573136856 instance=ExtResource("3_ui")]

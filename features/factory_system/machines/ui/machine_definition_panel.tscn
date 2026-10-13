@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://b4jivyxpxgu6p"]
+
+[ext_resource type="Script" uid="uid://dous5s5ffpyk1" path="res://features/factory_system/machines/ui/machine_definition_panel.gd" id="1_panel"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/recipe_panel.tscn" id="2_recipe_panel"]
+[ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="3_preview_definition"]
+
+[node name="MachineDefinitionPanel" type="CenterContainer" unique_id=319741997 node_paths=PackedStringArray("name_label", "description_label", "construction_time_label", "materials_list", "recipe_picker", "recipe_panel")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_panel")
+definition = ExtResource("3_preview_definition")
+name_label = NodePath("Card/Margin/Content/Name")
+description_label = NodePath("Card/Margin/Content/Description")
+construction_time_label = NodePath("Card/Margin/Content/ConstructionTime")
+materials_list = NodePath("Card/Margin/Content/Materials")
+recipe_picker = NodePath("Card/Margin/Content/RecipePicker")
+recipe_panel = NodePath("Card/Margin/Content/RecipePanel")
+
+[node name="Card" type="PanelContainer" parent="." unique_id=1781158449]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Card" unique_id=348801752]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="Card/Margin" unique_id=1669831422]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Card/Margin/Content" unique_id=1779266045]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Machine"
+
+[node name="Description" type="Label" parent="Card/Margin/Content" unique_id=542948594]
+layout_mode = 2
+text = "Description"
+autowrap_mode = 3
+
+[node name="ConstructionTime" type="Label" parent="Card/Margin/Content" unique_id=184812446]
+layout_mode = 2
+text = "Construction time"
+
+[node name="MaterialsHeading" type="Label" parent="Card/Margin/Content" unique_id=246136039]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Construction materials"
+
+[node name="Materials" type="VBoxContainer" parent="Card/Margin/Content" unique_id=786847868]
+layout_mode = 2
+
+[node name="Separator" type="HSeparator" parent="Card/Margin/Content" unique_id=459274905]
+layout_mode = 2
+
+[node name="RecipesHeading" type="Label" parent="Card/Margin/Content" unique_id=603324608]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Production recipes"
+
+[node name="RecipePicker" type="OptionButton" parent="Card/Margin/Content" unique_id=774018957]
+layout_mode = 2
+
+[node name="RecipePanel" parent="Card/Margin/Content" unique_id=1150039520 instance=ExtResource("2_recipe_panel")]
+visible = false

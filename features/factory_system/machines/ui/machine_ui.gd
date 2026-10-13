@@ -17,6 +17,7 @@ func open(p_machine: Machine, panel_scenes: Array[PackedScene]) -> void:
 		return
 	machine = p_machine
 	machine.tree_exiting.connect(close)
+	machine.blueprint_constructed.connect(close)
 	title_label.text = String(machine.get_parent().name).capitalize()
 	for scene in panel_scenes:
 		if scene == null:
@@ -36,6 +37,8 @@ func close() -> void:
 		return
 	if is_instance_valid(machine) and machine.tree_exiting.is_connected(close):
 		machine.tree_exiting.disconnect(close)
+	if is_instance_valid(machine) and machine.blueprint_constructed.is_connected(close):
+		machine.blueprint_constructed.disconnect(close)
 	for panel in _panels:
 		panel.close()
 		tabs.remove_child(panel)

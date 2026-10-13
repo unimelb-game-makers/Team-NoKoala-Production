@@ -2,51 +2,39 @@ class_name GridData
 
 const DEFAULT_PLAYABLE_REGION := Rect2i(-100, -100, 200, 200)
 
-class GridCellData:
-	enum Type { 
-		NORMAL,
-	}
-
-	var type: Type
-	var block: BlockData
-	
-	func _init(p_type: Type):
-		type = p_type
-		block = null
-
-var _grid: Dictionary[Vector3i, GridCellData] = {}
+## Rect2i X/Y correspond to world-grid X/Z. Every cell inside it (at y = 0)
+## is part of the play space; nothing is allocated per cell.
+var playable_region: Rect2i
+# sparse map of occupied cells to the block occupying them
+var _blocks_by_cell: Dictionary[Vector3i, BlockData] = {}
 # the dictionary of cells occupied by a block
 var _cells_by_block: Dictionary[BlockData, Array] = {}
 
 
-func _init(playable_region := DEFAULT_PLAYABLE_REGION) -> void:
-	for x in range(playable_region.position.x, playable_region.end.x):
-		for z in range(playable_region.position.y, playable_region.end.y):
-			_grid[Vector3i(x, 0, z)] = GridCellData.new(GridCellData.Type.NORMAL)
+func _init(p_playable_region := DEFAULT_PLAYABLE_REGION) -> void:
+	playable_region = p_playable_region
 
-func get_cells() -> Array[Vector3i]:
+## Whether the cell is inside the play space.
+func is_in_bounds(cell: Vector3i) -> bool:
+	return cell.y == 0 and playable_region.has_point(Vector2i(cell.x, cell.z))
+
+## Returns the block occupying the cell, or null if the cell is empty or
+## outside of play space.
+func get_block_at(cell: Vector3i) -> BlockData:
+	return _blocks_by_cell.get(cell)
+
+## Returns every cell currently occupied by a block.
+func get_occupied_cells() -> Array[Vector3i]:
 	var cells: Array[Vector3i] = []
-	for cell: Vector3i in _grid:
-		cells.append(cell)
+	cells.assign(_blocks_by_cell.keys())
 	return cells
-	
-func get_cells_by_type(cell_type: GridCellData.Type) -> Array[Vector3i]:
-	var cells: Array[Vector3i] = []
-
-	for cell: Vector3i in _grid:
-		if _grid[cell].type == cell_type:
-			cells.append(cell)
-
-	return cells
-
-## Returns null if the cell is outside of play space
-func get_cell_data(cell: Vector3i) -> GridCellData:
-	return _grid.get(cell)
 
 ## Whether this block can occupy one blocking cell, including its own cell.
 func can_occupy_cell(block: BlockData, cell: Vector3i) -> bool:
-	var cell_data := get_cell_data(cell)
-	return cell_data != null and (cell_data.block == null or cell_data.block == block)
+	if not is_in_bounds(cell):
+		return false
+	var occupant: BlockData = _blocks_by_cell.get(cell)
+	return occupant == null or occupant == block
 
 ## Returns true if the block can be placed at its current root_cell / rotation
 ## without overlapping another block or leaving the play space.
@@ -62,25 +50,20 @@ func add_block(block: BlockData) -> bool:
 
 	var registered_cells: Array[Vector3i] = []
 	for cell in block.blocking_cells():
-		var cell_data := get_cell_data(cell)
-		if cell_data != null:
-			cell_data.block = block
-			registered_cells.append(cell)
+		_blocks_by_cell[cell] = block
+		registered_cells.append(cell)
 	_cells_by_block[block] = registered_cells
-	 
+
 	block.is_placed = true
-	
+
 	return true
-				
+
 func remove_block(block: BlockData) -> Array[Vector3i]:
 	var removed_cells: Array[Vector3i] = []
 	var registered_cells: Array = _cells_by_block.get(block, [])
 	for cell: Vector3i in registered_cells:
-		var cell_data := get_cell_data(cell)
-		if cell_data == null:
-			continue
-		if cell_data.block == block:
-			cell_data.block = null
+		if _blocks_by_cell.get(cell) == block:
+			_blocks_by_cell.erase(cell)
 			removed_cells.append(cell)
 
 	_cells_by_block.erase(block)

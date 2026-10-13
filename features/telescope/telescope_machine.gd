@@ -29,28 +29,33 @@ func resume() -> void:
 func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if waiting_for_discovery or definition == null or repair_stage >= recipes.size():
 		return
-	var recipe := recipes[repair_stage]
-	
-	# try to do the whole thing first
+	var recipe = recipes[repair_stage]
+
+	# (re)opens the work ports
+	if _pending_recipe != recipe:
+		_pending_recipe = recipe
+		configure_work_ports(recipe)
+		_update_job_requests()
+
+	if not are_work_ports_ready():
+		return
+
+	# repair: everything supplied and the player re-arrived
 	if _is_fully_supplied(recipe):
 		_processing_recipe = recipe
 		_processing_elapsed = 0.0
 		_claimed_inputs = _held.duplicate()
 		_held.clear()
-		# TO DO: check if spirits will operate this?
-		if _check_workable(recipe):
-			register_active(faith_drain_rate)
-		else:
-			unregister_active()
+		_pending_recipe = null
 		return
-	
-	# then check for partial inputs
+
+	# supply: apply whatever is on the input cells
 	_try_partial_input(recipe, factory_manager)
-	
-	for req in recipe.inputs:
-		if _supplied.get(req.item, 0) < req.amount:
-			_try_start_recipe(recipe, factory_manager)
-			return
+
+	if _is_fully_supplied(recipe):
+		# release the player
+		clear_work_ports()
+		_pending_recipe = null
 
 func _is_fully_supplied(recipe: ProductionRecipe) -> bool:
 	for req in recipe.inputs:
@@ -76,10 +81,9 @@ func _try_partial_input(recipe: ProductionRecipe, factory_manager: FactoryManage
 					if item.stack.quantity > needed:
 						# split off only what is needed
 						var split_stack = item.stack.split(needed)
-						claimed = FactoryItemFactory.spawn_factory_item(
+						claimed = factory_manager.item_spawner.spawn_factory_item(
 							item.stack.item_definition,
 							item.transform.origin,
-							factory_manager,
 							split_stack,
 							true)
 						if not claimed.try_claim(self):
@@ -100,3 +104,9 @@ func _try_partial_input(recipe: ProductionRecipe, factory_manager: FactoryManage
 						break
 				if needed <= 0:
 					break
+
+func _cancel_processing() -> void:
+	super()
+	_restore_claimed_inputs(_held, {}, _factory_manager)
+	_held.clear()
+	_supplied.clear()

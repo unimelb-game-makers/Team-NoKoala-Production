@@ -2,6 +2,8 @@
 class_name Grid
 extends GridMap
 
+@export var pathfinder: Pathfinder
+
 var grid_data: GridData = GridData.new()
 var _blocks_by_cell: Dictionary[Vector3i, Array] = {}
 
@@ -18,6 +20,10 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	add_to_group("grid")
+
+
+func configure(factory_manager: FactoryManager) -> void:
+	pathfinder.configure(factory_manager)
 
 
 func reset_grid() -> void:
@@ -115,7 +121,7 @@ func get_blocks_at(cell: Vector3i) -> Array[Block]:
 
 func _index_block(block: Block) -> void:
 	for cell in block.block_data.occupied_cells():
-		if grid_data.get_cell_data(cell) == null:
+		if not grid_data.is_in_bounds(cell):
 			continue
 		var blocks: Array = _blocks_by_cell.get(cell, [])
 		if not blocks.has(block):

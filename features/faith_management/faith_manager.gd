@@ -4,8 +4,8 @@ extends Node
 @export var faith_toggle: bool = true
 
 var registered_active: Dictionary[Machine, float] = {} # float = drain rate
-var max_faith: float = 100.0
-var current_faith: float = 100.0
+var max_faith: float = 1000.0
+var current_faith: float = 1000.0
 var is_empty: bool = false
 var recovery_threshold: float = 10.0
 
