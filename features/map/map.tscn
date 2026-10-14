@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://b6ifjm6dc03c4"]
+
+[ext_resource type="Script" uid="uid://bxamf40ppqq8l" path="res://features/map/map.gd" id="1_a5vrk"]
+[ext_resource type="Script" uid="uid://coypu1xmuhdfg" path="res://features/map/map_region.gd" id="2_ufgmf"]
+[ext_resource type="Texture2D" uid="uid://psyw0rro1rhl" path="res://assets/map/icons/BambooForestMap.png" id="3_xa3xw"]
+[ext_resource type="Texture2D" uid="uid://cc4qxqqemqj3o" path="res://assets/map/labels/BambooForestLabel.png" id="4_y3p5g"]
+[ext_resource type="Texture2D" uid="uid://d2n0s8eb5uqq" path="res://assets/map/undiscovered/MapNoBuildings-bamboo.png" id="5_agyhm"]
+[ext_resource type="Texture2D" uid="uid://bmw1y7s0jqlnd" path="res://assets/map/icons/TownMap.png" id="5_esvw2"]
+[ext_resource type="Texture2D" uid="uid://pb31b25s623h" path="res://assets/map/labels/TownLabel.png" id="6_hw0yn"]
+[ext_resource type="Texture2D" uid="uid://d4fqmqmp87xxi" path="res://assets/map/icons/SacredTreeMap.png" id="7_5xq7k"]
+[ext_resource type="Texture2D" uid="uid://bosasbrsb0uhe" path="res://assets/map/undiscovered/MapNoBuildings-town.png" id="8_146tx"]
+[ext_resource type="Texture2D" uid="uid://dqtjs1nfvjdr2" path="res://assets/map/labels/SacredTreeLabel.png" id="8_drot5"]
+[ext_resource type="Texture2D" uid="uid://bnvsdh3fcgteb" path="res://assets/map/icons/LockedAltarMap.png" id="9_hw0yn"]
+[ext_resource type="Texture2D" uid="uid://cfgonqb746333" path="res://assets/map/labels/LockedAltarLabel.png" id="10_5xq7k"]
+[ext_resource type="Texture2D" uid="uid://kdwv22volyui" path="res://assets/map/icons/BridgeMap.png" id="11_drot5"]
+[ext_resource type="Texture2D" uid="uid://ljidjjtwhscu" path="res://assets/map/undiscovered/MapNoBuildings-sacred.png" id="11_qbjy2"]
+[ext_resource type="Texture2D" uid="uid://3rj57p0kxvr7" path="res://assets/map/labels/BridgeLabel.png" id="12_jtrti"]
+[ext_resource type="Texture2D" uid="uid://caqhimnivf62q" path="res://assets/map/base/BlankMap.png" id="13_drot5"]
+[ext_resource type="Texture2D" uid="uid://i2imuotjxh43" path="res://assets/map/full/MapNoBuildings.png" id="13_hw0yn"]
+[ext_resource type="Texture2D" uid="uid://2sljhn1ax36a" path="res://assets/map/base/LeftScroll.png" id="14_drot5"]
+[ext_resource type="Texture2D" uid="uid://n6qftmm5rhon" path="res://assets/map/undiscovered/MapNoBuildings-locked.png" id="14_qx1rj"]
+[ext_resource type="Texture2D" uid="uid://d3in0qi6fd4on" path="res://assets/map/base/RightScroll.png" id="15_jtrti"]
+[ext_resource type="Texture2D" uid="uid://b6hcb5fabx6lq" path="res://assets/map/undiscovered/MapNoBuildings-bridge.png" id="17_06kk3"]
+
+[sub_resource type="Resource" id="Resource_a5vrk"]
+script = ExtResource("2_ufgmf")
+id = &"bamboo_forest"
+label = ExtResource("4_y3p5g")
+icon = ExtResource("3_xa3xw")
+undiscovered = ExtResource("5_agyhm")
+metadata/_custom_type_script = "uid://coypu1xmuhdfg"
+
+[sub_resource type="Resource" id="Resource_x82xl"]
+script = ExtResource("2_ufgmf")
+id = &"town"
+label = ExtResource("6_hw0yn")
+icon = ExtResource("5_esvw2")
+undiscovered = ExtResource("8_146tx")
+discovered_by_default = true
+metadata/_custom_type_script = "uid://coypu1xmuhdfg"
+
+[sub_resource type="Resource" id="Resource_vfjve"]
+script = ExtResource("2_ufgmf")
+id = &"sacred_tree"
+label = ExtResource("8_drot5")
+icon = ExtResource("7_5xq7k")
+undiscovered = ExtResource("11_qbjy2")
+metadata/_custom_type_script = "uid://coypu1xmuhdfg"
+
+[sub_resource type="Resource" id="Resource_jtrti"]
+script = ExtResource("2_ufgmf")
+id = &"locked_altar"
+label = ExtResource("10_5xq7k")
+icon = ExtResource("9_hw0yn")
+undiscovered = ExtResource("14_qx1rj")
+metadata/_custom_type_script = "uid://coypu1xmuhdfg"
+
+[sub_resource type="Resource" id="Resource_k8jbc"]
+script = ExtResource("2_ufgmf")
+id = &"bridge"
+label = ExtResource("12_jtrti")
+icon = ExtResource("11_drot5")
+undiscovered = ExtResource("17_06kk3")
+metadata/_custom_type_script = "uid://coypu1xmuhdfg"
+
+[node name="Map" type="Control" unique_id=901774776 node_paths=PackedStringArray("_region_container", "scroll_rhs", "scroll_lhs")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a5vrk")
+regions = Array[ExtResource("2_ufgmf")]([SubResource("Resource_a5vrk"), SubResource("Resource_x82xl"), SubResource("Resource_vfjve"), SubResource("Resource_jtrti"), SubResource("Resource_k8jbc")])
+_region_container = NodePath("Regions")
+scroll_rhs = NodePath("ScrollRight")
+scroll_lhs = NodePath("ScrollLeft")
+
+[node name="EmptyBase" type="TextureRect" parent="." unique_id=108969578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_drot5")
+expand_mode = 2
+
+[node name="Base" type="TextureRect" parent="." unique_id=2034486330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_hw0yn")
+expand_mode = 2
+
+[node name="Regions" type="Control" parent="." unique_id=2127688760]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollRight" type="TextureRect" parent="." unique_id=1376320427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_drot5")
+expand_mode = 2
+
+[node name="ScrollLeft" type="TextureRect" parent="." unique_id=1617724092]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_jtrti")
+expand_mode = 2
