@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6ifjm6dc03c4"]
 
 [ext_resource type="Script" uid="uid://bxamf40ppqq8l" path="res://features/map/map.gd" id="1_a5vrk"]
-[ext_resource type="Script" uid="uid://coypu1xmuhdfg" path="res://map_region.gd" id="2_ufgmf"]
+[ext_resource type="Script" uid="uid://coypu1xmuhdfg" path="res://features/map/map_region.gd" id="2_ufgmf"]
 [ext_resource type="Texture2D" uid="uid://psyw0rro1rhl" path="res://assets/map/icons/BambooForestMap.png" id="3_xa3xw"]
 [ext_resource type="Texture2D" uid="uid://cc4qxqqemqj3o" path="res://assets/map/labels/BambooForestLabel.png" id="4_y3p5g"]
 [ext_resource type="Texture2D" uid="uid://d2n0s8eb5uqq" path="res://assets/map/undiscovered/MapNoBuildings-bamboo.png" id="5_agyhm"]
