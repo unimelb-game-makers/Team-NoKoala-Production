@@ -56,6 +56,7 @@ func configure_dependencies() -> void:
 			world_services.factory_manager,
 			world_ui.hotbar if world_ui != null else null,
 			world_ui.machine_ui if world_ui != null else null,
+			world_ui.item_stack_list_panel if world_ui != null else null,
 			world_services.feature_gate,
 		)
 

@@ -44,7 +44,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("rotate"):
 		rotate_preview()
 
-	if Input.is_action_just_pressed("switch_machine"):
+	if place_mode and Input.is_action_just_pressed("next_item"):
 		select_next_machine()
 
 	if place_mode and Input.is_action_just_pressed("ui_cancel"):
