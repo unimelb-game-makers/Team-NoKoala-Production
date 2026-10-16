@@ -133,7 +133,8 @@ func _try_open_telescope() -> bool:
 	if telescope == null:
 		return false
 	
-	telescope.interact()
+	if not telescope.try_open_discovery():
+		return false
 	get_viewport().set_input_as_handled()
 	return true
 

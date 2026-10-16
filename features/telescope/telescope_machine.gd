@@ -23,6 +23,10 @@ func _on_recipe_completed(
 
 	return true
 
+func get_supplied(item: FactoryItemDefinition) -> int:
+	return _supplied.get(item, 0)
+
+
 func resume() -> void:
 	waiting_for_discovery = false
 	

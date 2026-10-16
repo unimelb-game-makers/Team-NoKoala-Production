@@ -40,6 +40,7 @@ func open(p_assembly: MachineAssembly) -> void:
 		assert(panel != null, "Machine UI panel scenes must have a MachineUIPanel root")
 		tabs.add_child(panel)
 		tabs.set_tab_title(tabs.get_tab_count() - 1, panel.tab_title)
+		panel.close_requested.connect(close)
 		panel.open(assembly)
 		_panels.append(panel)
 	_dismantle_component = assembly.dismantle_component
