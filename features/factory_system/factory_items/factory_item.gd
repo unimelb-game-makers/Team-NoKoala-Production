@@ -25,11 +25,27 @@ var _flight_target := Vector3.ZERO
 var _has_flight_target := false
 ## How long an item takes to slide into its cell when it has no height to fall.
 const SNAP_SLIDE_DURATION := 0.12
+## How long an item takes to move to its spot when stacks in its cell shift.
+const STACK_OFFSET_DURATION := 0.12
 const BASE_SIZE := Vector2(32.0, 32.0)
 
 var _snap_tween: Tween
+var _stack_offset_tween: Tween
+## Visual offset from the cell centre so several stacks in one cell don't
+## overlap. Only the visuals move; the item's position stays on the cell.
+var stack_offset := Vector3.ZERO:
+	set(value):
+		stack_offset = value
+		_apply_stack_offset()
+var _sprite_base_position: Vector3
+var _pickup_area_base_position: Vector3
+var _debug_label_base_position: Vector3
 
 func _ready() -> void:
+	_sprite_base_position = sprite.position
+	_pickup_area_base_position = pickup_area.position
+	_debug_label_base_position = debug_label.position
+	_apply_stack_offset()
 	if stack == null:
 		return
 	sprite.texture = stack.item_definition.texture
@@ -119,10 +135,39 @@ func _get_gravity() -> float:
 	return ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
+## Moves the visuals to `offset` from the cell centre.
+func set_stack_offset(offset: Vector3) -> void:
+	if _stack_offset_tween != null and _stack_offset_tween.is_valid():
+		_stack_offset_tween.kill()
+	_stack_offset_tween = null
+	if offset.is_equal_approx(stack_offset):
+		return
+	if not is_inside_tree():
+		stack_offset = offset
+		return
+	_stack_offset_tween = create_tween()
+	_stack_offset_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_stack_offset_tween.tween_property(self, "stack_offset", offset, STACK_OFFSET_DURATION)
+
+
+func _apply_stack_offset() -> void:
+	if not is_node_ready():
+		return
+	sprite.position = _sprite_base_position + stack_offset
+	pickup_area.position = _pickup_area_base_position + stack_offset
+	debug_label.position = _debug_label_base_position + stack_offset
+
+
 func set_in_process_hidden(is_hidden: bool) -> void:
 	_in_process_hidden = is_hidden
 	sprite.visible = not is_hidden
 	_update_pickup_interaction()
+	if factory_manager != null:
+		factory_manager.layout_items_with(self)
+
+
+func is_in_process_hidden() -> bool:
+	return _in_process_hidden
 
 
 func set_pickup_enabled(enabled: bool) -> void:
