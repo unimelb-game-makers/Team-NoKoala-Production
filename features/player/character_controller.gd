@@ -30,9 +30,18 @@ func configure(
 	factory: FactoryManager,
 	hotbar: Hotbar,
 	machine_ui: MachineUI,
+	item_stack_list_panel: ItemStackListPanel,
 ) -> void:
 	spring_arm = p_spring_arm
-	interaction_controller.configure(p_spring_arm, placement, jobs, machine_ui)
+	interaction_controller.configure(
+		p_spring_arm,
+		placement,
+		jobs,
+		machine_ui,
+		grid,
+		factory,
+		item_stack_list_panel,
+	)
 	work_controller.configure(grid, factory)
 	inventory_owner.configure(hotbar)
 

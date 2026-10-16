@@ -74,7 +74,8 @@ func configure_dependencies() -> void:
 		grid,
 		world_services.factory_manager,
 		world_ui.hotbar,
-		world_ui.machine_ui
+		world_ui.machine_ui,
+		world_ui.item_stack_list_panel
 	)
 	spring_arm.configure(player)
 	for child in mobs_root.get_children():
