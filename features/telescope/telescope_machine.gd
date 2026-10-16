@@ -7,6 +7,7 @@ var repair_stage : int = 0
 var waiting_for_discovery : bool = false
 var _supplied: Dictionary[FactoryItemDefinition, int] = {}
 var _held: Array[FactoryItem] = []
+var _repair_requested := false
 
 signal repair_completed
 signal input_supplied(item: FactoryItemDefinition, total: int)
@@ -16,12 +17,34 @@ func _on_recipe_completed(
 	factory_manager: FactoryManager,
 ) -> bool:
 	
+	_repair_requested = false
 	repair_stage += 1
 	waiting_for_discovery = true
 	_supplied.clear()
 	repair_completed.emit()
 
 	return true
+
+## Whether every input of the current stage is supplied and the repair can begin.
+func can_repair() -> bool:
+	return (
+		not waiting_for_discovery
+		and not _repair_requested
+		and not is_processing_recipe()
+		and repair_stage < recipes.size()
+		and _is_fully_supplied(recipes[repair_stage])
+	)
+
+
+func is_repairing() -> bool:
+	return _repair_requested or is_processing_recipe()
+
+
+## Starts the repair on the next factory tick.
+func request_repair() -> void:
+	if can_repair():
+		_repair_requested = true
+
 
 func get_supplied(item: FactoryItemDefinition) -> int:
 	return _supplied.get(item, 0)
@@ -35,31 +58,18 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 		return
 	var recipe = recipes[repair_stage]
 
-	# (re)opens the work ports
-	if _pending_recipe != recipe:
-		_pending_recipe = recipe
-		configure_work_ports(recipe)
-		_update_job_requests()
-
-	if not are_work_ports_ready():
+	if not _is_fully_supplied(recipe):
+		_try_partial_input(recipe, factory_manager)
 		return
 
-	# repair: everything supplied and the player re-arrived
-	if _is_fully_supplied(recipe):
-		_processing_recipe = recipe
-		_processing_elapsed = 0.0
-		_claimed_inputs = _held.duplicate()
-		_held.clear()
-		_pending_recipe = null
+	# repair: everything supplied and the player asked to start
+	if not _repair_requested:
 		return
-
-	# supply: apply whatever is on the input cells
-	_try_partial_input(recipe, factory_manager)
-
-	if _is_fully_supplied(recipe):
-		# release the player
-		clear_work_ports()
-		_pending_recipe = null
+	_repair_requested = false
+	_processing_recipe = recipe
+	_processing_elapsed = 0.0
+	_claimed_inputs = _held.duplicate()
+	_held.clear()
 
 func _is_fully_supplied(recipe: ProductionRecipe) -> bool:
 	for req in recipe.inputs:
@@ -114,3 +124,4 @@ func _cancel_processing() -> void:
 	_restore_claimed_inputs(_held, {}, _factory_manager)
 	_held.clear()
 	_supplied.clear()
+	_repair_requested = false
