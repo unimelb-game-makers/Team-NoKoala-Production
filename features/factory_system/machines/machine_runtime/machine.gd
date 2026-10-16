@@ -12,6 +12,7 @@ signal enabled_recipes_changed
 signal blueprint_constructed
 signal work_port_enabled_changed(port: WorkPort, enabled: bool)
 signal work_port_allocation_changed(port: WorkPort, worker: WorkerCapability)
+signal dismantle_returns_changed
 
 @export var definition: MachineDefinition
 
@@ -23,6 +24,15 @@ signal work_port_allocation_changed(port: WorkPort, worker: WorkerCapability)
 @export var debug_active_indicator: Node3D
 
 @export var disabled: bool = true
+
+@export var use_custom_dismantle_materials := false:
+	set(value):
+		use_custom_dismantle_materials = value
+		dismantle_returns_changed.emit()
+@export var dismantle_materials: Array[RecipeItemAmount] = []:
+	set(value):
+		dismantle_materials = value
+		dismantle_returns_changed.emit()
 
 var center_position: Vector3i = Vector3i.ZERO
 var is_active: bool = false
@@ -77,6 +87,31 @@ func set_enabled_recipes(recipes: Array[ProductionRecipe]) -> void:
 
 func _exit_tree() -> void:
 	unregister_active()
+
+
+## Default returns come from the construction definition, including for
+## machines already placed in a scene. Custom materials replace that list.
+func get_dismantle_returns() -> Array[ItemStack]:
+	var materials := dismantle_materials
+	if not use_custom_dismantle_materials:
+		if definition == null:
+			return []
+		materials = definition.construction_materials
+	var amounts: Dictionary[FactoryItemDefinition, int] = {}
+	for material in materials:
+		if material == null or material.item == null or material.amount <= 0:
+			continue
+		amounts[material.item] = amounts.get(material.item, 0) + material.amount
+	var result: Array[ItemStack] = []
+	for item in amounts:
+		result.append(ItemStack.new(item, amounts[item]))
+	return result
+
+
+## Subclasses release any items they own here before their assembly disappears.
+func prepare_for_removal() -> void:
+	disable()
+	clear_work_ports()
 
 
 func get_input_cells() -> Array[Vector3i]:

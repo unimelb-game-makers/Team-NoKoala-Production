@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://dhue7p6vhxki0" path="res://assets/developer_art/models/gohei_model_draft_1.glb" id="13_g7rvc"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="13_pge4x"]
 
+[ext_resource type="Script" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
+
 [sub_resource type="Resource" id="Resource_yg6ku"]
 resource_local_to_scene = true
 script = ExtResource("3_8elx1")
@@ -27,11 +29,13 @@ albedo_color = Color(0.538, 1, 0.33999997, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
 albedo_color = Color(0.1, 0.42, 1, 1)
 
-[node name="DemoRitual" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
+[node name="DemoRitual" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("dismantle_component", "block", "machine", "blueprint")]
 script = ExtResource("1_ggs0f")
 block = NodePath("Block")
 machine = NodePath("Machine")
 blueprint = NodePath("Blueprint")
+
+dismantle_component = NodePath("DismantleComponent")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_eg25d")
@@ -98,3 +102,6 @@ machine = NodePath("../Machine")
 
 [node name="gohei_model_draft_1" parent="." unique_id=978935994 instance=ExtResource("13_g7rvc")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 0, 0)
+
+[node name="DismantleComponent" type="Node" parent="."]
+script = ExtResource("dismantle_component")

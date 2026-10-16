@@ -1,8 +1,11 @@
 class_name MachineAssembly
 extends Node3D
 
+signal removing_from_world
+
 @export var block: Block
 @export var machine: Machine
+@export var dismantle_component: DismantleComponent
 @export var ui_panels: Array[PackedScene] = []
 @export var blueprint: Machine
 @export var progress_bar: Node3D
@@ -14,15 +17,35 @@ const BLUEPRINT_UI_PANEL := preload(
 )
 
 var _factory_manager: FactoryManager
+var _removing := false
+
+
+
+func remove_from_world() -> bool:
+	_removing = true
+	removing_from_world.emit()
+	for runtime in [machine, blueprint]:
+		if runtime == null:
+			continue
+		_factory_manager.unregister_machine(runtime)
+		runtime.prepare_for_removal()
+	_factory_manager.grid.unregister_block(block)
+	block.disable_collisions()
+	queue_free()
+	return true
 
 
 func is_blueprint_active() -> bool:
 	return toggle_blueprint and blueprint != null and not blueprint.disabled
 
 
-## Machine the machine UI should bind to: the blueprint while under construction.
-func get_ui_machine() -> Machine:
+## Runtime responsible for this assembly in its current construction state.
+func get_active_machine() -> Machine:
 	return blueprint if is_blueprint_active() else machine
+
+
+func get_ui_machine() -> Machine:
+	return get_active_machine()
 
 
 ## Panels shown in the machine UI. A blueprint only shows the blueprint panel.
@@ -43,6 +66,8 @@ func configure(
 	assert(block != null, "MachineAssembly requires a Block")
 	assert(machine != null, "MachineAssembly requires a Machine")
 	_factory_manager = factory_manager
+	if dismantle_component != null:
+		dismantle_component.configure(self, factory_manager)
 	
 	machine.configure(self, faith_manager, spirit_spawner, mobs_root)
 	if machine.job_provider != null:
@@ -60,7 +85,7 @@ func configure(
 			"MachineAssembly blueprint must be a BlueprintMachine",
 		)
 		(blueprint as BlueprintMachine).configure_construction(
-			machine.definition,
+			machine,
 		)
 		block.set_appearence(Block.Appearance.TRANSLUCENT_BLUE)
 		block.set_blueprint_layer(true)
@@ -88,6 +113,8 @@ func _ready() -> void:
 ## Swaps the placed blueprint for the real machine, which only becomes known to
 ## the factory once it has been built.
 func blueprint_constructed() -> void:
+	if _removing:
+		return
 	var placed := (
 		_factory_manager != null
 		and blueprint != null
@@ -113,6 +140,9 @@ func register_machines(
 	factory_manager: FactoryManager,
 	center_cell: Vector3i,
 ) -> bool:
+	_factory_manager = factory_manager
+	if dismantle_component != null:
+		dismantle_component.configure(self, factory_manager)
 	machine.center_position = center_cell
 	if not toggle_blueprint:
 		return factory_manager.register_machine(machine)

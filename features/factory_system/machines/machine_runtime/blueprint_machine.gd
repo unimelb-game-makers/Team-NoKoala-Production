@@ -10,10 +10,16 @@ var _claimed_material_positions: Dictionary[FactoryItem, Vector3] = {}
 var _factory_manager: FactoryManager
 
 
-func configure_construction(machine_definition: MachineDefinition) -> void:
-	definition = machine_definition
+func configure_construction(constructed_machine: Machine) -> void:
+	definition = constructed_machine.definition
 	enabled_recipes.clear()
 	_clear_construction_state()
+
+
+## Cancellation restores the actual held stacks internally in
+## prepare_for_removal(). It must not spawn the finished machine's salvage.
+func get_dismantle_returns() -> Array[ItemStack]:
+	return []
 
 
 func _factory_tick(delta: float, factory_manager: FactoryManager) -> void:
@@ -358,10 +364,20 @@ func _clear_construction_state() -> void:
 	_claimed_material_positions.clear()
 
 
-func _exit_tree() -> void:
+func _cancel_construction() -> void:
 	if not _claimed_materials.is_empty() and _factory_manager != null:
 		var materials: Array[FactoryItem] = []
 		for material: FactoryItem in _claimed_materials:
 			materials.append(material)
 		_restore_materials(materials, _factory_manager)
+	_clear_construction_state()
 	unregister_active()
+
+
+func prepare_for_removal() -> void:
+	_cancel_construction()
+	super.prepare_for_removal()
+
+
+func _exit_tree() -> void:
+	_cancel_construction()
