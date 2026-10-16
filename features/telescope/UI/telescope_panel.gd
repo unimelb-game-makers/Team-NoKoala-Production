@@ -9,9 +9,15 @@ extends MachineUIPanel
 @export var repair_texture: TextureRect
 @export var hint_parent: HBoxContainer
 @export var ingredients_parent: VBoxContainer
+@export var repair_button: Button
+@export var repair_progress_bar: ProgressBar
 
 var _telescope: Telescope
 var _rows: Dictionary[FactoryItemDefinition, ItemProgressUI] = {}
+
+
+func _ready() -> void:
+	repair_button.pressed.connect(_on_repair_pressed)
 
 
 func _on_open() -> void:
@@ -24,8 +30,10 @@ func _on_open() -> void:
 	_telescope = assembly.telescope
 	telescope_machine.input_supplied.connect(_on_input_supplied)
 	telescope_machine.repair_completed.connect(close_requested.emit)
+	telescope_machine.factory_ticked.connect(_on_factory_ticked)
 	_telescope.stage_changed.connect(_refresh)
 	_refresh()
+	_update_repair_button()
 
 
 func _on_close() -> void:
@@ -33,6 +41,8 @@ func _on_close() -> void:
 	if is_instance_valid(telescope_machine):
 		if telescope_machine.input_supplied.is_connected(_on_input_supplied):
 			telescope_machine.input_supplied.disconnect(_on_input_supplied)
+		if telescope_machine.factory_ticked.is_connected(_on_factory_ticked):
+			telescope_machine.factory_ticked.disconnect(_on_factory_ticked)
 		if telescope_machine.repair_completed.is_connected(close_requested.emit):
 			telescope_machine.repair_completed.disconnect(close_requested.emit)
 	if is_instance_valid(_telescope) and _telescope.stage_changed.is_connected(_refresh):
@@ -51,6 +61,7 @@ func _refresh() -> void:
 		repair_title_label.text = "Fully repaired"
 		repair_details_label.text = ""
 		repair_texture.texture = null
+		_update_repair_button()
 		return
 
 	repair_title_label.text = stage.title
@@ -70,6 +81,7 @@ func _refresh() -> void:
 		progress_ui.quantity_supplied = telescope_machine.get_supplied(input.item)
 		ingredients_parent.add_child(progress_ui)
 		_rows[input.item] = progress_ui
+	_update_repair_button()
 
 
 func _make_hint_icon(texture: Texture2D) -> TextureRect:
@@ -91,3 +103,26 @@ func _clear(parent: Node) -> void:
 func _on_input_supplied(item: FactoryItemDefinition, total: int) -> void:
 	if _rows.has(item):
 		_rows[item].update_quantity(total)
+	_update_repair_button()
+
+
+func _update_repair_button() -> void:
+	var telescope_machine := machine as TelescopeMachine
+	var stage := _telescope.get_current_stage()
+	repair_button.visible = stage != null
+	repair_button.disabled = not telescope_machine.can_repair()
+	repair_button.text = "Repairing..." if telescope_machine.is_repairing() else "Repair"
+	repair_progress_bar.visible = telescope_machine.is_repairing()
+	repair_progress_bar.value = telescope_machine.get_processing_progress()
+
+
+func _on_repair_pressed() -> void:
+	var telescope_machine := machine as TelescopeMachine
+	if telescope_machine == null:
+		return
+	telescope_machine.request_repair()
+	_update_repair_button()
+
+
+func _on_factory_ticked(_machine: Machine, _delta: float) -> void:
+	_update_repair_button()
