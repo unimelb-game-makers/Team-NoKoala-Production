@@ -93,7 +93,10 @@ func launch_factory_item(
 
 
 func _on_launched_item_landed(factory_item: FactoryItem) -> void:
-	if factory_item.try_drop(factory_item.global_position):
+	var landed_position := factory_item.global_position
+	if factory_item.try_drop(landed_position):
+		if not factory_item.is_queued_for_deletion():
+			factory_item.fall_from(landed_position)
 		return
 	# Couldn't fully join a stack in the landing cell; settle as a separate one.
 	if not factory_item.is_queued_for_deletion():
