@@ -31,6 +31,7 @@ func open(p_machine: Machine, panel_scenes: Array[PackedScene]) -> void:
 		assert(panel != null, "Machine UI panel scenes must have a MachineUIPanel root")
 		tabs.add_child(panel)
 		tabs.set_tab_title(tabs.get_tab_count() - 1, panel.tab_title)
+		panel.close_requested.connect(close)
 		panel.open(machine)
 		_panels.append(panel)
 	show()
