@@ -23,7 +23,11 @@ var _flight_floor := 0.0
 ## hit the floor.
 var _flight_target := Vector3.ZERO
 var _has_flight_target := false
+## How long an item takes to slide into its cell when it has no height to fall.
+const SNAP_SLIDE_DURATION := 0.12
 const BASE_SIZE := Vector2(32.0, 32.0)
+
+var _snap_tween: Tween
 
 func _ready() -> void:
 	if stack == null:
@@ -63,22 +67,48 @@ func _physics_process(delta: float) -> void:
 		global_position = next_position
 
 
-## Visually drops the item from `start_position` down onto its current
-## (already grid-snapped) position, snapping to the cell when it lands.
+## Visually moves the item from `start_position` onto its current
+## (already grid-snapped) position: it falls there if `start_position` is
+## above it, otherwise it slides.
 func fall_from(start_position: Vector3) -> void:
+	_kill_snap_tween()
 	_flight_target = global_position
 	if start_position.y <= _flight_target.y:
+		_slide_from(start_position)
 		return
 	_flight_floor = _flight_target.y
 	_has_flight_target = true
 	global_position = start_position
+	# Drift sideways during the fall so it arrives at the target on landing
+	# instead of jumping there.
+	var fall_time := sqrt(2.0 * (start_position.y - _flight_target.y) / _get_gravity())
 	_flight_velocity = Vector3.ZERO
+	if fall_time > 0.0:
+		var offset := _flight_target - start_position
+		_flight_velocity = Vector3(offset.x, 0.0, offset.z) / fall_time
 	_in_flight = true
+
+
+func _slide_from(start_position: Vector3) -> void:
+	var target := global_position
+	if start_position.is_equal_approx(target):
+		return
+	global_position = start_position
+	_snap_tween = create_tween()
+	_snap_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_snap_tween.tween_property(self, "global_position", target, SNAP_SLIDE_DURATION)
+
+
+func _kill_snap_tween() -> void:
+	if _snap_tween != null and _snap_tween.is_valid():
+		_snap_tween.kill()
+	_snap_tween = null
 
 
 ## Throws the item from its current position with `velocity`; it flies under
 ## gravity until it comes down to `floor_height`.
 func launch(velocity: Vector3, floor_height: float) -> void:
+	_kill_snap_tween()
 	_flight_velocity = velocity
 	_flight_floor = floor_height
 	_has_flight_target = false
