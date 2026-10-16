@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/telescope/UI/telescope_panel.gd" id="1_panel"]
+[ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="2_progress"]
+
+[node name="TelescopePanel" type="HBoxContainer" node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "hint_parent", "ingredients_parent")]
+theme_override_constants/separation = 16
+script = ExtResource("1_panel")
+tab_title = "Repair"
+item_progress_scene = ExtResource("2_progress")
+repair_title_label = NodePath("LHS/RepairName")
+repair_details_label = NodePath("LHS/TechnicalLabel")
+repair_texture = NodePath("LHS/TextureRect")
+hint_parent = NodePath("LHS/HintBox")
+ingredients_parent = NodePath("RHS")
+
+[node name="LHS" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="LHS"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="RepairName" type="Label" parent="LHS"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="TechnicalLabel" type="Label" parent="LHS"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="LHS"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="TBD" type="Label" parent="LHS"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "To be discovered..."
+horizontal_alignment = 1
+
+[node name="HintBox" type="HBoxContainer" parent="LHS"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="RHS" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 100
