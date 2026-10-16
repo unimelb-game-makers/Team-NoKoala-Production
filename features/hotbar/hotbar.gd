@@ -40,7 +40,7 @@ func _refresh() -> void:
 
 func _on_slot_selected(index: int) -> void:
 	if inventory != null:
-		inventory.select(index)
+		inventory.toggle_select(index)
 
 
 func _on_slot_split_requested(index: int) -> void:
@@ -55,7 +55,7 @@ func _on_slot_changed(index: int) -> void:
 func _on_selected_index_changed(previous: int, current: int) -> void:
 	if not is_node_ready():
 		return
-	if previous < slots.size():
+	if previous >= 0 and previous < slots.size():
 		slots[previous].selection.visible = false
-	if current < slots.size():
+	if current >= 0 and current < slots.size():
 		slots[current].selection.visible = true
