@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Player
 
-@export var can_jump: bool = true
+@export var can_jump: bool = false
 @export var interaction_controller: PlayerInteractionController
 @export var work_controller: PlayerMachineWorkController
 @export var inventory_owner: InventoryOwner
@@ -10,17 +10,16 @@ class_name Player
 
 const GRAVITY_SCALE: float = 1.0
 const JUMP_STRENGTH: float = 2.075
-const MAX_GROUND_PLAYER_SPEED = 4.0
-const MAX_AIR_PLAYER_SPEED = 5.0
-const MIN_PLAYER_SPEED = 1.5
 
 var target_move_direction: Vector3 = Vector3(0,0,0)
 var move_direction: Vector3 = Vector3(0,0,0) 
-var player_speed: float = 1.5
+@export var max_move_speed: float = 1.5
+@onready var _max_move_speed_squared := max_move_speed * max_move_speed
 var rotation_speed: float = 10.0
 var target_y_velocity: float = 0.0
 var is_working: bool = false
 var is_currying: bool = false
+var is_sprinting: bool = false
 
 
 func configure(
@@ -50,14 +49,16 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("jump"):
 		jump()
+	
+	if event.is_action_pressed("sprint"):
+		is_sprinting = not is_sprinting
 
 
 func _process(_delta: float) -> void:
-	const MIN_PLAYER_SPEED_SQUARED = MIN_PLAYER_SPEED * MIN_PLAYER_SPEED
 	if is_on_floor():
 		var xz_velocity := velocity
 		xz_velocity.y = 0
-		var forward := xz_velocity.length_squared() / MIN_PLAYER_SPEED_SQUARED
+		var forward := xz_velocity.length_squared() / _max_move_speed_squared
 		_set_move_scalar(forward)
 	else:
 		_set_move_scalar(0)
@@ -65,38 +66,27 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	# movement relative to spring arm rotation
-	var input_vec = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
-	var cam_basis
+	var input_vec := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var cam_basis: Basis
 	if spring_arm != null:
 		cam_basis = spring_arm.global_transform.basis
 	else:
 		cam_basis = Basis()
-	target_move_direction = (cam_basis.x * input_vec.x + cam_basis.z * input_vec.z)
+
+	var cam_right := cam_basis.x
+	cam_right.y = 0.0
+	var cam_back := cam_basis.z
+	cam_back.y = 0.0
+	target_move_direction = cam_right.normalized() * input_vec.x + cam_back.normalized() * input_vec.y
+	if not is_currying and is_sprinting:
+		target_move_direction = target_move_direction.normalized() * 2
 	
 	if is_on_floor():
-		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.25, delta))
+		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.02, delta))
 	else:
 		move_direction = lerp(move_direction, target_move_direction, 1 - pow(0.4, delta))
 	
-	# Resets speed upon hitting obstacle
-	if Vector2(get_real_velocity().x, get_real_velocity().z).length() < 0.01:
-		player_speed = MIN_PLAYER_SPEED/2
-	
-	elif target_move_direction.length() != 0.0:
-		if is_on_floor():
-			player_speed = lerpf(player_speed, MAX_GROUND_PLAYER_SPEED, 1 - pow(0.01, delta))
-		else:
-			player_speed = lerpf(player_speed, MAX_AIR_PLAYER_SPEED, 1 - pow(0.1, delta))
-	else:
-		if is_on_floor():
-			player_speed = lerpf(player_speed, MIN_PLAYER_SPEED, 1 - pow(0.003, delta))
-		else:
-			player_speed = lerpf(player_speed, MIN_PLAYER_SPEED, 1 - pow(0.1, delta))
-	
-	# Normalising move_direction if it would be longer than 1
-	if move_direction.length() > 1.0: move_direction /= move_direction.length()
-	
-	velocity = move_direction * player_speed
+	velocity = move_direction * max_move_speed
 	velocity.y = target_y_velocity
 
 	if move_direction.length_squared() > 0.001:
@@ -126,4 +116,4 @@ func _on_inventory_changed() -> void:
 
 func _set_move_scalar(scalar: float) -> void:
 	animation_tree.set(&"parameters/Normal/blend_position", scalar)
-	animation_tree.set(&"parameters/Currying/blend_position", scalar)
+	animation_tree.set(&"parameters/Currying/BlendSpace1D/blend_position", scalar)
