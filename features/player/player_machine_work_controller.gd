@@ -31,7 +31,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed(&"work"):
+	if not event.is_action_pressed(&"interact"):
 		return
 
 	toggle_work()
