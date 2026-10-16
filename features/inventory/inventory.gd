@@ -4,13 +4,16 @@ extends RefCounted
 signal slot_changed(index: int)
 signal selected_index_changed(previous: int, current: int)
 
+const NO_SELECTION := -1
+
 var slots: Array[FactoryItem] = []
+## NO_SELECTION when no slot is selected, so nothing is in hand.
 var selected_index: int = 0
 
-# the item in the currently selected slot
+# the item in the currently selected slot, null when no slot is selected
 var hand_slot: FactoryItem:
 	get:
-		return slots[selected_index]
+		return get_slot(selected_index)
 	set(value):
 		set_slot(selected_index, value)
 
@@ -37,12 +40,22 @@ func set_slot(index: int, item: FactoryItem) -> void:
 
 
 func select(index: int) -> void:
-	index = clampi(index, 0, slots.size() - 1)
+	if index != NO_SELECTION:
+		index = clampi(index, 0, slots.size() - 1)
 	if index == selected_index:
 		return
 	var previous := selected_index
 	selected_index = index
 	selected_index_changed.emit(previous, selected_index)
+
+
+## Selects the slot, or unselects it if it's already selected.
+func toggle_select(index: int) -> void:
+	select(NO_SELECTION if index == selected_index else index)
+
+
+func has_selection() -> bool:
+	return selected_index != NO_SELECTION
 
 
 func is_full() -> bool:
@@ -81,7 +94,9 @@ func try_add(item: FactoryItem) -> int:
 
 
 func _slot_order() -> Array[int]:
-	var order: Array[int] = [selected_index]
+	var order: Array[int] = []
+	if has_selection():
+		order.append(selected_index)
 	for index in slots.size():
 		if index != selected_index:
 			order.append(index)
