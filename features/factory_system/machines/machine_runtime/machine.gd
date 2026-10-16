@@ -278,6 +278,12 @@ func is_working_at_port(
 	return port != null and port.is_allocated_to(capability)
 
 
+## Whether workers sent here by a job should stay. Returning false makes them
+## finish their job and leave; workers who came on their own are unaffected.
+func keeps_assigned_workers() -> bool:
+	return true
+
+
 func get_work_port(port_id: StringName) -> WorkPort:
 	for port in work_ports:
 		if port.port_id == port_id:

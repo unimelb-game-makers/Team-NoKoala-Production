@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/resource_area/ui/harvest_panel.gd" id="1_panel"]
+
+[node name="HarvestPanel" type="VBoxContainer" node_paths=PackedStringArray("name_label", "yield_list", "duration_label", "amount_spin_box", "forever_check_box", "status_label", "progress_bar")]
+theme_override_constants/separation = 8
+script = ExtResource("1_panel")
+name_label = NodePath("Name")
+yield_list = NodePath("Yields")
+duration_label = NodePath("Duration")
+amount_spin_box = NodePath("Order/Amount")
+forever_check_box = NodePath("Order/Forever")
+status_label = NodePath("Status")
+progress_bar = NodePath("Progress")
+tab_title = "Harvest"
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Resource area"
+
+[node name="YieldsCaption" type="Label" parent="."]
+layout_mode = 2
+text = "Yields:"
+
+[node name="Yields" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Duration" type="Label" parent="."]
+layout_mode = 2
+text = "Time per harvest"
+
+[node name="Separator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="OrderCaption" type="Label" parent="."]
+layout_mode = 2
+text = "Spirits harvest:"
+
+[node name="Order" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Amount" type="SpinBox" parent="Order"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 999.0
+rounded = true
+suffix = "items"
+
+[node name="Forever" type="CheckBox" parent="Order"]
+layout_mode = 2
+focus_mode = 0
+text = "Forever"
+
+[node name="Spacer" type="Control" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Status" type="Label" parent="."]
+layout_mode = 2
+text = "No harvest order"
+
+[node name="Progress" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+show_percentage = false

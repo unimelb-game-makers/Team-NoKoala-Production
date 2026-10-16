@@ -59,6 +59,13 @@ func tick(delta: float) -> Status:
 		):
 			# The machine clears its occupied ports when processing finishes.
 			return Status.SUCCESS
+		if not work_job.machine.keeps_assigned_workers():
+			work_job.machine.try_unallocate_working_port(
+				work_job.destination,
+				_work_capability,
+			)
+			_working = false
+			return Status.SUCCESS
 		return Status.RUNNING
 
 	if not _is_machine_need(work_job):
