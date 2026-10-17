@@ -1,7 +1,6 @@
 class_name ItemFilter
 extends ConveyorBelt
 
-var allowed_items: Array[FactoryItemDefinition] = []
 var waiting_items: Array[FactoryItem] = []
 
 func add_item(item: FactoryItem, progress: float = 0.5) -> void:
