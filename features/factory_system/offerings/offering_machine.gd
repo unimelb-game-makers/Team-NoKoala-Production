@@ -69,6 +69,10 @@ func can_process_recipe(recipe: ProductionRecipe) -> bool:
 	)
 
 
+func locks_item_pickup_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
+	return accepts_item_at_cell(item, cell)
+
+
 func _on_recipe_completed(
 	completed_recipe: ProductionRecipe,
 	_factory_manager: FactoryManager,
@@ -115,6 +119,8 @@ func _activate_current_stage() -> void:
 	set_enabled_recipes(recipes)
 	available_recipes_changed.emit()
 	_update_job_requests()
+	if _factory_manager != null:
+		_factory_manager._refresh_item_pickup_states()
 
 
 func _has_valid_rewards(stage: OfferingStage) -> bool:

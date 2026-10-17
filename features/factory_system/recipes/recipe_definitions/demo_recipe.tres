@@ -18,11 +18,6 @@ port_id = &"output_1"
 item = ExtResource("3_kpv2k")
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
-[sub_resource type="Resource" id="Resource_ejjkk"]
-script = ExtResource("4_work_requirement")
-port_id = &"work_1"
-metadata/_custom_type_script = "uid://hneks0cpqqvj"
-
 [resource]
 script = ExtResource("2_feap4")
 recipe_id = &"1"
@@ -30,5 +25,4 @@ display_name = "demo_recipe"
 duration_seconds = 2.0
 inputs = Array[ExtResource("1_d0114")]([SubResource("Resource_d0114")])
 outputs = Array[ExtResource("1_d0114")]([SubResource("Resource_kpv2k")])
-work_requirements = Array[ExtResource("4_work_requirement")]([SubResource("Resource_ejjkk")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"
