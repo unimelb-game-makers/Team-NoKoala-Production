@@ -1,0 +1,217 @@
+[gd_scene format=3 uid="uid://d1o6cg6wt4kdx"]
+
+[ext_resource type="Script" uid="uid://c8imji5nywrn8" path="res://testbeds/test_world.gd" id="1_pgxko"]
+[ext_resource type="PackedScene" uid="uid://dv3umk5dytxh3" path="res://features/global/world_services.tscn" id="2_4afri"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_3g84t"]
+[ext_resource type="PackedScene" uid="uid://bpma6ownlsdnt" path="res://features/factory_system/machines/machine_scenes/carpenter.tscn" id="3_nhsln"]
+[ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="4_48qcq"]
+[ext_resource type="PackedScene" uid="uid://bhwdm7kxqsbfm" path="res://features/factory_system/machines/machine_scenes/conveyor_belt.tscn" id="4_xxnyg"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="5_ja5dj"]
+[ext_resource type="PackedScene" uid="uid://cs7maerb8evpm" path="res://features/factory_system/machines/machine_scenes/faith_ritual.tscn" id="5_yjn2h"]
+[ext_resource type="PackedScene" uid="uid://cytrfy11plthh" path="res://features/factory_system/machines/machine_scenes/mason_bench.tscn" id="6_b04f0"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="6_nhsln"]
+[ext_resource type="PackedScene" uid="uid://b64va0mtfx6a2" path="res://features/factory_system/machines/machine_scenes/spirit_ritual.tscn" id="7_huapl"]
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="7_xxnyg"]
+[ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://features/global/ui/world_ui.tscn" id="8_yjn2h"]
+[ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="9_b04f0"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="10_huapl"]
+[ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="11_23ph7"]
+[ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_converter.gd" id="13_p2uux"]
+[ext_resource type="PackedScene" uid="uid://dlq6oidxgj114" path="res://features/factory_system/machines/machine_scenes/offering_machine.tscn" id="18_23ph7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_machine"]
+sky_material = SubResource("ProceduralSkyMaterial_machine")
+
+[sub_resource type="Environment" id="Environment_machine"]
+background_mode = 2
+sky = SubResource("Sky_machine")
+
+[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
+points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
+albedo_texture = ExtResource("7_xxnyg")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
+material = SubResource("GroundMaterial_machine")
+size = Vector2(1000, 1000)
+
+[sub_resource type="Resource" id="Resource_u1dg4"]
+script = ExtResource("10_huapl")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+block_rotation = 180
+root_cell = Vector3i(1, 0, 3)
+
+[sub_resource type="Resource" id="Resource_58jip"]
+script = ExtResource("10_huapl")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_eivec"]
+script = ExtResource("10_huapl")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-7, 0, 2)
+
+[sub_resource type="Resource" id="Resource_j02vo"]
+script = ExtResource("10_huapl")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+root_cell = Vector3i(-7, 0, 0)
+
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("world_services", "grid", "spring_arm", "player", "world_ui", "items_root", "machines_root")]
+script = ExtResource("1_pgxko")
+world_services = NodePath("WorldServices")
+grid = NodePath("GridMap")
+spring_arm = NodePath("SpringArm3D")
+player = NodePath("Kaguya")
+world_ui = NodePath("WorldUI")
+items_root = NodePath("Items")
+machines_root = NodePath("Machines")
+
+[node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("2_4afri")]
+
+[node name="MachineFactory" parent="WorldServices" index="0" unique_id=331273636]
+machine_scenes = Array[PackedScene]([ExtResource("3_nhsln"), ExtResource("4_xxnyg"), ExtResource("5_yjn2h"), ExtResource("6_b04f0"), ExtResource("7_huapl")])
+
+[node name="FaithManager" parent="WorldServices" index="6" unique_id=1653168022]
+faith_toggle = false
+
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("3_3g84t")]
+mesh_library = ExtResource("4_48qcq")
+
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("5_ja5dj")]
+
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("6_nhsln")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 4.795
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
+environment = SubResource("Environment_machine")
+
+[node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
+shape = SubResource("GroundShape_machine")
+
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01540041, -0.0809226, 0.0312047)
+mesh = SubResource("GroundMesh_machine")
+
+[node name="Items" type="Node3D" parent="." unique_id=973865482]
+
+[node name="WorldUI" parent="." unique_id=2084672617 instance=ExtResource("8_yjn2h")]
+
+[node name="Machines" type="Node" parent="." unique_id=598590661]
+
+[node name="OfferingMachine" parent="Machines" unique_id=2145066895 instance=ExtResource("18_23ph7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -13.5)
+
+[node name="DemoMachine" parent="Machines" unique_id=1962970161 instance=ExtResource("9_b04f0")]
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 1.5, 0, 3.5)
+
+[node name="Block" parent="Machines/DemoMachine" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_u1dg4")
+
+[node name="BlockCellGizmo" parent="Machines/DemoMachine/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="Machines/DemoMachine/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="Machines/DemoMachine/Machine" parent_id_path=PackedInt32Array(1962970161, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine2" parent="Machines" unique_id=492139455 instance=ExtResource("9_b04f0")]
+transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, -0.5, 0, 0.5)
+
+[node name="Block" parent="Machines/DemoMachine2" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_58jip")
+
+[node name="BlockCellGizmo" parent="Machines/DemoMachine2/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="Machines/DemoMachine2/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="Machines/DemoMachine2/Machine" parent_id_path=PackedInt32Array(492139455, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine3" parent="Machines" unique_id=1061425926 instance=ExtResource("9_b04f0")]
+transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 2.5)
+
+[node name="Block" parent="Machines/DemoMachine3" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_eivec")
+
+[node name="BlockCellGizmo" parent="Machines/DemoMachine3/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="Machines/DemoMachine3/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="Machines/DemoMachine3/Machine" parent_id_path=PackedInt32Array(1061425926, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="DemoMachine4" parent="Machines" unique_id=1181246573 instance=ExtResource("9_b04f0")]
+transform = Transform3D(0.9999995, 0, 0, 0, 1, 0, 0, 0, 0.9999995, -6.5, 0, 0.5)
+
+[node name="Block" parent="Machines/DemoMachine4" index="0" unique_id=1151288400]
+block_data = SubResource("Resource_j02vo")
+
+[node name="BlockCellGizmo" parent="Machines/DemoMachine4/Block" index="5" unique_id=1551666163 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+gizmo_height = 0.2
+occupied_color = Color(0.101960786, 0.74509805, 1, 0.7411765)
+overlap_color = Color(2.4065375e-07, 0.8249522, 0.34587833, 0.7411765)
+conflict_color = Color(1, 0.12, 0.12, 0.7)
+
+[node name="BlockGridRegistration" parent="Machines/DemoMachine4/Block" index="6" unique_id=159894150 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="MachineEditorSynchoniser" parent="Machines/DemoMachine4/Machine" parent_id_path=PackedInt32Array(1181246573, 971752522) index="1" unique_id=338730361 node_paths=PackedStringArray("grid")]
+grid = NodePath("../../../../GridMap")
+
+[node name="bamboo_culm_area" parent="Machines" unique_id=2022764336 instance=ExtResource("11_23ph7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 0.5)
+
+[node name="bamboo_culm_area2" parent="Machines" unique_id=811720140 instance=ExtResource("11_23ph7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 3.5)
+
+[node name="ResourceAreaConverter" type="Node" parent="." unique_id=138275656 node_paths=PackedStringArray("grid", "machine_root")]
+script = ExtResource("13_p2uux")
+grid = NodePath("../GridMap")
+machine_root = NodePath("../Machines")
+metadata/_custom_type_script = "uid://dk6ro3ymqhxn8"
+
+[editable path="WorldServices"]
+[editable path="Machines/DemoMachine"]
+[editable path="Machines/DemoMachine2"]
+[editable path="Machines/DemoMachine3"]
+[editable path="Machines/DemoMachine4"]

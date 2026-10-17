@@ -19,7 +19,7 @@
 [ext_resource type="Script" path="res://features/tutorial/tutorial_director.gd" id="17_director"]
 [ext_resource type="Script" uid="uid://qcoib1krkskr" path="res://features/factory_system/recipes/recipe_unlocks.gd" id="16_unlocks"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="17_recipe"]
-[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="18_demo"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/bamboo_plank_recipe.tres" id="18_demo"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="19_ritual"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="20_ritual2"]
 
