@@ -97,7 +97,7 @@ func _detect_indexed_items(factory_manager: FactoryManager) -> void:
 		if item != null and item.try_claim(self):
 			add_item(item)
 
-func _hand_off(	item: FactoryItem, next_belt: ConveyorBelt, overflow: float = 0.0,) -> void:
+func _hand_off(item: FactoryItem, next_belt: ConveyorBelt, overflow: float = 0.0,) -> void:
 	if is_straight_corner(next_belt):
 		overflow += 0.5
 		var target_pos: Vector3 = next_belt.middle.global_position

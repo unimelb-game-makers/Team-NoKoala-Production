@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://dro114ihym2b1"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_wylap"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_4t7xk"]
+[ext_resource type="Resource" uid="uid://c1i3j1djd3njm" path="res://features/factory_system/recipes/recipe_definitions/construction/construct_demo_machine.tres" id="3_xmysa"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="4_pj4gx"]
+
+[sub_resource type="Resource" id="Resource_t5wn5"]
+script = ExtResource("1_wylap")
+port_id = &"input_1"
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_oo757"]
+script = ExtResource("1_wylap")
+port_id = &"work_1"
+role = 3
+local_cell_offset = Vector3i(0, 0, 1)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[resource]
+script = ExtResource("4_pj4gx")
+cells = Array[ExtResource("1_wylap")]([SubResource("Resource_t5wn5"), SubResource("Resource_oo757")])
+recipes = Array[ExtResource("2_4t7xk")]([ExtResource("3_xmysa")])
+metadata/_custom_type_script = "uid://cxu884kmx2bg1"

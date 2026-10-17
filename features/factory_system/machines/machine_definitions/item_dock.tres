@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://dfchswr13gf2u"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_10wh8"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_33e2w"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_v0mue"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="7_h3qkr"]
+
+[sub_resource type="Resource" id="Resource_input_1"]
+script = ExtResource("1_10wh8")
+port_id = &"input_1"
+can_overlap = true
+
+[resource]
+script = ExtResource("7_h3qkr")
+machine_name = &"Item Dock"
+cells = Array[ExtResource("1_10wh8")]([SubResource("Resource_input_1")])
+recipes = Array[ExtResource("3_v0mue")]([null])
