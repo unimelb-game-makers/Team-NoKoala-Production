@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://cnm35elm6hhe1"]
+
+[ext_resource type="Texture2D" uid="uid://m8ig4fhxgxl8" path="res://features/telescope/art/telescope_3.jpg" id="1_os5s7"]
+[ext_resource type="Script" uid="uid://bndqymrsk8xuu" path="res://features/telescope/overlay/telescope_view.gd" id="2_mvlxt"]
+[ext_resource type="Script" uid="uid://cm6mbq1rvhgy1" path="res://features/telescope/overlay/telescope_zone.gd" id="3_dvsbd"]
+[ext_resource type="Texture2D" uid="uid://6qeghohss8jj" path="res://features/telescope/art/aoi.png" id="4_agebt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ts2w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_owhf0"]
+
+[node name="TelescopeViewC" type="TextureRect" unique_id=1208084381 node_paths=PackedStringArray("zones")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 768.0
+offset_bottom = 432.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_os5s7")
+stretch_mode = 2
+script = ExtResource("2_mvlxt")
+zones = [NodePath("zone_1"), NodePath("zone_2"), NodePath("zone_3")]
+
+[node name="zone_1" type="Control" parent="." unique_id=1010208217 node_paths=PackedStringArray("area_of_interest")]
+anchors_preset = 0
+offset_left = 60.0
+offset_top = -448.00003
+offset_right = 100.00001
+offset_bottom = -408.00003
+scale = Vector2(0.6, 0.6)
+script = ExtResource("3_dvsbd")
+area_of_interest = NodePath("Sprite2D")
+
+[node name="zone" type="Area2D" parent="zone_1" unique_id=1753363533]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_1/zone" unique_id=1648575537]
+position = Vector2(242.00002, 943)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_8ts2w")
+
+[node name="Sprite2D" type="Sprite2D" parent="zone_1" unique_id=1702439718]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(243, 942.00006)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_agebt")
+
+[node name="zone_2" type="Control" parent="." unique_id=1248492461 node_paths=PackedStringArray("area_of_interest")]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 155.0
+offset_right = 42.0
+offset_bottom = 195.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("3_dvsbd")
+area_of_interest = NodePath("Sprite2D")
+
+[node name="zone" type="Area2D" parent="zone_2" unique_id=162612844]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_2/zone" unique_id=45269305]
+position = Vector2(1000, 177)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_owhf0")
+
+[node name="Sprite2D" type="Sprite2D" parent="zone_2" unique_id=646361523]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(1000.00006, 178)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_agebt")
+
+[node name="zone_3" type="Control" parent="." unique_id=1470991569 node_paths=PackedStringArray("area_of_interest")]
+anchors_preset = 0
+offset_left = -184.0
+offset_top = 343.0
+offset_right = -144.0
+offset_bottom = 383.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("3_dvsbd")
+area_of_interest = NodePath("Sprite2D")
+
+[node name="zone" type="Area2D" parent="zone_3" unique_id=1488937656]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="zone_3/zone" unique_id=934496333]
+position = Vector2(1000, 177)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_owhf0")
+
+[node name="Sprite2D" type="Sprite2D" parent="zone_3" unique_id=2010771861]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(1000.00006, 178)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_agebt")
+
+[connection signal="mouse_entered" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_1/zone" to="zone_1" method="_on_zone_mouse_exited"]
+[connection signal="mouse_entered" from="zone_2/zone" to="zone_2" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_2/zone" to="zone_2" method="_on_zone_mouse_exited"]
+[connection signal="mouse_entered" from="zone_3/zone" to="zone_3" method="_on_zone_mouse_entered"]
+[connection signal="mouse_exited" from="zone_3/zone" to="zone_3" method="_on_zone_mouse_exited"]
