@@ -70,9 +70,9 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	# movement relative to spring arm rotation
-	var input_vec := Vector3.ZERO
+	var input_vec := Vector2.ZERO
 	if FeatureGate.check(_gate, GameFeature.Id.MOVE):
-		input_vec := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var cam_basis: Basis
 	if spring_arm != null:
 		cam_basis = spring_arm.global_transform.basis
