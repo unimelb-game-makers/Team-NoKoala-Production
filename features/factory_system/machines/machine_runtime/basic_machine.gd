@@ -105,6 +105,11 @@ func _exit_tree() -> void:
 	_cancel_processing()
 
 
+func prepare_for_removal() -> void:
+	_cancel_processing()
+	super.prepare_for_removal()
+
+
 func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if definition == null or enabled_recipes.is_empty():
 		_clear_pending_recipe()

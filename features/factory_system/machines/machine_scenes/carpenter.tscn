@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_0ww30"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="15_pxaxy"]
 
+[ext_resource type="Script" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
+
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
 script = ExtResource("4_f244h")
@@ -34,7 +36,7 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
 
-[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint", "progress_bar")]
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("dismantle_component", "block", "machine", "blueprint", "progress_bar")]
 script = ExtResource("1_a61y0")
 block = NodePath("Block")
 machine = NodePath("Machine")
@@ -42,6 +44,8 @@ ui_panels = Array[PackedScene]([ExtResource("2_hjjgt")])
 blueprint = NodePath("Blueprint")
 progress_bar = NodePath("BasicProgressBar")
 toggle_blueprint = true
+
+dismantle_component = NodePath("DismantleComponent")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_uik1x")
@@ -123,3 +127,6 @@ spot_angle = 15.0
 [node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("15_pxaxy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 machine = NodePath("../Blueprint")
+
+[node name="DismantleComponent" type="Node" parent="."]
+script = ExtResource("dismantle_component")
