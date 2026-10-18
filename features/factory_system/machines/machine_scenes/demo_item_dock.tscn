@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="9_jbavh"]
 [ext_resource type="Resource" uid="uid://dfchswr13gf2u" path="res://features/factory_system/machines/machine_definitions/item_dock.tres" id="9_kv3sn"]
 [ext_resource type="Script" uid="uid://t7ci5f2fmhb3" path="res://features/factory_system/machines/machine_runtime/item_dock.gd" id="9_sygwa"]
+[ext_resource type="Texture2D" uid="uid://dwwnucl2ee1mc" path="res://assets/developer_art/item_dock/item_dock_arrow.png" id="12_0lxmb"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="13_nd3f2"]
 [ext_resource type="Script" uid="uid://bshog4wqs07h0" path="res://features/mob/ai/job/providers/item_dock_job_provider.gd" id="14_yi7qd"]
 
@@ -19,9 +20,11 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
 overlap_cells = Array[Vector3i]([Vector3i(0, 0, 0)])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
-albedo_color = Color(0.538, 1, 0.33999997, 1)
+transparency = 1
+albedo_color = Color(0.538, 1, 0.33999997, 0.2509804)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yi7qd"]
+size = Vector3(1.15, 0.001, 1.15)
 
 [node name="DemoItemDock" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine")]
 script = ExtResource("1_kv3sn")
@@ -36,7 +39,7 @@ transform_root = NodePath("..")
 
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-size = Vector3(1, 0.1, 1)
+size = Vector3(0.8, 0.1, 0.8)
 material = SubResource("StandardMaterial3D_5gudi")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
@@ -52,7 +55,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1086871065]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1596044641]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49993235, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0004323423, 0)
 shape = SubResource("BoxShape3D_yi7qd")
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
@@ -81,3 +84,9 @@ light_indirect_energy = 0.0
 spot_range = 2.0
 spot_attenuation = 0.0
 spot_angle = 15.0
+
+[node name="ArrowSprite" type="Sprite3D" parent="." unique_id=1489327944]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 1.377523, 0)
+billboard = 2
+texture_filter = 1
+texture = ExtResource("12_0lxmb")
