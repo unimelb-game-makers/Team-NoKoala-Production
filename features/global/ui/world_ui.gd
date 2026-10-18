@@ -6,6 +6,8 @@ extends Node
 @export var build_menu_button: Button
 @export var build_selection_panel: MachineBuildSelectionPanel
 @export var hotbar: Hotbar
+@export var map: Map
+@export var map_regions: Node
 @export var tutorial_overlay: TutorialOverlay
 
 var _gate: FeatureGate
@@ -14,6 +16,10 @@ var _gate: FeatureGate
 func _ready() -> void:
 	build_menu_button.pressed.connect(_on_build_menu_pressed)
 
+	if map_regions == null:
+		return
+	for region : MapAreaTrigger in map_regions.get_children():
+		region.region_entered.connect(_update_map)
 
 func configure(
 	faith: FaithManager,
@@ -51,3 +57,17 @@ func _on_build_menu_pressed() -> void:
 		build_selection_panel.close()
 	else:
 		build_selection_panel.open()
+
+func toggle_map() -> void:
+	map.visible = not map.visible
+	map.fade_in_discovered_queue()
+	
+func _update_map(id: StringName) -> void:
+	print("unlocked " + id + "!!")
+	map.discover_region(id)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_map"):
+		toggle_map()
+		get_viewport().set_input_as_handled()
+		
