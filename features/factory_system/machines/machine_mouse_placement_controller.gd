@@ -19,6 +19,7 @@ func configure(
 	mobs_root: Node,
 	p_spring_arm: CameraController,
 	gate: FeatureGate = null,
+	p_progression_manager: ProgressionManager = null,
 ) -> void:
 	# Godot doesn't allow override a function with different parameters
 	# Not sure if there's a better way to do this
@@ -35,6 +36,7 @@ func configure(
 		mobs_root,
 		p_spring_arm,
 		gate,
+		p_progression_manager,
 	)
 
 

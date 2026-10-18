@@ -55,7 +55,7 @@ func _rebuild_machine_list() -> void:
 		_update_build_button()
 		return
 
-	allowed_definitions = machine_factory.get_machine_definitions()
+	allowed_definitions = placement.get_allowed_machine_definitions()
 
 	for definition in allowed_definitions:
 		if definition == null or _definitions.has(definition):

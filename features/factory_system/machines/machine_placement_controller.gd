@@ -8,6 +8,11 @@ signal place_mode_changed(enabled: bool)
 @export var _faith: FaithManager
 @export var _jobs: JobBoard
 @export var _reservations: ReservationManager
+@export var _progression_manager: ProgressionManager
+
+# debug purposes
+@export var all_machines_unlocked = false
+var _unlocked_machines: Array[MachineDefinition] = []
 
 var machine_factory: MachineFactory
 var spirit_spawner: SpiritSpawner
@@ -54,6 +59,7 @@ func configure(
 	mobs_root: Node,
 	_spring_arm: CameraController,
 	gate: FeatureGate = null,
+	p_progression_manager: ProgressionManager = null,
 ) -> void:
 	machine_factory = p_machine_factory
 	grid = p_grid
@@ -62,13 +68,22 @@ func configure(
 	_faith = faith
 	_jobs = jobs
 	_reservations = reservations
+	_progression_manager = p_progression_manager
+	_bind_progression_manager()
 	_machines_root = machines_root
 	_mobs_root = mobs_root
 	_bind_gate(gate)
 	_allowed_machine_definitions = machine_factory.get_machine_definitions() if machine_factory != null else []
+	if _progression_manager != null and machine_factory != null and _unlocked_machines.is_empty():
+		unlock_machine(machine_factory.get_default_machine_definition())
 	_select_initial_definition()
 
-
+func _bind_progression_manager() -> void:
+	if _progression_manager == null:
+		return
+	if not _progression_manager.telescope_stage_advanced.is_connected(_on_telescope_stage_advanced):
+		_progression_manager.telescope_stage_advanced.connect(_on_telescope_stage_advanced)
+		
 func _ready() -> void:
 	_select_initial_definition()
 
@@ -87,7 +102,11 @@ func _on_gate_changed() -> void:
 
 
 func get_allowed_machine_definitions() -> Array[MachineDefinition]:
-	return _allowed_machine_definitions.duplicate()
+	var result: Array[MachineDefinition] = []
+	for definition in _allowed_machine_definitions:
+		if is_unlocked(definition):
+			result.append(definition)
+	return result
 
 
 func begin_placement() -> MachineAssembly:
@@ -174,7 +193,7 @@ func has_active_placement() -> bool:
 
 
 func select_machine(definition: MachineDefinition) -> void:
-	if machine_factory == null or not _allowed_machine_definitions.has(definition):
+	if machine_factory == null or not _allowed_machine_definitions.has(definition) or not is_unlocked(definition):
 		return
 	_selected_machine_definition = definition
 	if has_active_placement():
@@ -182,17 +201,32 @@ func select_machine(definition: MachineDefinition) -> void:
 
 
 func select_next_machine() -> void:
-	if machine_factory == null:
+	var definitions := get_allowed_machine_definitions()
+	if definitions.is_empty():
 		return
-	if _allowed_machine_definitions.is_empty():
-		return
-	var current_index := _allowed_machine_definitions.find(_selected_machine_definition)
-	var next_index := wrapi(current_index + 1, 0, _allowed_machine_definitions.size())
-	select_machine(_allowed_machine_definitions[next_index])
+	var current_index := definitions.find(_selected_machine_definition)
+	var next_index := wrapi(current_index + 1, 0, definitions.size())
+	select_machine(definitions[next_index])
+
+
+func _on_telescope_stage_advanced(stage: TelescopeStage) -> void:
+	for definition in stage.machine_unlocks:
+		unlock_machine(definition)
+
+
+func unlock_machine(definition: MachineDefinition) -> void:
+	if definition != null and not _unlocked_machines.has(definition):
+		_unlocked_machines.append(definition)
+
+
+func is_unlocked(definition: MachineDefinition) -> bool:
+	return all_machines_unlocked or _progression_manager == null or _unlocked_machines.has(definition)
 
 
 func _select_initial_definition() -> void:
 	if machine_factory == null:
 		return
-	if _selected_machine_definition == null or not _allowed_machine_definitions.has(_selected_machine_definition):
-		_selected_machine_definition = machine_factory.get_default_machine_definition()
+	var definitions := get_allowed_machine_definitions()
+	if _selected_machine_definition == null or not definitions.has(_selected_machine_definition):
+		var default_definition := machine_factory.get_default_machine_definition()
+		_selected_machine_definition = default_definition if definitions.has(default_definition) else (definitions[0] if not definitions.is_empty() else null)
