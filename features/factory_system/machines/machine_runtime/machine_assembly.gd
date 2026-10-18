@@ -43,6 +43,9 @@ func configure(
 	assert(block != null, "MachineAssembly requires a Block")
 	assert(machine != null, "MachineAssembly requires a Machine")
 	_factory_manager = factory_manager
+	for child in get_children():
+		if child is MachineInputShadows:
+			child.configure(machine, factory_manager)
 	
 	machine.configure(self, faith_manager, spirit_spawner, mobs_root)
 	if machine.job_provider != null:

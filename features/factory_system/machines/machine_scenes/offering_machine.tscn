@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://d0jg6yoemhfiu" path="res://features/factory_system/offerings/offering_stage.gd" id="13_stage"]
 [ext_resource type="Resource" uid="uid://b6v4tvbps4ehk" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="14_reward"]
 [ext_resource type="PackedScene" uid="uid://bmtxmh0aalqcm" path="res://assets/buildings/big shrine.glb" id="17_l1dge"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/components/machine_input_shadows.tscn" id="18_shadows"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
@@ -71,12 +72,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
-[node name="ShrineStructure" type="StaticBody3D" parent="Block"]
+[node name="ShrineStructure" type="StaticBody3D" parent="Block" unique_id=2017060514]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 8.65, -8.7)
 collision_layer = 16
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
 shape = SubResource("BoxShape3D_shrine_structure")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
@@ -122,3 +123,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 
 [node name="big shrine" parent="." unique_id=1356157558 instance=ExtResource("17_l1dge")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.52, 0.653, 12.961)
+
+[node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]

@@ -29,7 +29,7 @@ item = ExtResource("6_iron")
 
 [resource]
 script = ExtResource("2_definition")
-machine_name = &"Demo Offering Machine"
+machine_name = &"Offering"
 machine_description = &"Complete an offering to unlock a demo recipe"
 cells = Array[ExtResource("1_cell")]([SubResource("Resource_input"), SubResource("Resource_5tfjm"), SubResource("Resource_gb4cy")])
 recipes = Array[ExtResource("3_recipe")]([ExtResource("4_offering")])
