@@ -15,6 +15,12 @@ func _ready() -> void:
 	_refresh()
 
 
+## Locks or unlocks slot selection (clicks and shortcuts).
+func set_interactive(enabled: bool) -> void:
+	for slot in slots:
+		slot.disabled = not enabled
+
+
 func bind_inventory(p_inventory: Inventory) -> void:
 	if inventory != null:
 		inventory.slot_changed.disconnect(_on_slot_changed)

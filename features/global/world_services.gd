@@ -12,6 +12,8 @@ extends Node
 @export var machine_placement_controller: MachinePlacementController
 @export var item_spawn_controller: FactoryItemSpawnController
 @export var dialogue_coordinator: DialogueCoordinator
+@export var feature_gate: FeatureGate
+@export var tutorial_director: TutorialDirector
 
 
 func configure(
@@ -34,6 +36,7 @@ func configure(
 		machines_root,
 		mobs_root,
 		spring_arm,
+		feature_gate,
 	)
-	item_spawn_controller.configure(spring_arm, grid, item_spawner)
+	item_spawn_controller.configure(spring_arm, grid, item_spawner, feature_gate)
 	spirit_spawner.configure(mobs_root, fixed_clock, job_board, reservation_manager, grid, faith_manager)

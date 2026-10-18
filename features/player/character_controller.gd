@@ -8,6 +8,8 @@ class_name Player
 @export var animation_tree: AnimationTree
 @export var spring_arm: CameraController
 
+var _gate: FeatureGate
+
 const GRAVITY_SCALE: float = 1.0
 const JUMP_STRENGTH: float = 2.075
 const MAX_GROUND_PLAYER_SPEED = 4.0
@@ -29,10 +31,12 @@ func configure(
 	factory: FactoryManager,
 	hotbar: Hotbar,
 	machine_ui: MachineUI,
+	gate: FeatureGate = null,
 ) -> void:
 	spring_arm = p_spring_arm
-	interaction_controller.configure(p_spring_arm, placement, jobs, machine_ui)
-	work_controller.configure(grid, factory)
+	_gate = gate
+	interaction_controller.configure(p_spring_arm, placement, jobs, machine_ui, gate)
+	work_controller.configure(grid, factory, gate)
 	inventory_owner.configure(hotbar)
 
 
@@ -56,7 +60,9 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	# movement relative to spring arm rotation
-	var input_vec = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
+	var input_vec := Vector3.ZERO
+	if FeatureGate.check(_gate, GameFeature.Id.MOVE):
+		input_vec = Vector3(Input.get_axis("move_left","move_right"),0.0,Input.get_axis("move_up","move_down"))
 	var cam_basis
 	if spring_arm != null:
 		cam_basis = spring_arm.global_transform.basis
@@ -101,11 +107,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	# Check if player is holding jump (Should jump again)
-	if Input.is_action_pressed("jump"): 
+	if Input.is_action_pressed("jump"):
 		jump()
 	elif is_on_floor():
 		target_y_velocity = 0.0
 
 func jump() -> void:
-	if is_on_floor() and can_jump:
+	if is_on_floor() and can_jump and FeatureGate.check(_gate, GameFeature.Id.JUMP):
 		target_y_velocity = JUMP_STRENGTH

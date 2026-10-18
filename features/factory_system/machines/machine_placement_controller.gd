@@ -16,11 +16,14 @@ var _unlocked_machines: Array[MachineDefinition] = []
 
 var machine_factory: MachineFactory
 var spirit_spawner: SpiritSpawner
+var _gate: FeatureGate
 var place_mode: bool = false:
 	get:
 		return place_mode
 	set(value):
 		if place_mode == value:
+			return
+		if value and not FeatureGate.check(_gate, GameFeature.Id.PLACE_MACHINE):
 			return
 		if value and (
 			machine_factory == null
@@ -55,7 +58,8 @@ func configure(
 	machines_root: Node,
 	mobs_root: Node,
 	_spring_arm: CameraController,
-	p_progression_manager: ProgressionManager = null
+	gate: FeatureGate = null,
+	p_progression_manager: ProgressionManager = null,
 ) -> void:
 	machine_factory = p_machine_factory
 	grid = p_grid
@@ -68,6 +72,7 @@ func configure(
 	_bind_progression_manager()
 	_machines_root = machines_root
 	_mobs_root = mobs_root
+	_bind_gate(gate)
 	_allowed_machine_definitions = machine_factory.get_machine_definitions() if machine_factory != null else []
 	if _progression_manager != null and machine_factory != null and _unlocked_machines.is_empty():
 		unlock_machine(machine_factory.get_default_machine_definition())
@@ -81,6 +86,19 @@ func _bind_progression_manager() -> void:
 		
 func _ready() -> void:
 	_select_initial_definition()
+
+
+func _bind_gate(gate: FeatureGate) -> void:
+	if _gate != null and _gate.changed.is_connected(_on_gate_changed):
+		_gate.changed.disconnect(_on_gate_changed)
+	_gate = gate
+	if _gate != null:
+		_gate.changed.connect(_on_gate_changed)
+
+
+func _on_gate_changed() -> void:
+	if place_mode and not FeatureGate.check(_gate, GameFeature.Id.PLACE_MACHINE):
+		place_mode = false
 
 
 func get_allowed_machine_definitions() -> Array[MachineDefinition]:
