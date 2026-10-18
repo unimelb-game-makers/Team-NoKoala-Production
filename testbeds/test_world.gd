@@ -12,6 +12,8 @@ extends Node3D
 @export var items_root: Node
 @export var mobs_root: Node
 @export var machines_root: Node
+@export var progression_manager: ProgressionManager
+@export var telescope_assembly: TelescopeAssembly
 
 
 func _enter_tree() -> void:
@@ -30,6 +32,16 @@ func _ready() -> void:
 
 func configure_dependencies() -> void:
 	world_services.configure(grid, spring_arm, machines_root, mobs_root, items_root)
+
+	if progression_manager != null:
+		assert(telescope_assembly != null, "Progression requires a TelescopeAssembly")
+		progression_manager.configure(telescope_assembly)
+		world_services.machine_placement_controller.configure(
+			world_services.machine_factory, grid, world_services.factory_manager,
+			world_services.spirit_spawner, world_services.faith_manager,
+			world_services.job_board, world_services.reservation_manager,
+			machines_root, mobs_root, spring_arm, progression_manager,
+		)
 
 	grid.configure(world_services.factory_manager)
 
