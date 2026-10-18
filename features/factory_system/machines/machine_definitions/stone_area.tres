@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://boorvr4r4pnyw"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_wvbqf"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_k4req"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="3_yy4h1"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_y8tjr"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_eeebb"]
+
+[sub_resource type="Resource" id="Resource_output"]
+script = ExtResource("1_wvbqf")
+port_id = &"output_1"
+role = 1
+
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("2_k4req")
+item = ExtResource("3_yy4h1")
+
+[resource]
+script = ExtResource("5_eeebb")
+machine_name = &"Stone Deposit"
+cells = Array[ExtResource("1_wvbqf")]([SubResource("Resource_output")])
+construction_materials = Array[ExtResource("2_k4req")]([SubResource("Resource_construction_iron")])

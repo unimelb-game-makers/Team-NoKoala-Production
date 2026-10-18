@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bjn4ygb8h56y1"]
+
+[ext_resource type="PackedScene" uid="uid://cxn8btniaveng" path="res://assets/developer_art/models/machines/new/artisan_bench.glb" id="1_jh4r6"]
+
+[node name="artisan_bench" unique_id=907799911 instance=ExtResource("1_jh4r6")]
+
+[node name="Plane" parent="." index="0" unique_id=909208712]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0, 0, 0)

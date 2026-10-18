@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://cpytbocm28kb8" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="4_vg41c"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_provider"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
-[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="7_recipe"]
+[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/bamboo_plank_recipe.tres" id="7_recipe"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
 [ext_resource type="PackedScene" uid="uid://yf7vq0llb5ai" path="res://assets/developer_art/models/machines/new/carpenter_bench.tscn" id="9_8y5og"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="9_evuxr"]
@@ -15,8 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://2uhsqbqmr50c" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="10_ui"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
-
-[ext_resource type="Script" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
+[ext_resource type="Script" uid="uid://bdam2sxwbk5sb" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true

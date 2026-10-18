@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceAreaDefinition" format=3 uid="uid://vlveuq3imyer"]
+
+[ext_resource type="Script" uid="uid://b0hv3yfr5g24w" path="res://features/resource_area/resource_area_definition.gd" id="1_52ow8"]
+[ext_resource type="Resource" uid="uid://3neyltyxfbfu" path="res://features/factory_system/recipes/recipe_definitions/resource_area/spawner_stone.tres" id="2_52ow8"]
+[ext_resource type="Texture2D" uid="uid://b76m3qrrnp1rf" path="res://assets/developer_art/resource_areas/stone_resource.png" id="3_52ow8"]
+
+[resource]
+script = ExtResource("1_52ow8")
+spawner_recipe = ExtResource("2_52ow8")
+texture = ExtResource("3_52ow8")

@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_717dw"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_74s1g"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="3_6fy3b"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="3_6fy3b"]
+[ext_resource type="Resource" uid="uid://bhvoon3nsgrp3" path="res://features/factory_system/factory_items/item_definitions/stone.tres" id="4_r43ut"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_rxohs"]
+[ext_resource type="Resource" uid="uid://dokjg0gb5ajyf" path="res://features/factory_system/recipes/recipe_definitions/bricks_stone_recipe.tres" id="5_74s1g"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_r43ut"]
 
 [sub_resource type="Resource" id="Resource_structure"]
@@ -37,12 +39,23 @@ role = 1
 local_cell_offset = Vector3i(3, 0, 0)
 metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 
-[sub_resource type="Resource" id="Resource_construction_iron"]
+[sub_resource type="Resource" id="Resource_pk8c8"]
 script = ExtResource("2_74s1g")
+port_id = &"input_1"
 item = ExtResource("3_6fy3b")
+amount = 6
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_esmrh"]
+script = ExtResource("2_74s1g")
+port_id = &"input_1"
+item = ExtResource("4_r43ut")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [resource]
 script = ExtResource("5_r43ut")
 machine_name = &"Mason Bench"
 cells = Array[ExtResource("1_717dw")]([SubResource("Resource_structure"), SubResource("Resource_1wqb6"), SubResource("Resource_717dw"), SubResource("Resource_74s1g"), SubResource("Resource_6fy3b")])
-construction_materials = Array[ExtResource("2_74s1g")]([SubResource("Resource_construction_iron")])
+recipes = Array[ExtResource("4_rxohs")]([ExtResource("5_74s1g")])
+construction_materials = Array[ExtResource("2_74s1g")]([SubResource("Resource_pk8c8"), SubResource("Resource_esmrh")])
