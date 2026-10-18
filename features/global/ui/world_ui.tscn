@@ -5,18 +5,20 @@
 [ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="3_th0lk"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="4_wyqub"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="5_2cr1n"]
+[ext_resource type="PackedScene" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
 
-[node name="WorldUI" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar")]
+[node name="WorldUI" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar", "tutorial_overlay")]
 script = ExtResource("1_jhgwm")
 faith_progress_bar = NodePath("FaithProgressBar")
 machine_ui = NodePath("CanvasLayer/MachineUI")
 build_menu_button = NodePath("CanvasLayer/BuildMenuButton")
 build_selection_panel = NodePath("CanvasLayer/MachineBuildSelectionPanel")
 hotbar = NodePath("Hotbar")
+tutorial_overlay = NodePath("CanvasLayer/TutorialOverlay")
 
 [node name="FaithProgressBar" parent="." unique_id=889199016 instance=ExtResource("2_vc2pu")]
 
-[node name="Hotbar" parent="." unique_id=263281179 instance=ExtResource("3_th0lk")]
+[node name="Hotbar" parent="." unique_id=263281179 groups=["tutorial_hotbar"] instance=ExtResource("3_th0lk")]
 offset_top = -73.0
 offset_bottom = -73.0
 
@@ -25,7 +27,7 @@ offset_bottom = -73.0
 [node name="MachineUI" parent="CanvasLayer" unique_id=378136023 instance=ExtResource("4_wyqub")]
 visible = false
 
-[node name="BuildMenuButton" type="Button" parent="CanvasLayer" unique_id=1933539879]
+[node name="BuildMenuButton" type="Button" parent="CanvasLayer" unique_id=1933539879 groups=["tutorial_build_menu_button"]]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -37,3 +39,5 @@ grow_horizontal = 0
 text = "Machines"
 
 [node name="MachineBuildSelectionPanel" parent="CanvasLayer" unique_id=1618381881 instance=ExtResource("5_2cr1n")]
+
+[node name="TutorialOverlay" parent="CanvasLayer" instance=ExtResource("6_tutorial")]

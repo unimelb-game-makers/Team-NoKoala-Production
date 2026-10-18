@@ -65,7 +65,12 @@ func compose_world_context() -> WorldContext:
 
 func configure_dependencies() -> void:
 	world_services.configure(grid, spring_arm, machines_root, mobs_root, items_root)
-	world_ui.configure(world_services.faith_manager, world_services.machine_placement_controller)
+	world_ui.configure(
+		world_services.faith_manager,
+		world_services.machine_placement_controller,
+		world_services.feature_gate,
+		world_services.tutorial_director,
+	)
 	grid.configure(world_services.factory_manager)
 	player.configure(
 		spring_arm,
@@ -74,9 +79,18 @@ func configure_dependencies() -> void:
 		grid,
 		world_services.factory_manager,
 		world_ui.hotbar,
-		world_ui.machine_ui
+		world_ui.machine_ui,
+		world_services.feature_gate,
 	)
-	spring_arm.configure(player)
+	spring_arm.configure(player, world_services.feature_gate)
+	world_services.tutorial_director.configure(
+		world_services.feature_gate,
+		world_services.factory_manager,
+		world_services.dialogue_coordinator,
+		player,
+		spring_arm,
+		world_services.machine_placement_controller,
+	)
 	for child in mobs_root.get_children():
 		if child is Npc:
 			child.configure(

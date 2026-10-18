@@ -2,6 +2,7 @@ class_name DialogueCoordinator
 extends Node
 
 signal dialogue_requested(entry: DialogueEntry)
+signal dialogue_finished(cue: StringName)
 
 
 @export var dialogues: Array[DialogueResource]
@@ -16,3 +17,8 @@ func request_by_cue(cue: StringName) -> bool:
 
 	push_warning("Unknown dialogue cue: %s" % cue)
 	return false
+
+
+## Called by the UI that played a requested dialogue once it ends.
+func notify_finished(cue: StringName) -> void:
+	dialogue_finished.emit(cue)
