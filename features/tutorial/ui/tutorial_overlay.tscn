@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/tutorial/ui/tutorial_overlay.gd" id="1_overlay"]
+
+[node name="TutorialOverlay" type="Control" node_paths=PackedStringArray("objective_panel", "objective_label", "progress_bar", "skip_button", "highlight")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_overlay")
+objective_panel = NodePath("ObjectivePanel")
+objective_label = NodePath("ObjectivePanel/VBox/ObjectiveLabel")
+progress_bar = NodePath("ObjectivePanel/VBox/ProgressBar")
+skip_button = NodePath("ObjectivePanel/VBox/SkipButton")
+highlight = NodePath("Highlight")
+
+[node name="Highlight" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[node name="ObjectivePanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -240.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 90.0
+grow_horizontal = 2
+
+[node name="VBox" type="VBoxContainer" parent="ObjectivePanel"]
+layout_mode = 2
+
+[node name="ObjectiveLabel" type="Label" parent="ObjectivePanel/VBox"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="ObjectivePanel/VBox"]
+visible = false
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+show_percentage = false
+
+[node name="SkipButton" type="Button" parent="ObjectivePanel/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Skip tutorial"

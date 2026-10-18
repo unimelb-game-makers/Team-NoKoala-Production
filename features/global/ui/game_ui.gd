@@ -5,6 +5,7 @@ extends Node
 @export var dialogue_ui: DialogueUI
 
 var _context: WorldContext
+var _requested_cue: StringName
 
 
 func _ready() -> void:
@@ -41,8 +42,13 @@ func is_dialogue_active() -> bool:
 
 
 func _on_dialogue_requested(entry: DialogueEntry) -> void:
-	start_dialogue(entry.dialogue, entry.cue)
+	if start_dialogue(entry.dialogue, entry.cue):
+		_requested_cue = entry.cue
 
 
 func _on_dialogue_finished() -> void:
 	dialogue_ui.hide()
+	var cue := _requested_cue
+	_requested_cue = &""
+	if _context != null and not cue.is_empty():
+		_context.dialogue_coordinator.notify_finished(cue)

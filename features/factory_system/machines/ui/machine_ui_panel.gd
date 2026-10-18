@@ -1,5 +1,5 @@
 ## Base class for a panel shown as a tab inside MachineUI.
-## Subclasses implement _on_open/_on_close to bind to and release the machine.
+## Subclasses implement _on_open/_on_close to bind to the assembly's capabilities.
 class_name MachineUIPanel
 extends Control
 
@@ -7,21 +7,24 @@ extends Control
 @export var tab_title := "Panel"
 
 var machine: Machine
+var assembly: MachineAssembly
 
 
-func open(p_machine: Machine) -> void:
+func open(p_assembly: MachineAssembly) -> void:
 	close()
-	if p_machine == null:
+	if p_assembly == null:
 		return
-	machine = p_machine
+	assembly = p_assembly
+	machine = assembly.get_ui_machine()
 	_on_open()
 
 
 func close() -> void:
-	if machine == null:
+	if assembly == null:
 		return
 	_on_close()
 	machine = null
+	assembly = null
 
 
 func _on_open() -> void:

@@ -16,14 +16,16 @@ var isFreeEdit: bool = false
 
 var mouse_sensitivity := 0.005
 var current_offset: Vector3 = Vector3.ZERO
+var _gate: FeatureGate
 
 # for object fade
 var fade_object : StaticBody3D = null
 var ray_cast : RayCast3D
 
 
-func configure(p_player: Player) -> void:
+func configure(p_player: Player, gate: FeatureGate = null) -> void:
 	player = p_player
+	_gate = gate
 
 
 func _ready() -> void:
@@ -93,9 +95,12 @@ func create_ray_cast():
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var allowed := FeatureGate.check(_gate, GameFeature.Id.CAMERA)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_MIDDLE:
-			dragging = event.pressed
+			dragging = event.pressed and allowed
+		if not allowed:
+			return
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			spring_length = clamp(spring_length - 0.5, min_distance, max_distance)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:

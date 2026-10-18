@@ -9,11 +9,15 @@ var _player: Node3D
 @export var faith_manager: FaithManager
 var _working_machine: Machine
 var _working_cell: Vector3i
+var _gate: FeatureGate
 
 
-func configure(grid: Grid, factory_manager: FactoryManager) -> void:
+func configure(grid: Grid, factory_manager: FactoryManager, gate: FeatureGate = null) -> void:
 	_grid = grid
 	_factory_manager = factory_manager
+	_gate = gate
+	if _gate != null and not _gate.changed.is_connected(_on_gate_changed):
+		_gate.changed.connect(_on_gate_changed)
 	_connect_faith_manager()
 
 func _connect_faith_manager() -> void:
@@ -26,12 +30,19 @@ func _on_faith_depleted() -> void:
 	_stop_working()
 
 
+func _on_gate_changed() -> void:
+	if not FeatureGate.check(_gate, GameFeature.Id.WORK):
+		_stop_working()
+
+
 func _ready() -> void:
 	_player = get_parent() as Node3D
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed(&"work"):
+		return
+	if not FeatureGate.check(_gate, GameFeature.Id.WORK):
 		return
 
 	toggle_work()
