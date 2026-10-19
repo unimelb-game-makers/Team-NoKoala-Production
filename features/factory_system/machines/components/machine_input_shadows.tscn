@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cr1navled5k" path="res://features/factory_system/machines/components/machine_input_shadows.gd" id="1_shadows"]
+
+[node name="MachineInputShadows" type="Node3D"]
+script = ExtResource("1_shadows")

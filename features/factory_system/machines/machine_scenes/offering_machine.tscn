@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://dlq6oidxgj114"]
+
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_f3bu2"]
+[ext_resource type="Script" uid="uid://cg0am33r4pkj" path="res://features/factory_system/offerings/offering_machine.gd" id="3_machine"]
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="4_assembly"]
+[ext_resource type="Resource" uid="uid://duaiwyjc7miy7" path="res://features/factory_system/machines/machine_definitions/demo_offering_machine.tres" id="4_vg41c"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="5_provider"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="6_recipe"]
+[ext_resource type="Resource" uid="uid://c5qw70qtikb2e" path="res://features/factory_system/recipes/recipe_definitions/demo_offering_recipe.tres" id="7_offering"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/offering_stages_panel.tscn" id="10_ui"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
+[ext_resource type="Script" uid="uid://d0jg6yoemhfiu" path="res://features/factory_system/offerings/offering_stage.gd" id="13_stage"]
+[ext_resource type="Resource" uid="uid://b6v4tvbps4ehk" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="14_reward"]
+[ext_resource type="PackedScene" uid="uid://bmtxmh0aalqcm" path="res://assets/buildings/big shrine.glb" id="17_l1dge"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/components/machine_input_shadows.tscn" id="18_shadows"]
+
+[sub_resource type="Resource" id="Resource_gn37f"]
+resource_local_to_scene = true
+script = ExtResource("3_f3bu2")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(2, 0, 0), Vector3i(4, 0, 0)])
+is_placed = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_shrine_structure"]
+size = Vector3(37, 17.3, 19.3)
+
+[sub_resource type="Resource" id="Resource_stage"]
+script = ExtResource("13_stage")
+recipe = ExtResource("7_offering")
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("14_reward")])
+
+[node name="OfferingMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "progress_bar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+script = ExtResource("4_assembly")
+block = NodePath("Block")
+machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("10_ui")])
+progress_bar = NodePath("BasicProgressBar")
+
+[node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("1_lqbl5")
+block_data = SubResource("Resource_gn37f")
+transform_root = NodePath("..")
+
+[node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Input2" type="CSGBox3D" parent="Block" unique_id=1341695618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Input3" type="CSGBox3D" parent="Block" unique_id=916090133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.1, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_structure")
+
+[node name="ShrineStructure" type="StaticBody3D" parent="Block" unique_id=2017060514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 8.65, -8.7)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
+shape = SubResource("BoxShape3D_shrine_structure")
+
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
+script = ExtResource("11_block_gizmo")
+block = NodePath("..")
+grid = NodePath("../../../TestFactoryItem/GridMap")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block", "grid")]
+script = ExtResource("12_block_registration")
+block = NodePath("..")
+grid = NodePath("../../../TestFactoryItem/GridMap")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("3_machine")
+stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage")])
+definition = ExtResource("4_vg41c")
+job_provider = NodePath("MachineJobProvider")
+faith_drain_rate = 60.0
+debug_active_indicator = NodePath("../DebugLight")
+
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("5_provider")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
+script = ExtResource("10_evuxr")
+machine = NodePath("..")
+block = NodePath("../../Block")
+grid = NodePath("../../../TestFactoryItem/GridMap")
+
+[node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
+visible = false
+light_indirect_energy = 0.0
+spot_range = 2.0
+spot_attenuation = 0.0
+spot_angle = 15.0
+
+[node name="BasicProgressBar" parent="." unique_id=387532001 instance=ExtResource("8_g1dqn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
+
+[node name="big shrine" parent="." unique_id=1356157558 instance=ExtResource("17_l1dge")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.52, 0.653, 12.961)
+
+[node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]

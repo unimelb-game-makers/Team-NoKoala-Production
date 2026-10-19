@@ -14,9 +14,8 @@ var _cells: Array[RecipeGridCell] = []
 
 func _on_open() -> void:
 	machine.enabled_recipes_changed.connect(_refresh)
-	_build_grid()
-	_selected = _cells[0].recipe if not _cells.is_empty() else null
-	_refresh()
+	machine.available_recipes_changed.connect(_rebuild_recipes)
+	_rebuild_recipes()
 
 
 func _on_close() -> void:
@@ -25,17 +24,15 @@ func _on_close() -> void:
 		and machine.enabled_recipes_changed.is_connected(_refresh)
 	):
 		machine.enabled_recipes_changed.disconnect(_refresh)
+	if is_instance_valid(machine) and machine.available_recipes_changed.is_connected(_rebuild_recipes):
+		machine.available_recipes_changed.disconnect(_rebuild_recipes)
 	_selected = null
 	_clear_grid()
 
 
 func _build_grid() -> void:
 	_clear_grid()
-	if machine.definition == null:
-		return
-	for recipe in machine.definition.recipes:
-		if recipe == null:
-			continue
+	for recipe in machine.get_recipes():
 		var cell := CELL_SCENE.instantiate() as RecipeGridCell
 		grid.add_child(cell)
 		cell.clicked.connect(_on_cell_clicked)
@@ -76,3 +73,12 @@ func _refresh() -> void:
 		_selected,
 		machine.is_recipe_enabled(_selected) if _selected != null else false,
 	)
+
+
+func _rebuild_recipes() -> void:
+	if machine == null:
+		return
+	_build_grid()
+	if _selected == null or not machine.get_recipes().has(_selected):
+		_selected = _cells[0].recipe if not _cells.is_empty() else null
+	_refresh()

@@ -68,6 +68,9 @@ func configure(
 	_factory_manager = factory_manager
 	if dismantle_component != null:
 		dismantle_component.configure(self, factory_manager)
+	for child in get_children():
+		if child is MachineInputShadows:
+			child.configure(machine, factory_manager)
 	
 	machine.configure(self, faith_manager, spirit_spawner, mobs_root)
 	if machine.job_provider != null:
