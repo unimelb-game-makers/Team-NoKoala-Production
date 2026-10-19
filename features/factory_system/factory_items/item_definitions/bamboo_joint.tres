@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://riy7ph7mjy0e"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_mgun3"]
+[ext_resource type="Texture2D" uid="uid://clsn8yt21dq0o" path="res://assets/items/joints.png" id="2_mgun3"]
+
+[resource]
+script = ExtResource("1_mgun3")
+item_key = 6
+item_name = "Bamboo Joint"
+texture = ExtResource("2_mgun3")

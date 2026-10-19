@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://0iqee83ka2o2"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_xdpks"]
+[ext_resource type="Texture2D" uid="uid://dwxn5wl2gdlex" path="res://assets/items/geta.png" id="2_xdpks"]
+
+[resource]
+script = ExtResource("1_xdpks")
+item_key = 11
+item_name = "Pair of Geta"
+texture = ExtResource("2_xdpks")

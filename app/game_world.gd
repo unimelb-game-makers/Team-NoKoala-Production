@@ -80,6 +80,7 @@ func configure_dependencies() -> void:
 		world_services.factory_manager,
 		world_ui.hotbar,
 		world_ui.machine_ui,
+		world_ui.item_stack_list_panel,
 		world_services.feature_gate,
 	)
 	spring_arm.configure(player, world_services.feature_gate)

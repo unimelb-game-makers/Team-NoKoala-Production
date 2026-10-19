@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://dunfadbhgpgor"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_22uxp"]
+[ext_resource type="Texture2D" uid="uid://bhj5vure5m08e" path="res://assets/items/bricks.png" id="2_n4pao"]
+
+[resource]
+script = ExtResource("1_22uxp")
+item_key = 7
+item_name = "Stone Bricks"
+texture = ExtResource("2_n4pao")

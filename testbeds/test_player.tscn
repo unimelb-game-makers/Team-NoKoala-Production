@@ -34,7 +34,7 @@ size = Vector2(1000, 1000)
 [sub_resource type="Resource" id="Resource_pwmcq"]
 resource_local_to_scene = true
 script = ExtResource("5_uxeyo")
-allowed_work_types = Array[int]([0, 1])
+allowed_work_types = Array[int]([0, 1, 3])
 
 [node name="TestPlayer" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("world_services", "grid", "spring_arm", "player", "items_root", "machines_root")]
 script = ExtResource("1_l5y7m")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://skhypiiy5j3r"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_3npvm"]
+[ext_resource type="Texture2D" uid="uid://bh7qbfbjxnb50" path="res://assets/items/bead_necklace.png" id="2_3npvm"]
+
+[resource]
+script = ExtResource("1_3npvm")
+item_key = 12
+item_name = "Clay Bead Necklace"
+texture = ExtResource("2_3npvm")

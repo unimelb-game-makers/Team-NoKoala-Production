@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://bkro7wjpeunww"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_gwt0l"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_cl48j"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="3_cl48j"]
+[ext_resource type="Resource" uid="uid://bjtuwhgjsds74" path="res://features/factory_system/factory_items/item_definitions/flax.tres" id="4_qai4t"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_s5kua"]
+[ext_resource type="Resource" uid="uid://7tr5kphnyttp" path="res://features/factory_system/recipes/recipe_definitions/rope_flax_recipe.tres" id="5_xuj7q"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="6_wxmyb"]
+
+[sub_resource type="Resource" id="Resource_structure"]
+script = ExtResource("1_gwt0l")
+port_id = &""
+role = 2
+local_cell_offset = Vector3i(1, 0, 0)
+
+[sub_resource type="Resource" id="Resource_1wqb6"]
+script = ExtResource("1_gwt0l")
+port_id = &"input_1"
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_717dw"]
+script = ExtResource("1_gwt0l")
+port_id = &"work_1"
+role = 3
+local_cell_offset = Vector3i(1, 0, 1)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_74s1g"]
+script = ExtResource("1_gwt0l")
+role = 2
+local_cell_offset = Vector3i(2, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_6fy3b"]
+script = ExtResource("1_gwt0l")
+port_id = &"output_1"
+role = 1
+local_cell_offset = Vector3i(3, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_pk8c8"]
+script = ExtResource("2_cl48j")
+port_id = &"input_1"
+item = ExtResource("3_cl48j")
+amount = 6
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_gwt0l"]
+script = ExtResource("2_cl48j")
+port_id = &"input_1"
+item = ExtResource("4_qai4t")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[resource]
+script = ExtResource("6_wxmyb")
+machine_name = &"Cordier Bench"
+machine_description = &"Used to process flax into rope"
+cells = Array[ExtResource("1_gwt0l")]([SubResource("Resource_structure"), SubResource("Resource_1wqb6"), SubResource("Resource_717dw"), SubResource("Resource_74s1g"), SubResource("Resource_6fy3b")])
+recipes = Array[ExtResource("4_s5kua")]([ExtResource("5_xuj7q")])
+construction_materials = Array[ExtResource("2_cl48j")]([SubResource("Resource_pk8c8"), SubResource("Resource_gwt0l")])

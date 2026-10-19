@@ -10,13 +10,15 @@
 [ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="8_f2rmr"]
 [ext_resource type="Resource" uid="uid://cw8yo611glthk" path="res://features/factory_system/machines/machine_definitions/mason_bench.tres" id="9_1wqb6"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="10_vldco"]
-[ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe.tres" id="11_7pswo"]
+[ext_resource type="Resource" uid="uid://dokjg0gb5ajyf" path="res://features/factory_system/recipes/recipe_definitions/bricks_stone_recipe.tres" id="11_x8l5s"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="12_cwtmi"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="12_pijy4"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="13_njx22"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="13_yj7s5"]
+[ext_resource type="Resource" uid="uid://bhvoon3nsgrp3" path="res://features/factory_system/factory_items/item_definitions/stone.tres" id="14_0oba8"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_td1xt"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="15_pf8em"]
-
-[ext_resource type="Script" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
+[ext_resource type="Script" uid="uid://bdam2sxwbk5sb" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
 resource_local_to_scene = true
@@ -35,17 +37,28 @@ albedo_color = Color(0.1, 0.42, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
 
-[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("dismantle_component", "block", "machine", "blueprint", "progress_bar")]
+[sub_resource type="Resource" id="Resource_pk8c8"]
+script = ExtResource("12_pijy4")
+item = ExtResource("13_njx22")
+amount = 6
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_esmrh"]
+script = ExtResource("12_pijy4")
+item = ExtResource("14_0oba8")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[node name="DemoMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "dismantle_component", "blueprint", "progress_bar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 script = ExtResource("1_1wqb6")
 block = NodePath("Block")
 machine = NodePath("Machine")
+dismantle_component = NodePath("DismantleComponent")
 ui_panels = Array[PackedScene]([ExtResource("2_x8l5s")])
 blueprint = NodePath("Blueprint")
 progress_bar = NodePath("BasicProgressBar")
 toggle_blueprint = true
-
-dismantle_component = NodePath("DismantleComponent")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_g7qho")
@@ -90,10 +103,11 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("8_f2rmr")
 definition = ExtResource("9_1wqb6")
-enabled_recipes = Array[ExtResource("10_vldco")]([ExtResource("11_7pswo")])
+enabled_recipes = Array[ExtResource("10_vldco")]([ExtResource("11_x8l5s")])
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
+dismantle_materials = Array[ExtResource("12_pijy4")]([SubResource("Resource_pk8c8"), SubResource("Resource_esmrh")])
 
 [node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
 script = ExtResource("12_cwtmi")
@@ -126,5 +140,5 @@ spot_angle = 15.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 machine = NodePath("../Blueprint")
 
-[node name="DismantleComponent" type="Node" parent="."]
+[node name="DismantleComponent" type="Node" parent="." unique_id=1029210769]
 script = ExtResource("dismantle_component")

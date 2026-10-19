@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://basoalot4vele"]
 
 [ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_d3qgo"]
-[ext_resource type="Texture2D" uid="uid://eakghvl1uvi6" path="res://assets/third_party/bamboo_plank.png" id="2_d3qgo"]
+[ext_resource type="Texture2D" uid="uid://b2ggeb17bgowg" path="res://assets/items/planks.png" id="2_d3qgo"]
 
 [resource]
 script = ExtResource("1_d3qgo")

@@ -3,6 +3,9 @@
 class_name MachineUIPanel
 extends Control
 
+## Emitted when the panel wants the machine UI to close, e.g. to hand over to another view.
+signal close_requested
+
 ## Title shown on this panel's tab
 @export var tab_title := "Panel"
 

@@ -3,6 +3,7 @@ extends Node
 
 const NO_JOB_TEXT := "No available job"
 const ALL_COLLISION_LAYERS := 0xFFFFFFFF
+const GROUND_COLLISION_MASK := 1 << 3
 
 @export var spring_arm: CameraController
 
@@ -15,6 +16,13 @@ var _context_menu: ContextMenu
 var _selection_box: SelectionBox
 var _machine_ui: MachineUI
 var _gate: FeatureGate
+var _grid: Grid
+var _factory_manager: FactoryManager
+var _item_stack_list_panel: ItemStackListPanel
+## Pickable item stacks on the cell under the mouse.
+var _hovered_items: Array[FactoryItem] = []
+var _hovered_cell: Variant = null
+var _selected_item_index := 0
 
 
 func configure(
@@ -22,12 +30,18 @@ func configure(
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
 	machine_ui: MachineUI,
+	grid: Grid,
+	factory_manager: FactoryManager,
+	item_stack_list_panel: ItemStackListPanel,
 	gate: FeatureGate = null,
 ) -> void:
 	spring_arm = p_spring_arm
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_machine_ui = machine_ui
+	_grid = grid
+	_factory_manager = factory_manager
+	_item_stack_list_panel = item_stack_list_panel
 	_bind_gate(gate)
 	_bind_placement_controller()
 
@@ -60,6 +74,10 @@ func _on_gate_changed() -> void:
 	if not FeatureGate.check(_gate, GameFeature.Id.NPC_COMMAND):
 		_clear_consumer_selection()
 		_context_menu.close()
+
+
+func _process(_delta: float) -> void:
+	_update_hovered_items()
 
 
 func _try_handle_npc_interaction(event: InputEvent) -> bool:
@@ -107,7 +125,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if _try_handle_npc_interaction(event):
 		return
-		
+	if event.is_action_pressed(&"drop_item") and _inventory_owner.inventory.hand_slot != null:
+		_try_drop_held_item()
+		return
+	if event.is_action_pressed(&"next_item") and not _hovered_items.is_empty():
+		_select_next_hovered_item()
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed(&"pickup_item") and not _hovered_items.is_empty():
+		_try_pick_up_selected_item()
+		return
 	if not event is InputEventMouseButton or not event.pressed:
 		return
 	if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -115,26 +142,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if FeatureGate.check(_gate, GameFeature.Id.MACHINE_UI):
 			_try_open_machine_ui()
-		return
-	if event.button_index != MOUSE_BUTTON_LEFT:
-		return
-	if not FeatureGate.check(_gate, GameFeature.Id.ITEM_PICKUP):
-		return
-
-	# LMB -> pick up logic
-	if event.shift_pressed and _inventory_owner.inventory.hand_slot != null:
-		_try_drop_held_item()
-		return
-	var factory_item := _factory_item_at_mouse()
-	if factory_item != null:
-		_try_pick_up_item_at_mouse(factory_item)
 
 func _try_open_telescope() -> bool:
 	var telescope := _node_at_mouse() as Telescope
 	if telescope == null:
 		return false
 	
-	telescope.interact()
+	if not telescope.try_open_discovery():
+		return false
 	get_viewport().set_input_as_handled()
 	return true
 
@@ -155,9 +170,69 @@ func _close_machine_ui() -> void:
 		_machine_ui.close()
 
 
-func _try_pick_up_item_at_mouse(factory_item: FactoryItem) -> void:
-	if _inventory_owner.try_pick_up_item(factory_item):
+func _update_hovered_items() -> void:
+	var cell: Variant = _hovered_item_cell()
+	if cell != _hovered_cell:
+		_hovered_cell = cell
+		_selected_item_index = 0
+
+	var selected_item: FactoryItem = _selected_hovered_item()
+	_hovered_items.clear()
+	if cell != null:
+		for processable in _factory_manager.get_processables_at(cell):
+			var item := processable as FactoryItem
+			if item != null and item.stack != null and item.can_pick_up():
+				_hovered_items.append(item)
+
+	# Keep the same stack selected when the list changes under it.
+	var index := _hovered_items.find(selected_item)
+	if index != -1:
+		_selected_item_index = index
+	elif not _hovered_items.is_empty():
+		_selected_item_index = clampi(_selected_item_index, 0, _hovered_items.size() - 1)
+
+	if _item_stack_list_panel != null:
+		_item_stack_list_panel.display(_hovered_items, _selected_item_index)
+
+
+## The cell under the mouse, or null when nothing should be listed.
+func _hovered_item_cell() -> Variant:
+	if _grid == null or _factory_manager == null or _is_place_mode():
+		return null
+	if not FeatureGate.check(_gate, GameFeature.Id.ITEM_PICKUP):
+		return null
+	if get_viewport().gui_get_hovered_control() != null:
+		return null
+	# Items stand above the ground, so prefer the cell of the item under the mouse.
+	var item := _factory_item_at_mouse()
+	if item != null and item.is_dropped():
+		return _grid.world_to_cell(item.get_drop_world_position())
+	var hit := _raycast_at_mouse(GROUND_COLLISION_MASK)
+	if hit.is_empty():
+		return null
+	var hit_normal: Vector3 = hit.normal
+	var hit_position: Vector3 = hit.position
+	var cell := _grid.world_to_cell(hit_position - hit_normal * (_grid.cell_size / 2.0))
+	cell.y = 0
+	return cell
+
+
+func _selected_hovered_item() -> FactoryItem:
+	if _selected_item_index < 0 or _selected_item_index >= _hovered_items.size():
+		return null
+	return _hovered_items[_selected_item_index]
+
+
+func _select_next_hovered_item() -> void:
+	_selected_item_index = wrapi(_selected_item_index + 1, 0, _hovered_items.size())
+	_item_stack_list_panel.display(_hovered_items, _selected_item_index)
+
+
+func _try_pick_up_selected_item() -> void:
+	var item := _selected_hovered_item()
+	if item != null and _inventory_owner.try_pick_up_item(item):
 		get_viewport().set_input_as_handled()
+		_update_hovered_items()
 
 
 func _try_drop_held_item() -> void:
@@ -171,8 +246,12 @@ func _factory_item_at_mouse() -> FactoryItem:
 
 
 func _node_at_mouse(collision_mask := ALL_COLLISION_LAYERS) -> Node:
+	return _raycast_at_mouse(collision_mask).get("collider") as Node
+
+
+func _raycast_at_mouse(collision_mask := ALL_COLLISION_LAYERS) -> Dictionary:
 	if spring_arm == null:
-		return null
+		return {}
 	var mouse_position := get_viewport().get_mouse_position()
 	var ray_origin := spring_arm.camera.project_ray_origin(mouse_position)
 	var ray_end := ray_origin + spring_arm.camera.project_ray_normal(mouse_position) * 1000.0
@@ -180,8 +259,7 @@ func _node_at_mouse(collision_mask := ALL_COLLISION_LAYERS) -> Node:
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
 	query.collision_mask = collision_mask
-	var result := player.get_world_3d().direct_space_state.intersect_ray(query)
-	return result.get("collider") as Node
+	return player.get_world_3d().direct_space_state.intersect_ray(query)
 
 
 func _item_from_node(node: Node) -> FactoryItem:

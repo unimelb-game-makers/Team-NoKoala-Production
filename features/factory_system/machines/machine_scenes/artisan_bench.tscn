@@ -1,0 +1,153 @@
+[gd_scene format=3 uid="uid://u8t1yenuswcx"]
+
+[ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_8lm6f"]
+[ext_resource type="PackedScene" uid="uid://2uhsqbqmr50c" path="res://features/factory_system/machines/ui/recipe_selection_panel.tscn" id="2_2cata"]
+[ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="3_3bwss"]
+[ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="4_cjhtd"]
+[ext_resource type="PackedScene" uid="uid://bjn4ygb8h56y1" path="res://assets/developer_art/models/machines/new/artisan_bench.tscn" id="5_8lm6f"]
+[ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="6_sbe75"]
+[ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="7_u6fjy"]
+[ext_resource type="Script" uid="uid://b7s8mf1ho5mfh" path="res://features/factory_system/machines/machine_runtime/basic_machine.gd" id="8_bjewk"]
+[ext_resource type="Resource" uid="uid://befthcl6u56s2" path="res://features/factory_system/machines/machine_definitions/artisan_bench.tres" id="9_2cata"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="10_2jcrn"]
+[ext_resource type="Resource" uid="uid://dxe1fjmvn1w4a" path="res://features/factory_system/recipes/recipe_definitions/doll_wooden_recipe.tres" id="11_2cata"]
+[ext_resource type="Resource" uid="uid://bkk3ogsfwh6to" path="res://features/factory_system/recipes/recipe_definitions/geta_wooden_recipe.tres" id="12_3bwss"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_ajcnt"]
+[ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="13_cjhtd"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="14_sbe75"]
+[ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="14_slfhy"]
+[ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="15_i5q0w"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="15_u6fjy"]
+[ext_resource type="Resource" uid="uid://dunfadbhgpgor" path="res://features/factory_system/factory_items/item_definitions/stone_brick.tres" id="16_bjewk"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="16_gqbmk"]
+[ext_resource type="Script" uid="uid://bdam2sxwbk5sb" path="res://features/factory_system/machines/components/dismantle_component.gd" id="17_c7dd8"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="17_rd7pj"]
+
+[sub_resource type="Resource" id="Resource_gn37f"]
+resource_local_to_scene = true
+script = ExtResource("4_cjhtd")
+footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(1, 0, 0), Vector3i(2, 0, 0), Vector3i(1, 0, 1)])
+overlap_cells = Array[Vector3i]([Vector3i(2, 0, 0)])
+is_placed = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0umq"]
+albedo_color = Color(1, 0.19, 0.19, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
+albedo_color = Color(0.1, 0.42, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("14_sbe75")
+item = ExtResource("15_u6fjy")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_py1aj"]
+script = ExtResource("14_sbe75")
+item = ExtResource("16_bjewk")
+amount = 4
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_bahpo"]
+script = ExtResource("14_sbe75")
+item = ExtResource("17_rd7pj")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[node name="ArtisanBench" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "dismantle_component", "blueprint", "progress_bar")]
+script = ExtResource("1_8lm6f")
+block = NodePath("Block")
+machine = NodePath("Machine")
+dismantle_component = NodePath("DismantleComponent")
+ui_panels = Array[PackedScene]([ExtResource("2_2cata")])
+blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
+toggle_blueprint = true
+
+[node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
+script = ExtResource("3_3bwss")
+block_data = SubResource("Resource_gn37f")
+transform_root = NodePath("..")
+
+[node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_5gudi")
+
+[node name="Output1" type="CSGBox3D" parent="Block" unique_id=1892564374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_q0umq")
+
+[node name="Work1" type="CSGBox3D" parent="Block" unique_id=129505759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_work")
+
+[node name="Structure" parent="Block" unique_id=907799911 instance=ExtResource("5_8lm6f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_structure")
+
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
+visible = false
+script = ExtResource("6_sbe75")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b7prvphjsth3o"
+
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
+script = ExtResource("7_u6fjy")
+block = NodePath("..")
+metadata/_custom_type_script = "uid://b01yqejyrbh14"
+
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("8_bjewk")
+definition = ExtResource("9_2cata")
+enabled_recipes = Array[ExtResource("10_2jcrn")]([ExtResource("11_2cata"), ExtResource("12_3bwss"), ExtResource("13_cjhtd")])
+job_provider = NodePath("MachineJobProvider")
+faith_drain_rate = 60.0
+debug_active_indicator = NodePath("../DebugLight")
+dismantle_materials = Array[ExtResource("14_sbe75")]([SubResource("Resource_construction_iron"), SubResource("Resource_py1aj"), SubResource("Resource_bahpo")])
+
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752523]
+script = ExtResource("13_ajcnt")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
+script = ExtResource("14_slfhy")
+machine = NodePath("..")
+block = NodePath("../../Block")
+
+[node name="Blueprint" type="Node" parent="." unique_id=1342920316 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+script = ExtResource("15_i5q0w")
+job_provider = NodePath("BlueprintJobProvider")
+debug_active_indicator = NodePath("../DebugLight")
+disabled = false
+
+[node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=658298443]
+script = ExtResource("13_ajcnt")
+metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
+visible = false
+light_indirect_energy = 0.0
+spot_range = 2.0
+spot_attenuation = 0.0
+spot_angle = 15.0
+
+[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("16_gqbmk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
+machine = NodePath("../Blueprint")
+
+[node name="DismantleComponent" type="Node" parent="." unique_id=21736772]
+script = ExtResource("17_c7dd8")
