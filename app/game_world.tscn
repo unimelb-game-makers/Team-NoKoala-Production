@@ -14,8 +14,8 @@
 [ext_resource type="Script" uid="uid://cika06cl7wyhm" path="res://features/dialogue/player_entry_dialogue_trigger.gd" id="15_dialogue_trigger"]
 [ext_resource type="Texture2D" uid="uid://bo6nfkwxmtb0w" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedGrass_02/Stylized_HandpaintedGrass_02_normal.jpg" id="15_jn2gv"]
 [ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="16_jn2gv"]
-[ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="16_yg3by"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="17_5ria3"]
+[ext_resource type="PackedScene" uid="uid://bpma6ownlsdnt" path="res://features/factory_system/machines/machine_scenes/carpenter.tscn" id="18_geqkj"]
 [ext_resource type="PackedScene" uid="uid://lofjesxlwu6q" path="res://features/resource_area/scenes/flax_resourcearea.tscn" id="18_l6gi6"]
 [ext_resource type="PackedScene" uid="uid://b2qu2t13if65m" path="res://features/blocks/demo_block.tscn" id="19_geqkj"]
 [ext_resource type="PackedScene" uid="uid://djd6jtv6fotlw" path="res://features/resource_area/scenes/stone_resourcearea.tscn" id="21_bgpye"]
@@ -133,10 +133,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.654293, 1, 1.7020168)
 
 [node name="Machines" type="Node" parent="." unique_id=1185467118]
 
-[node name="DemoMachine" parent="Machines" unique_id=1273186426 instance=ExtResource("16_yg3by")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
-toggle_blueprint = false
-
 [node name="ResourceAreaMachine8" parent="Machines" unique_id=1962970161 instance=ExtResource("16_jn2gv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0, -7.5)
 
@@ -157,6 +153,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 6.5)
 
 [node name="ResourceAreaMachine2" parent="Machines" unique_id=998048655 instance=ExtResource("9_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 3.5)
+
+[node name="DemoMachine" parent="Machines" unique_id=619850860 instance=ExtResource("18_geqkj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+toggle_blueprint = false
 
 [node name="Buildings" type="Node" parent="." unique_id=525340973]
 
