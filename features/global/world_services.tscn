@@ -15,8 +15,8 @@
 [ext_resource type="Resource" uid="uid://tw2taeu4gnyx" path="res://features/dialogue/dialogues/demo_dialogue.dialogue" id="13_d15cr"]
 [ext_resource type="Script" uid="uid://bqv5g7o144tn8" path="res://features/factory_system/factory_items/item_spawner.gd" id="14_spawner"]
 [ext_resource type="Script" uid="uid://e03bymnw2dhw" path="res://features/mob/spirit_spawner.gd" id="15_ni8ip"]
-[ext_resource type="Script" path="res://features/tutorial/feature_gate.gd" id="16_gate"]
-[ext_resource type="Script" path="res://features/tutorial/tutorial_director.gd" id="17_director"]
+[ext_resource type="Script" uid="uid://cx44xvcpbtjde" path="res://features/tutorial/feature_gate.gd" id="16_gate"]
+[ext_resource type="Script" uid="uid://qpvghkvgf855" path="res://features/tutorial/tutorial_director.gd" id="17_director"]
 
 [sub_resource type="Resource" id="Resource_dfq7n"]
 script = ExtResource("9_yu6gr")
@@ -75,8 +75,8 @@ script = ExtResource("11_yu6gr")
 dialogues = Array[ExtResource("12_4jmok")]([ExtResource("13_d15cr")])
 metadata/_custom_type_script = "uid://cwu84ekhlpfla"
 
-[node name="FeatureGate" type="Node" parent="."]
+[node name="FeatureGate" type="Node" parent="." unique_id=1945672619]
 script = ExtResource("16_gate")
 
-[node name="TutorialDirector" type="Node" parent="."]
+[node name="TutorialDirector" type="Node" parent="." unique_id=2133003940]
 script = ExtResource("17_director")
