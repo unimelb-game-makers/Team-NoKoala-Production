@@ -1,17 +1,24 @@
 class_name HotbarSlot
 extends Button
 
-const ICON_MAX_SIZE := 48.0
+const ICON_MAX_SIZE := 40.0
+
+## Seconds to fade between the unselected and selected looks
+@export var select_duration: float = 0.15
 
 @onready var label: Label = $Label
 @onready var qty_label: Label = $QtyLabel
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var selection: Control = $Selection
+@onready var background: TextureRect = $Background
+@onready var border: TextureRect = $Border
+@onready var border_selected: TextureRect = $BorderSelected
 
 signal selected
 signal split_requested
 
 var _item: FactoryItem = null
+var _selected_amount := 0.0
+var _select_tween: Tween
 
 func _ready() -> void:
 	var event: InputEvent = shortcut.events[0]
@@ -25,6 +32,23 @@ func _gui_input(event: InputEvent) -> void:
 
 func _slot_selected() -> void:
 	selected.emit()
+
+func set_selected(value: bool, animate: bool = true) -> void:
+	var target := 1.0 if value else 0.0
+	if _select_tween != null:
+		_select_tween.kill()
+		_select_tween = null
+	if animate and select_duration > 0.0:
+		_select_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		_select_tween.tween_method(_apply_selected_amount, _selected_amount, target, select_duration)
+	else:
+		_apply_selected_amount(target)
+
+func _apply_selected_amount(amount: float) -> void:
+	_selected_amount = amount
+	background.material.set_shader_parameter(&"selected_amount", amount)
+	border.modulate.a = 1.0 - amount
+	border_selected.modulate.a = amount
 
 func display(item: FactoryItem) -> void:
 	if _has_stack(_item) and _item.stack.quantity_changed.is_connected(_update_quantity):
@@ -44,7 +68,7 @@ func display(item: FactoryItem) -> void:
 
 func _update_quantity() -> void:
 	var quantity := _item.stack.quantity if _has_stack(_item) else 0
-	qty_label.text = "qty: " + str(quantity) if quantity > 0 else ""
+	qty_label.text = str(quantity) if quantity > 0 else ""
 
 func _has_stack(item: FactoryItem) -> bool:
 	return is_instance_valid(item) and item.stack != null
