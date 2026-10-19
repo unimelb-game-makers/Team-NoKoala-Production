@@ -281,9 +281,12 @@ func _consumer_from_node(node: Node) -> JobConsumer:
 
 func _provider_from_node(node: Node) -> JobProvider:
 	var assembly := _assembly_from_node(node)
-	if assembly == null or assembly.machine == null:
+	if assembly == null:
 		return null
-	return assembly.machine.job_provider
+	var machine := assembly.get_active_machine()
+	if machine == null:
+		return null
+	return machine.job_provider
 
 
 func _assembly_from_node(node: Node) -> MachineAssembly:
