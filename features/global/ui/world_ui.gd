@@ -10,17 +10,41 @@ extends Node
 @export var map_regions: Node
 @export var tutorial_overlay: TutorialOverlay
 @export var item_stack_list_panel: ItemStackListPanel
+@export var cutscene_player: VideoStreamPlayer
 
 var _gate: FeatureGate
+var _was_paused := false
 
 
 func _ready() -> void:
 	build_menu_button.pressed.connect(_on_build_menu_pressed)
+	cutscene_player.finished.connect(_on_cutscene_finished)
 
 	if map_regions == null:
 		return
 	for region : MapAreaTrigger in map_regions.get_children():
 		region.region_entered.connect(_update_map)
+
+
+func play_cutscene(stream: VideoStream) -> bool:
+	if cutscene_player.is_playing() or stream == null:
+		return false
+	cutscene_player.stream = stream
+	cutscene_player.show()
+	_was_paused = get_tree().paused
+	get_tree().paused = true
+	cutscene_player.play()
+	return true
+
+
+func _on_cutscene_finished() -> void:
+	cutscene_player.hide()
+	get_tree().paused = _was_paused
+
+
+func _exit_tree() -> void:
+	if cutscene_player.visible:
+		get_tree().paused = _was_paused
 
 func configure(
 	faith: FaithManager,

@@ -85,8 +85,8 @@ script = ExtResource("11_yu6gr")
 dialogues = Array[ExtResource("12_4jmok")]([ExtResource("13_d15cr")])
 metadata/_custom_type_script = "uid://cwu84ekhlpfla"
 
-[node name="FeatureGate" type="Node" parent="."]
+[node name="FeatureGate" type="Node" parent="." unique_id=1945672619]
 script = ExtResource("16_gate")
 
-[node name="TutorialDirector" type="Node" parent="."]
+[node name="TutorialDirector" type="Node" parent="." unique_id=2133003940]
 script = ExtResource("17_director")

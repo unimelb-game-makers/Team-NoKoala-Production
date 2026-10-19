@@ -2,6 +2,8 @@ class_name MachinePlacementController
 extends Node
 
 signal place_mode_changed(enabled: bool)
+## Emitted when the feature gate may have changed which machines can be selected.
+signal allowed_machines_changed
 
 @export var grid: Grid
 @export var factory_manager: FactoryManager
@@ -99,12 +101,22 @@ func _bind_gate(gate: FeatureGate) -> void:
 func _on_gate_changed() -> void:
 	if place_mode and not FeatureGate.check(_gate, GameFeature.Id.PLACE_MACHINE):
 		place_mode = false
+	var definitions := get_allowed_machine_definitions()
+	if _selected_machine_definition != null and not definitions.has(_selected_machine_definition):
+		if definitions.is_empty():
+			_selected_machine_definition = null
+			place_mode = false
+		else:
+			select_machine(definitions[0])
+	elif _selected_machine_definition == null:
+		_select_initial_definition()
+	allowed_machines_changed.emit()
 
 
 func get_allowed_machine_definitions() -> Array[MachineDefinition]:
 	var result: Array[MachineDefinition] = []
 	for definition in _allowed_machine_definitions:
-		if is_unlocked(definition):
+		if is_unlocked(definition) and FeatureGate.check_machine(_gate, definition):
 			result.append(definition)
 	return result
 
@@ -193,7 +205,7 @@ func has_active_placement() -> bool:
 
 
 func select_machine(definition: MachineDefinition) -> void:
-	if machine_factory == null or not _allowed_machine_definitions.has(definition) or not is_unlocked(definition):
+	if machine_factory == null or not get_allowed_machine_definitions().has(definition):
 		return
 	_selected_machine_definition = definition
 	if has_active_placement():
