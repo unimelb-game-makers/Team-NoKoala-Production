@@ -27,8 +27,8 @@ script = ExtResource("1_602gf")
 block = NodePath("Block")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
-progress_bar = NodePath("BasicProgressBar")
 blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_fak48")
