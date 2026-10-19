@@ -93,6 +93,8 @@ func refresh() -> void:
 						)
 		if not _has_request(haul_request):
 			enqueue(haul_request)
+	# Work is requested per port, not per cell: any cell of a port is just a
+	# place to stand, and a port only takes one worker.
 	var works := _machine.get_remaining_work_needs()
 	for request in get_requests():
 		var work_request := request as WorkRequest
@@ -102,7 +104,7 @@ func refresh() -> void:
 		for work in works:
 			if (
 				work_request.machine == _machine
-				and work_request.destination == work.cell
+				and work_request.port_id == work.port_id
 				and work_request.work_type == work.work_type
 			):
 				still_needed = true
@@ -110,22 +112,27 @@ func refresh() -> void:
 		if not still_needed:
 			remove(work_request)
 	for work in works:
-		if _reservation_manager.is_reserved(work.cell):
-			continue
 		var work_request := WorkRequest.new(
 			work.work_type,
-			work.cell,
+			work.port_id,
 			_factory_manager,
 			_reservation_manager,
 			_machine,
 		)
-		if not _has_request(work_request):
+		if not _has_request(work_request) and not _has_active_request(work_request):
 			enqueue(work_request)
 
 
 func _has_request(p_request : JobRequest) -> bool:
 	for request in get_requests():
 		if p_request.equals(request):
+			return true
+	return false
+
+
+func _has_active_request(p_request: JobRequest) -> bool:
+	for entry in get_active_assignments():
+		if p_request.equals(entry.request):
 			return true
 	return false
 
