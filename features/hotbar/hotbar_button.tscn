@@ -1,25 +1,71 @@
 [gd_scene format=3 uid="uid://b24w5jelebb47"]
 
-[ext_resource type="Texture2D" uid="uid://85br722kt3jd" path="res://features/hotbar/hotbar.png" id="1_h8vcf"]
 [ext_resource type="Script" uid="uid://bjysyip4s2ie6" path="res://features/hotbar/hotbar_slot.gd" id="1_kr80x"]
-[ext_resource type="Texture2D" uid="uid://b05c2wx3ap43u" path="res://features/hotbar/hotbar_selection.png" id="3_jpxok"]
+[ext_resource type="Shader" uid="uid://bwch78d1nlinv" path="res://features/hotbar/hotbar_slot_background.gdshader" id="2_bgshader"]
+[ext_resource type="Texture2D" uid="uid://co2mkbqm7fm6q" path="res://assets/ui/hotbar/hotbar_background.png" id="3_bg"]
+[ext_resource type="Texture2D" uid="uid://orpt3gm1mj88" path="res://assets/ui/hotbar/hotbar_background_selected.png" id="4_bgsel"]
+[ext_resource type="Texture2D" uid="uid://ysehvajs4x2x" path="res://assets/ui/hotbar/hotbar_border.png" id="5_border"]
+[ext_resource type="Texture2D" uid="uid://d0gpyg7idqo0q" path="res://assets/ui/hotbar/hotbar_border_selected.png" id="6_bordersel"]
+[ext_resource type="FontFile" uid="uid://b44ja2r6gfqb7" path="res://assets/fonts/PT_Serif/PTSerif-Regular.ttf" id="7_olgq6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
+resource_local_to_scene = true
+shader = ExtResource("2_bgshader")
+shader_parameter/selected_tex = ExtResource("4_bgsel")
+shader_parameter/selected_amount = 0.0
+shader_parameter/blur_radius = 10.0
 
 [node name="HotbarButton" type="Button" unique_id=1951377414]
 custom_minimum_size = Vector2(80, 80)
 custom_maximum_size = Vector2(80, 80)
-offset_right = 18.0
-offset_bottom = 31.0
-icon = ExtResource("1_h8vcf")
-icon_alignment = 1
-expand_icon = true
+offset_right = 80.0
+offset_bottom = 80.0
+focus_mode = 0
+shortcut_in_tooltip = false
+flat = true
 script = ExtResource("1_kr80x")
 
+[node name="Background" type="TextureRect" parent="." unique_id=1203948811]
+material = SubResource("ShaderMaterial_bg")
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 90.0
+offset_bottom = 90.0
+mouse_filter = 2
+texture = ExtResource("3_bg")
+expand_mode = 1
+
+[node name="Border" type="TextureRect" parent="." unique_id=1203948812]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 90.0
+offset_bottom = 90.0
+mouse_filter = 2
+texture = ExtResource("5_border")
+expand_mode = 1
+
+[node name="BorderSelected" type="TextureRect" parent="." unique_id=1203948813]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 90.0
+offset_bottom = 90.0
+mouse_filter = 2
+texture = ExtResource("6_bordersel")
+expand_mode = 1
+
 [node name="Label" type="Label" parent="." unique_id=175218981]
+visible = false
+modulate = Color(1, 1, 1, 0.49019608)
 layout_mode = 0
 offset_left = 8.0
 offset_top = 2.0
 offset_right = 48.0
 offset_bottom = 25.0
+theme_override_fonts/font = ExtResource("7_olgq6")
 text = "X"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1059627687]
@@ -28,22 +74,9 @@ position = Vector2(40, 40)
 
 [node name="QtyLabel" type="Label" parent="." unique_id=801895425]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 2.0
-offset_right = 72.0
-offset_bottom = 25.0
-horizontal_alignment = 2
-
-[node name="Selection" type="Control" parent="." unique_id=538933665]
-visible = false
-layout_mode = 1
-anchors_preset = 0
-offset_left = 320.0
-offset_top = 318.0
-offset_right = 360.0
-offset_bottom = 358.0
-
-[node name="Selection" type="Sprite2D" parent="Selection" unique_id=415471442]
-position = Vector2(-280.00003, -278.00003)
-scale = Vector2(0.11, 0.11)
-texture = ExtResource("3_jpxok")
+offset_left = 62.0
+offset_top = 59.0
+offset_right = 102.0
+offset_bottom = 82.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_olgq6")
