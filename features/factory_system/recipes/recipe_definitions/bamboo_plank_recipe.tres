@@ -26,7 +26,7 @@ metadata/_custom_type_script = "uid://hneks0cpqqvj"
 
 [resource]
 script = ExtResource("4_4xybo")
-recipe_id = &"2"
+recipe_id = &"1"
 display_name = "Bamboo Plank"
 inputs = Array[ExtResource("1_7hlsm")]([SubResource("Resource_d0114")])
 outputs = Array[ExtResource("1_7hlsm")]([SubResource("Resource_kpv2k")])

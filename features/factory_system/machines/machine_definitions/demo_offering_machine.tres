@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="MachineDefinition" format=3 uid="uid://duaiwyjc7miy7"]
+
+[ext_resource type="Script" uid="uid://dc0xvu5wyufu2" path="res://features/factory_system/machines/machine_definitions/machine_cell_definition.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="2_definition"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_recipe"]
+[ext_resource type="Resource" uid="uid://c5qw70qtikb2e" path="res://features/factory_system/recipes/recipe_definitions/demo_offering_recipe.tres" id="4_offering"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="5_amount"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="6_iron"]
+
+[sub_resource type="Resource" id="Resource_input"]
+script = ExtResource("1_cell")
+port_id = &"input_1"
+
+[sub_resource type="Resource" id="Resource_5tfjm"]
+script = ExtResource("1_cell")
+port_id = &"input_2"
+local_cell_offset = Vector3i(2, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_gb4cy"]
+script = ExtResource("1_cell")
+port_id = &"input_3"
+local_cell_offset = Vector3i(4, 0, 0)
+metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
+
+[sub_resource type="Resource" id="Resource_construction_iron"]
+script = ExtResource("5_amount")
+item = ExtResource("6_iron")
+
+[resource]
+script = ExtResource("2_definition")
+machine_name = &"Offering"
+machine_description = &"Complete an offering to unlock a demo recipe"
+cells = Array[ExtResource("1_cell")]([SubResource("Resource_input"), SubResource("Resource_5tfjm"), SubResource("Resource_gb4cy")])
+recipes = Array[ExtResource("3_recipe")]([ExtResource("4_offering")])
+construction_materials = Array[ExtResource("5_amount")]([SubResource("Resource_construction_iron")])

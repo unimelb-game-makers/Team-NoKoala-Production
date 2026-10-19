@@ -68,20 +68,26 @@ func is_processing_recipe() -> bool:
 func get_progress_phase() -> ProgressPhase:
 	return ProgressPhase.WORK if is_processing_recipe() else ProgressPhase.NONE
 
-
 func has_all_required_inputs_in_place(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> bool:
-	if recipe == null or factory_manager == null or definition == null:
+	if not can_process_recipe(recipe) or factory_manager == null:
 		return false
 	if machine_assembly == null or machine_assembly.block == null or machine_assembly.block.block_data == null:
 		return false
-	var required_count := _get_required_input_count(recipe)
-	return (
-		required_count >= 0
-		and _find_input_items(recipe, factory_manager).size() == required_count
-	)
+	
+	var input_items = _find_input_items(recipe, factory_manager)
+	
+	for required_item in recipe.inputs:
+		var filtered_items = input_items.filter(func(item): return item.stack.item_definition == required_item.item)
+		if filtered_items.size() == 0: return false
+		var count = 0
+		for item in filtered_items:
+			count += item.stack.quantity
+		if count < required_item.amount:
+			return false
+	return true
 
 func get_processing_progress() -> float:
 	if not is_processing_recipe():
@@ -118,7 +124,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if (
 		_pending_recipe != null
 		and (
-			not enabled_recipes.has(_pending_recipe)
+			not can_process_recipe(_pending_recipe)
 			or not has_all_required_inputs_in_place(_pending_recipe, factory_manager)
 		)
 	):
@@ -127,7 +133,7 @@ func _try_start_processing(factory_manager: FactoryManager) -> void:
 	if _pending_recipe == null:
 		for recipe in enabled_recipes:
 			if (
-				recipe != null
+				can_process_recipe(recipe)
 				and has_all_required_inputs_in_place(recipe, factory_manager)
 			):
 				_pending_recipe = recipe
@@ -153,6 +159,8 @@ func _try_start_recipe(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
 ) -> bool:
+	if not can_process_recipe(recipe):
+		return false
 	var required_input_count := _get_required_input_count(recipe)
 	var candidates := _find_input_items(recipe, factory_manager)
 	if candidates.is_empty() and required_input_count > 0:
@@ -261,8 +269,6 @@ func _get_required_input_count(recipe: ProductionRecipe) -> int:
 			return -1
 		result += requirement.amount
 	return result
-
-
 
 func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
 	if _processing_recipe == null:

@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://befthcl6u56s2" path="res://features/factory_system/machines/machine_definitions/artisan_bench.tres" id="9_2cata"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="10_2jcrn"]
 [ext_resource type="Resource" uid="uid://dxe1fjmvn1w4a" path="res://features/factory_system/recipes/recipe_definitions/doll_wooden_recipe.tres" id="11_2cata"]
+[ext_resource type="Resource" uid="uid://c8x26fk084mf0" path="res://features/factory_system/recipes/recipe_definitions/clay_beads_recipe.tres" id="11_u6fjy"]
 [ext_resource type="Resource" uid="uid://bkk3ogsfwh6to" path="res://features/factory_system/recipes/recipe_definitions/geta_wooden_recipe.tres" id="12_3bwss"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_ajcnt"]
 [ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="13_cjhtd"]
@@ -39,7 +40,8 @@ albedo_color = Color(1, 0.19, 0.19, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_work"]
 albedo_color = Color(0.1, 0.42, 1, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u6fjy"]
+height = 0.7949219
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("14_sbe75")
@@ -95,8 +97,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("BoxShape3D_structure")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39941406, 0)
+shape = SubResource("CylinderShape3D_u6fjy")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
 visible = false
@@ -112,7 +114,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("8_bjewk")
 definition = ExtResource("9_2cata")
-enabled_recipes = Array[ExtResource("10_2jcrn")]([ExtResource("11_2cata"), ExtResource("12_3bwss"), ExtResource("13_cjhtd")])
+enabled_recipes = Array[ExtResource("10_2jcrn")]([ExtResource("11_u6fjy"), ExtResource("11_2cata"), ExtResource("12_3bwss"), ExtResource("13_cjhtd")])
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")

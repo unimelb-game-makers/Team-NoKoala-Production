@@ -41,7 +41,7 @@ func _refresh() -> void:
 		if not slot.visible:
 			continue
 		slot.display(inventory.get_slot(index))
-		slot.selection.visible = index == inventory.selected_index
+		slot.set_selected(index == inventory.selected_index, false)
 
 
 func _on_slot_selected(index: int) -> void:
@@ -62,6 +62,6 @@ func _on_selected_index_changed(previous: int, current: int) -> void:
 	if not is_node_ready():
 		return
 	if previous >= 0 and previous < slots.size():
-		slots[previous].selection.visible = false
+		slots[previous].set_selected(false)
 	if current >= 0 and current < slots.size():
-		slots[current].selection.visible = true
+		slots[current].set_selected(true)

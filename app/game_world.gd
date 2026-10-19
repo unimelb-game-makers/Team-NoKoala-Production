@@ -53,6 +53,7 @@ func compose_world_context() -> WorldContext:
 	context.grid = grid
 	context.clock = world_services.fixed_clock
 	context.factory = world_services.factory_manager
+	context.recipe_unlocks = world_services.recipe_unlocks
 	context.faith = world_services.faith_manager
 	context.jobs = world_services.job_board
 	context.reservations = world_services.reservation_manager
