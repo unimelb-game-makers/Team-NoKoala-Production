@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="2_ground"]
 [ext_resource type="PackedScene" uid="uid://dv3umk5dytxh3" path="res://features/global/world_services.tscn" id="3_ed0w8"]
 [ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="3_grid"]
+[ext_resource type="Resource" uid="uid://ct3nerdtpf4qk" path="res://app/game_world_tutorial.tres" id="4_l6gi6"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_player"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="8_4h5x5"]
 [ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="9_bgpye"]
@@ -64,6 +65,9 @@ footprint = Array[Vector3i]([Vector3i(-40, 0, -76), Vector3i(-39, 0, -76), Vecto
 is_placed = true
 root_cell = Vector3i(0, 0, -13)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_bamboo_reach"]
+size = Vector3(3, 2, 3)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_dialogue_trigger"]
 size = Vector3(4, 3, 4)
 
@@ -82,6 +86,9 @@ world_ui = NodePath("WorldUI")
 [node name="WorldUI" parent="." unique_id=1811817518 instance=ExtResource("27_world_ui")]
 
 [node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("3_ed0w8")]
+
+[node name="TutorialDirector" parent="WorldServices" index="13"]
+sequence = ExtResource("4_l6gi6")
 
 [node name="GridMap" parent="." unique_id=1236146167 instance=ExtResource("3_grid")]
 mesh_library = ExtResource("8_4h5x5")
@@ -134,8 +141,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.654293, 1, 1.7020168)
 
 [node name="Machines" type="Node" parent="." unique_id=1185467118]
 
-[node name="ResourceAreaMachine8" parent="Machines" unique_id=1962970161 instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0, -7.5)
+[node name="ResourceAreaMachine8" parent="Machines" unique_id=1962970161 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -1.5)
+
+[node name="TutorialReachArea" type="Area3D" parent="Machines/ResourceAreaMachine8" unique_id=1418273605 groups=["tutorial_bamboo_area_reach"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Machines/ResourceAreaMachine8/TutorialReachArea" unique_id=730584192]
+shape = SubResource("BoxShape3D_bamboo_reach")
 
 [node name="ResourceAreaMachine5" parent="Machines" unique_id=817986067 instance=ExtResource("21_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 10.5)
@@ -180,6 +196,7 @@ grid = NodePath("../../../GridMap")
 [node name="Items" type="Node" parent="." unique_id=567993090]
 
 [node name="DialogueTriggers" type="Node3D" parent="." unique_id=385511305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6881466, -1.9073486e-06, 16.033188)
 
 [node name="AwakeningTrigger" type="Area3D" parent="DialogueTriggers" unique_id=1094867557 node_paths=PackedStringArray("dialogue_coordinator")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

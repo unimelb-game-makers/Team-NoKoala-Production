@@ -24,7 +24,11 @@ func _ready() -> void:
 
 
 func configure(p_placement: MachinePlacementController) -> void:
+	if placement != null and placement.allowed_machines_changed.is_connected(_on_allowed_machines_changed):
+		placement.allowed_machines_changed.disconnect(_on_allowed_machines_changed)
 	placement = p_placement
+	if placement != null:
+		placement.allowed_machines_changed.connect(_on_allowed_machines_changed)
 	if placement != null:
 		machine_factory = placement.machine_factory
 	if is_node_ready():
@@ -73,6 +77,11 @@ func _rebuild_machine_list() -> void:
 		machine_list.select(0)
 		definition_panel.display(_definitions[0])
 	_update_build_button()
+
+
+func _on_allowed_machines_changed() -> void:
+	if visible:
+		_rebuild_machine_list()
 
 
 func _on_machine_selected(index: int) -> void:

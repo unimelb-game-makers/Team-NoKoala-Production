@@ -1,34 +1,31 @@
 [gd_resource type="Resource" script_class="TutorialSequence" format=3 uid="uid://b2o0da1mdlg64"]
 
-[ext_resource type="Script" path="res://features/tutorial/tutorial_sequence.gd" id="1_seq"]
-[ext_resource type="Script" path="res://features/tutorial/tutorial_step.gd" id="2_step"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/distance_moved_condition.gd" id="3_distance"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="5_placed"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/control_visible_condition.gd" id="10_visible"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/place_mode_condition.gd" id="11_place"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/camera_zoomed_condition.gd" id="6_zoom"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/camera_rotated_condition.gd" id="7_rotate"]
-[ext_resource type="Script" path="res://features/tutorial/conditions/all_of_condition.gd" id="8_all"]
-[ext_resource type="Script" path="res://features/tutorial/tutorial_condition.gd" id="9_cond"]
+[ext_resource type="Script" uid="uid://bx750qvvwqw6j" path="res://features/tutorial/tutorial_sequence.gd" id="1_seq"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_step"]
+[ext_resource type="Script" uid="uid://c3cf0f8fgww6c" path="res://features/tutorial/conditions/distance_moved_condition.gd" id="3_distance"]
+[ext_resource type="Script" uid="uid://ct0spxhayuwae" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="5_placed"]
+[ext_resource type="Script" uid="uid://ctkld0cyq2f82" path="res://features/tutorial/conditions/camera_zoomed_condition.gd" id="6_zoom"]
+[ext_resource type="Script" uid="uid://gity437h7ljy" path="res://features/tutorial/conditions/camera_rotated_condition.gd" id="7_rotate"]
+[ext_resource type="Script" uid="uid://bbqne3xexue38" path="res://features/tutorial/conditions/all_of_condition.gd" id="8_all"]
+[ext_resource type="Script" uid="uid://fdw26j40kaeo" path="res://features/tutorial/tutorial_condition.gd" id="9_cond"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="10_visible"]
+[ext_resource type="Script" uid="uid://bm7bvtdap26tu" path="res://features/tutorial/conditions/place_mode_condition.gd" id="11_place"]
 
 [sub_resource type="Resource" id="walk"]
 script = ExtResource("3_distance")
-distance = 10.0
 
 [sub_resource type="Resource" id="step_move"]
 script = ExtResource("2_step")
 id = &"move"
-objective_text = "Use WASD to walk around (10 m)."
+objective_text = "Use WASD to walk around. Press Shift to toggle sprint."
 allowed_features = Array[int]([0, 2])
 complete_when = SubResource("walk")
 
 [sub_resource type="Resource" id="zoom"]
 script = ExtResource("6_zoom")
-amount = 1.5
 
 [sub_resource type="Resource" id="rotate"]
 script = ExtResource("7_rotate")
-degrees = 90.0
 
 [sub_resource type="Resource" id="zoom_and_rotate"]
 script = ExtResource("8_all")
@@ -40,6 +37,11 @@ id = &"camera"
 objective_text = "Scroll to zoom, and hold the middle mouse button and drag to rotate the camera."
 allowed_features = Array[int]([0, 2])
 complete_when = SubResource("zoom_and_rotate")
+
+[sub_resource type="Resource" id="Resource_jk1jy"]
+script = ExtResource("2_step")
+id = &"go_to_resource_area"
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
 
 [sub_resource type="Resource" id="panel_open"]
 script = ExtResource("10_visible")
@@ -53,13 +55,13 @@ allowed_features = Array[int]([0, 2, 8])
 highlight_group = &"tutorial_build_menu_button"
 complete_when = SubResource("panel_open")
 
-[sub_resource type="Resource" id="place_mode_on"]
-script = ExtResource("11_place")
-
 [sub_resource type="Resource" id="panel_closed"]
 script = ExtResource("10_visible")
 control_group = &"tutorial_build_panel"
 visible = false
+
+[sub_resource type="Resource" id="place_mode_on"]
+script = ExtResource("11_place")
 
 [sub_resource type="Resource" id="step_press_build"]
 script = ExtResource("2_step")
@@ -70,12 +72,12 @@ highlight_group = &"tutorial_build_button"
 complete_when = SubResource("place_mode_on")
 back_when = SubResource("panel_closed")
 
-[sub_resource type="Resource" id="placed_any"]
-script = ExtResource("5_placed")
-
 [sub_resource type="Resource" id="place_mode_off"]
 script = ExtResource("11_place")
 enabled = false
+
+[sub_resource type="Resource" id="placed_any"]
+script = ExtResource("5_placed")
 
 [sub_resource type="Resource" id="step_place"]
 script = ExtResource("2_step")
@@ -87,4 +89,4 @@ back_when = SubResource("place_mode_off")
 
 [resource]
 script = ExtResource("1_seq")
-steps = Array[ExtResource("2_step")]([SubResource("step_move"), SubResource("step_camera"), SubResource("step_open_menu"), SubResource("step_press_build"), SubResource("step_place")])
+steps = Array[ExtResource("2_step")]([SubResource("step_move"), SubResource("step_camera"), SubResource("Resource_jk1jy"), SubResource("step_open_menu"), SubResource("step_press_build"), SubResource("step_place")])
