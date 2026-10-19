@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cytrfy11plthh" path="res://features/factory_system/machines/machine_scenes/mason_bench.tscn" id="7_mason"]
 [ext_resource type="PackedScene" uid="uid://u8t1yenuswcx" path="res://features/factory_system/machines/machine_scenes/artisan_bench.tscn" id="8_31a81"]
 [ext_resource type="PackedScene" uid="uid://dku6bcx5wvcq8" path="res://features/factory_system/machines/machine_scenes/demo_item_filter.tscn" id="8_jw45p"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_scenes/offering_machine.tscn" id="8_offering"]
 [ext_resource type="Resource" uid="uid://c0nv3y0rbe1td" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="11_default_definition"]
 
 [node name="MachineFactory" type="Node" unique_id=331273636]

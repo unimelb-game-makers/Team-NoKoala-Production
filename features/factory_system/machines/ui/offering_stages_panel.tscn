@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/factory_system/machines/ui/offering_stages_panel.gd" id="1_panel"]
+
+[node name="OfferingStagesPanel" type="HBoxContainer" node_paths=PackedStringArray("stages_list", "stage_title", "stage_status", "offering_label", "rewards_list")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+script = ExtResource("1_panel")
+stages_list = NodePath("Left/Stages/Items")
+stage_title = NodePath("Right/Title")
+stage_status = NodePath("Right/Status")
+offering_label = NodePath("Right/Offering")
+rewards_list = NodePath("Right/Rewards/Items")
+tab_title = "Offerings"
+
+[node name="Left" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="Heading" type="Label" parent="Left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Stages"
+
+[node name="Stages" type="ScrollContainer" parent="Left"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Items" type="VBoxContainer" parent="Left/Stages"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Right" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 7
+
+[node name="Title" type="Label" parent="Right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+text = "Stage"
+
+[node name="Status" type="Label" parent="Right"]
+layout_mode = 2
+text = "Unlocked"
+
+[node name="Offering" type="Label" parent="Right"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Offer"
+
+[node name="Separator" type="HSeparator" parent="Right"]
+layout_mode = 2
+
+[node name="RewardsHeading" type="Label" parent="Right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Unlocks these recipes"
+
+[node name="Rewards" type="ScrollContainer" parent="Right"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Items" type="VBoxContainer" parent="Right/Rewards"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
