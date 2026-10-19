@@ -5,4 +5,5 @@ enum Value {
 	CRAFTING,
 	RITUAL,
 	CONSTRUCTION,
+	GATHERING,
 }

@@ -4,7 +4,6 @@ extends StaticBody3D
 @export var stages: Array[TelescopeStage] = []
 @export var telescope_machine : TelescopeMachine
 @export var overlay : TelescopeOverlay
-@export var telescope_ui : TelescopeUI
 
 var current_stage : int = 0
 var in_discovery : bool = false
@@ -14,6 +13,8 @@ var _views: Array[TelescopeView] = []
 
 # note: emitted before internal stage advancement
 signal stage_advanced(stage: TelescopeStage)
+## Emitted when the stage the player is working towards changes, or the last one is done.
+signal stage_changed
 
 func _ready() -> void:
 	if telescope_machine == null or stages.is_empty():
@@ -24,7 +25,6 @@ func _ready() -> void:
 		recipes.append(stage.recipe)
 	telescope_machine.recipes = recipes
 	telescope_machine.repair_completed.connect(_enter_discovery)
-	telescope_machine.input_supplied.connect(_on_input_supplied)
 	
 	for stage in stages:
 		var view = stage.view_scene.instantiate() as TelescopeView
@@ -35,22 +35,31 @@ func _ready() -> void:
 		
 	if not telescope_machine.repair_completed.is_connected(_enter_discovery):
 		telescope_machine.repair_completed.connect(_enter_discovery)
-	_show_stage()
+	stage_changed.emit()
 
-func interact() -> void:
-	if overlay == null or is_max_progress:
-		return
-		
-	if not in_discovery:
-		telescope_ui.open()
-		return
 
+func get_current_stage() -> TelescopeStage:
+	if is_max_progress or current_stage >= stages.size():
+		return null
+	return stages[current_stage]
+
+
+func get_current_view() -> TelescopeView:
+	if is_max_progress or current_stage >= _views.size():
+		return null
+	return _views[current_stage]
+
+
+## Opens the discovery overlay if there is something to discover.
+## Returns whether it did; otherwise the machine UI is the way to interact.
+func try_open_discovery() -> bool:
+	if overlay == null or is_max_progress or not in_discovery:
+		return false
 	overlay.open(_views[current_stage])
-	
-	
+	return true
+
+
 func _enter_discovery() -> void:
-	if telescope_ui.visible:
-		telescope_ui.close()
 	# TO DO: check if we want to open it immediately or need another interaction
 	overlay.open(_views[current_stage])
 	in_discovery = true
@@ -59,9 +68,10 @@ func _advance_stage() -> void:
 	stage_advanced.emit(stages[current_stage])
 	if current_stage + 1 >= stages.size():
 		is_max_progress = true
+		stage_changed.emit()
 		return
 	current_stage += 1
-	_show_stage()
+	stage_changed.emit()
 	
 func _on_zones_unlocked(view: TelescopeView) -> void:
 	if view != _views[current_stage]:
@@ -69,13 +79,3 @@ func _on_zones_unlocked(view: TelescopeView) -> void:
 	in_discovery = false
 	telescope_machine.resume()
 	_advance_stage()
-
-func _show_stage() -> void:
-	var stage = stages[current_stage]
-	telescope_ui.recipe = stage.recipe
-	telescope_ui.update_recipe()
-	telescope_ui.update_stage_text(stage)
-	telescope_ui.update_tier(_views[current_stage])
-
-func _on_input_supplied(item: FactoryItemDefinition, total: int) -> void:
-	telescope_ui.update_quantity(item, total)

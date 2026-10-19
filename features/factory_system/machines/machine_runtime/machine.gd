@@ -43,7 +43,7 @@ var spirit_spawner: SpiritSpawner
 var work_ports: Array[WorkPort] = []
 var _work_ports_valid := true
 var mobs_root: Node
-
+var allowed_items: Array[FactoryItemDefinition] = []
 
 func configure(
 	p_machine_assembly: MachineAssembly,
@@ -313,6 +313,12 @@ func is_working_at_port(
 	return port != null and port.is_allocated_to(capability)
 
 
+## Whether workers sent here by a job should stay. Returning false makes them
+## finish their job and leave; workers who came on their own are unaffected.
+func keeps_assigned_workers() -> bool:
+	return true
+
+
 func get_work_port(port_id: StringName) -> WorkPort:
 	for port in work_ports:
 		if port.port_id == port_id:
@@ -431,6 +437,12 @@ func accepts_item_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
 	var port_id := _get_input_port_id_for_cell(cell)
 	if port_id.is_empty():
 		return false
+
+	for item_definition in allowed_items:
+		if item_definition == null:
+			continue
+		if item == item_definition:
+			return true
 
 	for recipe in enabled_recipes:
 		if recipe == null:
