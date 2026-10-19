@@ -7,7 +7,6 @@
 [ext_resource type="Resource" uid="uid://ct3nerdtpf4qk" path="res://app/game_world_tutorial.tres" id="4_l6gi6"]
 [ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="4_player"]
 [ext_resource type="MeshLibrary" uid="uid://m1x2wqq3wkah" path="res://features/editor_machine_placement/machine_mesh_library.tres" id="8_4h5x5"]
-[ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="9_bgpye"]
 [ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="9_yg3by"]
 [ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/spirit_scenes/demo_spirit.tscn" id="10_npc"]
 [ext_resource type="Texture2D" uid="uid://cj3n7etfsr04p" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedSand_01/Stylized_HandpaintedSand_01_basecolor.jpg" id="14_jn2gv"]
@@ -109,6 +108,7 @@ collision_layer = 9
 shape = SubResource("GroundShape_world")
 
 [node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=955433886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.134, 0, 0.085)
 mesh = SubResource("GroundMesh_world")
 surface_material_override/0 = SubResource("StandardMaterial3D_xr00m")
 
@@ -198,7 +198,7 @@ grid = NodePath("../../../GridMap")
 [node name="DialogueTriggers" type="Node3D" parent="." unique_id=385511305]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6881466, -1.9073486e-06, 16.033188)
 
-[node name="AwakeningTrigger" type="Area3D" parent="DialogueTriggers" unique_id=1094867557 node_paths=PackedStringArray("dialogue_coordinator")]
+[node name="AwakeningTrigger" type="Area3D" parent="DialogueTriggers" unique_id=1094867557]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 collision_layer = 0
 collision_mask = 2
