@@ -11,6 +11,9 @@ signal processable_unregistered(processable: Processable)
 @export var faith_manager: FaithManager
 @export var item_spawner: ItemSpawner
 
+## Distance from the cell centre that stacks sharing a cell are spread out to.
+const STACK_SPREAD_RADIUS := 0.2
+
 var _machines: Array[Machine] = []
 var _processables: Array[Processable] = []
 var _processables_by_cell: Dictionary = {}
@@ -281,6 +284,7 @@ func _index_processable(
 	cell_processables.append(processable)
 	_processables_by_cell[cell] = cell_processables
 	_processable_cells[processable] = cell
+	_layout_items_at(cell)
 
 #remove processable from _processable_cells and _processables_by_cell
 func _remove_processable_from_index(processable: Processable) -> void:
@@ -295,6 +299,36 @@ func _remove_processable_from_index(processable: Processable) -> void:
 	else:
 		_processables_by_cell[cell] = cell_processables
 	_processable_cells.erase(processable)
+	var item := processable as FactoryItem
+	if item != null and is_instance_valid(item) and not item.is_queued_for_deletion():
+		item.set_stack_offset(Vector3.ZERO)
+	_layout_items_at(cell)
+
+
+## Re-spreads the stacks in the cell `item` is indexed in, if any.
+func layout_items_with(item: FactoryItem) -> void:
+	if _processable_cells.has(item):
+		_layout_items_at(_processable_cells[item])
+
+
+## Spreads the visible stacks in a cell around its centre so none overlap.
+func _layout_items_at(cell: Vector3i) -> void:
+	var items: Array[FactoryItem] = []
+	for processable: Processable in _processables_by_cell.get(cell, []):
+		var item := processable as FactoryItem
+		if item == null or not is_instance_valid(item) or item.is_queued_for_deletion():
+			continue
+		if item.is_in_process_hidden():
+			item.set_stack_offset(Vector3.ZERO)
+			continue
+		items.append(item)
+
+	for i in items.size():
+		var offset := Vector3.ZERO
+		if items.size() > 1:
+			var angle := TAU * i / items.size() - PI * 0.75
+			offset = Vector3(cos(angle), 0.0, sin(angle)) * STACK_SPREAD_RADIUS
+		items[i].set_stack_offset(offset)
 
 
 

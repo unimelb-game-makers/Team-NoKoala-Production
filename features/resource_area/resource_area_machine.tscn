@@ -10,13 +10,16 @@
 [ext_resource type="Texture2D" uid="uid://do44nt4m5kggd" path="res://assets/developer_art/resource_areas/iron_ore_resource.png" id="9_ibtvi"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="10_construction_amount"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="11_construction_item"]
+[ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="harvest_panel"]
+[ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="job_provider"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="progress_bar"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hly03"]
 
 [sub_resource type="Resource" id="Resource_21nps"]
 script = ExtResource("4_h2iij")
-port_id = &"output_1"
-role = 1
+port_id = &"harvest"
+role = 3
 metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
@@ -29,11 +32,13 @@ cells = Array[ExtResource("4_h2iij")]([SubResource("Resource_21nps")])
 construction_materials = Array[ExtResource("10_construction_amount")]([SubResource("Resource_construction_iron")])
 metadata/_custom_type_script = "uid://cxu884kmx2bg1"
 
-[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine") groups=["resource_area"]]
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "progress_bar") groups=["resource_area"]]
 script = ExtResource("1_av6lk")
 resource_area_definition = ExtResource("2_av6lk")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_wynfa")
@@ -52,7 +57,15 @@ collision_layer = 16
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_hly03")
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block")]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("block", "job_provider")]
 script = ExtResource("3_xcxxg")
 block = NodePath("../Block")
 definition = SubResource("Resource_kjr54")
+job_provider = NodePath("MachineJobProvider")
+
+[node name="MachineJobProvider" type="Node" parent="Machine" unique_id=971752524]
+script = ExtResource("job_provider")
+
+[node name="BasicProgressBar" parent="." unique_id=387532002 node_paths=PackedStringArray("machine") instance=ExtResource("progress_bar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0)
+machine = NodePath("../Machine")

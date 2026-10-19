@@ -9,6 +9,7 @@ extends Node
 @export var map: Map
 @export var map_regions: Node
 @export var tutorial_overlay: TutorialOverlay
+@export var item_stack_list_panel: ItemStackListPanel
 
 var _gate: FeatureGate
 

@@ -3,7 +3,7 @@ extends Node
 
 @export var capability: WorkerCapability
 
-var _player: Node3D
+var _player: Player
 @export var _grid: Grid
 @export var _factory_manager: FactoryManager
 @export var faith_manager: FaithManager
@@ -36,11 +36,11 @@ func _on_gate_changed() -> void:
 
 
 func _ready() -> void:
-	_player = get_parent() as Node3D
+	_player = get_parent() as Player
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed(&"work"):
+	if not event.is_action_pressed(&"interact"):
 		return
 	if not FeatureGate.check(_gate, GameFeature.Id.WORK):
 		return
@@ -64,6 +64,7 @@ func _physics_process(_delta: float) -> void:
 
 	if not _working_machine.is_working_at_port(_working_cell, capability):
 		_clear_working_session()
+		_player.is_working = false
 
 
 func toggle_work() -> bool:
@@ -103,6 +104,7 @@ func _try_start_working() -> bool:
 
 		_working_machine = machine
 		_working_cell = player_cell
+		_player.is_working = true
 		return true
 
 	return false
@@ -118,6 +120,7 @@ func _stop_working() -> void:
 			capability,
 		)
 	_clear_working_session()
+	_player.is_working = false
 
 
 func _clear_working_session() -> void:
