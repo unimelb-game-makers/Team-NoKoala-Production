@@ -71,7 +71,7 @@ func _on_tick(delta: float, _ticks_due: int, _tick_count: int) -> void:
 func find_new_job() -> void:
 	var candidates: Array[JobCandidate] = []
 	var discovery_order := 0
-
+	
 	for provider in job_board.get_providers():
 		for request in provider.get_available_requests(self):
 			candidates.append(

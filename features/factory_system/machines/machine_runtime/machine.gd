@@ -43,7 +43,7 @@ var spirit_spawner: SpiritSpawner
 var work_ports: Array[WorkPort] = []
 var _work_ports_valid := true
 var mobs_root: Node
-
+var allowed_items: Array[FactoryItemDefinition] = []
 
 func configure(
 	p_machine_assembly: MachineAssembly,
@@ -437,6 +437,12 @@ func accepts_item_at_cell(item: FactoryItemDefinition, cell: Vector3i) -> bool:
 	var port_id := _get_input_port_id_for_cell(cell)
 	if port_id.is_empty():
 		return false
+
+	for item_definition in allowed_items:
+		if item_definition == null:
+			continue
+		if item == item_definition:
+			return true
 
 	for recipe in enabled_recipes:
 		if recipe == null:

@@ -1,0 +1,183 @@
+[gd_scene format=3 uid="uid://dmlrg0qr8ddr3"]
+
+[ext_resource type="Script" uid="uid://bmdeywe30poss" path="res://app/game_world.gd" id="1_vssse"]
+[ext_resource type="PackedScene" uid="uid://liaync3vttmf" path="res://features/grid/grid.tscn" id="7_o0rjf"]
+[ext_resource type="PackedScene" uid="uid://ctgdypkd1pqkf" path="res://features/camera/spring_arm.tscn" id="8_eqsk4"]
+[ext_resource type="PackedScene" uid="uid://defjqrla6nvdv" path="res://features/player/kaguya.tscn" id="9_g6j0c"]
+[ext_resource type="Script" uid="uid://2efcm0s5tsh8" path="res://features/factory_system/work/worker_capability.gd" id="10_2etix"]
+[ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="11_r6anl"]
+[ext_resource type="Script" uid="uid://b7sxpw5khpyee" path="res://features/factory_system/machines/machine_mouse_placement_controller.gd" id="12_5fb0j"]
+[ext_resource type="PackedScene" uid="uid://dv3umk5dytxh3" path="res://features/global/world_services.tscn" id="13_1mcx3"]
+[ext_resource type="Script" uid="uid://b31l8l2k708uq" path="res://features/factory_system/factory_items/factory_item_spawn_controller.gd" id="13_2xwnl"]
+[ext_resource type="Script" uid="uid://b64ywlwc58ira" path="res://features/grid/placement_grid.gd" id="14_51ovd"]
+[ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://features/global/ui/world_ui.tscn" id="14_digwg"]
+[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="15_4m21b"]
+[ext_resource type="PackedScene" uid="uid://c2er2mffyxett" path="res://features/mob/spirit_scenes/demo_spirit.tscn" id="16_vssse"]
+[ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_converter.gd" id="18_gcg8i"]
+
+[sub_resource type="Resource" id="Resource_digwg"]
+resource_local_to_scene = true
+script = ExtResource("10_2etix")
+allowed_work_types = Array[int]([0, 1])
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_machine"]
+sky_material = SubResource("ProceduralSkyMaterial_machine")
+
+[sub_resource type="Environment" id="Environment_machine"]
+background_mode = 2
+sky = SubResource("Sky_machine")
+
+[sub_resource type="ConvexPolygonShape3D" id="GroundShape_machine"]
+points = PackedVector3Array(-500, 0, -500, -500, 0, 500, 500, 0, -500, 500, 0, 500)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial_machine"]
+albedo_texture = ExtResource("11_r6anl")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="GroundMesh_machine"]
+material = SubResource("GroundMaterial_machine")
+size = Vector2(1000, 1000)
+
+[node name="TestItemDock" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui")]
+script = ExtResource("1_vssse")
+world_services = NodePath("WorldServices")
+grid = NodePath("GridMap")
+player = NodePath("Kaguya")
+spring_arm = NodePath("SpringArm3D")
+mobs_root = NodePath("Mobs")
+machines_root = NodePath("MachinesRoot")
+buildings_root = NodePath("Buildings")
+items_root = NodePath("Items")
+world_ui = NodePath("WorldUI")
+
+[node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("7_o0rjf")]
+
+[node name="SpringArm3D" parent="." unique_id=1371171314 instance=ExtResource("8_eqsk4")]
+
+[node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("9_g6j0c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
+
+[node name="Armature" parent="Kaguya/KaguyaModel" parent_id_path=PackedInt32Array(21341859, 502972077) index="0" unique_id=892587277]
+transform = Transform3D(0.9955716, 0.08112557, 0.04748119, -0.046730846, -0.011124001, 0.998845, 0.08156013, -0.99664086, -0.0072836806, -0.008140932, -0.007252953, 0.0027650555)
+
+[node name="GeneralSkeleton" parent="Kaguya/KaguyaModel/Armature" index="0" unique_id=1801143024]
+bones/2/rotation = Quaternion(0.022871321, 0.007888465, 0.012489879, 0.9996293)
+bones/3/rotation = Quaternion(-0.11590861, 0.012608483, 0.024978131, 0.99286574)
+bones/4/rotation = Quaternion(-0.08760829, 0.0061779334, 0.027289458, 0.99576205)
+bones/11/rotation = Quaternion(0.19704539, 0.00077664293, -0.00036643675, 0.980394)
+bones/12/rotation = Quaternion(-0.08476836, 0.00071928604, -0.0005353797, 0.9964003)
+bones/37/rotation = Quaternion(0.14431217, 0.109538615, -0.8094337, 0.55856293)
+bones/38/rotation = Quaternion(0.11391708, 0.16789144, -0.48413196, 0.8511472)
+bones/39/rotation = Quaternion(0.10574238, -0.0039087785, -0.00041540107, 0.9943859)
+bones/40/rotation = Quaternion(0.13403064, -0.14932285, 0.04280695, 0.97872674)
+bones/41/rotation = Quaternion(-0.08104618, -0.07141167, -0.063011736, 0.99214995)
+bones/42/rotation = Quaternion(-0.010759331, 0.0039796033, -0.0945898, 0.9954503)
+bones/44/rotation = Quaternion(-0.06632337, 0.04236104, -0.16361435, 0.98338056)
+bones/45/rotation = Quaternion(0.01890983, -0.000764612, -0.11803532, 0.9928291)
+bones/47/rotation = Quaternion(-0.044958014, -0.014263049, -0.031866495, 0.99837863)
+bones/48/rotation = Quaternion(0.0012344891, 0.000112097754, -0.0830538, 0.99654436)
+bones/50/rotation = Quaternion(-0.04841857, 0.0074264538, -0.08731406, 0.9949758)
+bones/51/rotation = Quaternion(-0.0040031862, -0.0007183452, -0.06771232, 0.99769664)
+bones/72/rotation = Quaternion(0.12983117, -0.121880084, 0.79323214, 0.58229893)
+bones/73/rotation = Quaternion(0.09917184, -0.24126701, 0.48272064, 0.83602387)
+bones/74/rotation = Quaternion(0.11933102, 0.0049717487, 0.00059744215, 0.9928419)
+bones/75/rotation = Quaternion(0.100371756, 0.24590626, -0.14657879, 0.95287484)
+bones/76/rotation = Quaternion(-0.046414934, 0.06211482, 0.054243546, 0.9955125)
+bones/77/rotation = Quaternion(-0.0065555633, -0.003474148, 0.0353346, 0.9993481)
+bones/79/rotation = Quaternion(-0.026796388, -0.009289842, 0.13255341, 0.9907701)
+bones/80/rotation = Quaternion(0.034512185, 0.0074697714, 0.102182545, 0.99413884)
+bones/82/rotation = Quaternion(-0.039758917, 0.008181612, 0.05924693, 0.9974178)
+bones/83/rotation = Quaternion(0.0027635521, 0.00042007852, 0.0859369, 0.99629676)
+bones/85/rotation = Quaternion(-0.020657169, 0.010320358, 0.11460688, 0.9931426)
+bones/86/rotation = Quaternion(0.0028073564, 0.0027913358, 0.074233115, 0.99723315)
+bones/107/rotation = Quaternion(0.028251663, 0.1923944, 0.97814035, -0.07367328)
+bones/108/rotation = Quaternion(-0.14794211, -0.0007972283, -0.0044688997, 0.98898566)
+bones/149/rotation = Quaternion(-0.08751448, 0.7060435, 0.6895849, 0.13533902)
+bones/150/rotation = Quaternion(0.0022951853, -0.01840707, -0.029753694, 0.99938524)
+bones/151/rotation = Quaternion(-0.056982964, 0.082517214, 0.9929461, -0.0632622)
+bones/152/rotation = Quaternion(-0.09290861, -0.00020633379, 0.002098849, 0.9956724)
+bones/193/rotation = Quaternion(0.100857385, 0.654242, 0.7474456, -0.055859625)
+
+[node name="LeftLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="0" unique_id=1012435759]
+transform = Transform3D(-90.80726, 16.917652, -38.31234, -20.33502, -97.781746, 5.0199943, -36.613216, 12.34934, 92.23316, 25.337572, 79.975746, 3.7696579)
+
+[node name="RightLowerArmCollision" parent="Kaguya/KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(21341859, 502972077, 126443671) index="1" unique_id=1774903563]
+transform = Transform3D(-73.15005, -3.2486513, 68.10669, 6.6161532, -99.753174, 2.3479228, 67.86235, 6.223551, 73.184425, -5.295565, 77.07398, -0.33771193)
+
+[node name="PlayerMachineWorkController" parent="Kaguya" index="7" unique_id=2110653408 node_paths=PackedStringArray("_grid")]
+capability = SubResource("Resource_digwg")
+_grid = NodePath("../../GridMap")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 4.795
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1454922947]
+environment = SubResource("Environment_machine")
+
+[node name="StaticWorld" type="Node3D" parent="." unique_id=163324939]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticWorld" unique_id=194206315]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticWorld/StaticBody3D" unique_id=2113417377]
+shape = SubResource("GroundShape_machine")
+
+[node name="Ground" type="MeshInstance3D" parent="StaticWorld/StaticBody3D" unique_id=1902689211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01540041, -0.0809226, 0.0312047)
+mesh = SubResource("GroundMesh_machine")
+
+[node name="MachineMousePlacementController" type="Node" parent="." unique_id=1449541886 node_paths=PackedStringArray("spring_arm", "placement_grid", "grid")]
+script = ExtResource("12_5fb0j")
+spring_arm = NodePath("../SpringArm3D")
+placement_grid = NodePath("../PlacementGrid")
+grid = NodePath("../GridMap")
+
+[node name="FactoryItemSpawnController" type="Node" parent="." unique_id=1155921873 node_paths=PackedStringArray("grid")]
+script = ExtResource("13_2xwnl")
+grid = NodePath("../GridMap")
+
+[node name="Processables" type="Node3D" parent="." unique_id=973865482]
+
+[node name="PlacementGrid" type="MeshInstance3D" parent="." unique_id=846502586]
+script = ExtResource("14_51ovd")
+metadata/_custom_type_script = "uid://b64ywlwc58ira"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2070855184]
+
+[node name="MachineUI" parent="CanvasLayer" unique_id=438224254 instance=ExtResource("15_4m21b")]
+
+[node name="MachinesRoot" type="Node" parent="." unique_id=598590661]
+
+[node name="Mobs" type="Node3D" parent="." unique_id=338381780]
+
+[node name="DemoNpc" parent="Mobs" unique_id=670937746 instance=ExtResource("16_vssse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1576493, 1.0040001, 0.38231874)
+
+[node name="DemoNpc2" parent="Mobs" unique_id=1004681911 instance=ExtResource("16_vssse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
+
+[node name="DemoNpc3" parent="Mobs" unique_id=1081180653 instance=ExtResource("16_vssse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
+
+[node name="Buildings" type="Node" parent="." unique_id=1605095816]
+
+[node name="ResourceAreaManager" type="Node" parent="." unique_id=1978435871]
+script = ExtResource("18_gcg8i")
+metadata/_custom_type_script = "uid://dk6ro3ymqhxn8"
+
+[node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("13_1mcx3")]
+
+[node name="Items" type="Node" parent="." unique_id=793509981]
+
+[node name="WorldUI" parent="." unique_id=2084672617 instance=ExtResource("14_digwg")]
+
+[editable path="GridMap"]
+[editable path="Kaguya"]
+[editable path="Kaguya/KaguyaModel"]
