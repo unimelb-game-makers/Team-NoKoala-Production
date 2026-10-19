@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dwaidgtqyhe3j"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_7hlsm"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="2_vjryr"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="3_wbor6"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_4xybo"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_3rt4d"]
+
+[sub_resource type="Resource" id="Resource_d0114"]
+script = ExtResource("1_7hlsm")
+port_id = &"input_1"
+item = ExtResource("2_vjryr")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_kpv2k"]
+script = ExtResource("1_7hlsm")
+port_id = &"output_1"
+item = ExtResource("3_wbor6")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_ejjkk"]
+script = ExtResource("5_3rt4d")
+port_id = &"work_1"
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("4_4xybo")
+recipe_id = &"2"
+display_name = "Bamboo Plank"
+inputs = Array[ExtResource("1_7hlsm")]([SubResource("Resource_d0114")])
+outputs = Array[ExtResource("1_7hlsm")]([SubResource("Resource_kpv2k")])
+work_requirements = Array[ExtResource("5_3rt4d")]([SubResource("Resource_ejjkk")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

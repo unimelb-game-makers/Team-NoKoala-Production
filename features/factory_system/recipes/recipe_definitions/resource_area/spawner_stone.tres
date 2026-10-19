@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://3neyltyxfbfu"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_svjno"]
+[ext_resource type="Resource" uid="uid://bhvoon3nsgrp3" path="res://features/factory_system/factory_items/item_definitions/stone.tres" id="2_svjno"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_rarjg"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_h0b1y"]
+
+[sub_resource type="Resource" id="Resource_kpv2k"]
+script = ExtResource("1_svjno")
+port_id = &"output_1"
+item = ExtResource("2_svjno")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[resource]
+script = ExtResource("3_rarjg")
+recipe_id = &"4"
+display_name = "spawner_stone"
+duration_seconds = 3.0
+outputs = Array[ExtResource("1_svjno")]([SubResource("Resource_kpv2k")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

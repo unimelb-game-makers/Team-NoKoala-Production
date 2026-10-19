@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dxe1fjmvn1w4a"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_c80sg"]
+[ext_resource type="Resource" uid="uid://riy7ph7mjy0e" path="res://features/factory_system/factory_items/item_definitions/bamboo_joint.tres" id="2_c80sg"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="3_gupsc"]
+[ext_resource type="Resource" uid="uid://bon16jw641eju" path="res://features/factory_system/factory_items/item_definitions/doll_wooden.tres" id="4_5145d"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_aodkj"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_47j1j"]
+
+[sub_resource type="Resource" id="Resource_d0114"]
+script = ExtResource("1_c80sg")
+port_id = &"input_1"
+item = ExtResource("2_c80sg")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_oul80"]
+script = ExtResource("1_c80sg")
+port_id = &"input_1"
+item = ExtResource("3_gupsc")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_kpv2k"]
+script = ExtResource("1_c80sg")
+port_id = &"output_1"
+item = ExtResource("4_5145d")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_ejjkk"]
+script = ExtResource("5_47j1j")
+port_id = &"work_1"
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("4_aodkj")
+recipe_id = &"1"
+display_name = "Carved Doll"
+duration_seconds = 2.0
+inputs = Array[ExtResource("1_c80sg")]([SubResource("Resource_d0114"), SubResource("Resource_oul80")])
+outputs = Array[ExtResource("1_c80sg")]([SubResource("Resource_kpv2k")])
+work_requirements = Array[ExtResource("5_47j1j")]([SubResource("Resource_ejjkk")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

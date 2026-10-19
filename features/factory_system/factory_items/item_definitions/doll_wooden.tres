@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://bon16jw641eju"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_j0mlw"]
+[ext_resource type="Texture2D" uid="uid://41qxph51bs8v" path="res://assets/items/doll.png" id="2_j0mlw"]
+
+[resource]
+script = ExtResource("1_j0mlw")
+item_key = 10
+item_name = "Carved Doll"
+texture = ExtResource("2_j0mlw")

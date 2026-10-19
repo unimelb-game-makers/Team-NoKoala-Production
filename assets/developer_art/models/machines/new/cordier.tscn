@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c78op03ixgv0w"]
+
+[ext_resource type="PackedScene" uid="uid://ckko24nqrdnnh" path="res://assets/developer_art/models/machines/new/cordier.glb" id="1_mflsg"]
+
+[node name="cordier" unique_id=1692658994 instance=ExtResource("1_mflsg")]
+transform = Transform3D(-2.6226834e-08, 0, -0.6, 0, 0.6, 0, 0.6, 0, -2.6226834e-08, 0, 0, 0)

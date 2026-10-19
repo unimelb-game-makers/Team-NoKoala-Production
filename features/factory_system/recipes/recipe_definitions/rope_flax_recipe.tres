@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://7tr5kphnyttp"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_37q04"]
+[ext_resource type="Resource" uid="uid://bjtuwhgjsds74" path="res://features/factory_system/factory_items/item_definitions/flax.tres" id="2_37q04"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="3_73t11"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_stem5"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_rs20k"]
+
+[sub_resource type="Resource" id="Resource_d0114"]
+script = ExtResource("1_37q04")
+port_id = &"input_1"
+item = ExtResource("2_37q04")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_kpv2k"]
+script = ExtResource("1_37q04")
+port_id = &"output_1"
+item = ExtResource("3_73t11")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_ejjkk"]
+script = ExtResource("5_rs20k")
+port_id = &"work_1"
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("4_stem5")
+recipe_id = &"1"
+display_name = "Fibrous Rope"
+inputs = Array[ExtResource("1_37q04")]([SubResource("Resource_d0114")])
+outputs = Array[ExtResource("1_37q04")]([SubResource("Resource_kpv2k")])
+work_requirements = Array[ExtResource("5_rs20k")]([SubResource("Resource_ejjkk")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"
