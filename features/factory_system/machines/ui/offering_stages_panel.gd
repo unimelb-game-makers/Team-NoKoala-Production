@@ -4,7 +4,6 @@ extends MachineUIPanel
 @export var stages_list: VBoxContainer
 @export var stage_title: Label
 @export var stage_status: Label
-@export var offering_label: Label
 @export var rewards_list: VBoxContainer
 
 var _offering: OfferingMachine
@@ -100,19 +99,9 @@ func _refresh_details() -> void:
 	stage_status.add_theme_color_override(
 		"font_color", _stage_color(_selected_stage_index)
 	)
-	if stage == null or stage.recipe == null:
-		offering_label.text = "Offer: Not configured"
-	else:
-		offering_label.text = "Offer: %s" % _recipe_name(stage.recipe)
 
-	if stage == null or stage.recipes_to_unlock.is_empty():
-		_add_message("No recipes unlock from this stage")
-		return
 	for recipe in stage.recipes_to_unlock:
-		if recipe == null:
-			_add_message("Missing reward recipe")
-		else:
-			_add_reward(recipe)
+		_add_reward(recipe)
 
 
 func _add_reward(recipe: ProductionRecipe) -> void:
@@ -141,14 +130,6 @@ func _add_reward(recipe: ProductionRecipe) -> void:
 	name_label.text = _recipe_name(recipe)
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	labels.add_child(name_label)
-	var unlocked := _is_reward_unlocked(recipe)
-	var status_label := Label.new()
-	status_label.text = "Unlocked" if unlocked else "Locked"
-	status_label.add_theme_color_override(
-		"font_color",
-		Color(0.45, 1.0, 0.55) if unlocked else Color(0.65, 0.67, 0.72),
-	)
-	labels.add_child(status_label)
 
 
 func _add_message(message: String) -> void:
@@ -161,16 +142,13 @@ func _add_message(message: String) -> void:
 func _show_empty_state(message: String) -> void:
 	stage_title.text = "Stages"
 	stage_status.text = ""
-	offering_label.text = ""
 	_clear(rewards_list)
 	_add_message(message)
 
 
 func _stage_state(index: int) -> String:
 	if index < _offering.current_stage_index:
-		return "Unlocked (completed)"
-	if index == _offering.current_stage_index:
-		return "Unlocked"
+		return "Completed"
 	return "Locked"
 
 
@@ -200,6 +178,8 @@ func _recipe_name(recipe: ProductionRecipe) -> String:
 
 
 func _first_product(recipe: ProductionRecipe) -> FactoryItemDefinition:
+	if recipe == null: 
+		return null
 	for output in recipe.outputs:
 		if output != null and output.item != null:
 			return output.item

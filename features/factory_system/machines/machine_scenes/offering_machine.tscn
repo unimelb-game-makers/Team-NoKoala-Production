@@ -10,11 +10,16 @@
 [ext_resource type="Resource" uid="uid://c5qw70qtikb2e" path="res://features/factory_system/recipes/recipe_definitions/demo_offering_recipe.tres" id="7_offering"]
 [ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="8_g1dqn"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="10_evuxr"]
-[ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/offering_stages_panel.tscn" id="10_ui"]
+[ext_resource type="PackedScene" uid="uid://c4frd1r85qu6h" path="res://features/factory_system/machines/ui/offering_stages_panel.tscn" id="10_ui"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
+[ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="12_mp18g"]
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="13_gb4cy"]
 [ext_resource type="Script" uid="uid://d0jg6yoemhfiu" path="res://features/factory_system/offerings/offering_stage.gd" id="13_stage"]
-[ext_resource type="Resource" uid="uid://b6v4tvbps4ehk" path="res://features/factory_system/recipes/recipe_definitions/demo_recipe_2.tres" id="14_reward"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="14_6hk5w"]
+[ext_resource type="Resource" uid="uid://bon16jw641eju" path="res://features/factory_system/factory_items/item_definitions/doll_wooden.tres" id="14_mp18g"]
+[ext_resource type="Resource" uid="uid://skhypiiy5j3r" path="res://features/factory_system/factory_items/item_definitions/necklace_clay.tres" id="15_mp18g"]
+[ext_resource type="Resource" uid="uid://bkk3ogsfwh6to" path="res://features/factory_system/recipes/recipe_definitions/geta_wooden_recipe.tres" id="17_bp2oh"]
 [ext_resource type="PackedScene" uid="uid://bmtxmh0aalqcm" path="res://assets/buildings/big shrine.glb" id="17_l1dge"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/components/machine_input_shadows.tscn" id="18_shadows"]
 
@@ -35,7 +40,33 @@ size = Vector3(37, 17.3, 19.3)
 [sub_resource type="Resource" id="Resource_stage"]
 script = ExtResource("13_stage")
 recipe = ExtResource("7_offering")
-recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("14_reward")])
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("12_mp18g")])
+
+[sub_resource type="Resource" id="Resource_gb4cy"]
+script = ExtResource("13_gb4cy")
+port_id = &"input_1"
+item = ExtResource("14_mp18g")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_bp2oh"]
+script = ExtResource("13_gb4cy")
+port_id = &"input_2"
+item = ExtResource("15_mp18g")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_l1dge"]
+script = ExtResource("6_recipe")
+recipe_id = &"offering_stage_2"
+display_name = "Offering Stage 2"
+duration_seconds = 0.1
+inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_gb4cy"), SubResource("Resource_bp2oh")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"
+
+[sub_resource type="Resource" id="Resource_mp18g"]
+script = ExtResource("13_stage")
+recipe = SubResource("Resource_l1dge")
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("17_bp2oh")])
+metadata/_custom_type_script = "uid://d0jg6yoemhfiu"
 
 [node name="OfferingMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "progress_bar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
@@ -95,7 +126,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("3_machine")
-stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage")])
+stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage"), SubResource("Resource_mp18g")])
 definition = ExtResource("4_vg41c")
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
@@ -122,3 +153,4 @@ spot_angle = 15.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 
 [node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]
+visible = false
