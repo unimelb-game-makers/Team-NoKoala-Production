@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dlq6oidxgj114"]
+[gd_scene format=3 uid="uid://dgoruvmhqpheq"]
 
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="1_lqbl5"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_f3bu2"]
@@ -50,6 +50,9 @@ script = ExtResource("1_lqbl5")
 block_data = SubResource("Resource_gn37f")
 transform_root = NodePath("..")
 
+[node name="big shrine" parent="Block" unique_id=1356157558 instance=ExtResource("17_l1dge")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.51789236, 0.653, 13.6119175)
+
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 size = Vector3(1, 0.1, 1)
@@ -80,16 +83,14 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
 shape = SubResource("BoxShape3D_shrine_structure")
 
-[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
 script = ExtResource("11_block_gizmo")
 block = NodePath("..")
-grid = NodePath("../../../TestFactoryItem/GridMap")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
 
-[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block", "grid")]
+[node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
 script = ExtResource("12_block_registration")
 block = NodePath("..")
-grid = NodePath("../../../TestFactoryItem/GridMap")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
@@ -104,11 +105,10 @@ debug_active_indicator = NodePath("../DebugLight")
 script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
-[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
 script = ExtResource("10_evuxr")
 machine = NodePath("..")
 block = NodePath("../../Block")
-grid = NodePath("../../../TestFactoryItem/GridMap")
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
@@ -120,8 +120,5 @@ spot_angle = 15.0
 
 [node name="BasicProgressBar" parent="." unique_id=387532001 instance=ExtResource("8_g1dqn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
-
-[node name="big shrine" parent="." unique_id=1356157558 instance=ExtResource("17_l1dge")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.52, 0.653, 12.961)
 
 [node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]
