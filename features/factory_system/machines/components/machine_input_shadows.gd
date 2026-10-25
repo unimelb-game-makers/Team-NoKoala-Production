@@ -112,6 +112,8 @@ func _create_shadow(item: FactoryItemDefinition) -> Sprite3D:
 	sprite.name = "InputShadow"
 	sprite.texture = item.texture
 	sprite.pixel_size = icon_pixel_size
+	var scale_factor := 32.0 / maxf(sprite.texture.get_width(), sprite.texture.get_height())
+	sprite.scale = 2.0 * Vector3.ONE * scale_factor
 	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	sprite.no_depth_test = true
 	sprite.render_priority = 10
