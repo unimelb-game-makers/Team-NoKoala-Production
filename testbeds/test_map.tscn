@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://b2qu2t13if65m" path="res://features/blocks/demo_block.tscn" id="16_mt1rm"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="17_k1c2g"]
 [ext_resource type="Script" uid="uid://cika06cl7wyhm" path="res://features/dialogue/player_entry_dialogue_trigger.gd" id="19_v6xvj"]
-[ext_resource type="AudioStream" uid="uid://bevr8kynb7rum" path="res://assets/developer_art/processables/A Mysterious Place.ogg" id="20_3iipc"]
+[ext_resource type="AudioStream" uid="uid://bevr8kynb7rum" path="res://assets/musics/A Mysterious Place.ogg" id="20_3iipc"]
 [ext_resource type="Script" uid="uid://ovdm25kftv6d" path="res://testbeds/map_area_trigger.gd" id="20_klwrf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
@@ -70,10 +70,13 @@ size = Vector3(10, 1, 10)
 size = Vector3(10, 1, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_130qg"]
-size = Vector3(10, 1, 10)
+size = Vector3(10, 1.8652344, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3mpr8"]
 size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_voy0p"]
+size = Vector3(18.137573, 1.0460205, 11.553101)
 
 [node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui")]
 script = ExtResource("1_ib4sk")
@@ -228,7 +231,7 @@ script = ExtResource("20_klwrf")
 region_id = &"sacred_tree"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapAreas/SacredTree" unique_id=916641315]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.025942, 0, 17.61372)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.025942, 0.4326172, 17.61372)
 shape = SubResource("BoxShape3D_130qg")
 
 [node name="LockedAltar" type="Area3D" parent="MapAreas" unique_id=699776480]
@@ -238,5 +241,14 @@ region_id = &"locked_altar"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapAreas/LockedAltar" unique_id=2125408789]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.236633, 0, -13.430962)
 shape = SubResource("BoxShape3D_3mpr8")
+
+[node name="Town" type="Area3D" parent="MapAreas" unique_id=437335949]
+script = ExtResource("20_klwrf")
+region_id = &"town"
+metadata/_custom_type_script = "uid://ovdm25kftv6d"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapAreas/Town" unique_id=1939285824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7406616, 0.023010254, -1.1463013)
+shape = SubResource("BoxShape3D_voy0p")
 
 [editable path="Buildings/DemoBlock"]
