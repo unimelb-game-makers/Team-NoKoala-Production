@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="4_wyqub"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="5_2cr1n"]
 [ext_resource type="PackedScene" path="res://features/inventory/ui/item_stack_list_panel.tscn" id="6_itemst"]
-[ext_resource type="PackedScene" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
+[ext_resource type="PackedScene" uid="uid://c2728dserg8cb" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
 [ext_resource type="PackedScene" uid="uid://b6ifjm6dc03c4" path="res://features/map/map.tscn" id="6_vc2pu"]
 [ext_resource type="Script" uid="uid://bega82h7ebjug" path="res://features/cutscene/cutscene_player.gd" id="7_cutscene"]
 
@@ -46,7 +46,7 @@ text = "Machines"
 
 [node name="MachineBuildSelectionPanel" parent="CanvasLayer" unique_id=1618381881 instance=ExtResource("5_2cr1n")]
 
-[node name="Map" parent="CanvasLayer" unique_id=901774776 instance=ExtResource("6_vc2pu")]
+[node name="Map" parent="CanvasLayer" unique_id=901774776 groups=["tutorial_map"] instance=ExtResource("6_vc2pu")]
 visible = false
 
 [node name="TutorialOverlay" parent="CanvasLayer" unique_id=27440933 instance=ExtResource("6_tutorial")]
