@@ -64,6 +64,11 @@ func _on_step_started(step: TutorialStep, _index: int) -> void:
 		if not (_target is Control or _target is Node3D):
 			push_warning("TutorialOverlay: no Control or Node3D in group '%s'" % step.highlight_group)
 			_target = null
+		# tutorial overlay is in the way of faith bar
+		if step.highlight_group == "tutorial_faith_bar":
+			objective_panel.position.y += 80
+		if step.highlight_group == "tutorial_faith_bar_restored":
+			objective_panel.position.y -= 80
 	set_process(_target != null)
 
 

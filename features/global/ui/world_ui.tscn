@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://c8w8bx1bkq5q0" path="res://features/hotbar/hotbar.tscn" id="3_th0lk"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_ui.tscn" id="4_wyqub"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/ui/machine_build_selection_panel.tscn" id="5_2cr1n"]
-[ext_resource type="PackedScene" uid="uid://b6ifjm6dc03c4" path="res://features/map/map.tscn" id="6_vc2pu"]
-[ext_resource type="PackedScene" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
 [ext_resource type="PackedScene" path="res://features/inventory/ui/item_stack_list_panel.tscn" id="6_itemst"]
-[ext_resource type="Script" path="res://features/cutscene/cutscene_player.gd" id="7_cutscene"]
+[ext_resource type="PackedScene" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
+[ext_resource type="PackedScene" uid="uid://b6ifjm6dc03c4" path="res://features/map/map.tscn" id="6_vc2pu"]
+[ext_resource type="Script" uid="uid://bega82h7ebjug" path="res://features/cutscene/cutscene_player.gd" id="7_cutscene"]
 
 [node name="WorldUI" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar", "map", "tutorial_overlay", "item_stack_list_panel", "cutscene_player")]
 script = ExtResource("1_jhgwm")
@@ -22,7 +22,7 @@ tutorial_overlay = NodePath("CanvasLayer/TutorialOverlay")
 item_stack_list_panel = NodePath("CanvasLayer/ItemStackListPanel")
 cutscene_player = NodePath("CutsceneLayer/CutscenePlayer")
 
-[node name="FaithProgressBar" parent="." unique_id=889199016 instance=ExtResource("2_vc2pu")]
+[node name="FaithProgressBar" parent="." unique_id=889199016 groups=["tutorial_faith_bar"] instance=ExtResource("2_vc2pu")]
 
 [node name="Hotbar" parent="." unique_id=263281179 groups=["tutorial_hotbar"] instance=ExtResource("3_th0lk")]
 offset_top = -73.0
@@ -30,7 +30,7 @@ offset_bottom = -73.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2089302302]
 
-[node name="MachineUI" parent="CanvasLayer" unique_id=378136023 instance=ExtResource("4_wyqub")]
+[node name="MachineUI" parent="CanvasLayer" unique_id=378136023 groups=["tutorial_machine_panel"] instance=ExtResource("4_wyqub")]
 visible = false
 
 [node name="BuildMenuButton" type="Button" parent="CanvasLayer" unique_id=1933539879 groups=["tutorial_build_menu_button"]]
@@ -49,21 +49,20 @@ text = "Machines"
 [node name="Map" parent="CanvasLayer" unique_id=901774776 instance=ExtResource("6_vc2pu")]
 visible = false
 
-[node name="TutorialOverlay" parent="CanvasLayer" instance=ExtResource("6_tutorial")]
+[node name="TutorialOverlay" parent="CanvasLayer" unique_id=27440933 instance=ExtResource("6_tutorial")]
 
-[node name="ItemStackListPanel" parent="CanvasLayer" instance=ExtResource("6_itemst")]
+[node name="ItemStackListPanel" parent="CanvasLayer" unique_id=1358288391 instance=ExtResource("6_itemst")]
 
-[node name="CutsceneLayer" type="CanvasLayer" parent="."]
+[node name="CutsceneLayer" type="CanvasLayer" parent="." unique_id=1552659042]
 process_mode = 3
 layer = 20
 
-[node name="CutscenePlayer" type="VideoStreamPlayer" parent="CutsceneLayer"]
-script = ExtResource("7_cutscene")
+[node name="CutscenePlayer" type="VideoStreamPlayer" parent="CutsceneLayer" unique_id=862977808]
 visible = false
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand = true
+script = ExtResource("7_cutscene")
