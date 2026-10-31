@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://d2evcw818vix5"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_fei7s"]
+[ext_resource type="Script" uid="uid://wg1oqnkxh3ye" path="res://features/tutorial/conditions/near_machine_condition.gd" id="2_0mk6j"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_gut4q"]
+
+[sub_resource type="Resource" id="near_blueprint"]
+script = ExtResource("2_0mk6j")
+machine_group = &"tutorial_placed_machine"
+
+[resource]
+script = ExtResource("3_gut4q")
+id = &"go_to_blueprint"
+objective_text = "Walk over to the Carpenter Bench blueprint."
+allowed_features = Array[int]([0, 2])
+highlight_group = &"tutorial_placed_machine"
+complete_when = SubResource("near_blueprint")

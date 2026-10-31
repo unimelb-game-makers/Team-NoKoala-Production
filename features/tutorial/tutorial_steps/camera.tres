@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://cpe8ntlvs41ke"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_ej2s6"]
+[ext_resource type="Script" uid="uid://fdw26j40kaeo" path="res://features/tutorial/tutorial_condition.gd" id="2_0ktx7"]
+[ext_resource type="Script" uid="uid://ctkld0cyq2f82" path="res://features/tutorial/conditions/camera_zoomed_condition.gd" id="3_sn5ui"]
+[ext_resource type="Script" uid="uid://gity437h7ljy" path="res://features/tutorial/conditions/camera_rotated_condition.gd" id="4_74rn4"]
+[ext_resource type="Script" uid="uid://bbqne3xexue38" path="res://features/tutorial/conditions/all_of_condition.gd" id="5_jyvxc"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="6_ruuqs"]
+
+[sub_resource type="Resource" id="zoom"]
+script = ExtResource("3_sn5ui")
+
+[sub_resource type="Resource" id="rotate"]
+script = ExtResource("4_74rn4")
+
+[sub_resource type="Resource" id="zoom_and_rotate"]
+script = ExtResource("5_jyvxc")
+conditions = Array[ExtResource("2_0ktx7")]([SubResource("zoom"), SubResource("rotate")])
+
+[resource]
+script = ExtResource("6_ruuqs")
+id = &"camera"
+objective_text = "Scroll to zoom, and hold the middle mouse button and drag to rotate the camera."
+allowed_features = Array[int]([0, 2])
+complete_when = SubResource("zoom_and_rotate")

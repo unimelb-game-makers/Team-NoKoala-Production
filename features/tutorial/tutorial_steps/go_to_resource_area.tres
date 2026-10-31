@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://doslon87upsti"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_cl4wb"]
+[ext_resource type="Script" uid="uid://bvis5qwowy42n" path="res://features/tutorial/conditions/reach_area_condition.gd" id="2_5fv0s"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_yao0c"]
+
+[sub_resource type="Resource" id="Resource_l6gi6"]
+script = ExtResource("2_5fv0s")
+area_group = &"tutorial_bamboo_area_reach"
+metadata/_custom_type_script = "uid://bvis5qwowy42n"
+
+[resource]
+script = ExtResource("3_yao0c")
+id = &"go_to_resource_area"
+objective_text = "Walk over to the bamboo grove."
+allowed_features = Array[int]([0, 2])
+highlight_group = &"tutorial_bamboo_area"
+complete_when = SubResource("Resource_l6gi6")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

@@ -1,274 +1,55 @@
 [gd_resource type="Resource" script_class="TutorialSequence" format=3 uid="uid://ct3nerdtpf4qk"]
 
 [ext_resource type="Script" uid="uid://bx750qvvwqw6j" path="res://features/tutorial/tutorial_sequence.gd" id="1_g73kd"]
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="2_5y6yq"]
 [ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_sd4hj"]
-[ext_resource type="Script" uid="uid://c3cf0f8fgww6c" path="res://features/tutorial/conditions/distance_moved_condition.gd" id="3_pgi4i"]
-[ext_resource type="Script" uid="uid://fdw26j40kaeo" path="res://features/tutorial/tutorial_condition.gd" id="4_bg7kv"]
-[ext_resource type="Script" uid="uid://ctkld0cyq2f82" path="res://features/tutorial/conditions/camera_zoomed_condition.gd" id="5_j8q0v"]
-[ext_resource type="Script" uid="uid://gity437h7ljy" path="res://features/tutorial/conditions/camera_rotated_condition.gd" id="6_mpupe"]
-[ext_resource type="Script" uid="uid://bbqne3xexue38" path="res://features/tutorial/conditions/all_of_condition.gd" id="7_08oyj"]
-[ext_resource type="Script" uid="uid://bvis5qwowy42n" path="res://features/tutorial/conditions/reach_area_condition.gd" id="8_3deae"]
-[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="9_arp16"]
-[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="10_arp16"]
-[ext_resource type="Script" uid="uid://bm7bvtdap26tu" path="res://features/tutorial/conditions/place_mode_condition.gd" id="10_h2hdi"]
-[ext_resource type="Script" uid="uid://ct0spxhayuwae" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="11_vrctg"]
-[ext_resource type="Script" uid="uid://drmu38b5sbxke" path="res://features/tutorial/conditions/items_held_condition.gd" id="12_held"]
-[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="13_bamboo"]
-[ext_resource type="Script" uid="uid://rggotoengq3a" path="res://features/tutorial/conditions/recipe_supplied_condition.gd" id="13_h2hdi"]
-[ext_resource type="Resource" uid="uid://boorvr4r4pnyw" path="res://features/factory_system/machines/machine_definitions/stone_area.tres" id="13_vrctg"]
-[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="14_machine_def"]
-[ext_resource type="Resource" uid="uid://rj3vso2ud1w" path="res://features/factory_system/machines/machine_definitions/carpenter.tres" id="15_carpenter"]
-[ext_resource type="Script" uid="uid://wg1oqnkxh3ye" path="res://features/tutorial/conditions/near_machine_condition.gd" id="16_near"]
-[ext_resource type="Script" uid="uid://b1yo1h05851xg" path="res://features/tutorial/conditions/blueprint_supplied_condition.gd" id="17_supplied"]
-[ext_resource type="Script" uid="uid://cjxot6de5id26" path="res://features/tutorial/conditions/machine_constructed_condition.gd" id="18_constructed"]
+[ext_resource type="Resource" uid="uid://qrisf5566w46" path="res://features/tutorial/tutorial_steps/move.tres" id="4_arp16"]
+[ext_resource type="Resource" uid="uid://cpe8ntlvs41ke" path="res://features/tutorial/tutorial_steps/camera.tres" id="5_h2hdi"]
+[ext_resource type="Resource" uid="uid://frst0vm5nmon" path="res://features/tutorial/tutorial_steps/open_map.tres" id="6_vrctg"]
+[ext_resource type="Resource" uid="uid://daj5nfovnefow" path="res://features/tutorial/tutorial_steps/inspect_map.tres" id="7_fhesy"]
+[ext_resource type="Resource" uid="uid://drn3rye4tqbll" path="res://features/tutorial/tutorial_steps/discover_bamboo_forest.tres" id="8_k370d"]
+[ext_resource type="Resource" uid="uid://doslon87upsti" path="res://features/tutorial/tutorial_steps/go_to_resource_area.tres" id="9_k6vum"]
+[ext_resource type="Resource" uid="uid://b3k4ksdvq0i3d" path="res://features/tutorial/tutorial_steps/collect_bamboo.tres" id="10_4fw13"]
+[ext_resource type="Resource" uid="uid://c5758brpgekb7" path="res://features/tutorial/tutorial_steps/return_to_town.tres" id="11_2q8qc"]
+[ext_resource type="Resource" uid="uid://caw3mega0wbh3" path="res://features/tutorial/tutorial_steps/open_menu.tres" id="12_8yw3g"]
+[ext_resource type="Resource" uid="uid://gvy1qiw3tt47" path="res://features/tutorial/tutorial_steps/press_build.tres" id="13_8qcf1"]
+[ext_resource type="Resource" uid="uid://dq57d4tllkb7n" path="res://features/tutorial/tutorial_steps/place_machine.tres" id="14_hnbka"]
+[ext_resource type="Resource" uid="uid://d2evcw818vix5" path="res://features/tutorial/tutorial_steps/go_to_blueprint.tres" id="15_n8vg7"]
+[ext_resource type="Resource" uid="uid://cj8q7q55gxrbb" path="res://features/tutorial/tutorial_steps/faith_bar_menu.tres" id="16_n22ne"]
+[ext_resource type="Resource" uid="uid://co5ac7yr510o" path="res://features/tutorial/tutorial_steps/faith_bar_menu2.tres" id="17_nwnr2"]
+[ext_resource type="Resource" uid="uid://ct3d44cxgwop" path="res://features/tutorial/tutorial_steps/open_ritual.tres" id="18_hl541"]
+[ext_resource type="Resource" uid="uid://cua8ft1do11lf" path="res://features/tutorial/tutorial_steps/ritual_machine.tres" id="19_uqh3o"]
 
-[sub_resource type="Resource" id="walk"]
-script = ExtResource("3_pgi4i")
+[sub_resource type="Resource" id="Resource_gkur6"]
+script = ExtResource("2_5y6yq")
+id = &"move_camera"
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("4_arp16"), ExtResource("5_h2hdi")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
-[sub_resource type="Resource" id="step_move"]
-script = ExtResource("2_sd4hj")
-id = &"move"
-objective_text = "Use WASD to walk around. Press Shift to toggle sprint."
-allowed_features = Array[int]([0, 2])
-complete_when = SubResource("walk")
+[sub_resource type="Resource" id="Resource_u36qa"]
+script = ExtResource("2_5y6yq")
+id = &"map"
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("6_vrctg"), ExtResource("7_fhesy"), ExtResource("8_k370d")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
-[sub_resource type="Resource" id="zoom"]
-script = ExtResource("5_j8q0v")
+[sub_resource type="Resource" id="Resource_08xrs"]
+script = ExtResource("2_5y6yq")
+id = &"collect_resource"
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("9_k6vum"), ExtResource("10_4fw13"), ExtResource("11_2q8qc")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
-[sub_resource type="Resource" id="rotate"]
-script = ExtResource("6_mpupe")
-
-[sub_resource type="Resource" id="zoom_and_rotate"]
-script = ExtResource("7_08oyj")
-conditions = Array[ExtResource("4_bg7kv")]([SubResource("zoom"), SubResource("rotate")])
-
-[sub_resource type="Resource" id="step_camera"]
-script = ExtResource("2_sd4hj")
-id = &"camera"
-objective_text = "Scroll to zoom, and hold the middle mouse button and drag to rotate the camera."
-allowed_features = Array[int]([0, 2])
-complete_when = SubResource("zoom_and_rotate")
-
-[sub_resource type="Resource" id="Resource_woego"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_map"
-metadata/_custom_type_script = "uid://dh3kkg1acuidu"
-
-[sub_resource type="Resource" id="Resource_ox12a"]
-script = ExtResource("2_sd4hj")
-id = &"open_map"
-objective_text = "Press M to open the map."
-allowed_features = Array[int]([0, 2])
-complete_when = SubResource("Resource_woego")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_k370d"]
-script = ExtResource("8_3deae")
-area_group = &"tutorial_bamboo_forest"
-metadata/_custom_type_script = "uid://bvis5qwowy42n"
-
-[sub_resource type="Resource" id="Resource_fhesy"]
-script = ExtResource("2_sd4hj")
-id = &"inspect_map"
-objective_text = "What's that below the town? Head down to check it out."
-allowed_features = Array[int]([0, 2])
-complete_when = SubResource("Resource_k370d")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_8qcf1"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_map"
-metadata/_custom_type_script = "uid://dh3kkg1acuidu"
-
-[sub_resource type="Resource" id="Resource_8yw3g"]
-script = ExtResource("2_sd4hj")
-id = &"discover_bamboo_forest"
-objective_text = "You found the bamboo forest! Press M again to view the newly discovered area."
-allowed_features = Array[int]([0, 2])
-complete_when = SubResource("Resource_8qcf1")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_l6gi6"]
-script = ExtResource("8_3deae")
-area_group = &"tutorial_bamboo_area_reach"
-metadata/_custom_type_script = "uid://bvis5qwowy42n"
-
-[sub_resource type="Resource" id="Resource_jk1jy"]
-script = ExtResource("2_sd4hj")
-id = &"go_to_resource_area"
-objective_text = "Walk over to the bamboo grove."
-allowed_features = Array[int]([0, 2])
-highlight_group = &"tutorial_bamboo_area"
-complete_when = SubResource("Resource_l6gi6")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="held_bamboo"]
-script = ExtResource("12_held")
-item_definition = ExtResource("13_bamboo")
-count = 4
-
-[sub_resource type="Resource" id="step_collect_bamboo"]
-script = ExtResource("2_sd4hj")
-id = &"collect_bamboo"
-objective_text = "Stand on the bamboo grove and press E to harvest it. Pick up 4 bamboo culms with F."
-allowed_features = Array[int]([0, 2, 3, 4, 6])
-highlight_group = &"tutorial_bamboo_area"
-complete_when = SubResource("held_bamboo")
-
-[sub_resource type="Resource" id="Resource_n8vg7"]
-script = ExtResource("8_3deae")
-area_group = &"tutorial_town"
-metadata/_custom_type_script = "uid://bvis5qwowy42n"
-
-[sub_resource type="Resource" id="Resource_hnbka"]
-script = ExtResource("2_sd4hj")
-id = &"return_to_town"
-objective_text = "Return to the town with your bamboo culms."
-allowed_features = Array[int]([0, 2, 6])
-complete_when = SubResource("Resource_n8vg7")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="panel_open"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_build_panel"
-
-[sub_resource type="Resource" id="step_open_menu"]
-script = ExtResource("2_sd4hj")
-id = &"open_menu"
-objective_text = "Open the Machines menu."
-allowed_features = Array[int]([0, 2, 8])
-highlight_group = &"tutorial_build_menu_button"
-complete_when = SubResource("panel_open")
-
-[sub_resource type="Resource" id="panel_closed"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_build_panel"
-visible = false
-
-[sub_resource type="Resource" id="place_mode_on"]
-script = ExtResource("10_h2hdi")
-
-[sub_resource type="Resource" id="step_press_build"]
-script = ExtResource("2_sd4hj")
-id = &"press_build"
-objective_text = "Select the Carpenter Bench and press Build."
-allowed_features = Array[int]([0, 2, 8, 9])
-allowed_machines = Array[ExtResource("14_machine_def")]([ExtResource("15_carpenter")])
-highlight_group = &"tutorial_build_button"
-complete_when = SubResource("place_mode_on")
-back_when = SubResource("panel_closed")
-
-[sub_resource type="Resource" id="place_mode_off"]
-script = ExtResource("10_h2hdi")
-enabled = false
-
-[sub_resource type="Resource" id="placed_any"]
-script = ExtResource("11_vrctg")
-tag_group = &"tutorial_placed_machine"
-
-[sub_resource type="Resource" id="step_place"]
-script = ExtResource("2_sd4hj")
-id = &"place_machine"
-objective_text = "Click on the ground to place the machine."
-allowed_features = Array[int]([0, 2, 9])
-allowed_machines = Array[ExtResource("14_machine_def")]([ExtResource("15_carpenter")])
-complete_when = SubResource("placed_any")
-back_when = SubResource("place_mode_off")
-
-[sub_resource type="Resource" id="near_blueprint"]
-script = ExtResource("16_near")
-machine_group = &"tutorial_placed_machine"
-
-[sub_resource type="Resource" id="step_go_to_blueprint"]
-script = ExtResource("2_sd4hj")
-id = &"go_to_blueprint"
-objective_text = "Walk over to the Carpenter Bench blueprint."
-allowed_features = Array[int]([0, 2])
-highlight_group = &"tutorial_placed_machine"
-complete_when = SubResource("near_blueprint")
-
-[sub_resource type="Resource" id="blueprint_supplied"]
-script = ExtResource("17_supplied")
-machine_group = &"tutorial_placed_machine"
-
-[sub_resource type="Resource" id="step_drop_materials"]
-script = ExtResource("2_sd4hj")
-id = &"drop_materials"
-objective_text = "Stand on the blueprint and press Q to drop the bamboo culms."
-allowed_features = Array[int]([0, 2, 4, 6])
-highlight_group = &"tutorial_placed_machine"
-complete_when = SubResource("blueprint_supplied")
-
-[sub_resource type="Resource" id="machine_constructed"]
-script = ExtResource("18_constructed")
-machine_group = &"tutorial_placed_machine"
-
-[sub_resource type="Resource" id="step_build_machine"]
-script = ExtResource("2_sd4hj")
+[sub_resource type="Resource" id="Resource_2hcay"]
+script = ExtResource("2_5y6yq")
 id = &"build_machine"
-objective_text = "Stand on the blueprint and press E to build the Carpenter Bench."
-allowed_features = Array[int]([0, 2, 3])
-highlight_group = &"tutorial_placed_machine"
-complete_when = SubResource("machine_constructed")
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("12_8yw3g"), ExtResource("13_8qcf1"), ExtResource("14_hnbka"), ExtResource("15_n8vg7"), ExtResource("14_hnbka")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
-[sub_resource type="Resource" id="Resource_4fw13"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_build_panel"
-metadata/_custom_type_script = "uid://dh3kkg1acuidu"
-
-[sub_resource type="Resource" id="Resource_74gu2"]
-script = ExtResource("2_sd4hj")
-id = &"faith_bar_menu_closed"
-objective_text = "Faith is your energy system and slowly depletes as your spirits work away at different tasks. Let's restore some faith! Open the machines menu and build a 'ritual' machine."
-allowed_features = Array[int]([0, 2, 8])
-allowed_machines = Array[ExtResource("14_machine_def")]([ExtResource("15_carpenter"), ExtResource("10_arp16")])
-highlight_group = &"tutorial_faith_bar"
-complete_when = SubResource("Resource_4fw13")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_vrctg"]
-script = ExtResource("11_vrctg")
-machine_definition = ExtResource("10_arp16")
-tag_group = &"tutorial_ritual_machine"
-metadata/_custom_type_script = "uid://ct0spxhayuwae"
-
-[sub_resource type="Resource" id="Resource_2q8qc"]
-script = ExtResource("2_sd4hj")
-id = &"faith_bar_menu_open"
-objective_text = "Let's restore some faith! Build a 'ritual' machine."
-allowed_features = Array[int]([0, 2, 8, 9])
-allowed_machines = Array[ExtResource("14_machine_def")]([ExtResource("10_arp16"), ExtResource("15_carpenter")])
-highlight_group = &"tutorial_faith_bar_restored"
-complete_when = SubResource("Resource_vrctg")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_h2hdi"]
-script = ExtResource("9_arp16")
-control_group = &"tutorial_machine_panel"
-metadata/_custom_type_script = "uid://dh3kkg1acuidu"
-
-[sub_resource type="Resource" id="Resource_arp16"]
-script = ExtResource("2_sd4hj")
-id = &"open_ritual_ui"
-objective_text = "Right click the ritual machine to see what resources are needed to complete a ritual."
-allowed_features = Array[int]([0, 2, 7])
-complete_when = SubResource("Resource_h2hdi")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
-
-[sub_resource type="Resource" id="Resource_mtomw"]
-script = ExtResource("13_h2hdi")
-machine_group = &"tutorial_ritual_machine"
-metadata/_custom_type_script = "uid://rggotoengq3a"
-
-[sub_resource type="Resource" id="Resource_k6vum"]
-script = ExtResource("2_sd4hj")
-id = &"ritual_machine"
-objective_text = "Rituals need iron ore. Find some to carry out a ritual to restore some faith."
-allowed_features = Array[int]([0, 2, 7, 10, 3, 4, 6])
-allowed_machines = Array[ExtResource("14_machine_def")]([ExtResource("10_arp16"), ExtResource("13_vrctg")])
-complete_when = SubResource("Resource_mtomw")
-metadata/_custom_type_script = "uid://kpagy4pl22fg"
+[sub_resource type="Resource" id="Resource_yx75y"]
+script = ExtResource("2_5y6yq")
+id = &"faith_ritual"
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("16_n22ne"), ExtResource("17_nwnr2"), ExtResource("18_hl541"), ExtResource("19_uqh3o")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
 [resource]
 script = ExtResource("1_g73kd")
-steps = Array[ExtResource("2_sd4hj")]([SubResource("step_move"), SubResource("step_camera"), SubResource("Resource_ox12a"), SubResource("Resource_fhesy"), SubResource("Resource_8yw3g"), SubResource("Resource_jk1jy"), SubResource("step_collect_bamboo"), SubResource("Resource_hnbka"), SubResource("step_open_menu"), SubResource("step_press_build"), SubResource("step_place"), SubResource("step_go_to_blueprint"), SubResource("step_drop_materials"), SubResource("step_build_machine"), SubResource("Resource_74gu2"), SubResource("Resource_2q8qc"), SubResource("Resource_arp16"), SubResource("Resource_k6vum")])
+tasks = Array[ExtResource("2_5y6yq")]([SubResource("Resource_gkur6"), SubResource("Resource_u36qa"), SubResource("Resource_08xrs"), SubResource("Resource_2hcay"), SubResource("Resource_yx75y")])

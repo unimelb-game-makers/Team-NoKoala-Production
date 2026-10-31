@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://dq57d4tllkb7n"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_ax2nf"]
+[ext_resource type="Resource" uid="uid://rj3vso2ud1w" path="res://features/factory_system/machines/machine_definitions/carpenter.tres" id="2_i7roc"]
+[ext_resource type="Script" uid="uid://bm7bvtdap26tu" path="res://features/tutorial/conditions/place_mode_condition.gd" id="3_whkh3"]
+[ext_resource type="Script" uid="uid://ct0spxhayuwae" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="4_gwe4p"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="5_htv1q"]
+
+[sub_resource type="Resource" id="place_mode_off"]
+script = ExtResource("3_whkh3")
+enabled = false
+
+[sub_resource type="Resource" id="placed_any"]
+script = ExtResource("4_gwe4p")
+tag_group = &"tutorial_placed_machine"
+
+[resource]
+script = ExtResource("5_htv1q")
+id = &"place_machine"
+objective_text = "Click on the ground to place the machine."
+allowed_features = Array[int]([0, 2, 9])
+allowed_machines = Array[ExtResource("1_ax2nf")]([ExtResource("2_i7roc")])
+complete_when = SubResource("placed_any")
+back_when = SubResource("place_mode_off")

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://ct3d44cxgwop"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_a1t0k"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="2_nvyyu"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_xfn28"]
+
+[sub_resource type="Resource" id="Resource_h2hdi"]
+script = ExtResource("2_nvyyu")
+control_group = &"tutorial_machine_panel"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[resource]
+script = ExtResource("3_xfn28")
+id = &"open_ritual_ui"
+objective_text = "Right click the ritual machine to see what resources are needed to complete a ritual."
+allowed_features = Array[int]([0, 2, 7])
+complete_when = SubResource("Resource_h2hdi")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

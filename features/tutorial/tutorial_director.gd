@@ -15,6 +15,8 @@ var _step: TutorialStep
 var _condition: TutorialCondition
 var _back_condition: TutorialCondition
 
+var _steps: Array[TutorialStep] = []
+
 
 func configure(
 	gate: FeatureGate,
@@ -64,13 +66,16 @@ func get_step_index() -> int:
 
 func start(from_index := 0) -> void:
 	assert(_gate != null, "TutorialDirector must be configured before start")
-	if sequence == null or sequence.steps.is_empty():
-		push_warning("TutorialDirector has no steps to run")
+	if sequence == null:
+		push_warning("TutorialDirector has no sequence to run")
 		return
 	if is_running():
 		_end(true)
+	_steps = sequence.get_steps()
+	if _steps.is_empty():
+		push_warning("TutorialDirector has no steps to run")
+		return
 	_enter_step(from_index)
-
 
 ## Ends the tutorial early and unlocks every feature.
 func skip() -> void:
@@ -79,11 +84,11 @@ func skip() -> void:
 
 
 func _enter_step(index: int, forward := true) -> void:
-	if index >= sequence.steps.size():
+	if index >= _steps.size():
 		_end(false)
 		return
 	_index = index
-	_step = sequence.steps[index]
+	_step = _steps[index]
 	_gate.restrict_to(_step.allowed_features, _step.allowed_machines)
 	step_started.emit(_step, index)
 

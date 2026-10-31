@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://cua8ft1do11lf"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_fenfy"]
+[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="2_8hhw6"]
+[ext_resource type="Resource" uid="uid://boorvr4r4pnyw" path="res://features/factory_system/machines/machine_definitions/stone_area.tres" id="3_vf1l7"]
+[ext_resource type="Script" uid="uid://rggotoengq3a" path="res://features/tutorial/conditions/recipe_supplied_condition.gd" id="4_d3vtw"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="5_a8ihd"]
+
+[sub_resource type="Resource" id="Resource_mtomw"]
+script = ExtResource("4_d3vtw")
+machine_group = &"tutorial_ritual_machine"
+metadata/_custom_type_script = "uid://rggotoengq3a"
+
+[resource]
+script = ExtResource("5_a8ihd")
+id = &"ritual_machine"
+objective_text = "Rituals need iron ore. Find some to carry out a ritual to restore some faith."
+allowed_features = Array[int]([0, 2, 7, 10, 3, 4, 6])
+allowed_machines = Array[ExtResource("1_fenfy")]([ExtResource("2_8hhw6"), ExtResource("3_vf1l7")])
+complete_when = SubResource("Resource_mtomw")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://caw3mega0wbh3"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_fqqej"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="2_1dl0y"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_yl4sl"]
+
+[sub_resource type="Resource" id="panel_open"]
+script = ExtResource("2_1dl0y")
+control_group = &"tutorial_build_panel"
+
+[resource]
+script = ExtResource("3_yl4sl")
+id = &"open_menu"
+objective_text = "Open the Machines menu."
+allowed_features = Array[int]([0, 2, 8])
+highlight_group = &"tutorial_build_menu_button"
+complete_when = SubResource("panel_open")

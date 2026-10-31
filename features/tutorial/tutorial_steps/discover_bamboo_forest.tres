@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://drn3rye4tqbll"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_n1sji"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="2_neuq8"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_5v4iy"]
+
+[sub_resource type="Resource" id="Resource_8qcf1"]
+script = ExtResource("2_neuq8")
+control_group = &"tutorial_map"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[resource]
+script = ExtResource("3_5v4iy")
+id = &"discover_bamboo_forest"
+objective_text = "You found the bamboo forest! Press M again to view the newly discovered area."
+allowed_features = Array[int]([0, 2])
+complete_when = SubResource("Resource_8qcf1")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

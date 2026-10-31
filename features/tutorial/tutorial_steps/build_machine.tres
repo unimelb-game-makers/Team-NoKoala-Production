@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://cpmno71lxd4aa"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_gh360"]
+[ext_resource type="Script" uid="uid://cjxot6de5id26" path="res://features/tutorial/conditions/machine_constructed_condition.gd" id="2_s2rru"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_6cfds"]
+
+[sub_resource type="Resource" id="machine_constructed"]
+script = ExtResource("2_s2rru")
+machine_group = &"tutorial_placed_machine"
+
+[resource]
+script = ExtResource("3_6cfds")
+id = &"build_machine"
+objective_text = "Stand on the blueprint and press E to build the Carpenter Bench."
+allowed_features = Array[int]([0, 2, 3])
+highlight_group = &"tutorial_placed_machine"
+complete_when = SubResource("machine_constructed")
