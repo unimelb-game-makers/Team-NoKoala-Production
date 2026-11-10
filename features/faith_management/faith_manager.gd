@@ -70,6 +70,5 @@ func _check_empty() -> bool:
 	return is_empty
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_EQUAL or event.keycode == KEY_KP_ADD:
-			apply_delta(10.0)
+	if event.is_action_pressed("debug_add_faith"):
+		apply_delta(10.0)
