@@ -68,7 +68,6 @@ func is_processing_recipe() -> bool:
 func get_progress_phase() -> ProgressPhase:
 	return ProgressPhase.WORK if is_processing_recipe() else ProgressPhase.NONE
 
-
 func has_all_required_inputs_in_place(
 	recipe: ProductionRecipe,
 	factory_manager: FactoryManager,
@@ -77,11 +76,18 @@ func has_all_required_inputs_in_place(
 		return false
 	if machine_assembly == null or machine_assembly.block == null or machine_assembly.block.block_data == null:
 		return false
-	var required_count := _get_required_input_count(recipe)
-	return (
-		required_count >= 0
-		and _find_input_items(recipe, factory_manager).size() == required_count
-	)
+	
+	var input_items = _find_input_items(recipe, factory_manager)
+	
+	for required_item in recipe.inputs:
+		var filtered_items = input_items.filter(func(item): return item.stack.item_definition == required_item.item)
+		if filtered_items.size() == 0: return false
+		var count = 0
+		for item in filtered_items:
+			count += item.stack.quantity
+		if count < required_item.amount:
+			return false
+	return true
 
 func get_processing_progress() -> float:
 	if not is_processing_recipe():
@@ -263,8 +269,6 @@ func _get_required_input_count(recipe: ProductionRecipe) -> int:
 			return -1
 		result += requirement.amount
 	return result
-
-
 
 func _try_spawn_outputs(factory_manager: FactoryManager) -> bool:
 	if _processing_recipe == null:

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bexx4moxjtpcb"]
 
 [ext_resource type="Script" uid="uid://c1wj5sgivsc21" path="res://features/factory_system/machines/machine_runtime/machine_assembly.gd" id="1_glugo"]
+[ext_resource type="PackedScene" path="res://features/resource_area/ui/harvest_panel.tscn" id="2_ho0b7"]
 [ext_resource type="Script" uid="uid://dtpuxjxvagclu" path="res://features/blocks/demo_block.gd" id="2_vsdle"]
 [ext_resource type="Script" uid="uid://ygqk0vj2ah23" path="res://features/blocks/block_data.gd" id="3_ho0b7"]
 [ext_resource type="Texture2D" uid="uid://be5sx3lfeg8l3" path="res://assets/developer_art/resource_areas/clay_resource.png" id="4_glugo"]
@@ -12,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="10_612q5"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="11_4604d"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="12_tty20"]
+[ext_resource type="PackedScene" uid="uid://cuqgffn7xsqr0" path="res://features/factory_system/machines/components/basic_progress_bar.tscn" id="14_05cyn"]
 
 [sub_resource type="Resource" id="Resource_52k3o"]
 resource_local_to_scene = true
@@ -20,11 +22,13 @@ footprint = Array[Vector3i]([Vector3i(0, 0, 0)])
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hly03"]
 
-[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint")]
+[node name="ResourceAreaMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "blueprint", "progress_bar")]
 script = ExtResource("1_glugo")
 block = NodePath("Block")
 machine = NodePath("Machine")
+ui_panels = Array[PackedScene]([ExtResource("2_ho0b7")])
 blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_vsdle")
@@ -79,3 +83,7 @@ disabled = false
 [node name="BlueprintJobProvider" type="Node" parent="Blueprint" unique_id=1633841014]
 script = ExtResource("10_612q5")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
+
+[node name="BasicProgressBar" parent="." unique_id=387532001 node_paths=PackedStringArray("machine") instance=ExtResource("14_05cyn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0)
+machine = NodePath("../Machine")

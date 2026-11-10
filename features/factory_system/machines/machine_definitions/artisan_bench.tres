@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="6_cpriq"]
 [ext_resource type="Resource" uid="uid://bkk3ogsfwh6to" path="res://features/factory_system/recipes/recipe_definitions/geta_wooden_recipe.tres" id="6_knpnj"]
 [ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="7_xyu7w"]
+[ext_resource type="Resource" uid="uid://c8x26fk084mf0" path="res://features/factory_system/recipes/recipe_definitions/clay_beads_recipe.tres" id="10_cpriq"]
 
 [sub_resource type="Resource" id="Resource_input"]
 script = ExtResource("1_ciw8i")
@@ -56,5 +57,5 @@ script = ExtResource("6_cpriq")
 machine_name = &"Artisan Bench"
 machine_description = &"Used to construct detailed objects from refined resources."
 cells = Array[ExtResource("1_ciw8i")]([SubResource("Resource_input"), SubResource("Resource_structure"), SubResource("Resource_output"), SubResource("Resource_work")])
-recipes = Array[ExtResource("4_knpnj")]([ExtResource("5_htrcx"), ExtResource("6_knpnj"), ExtResource("7_xyu7w")])
+recipes = Array[ExtResource("4_knpnj")]([ExtResource("10_cpriq"), ExtResource("5_htrcx"), ExtResource("6_knpnj"), ExtResource("7_xyu7w")])
 construction_materials = Array[ExtResource("2_sw17o")]([SubResource("Resource_construction_iron"), SubResource("Resource_py1aj"), SubResource("Resource_bahpo")])

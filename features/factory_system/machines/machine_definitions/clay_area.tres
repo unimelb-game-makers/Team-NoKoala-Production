@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_1immo"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_mngei"]
 
-[sub_resource type="Resource" id="Resource_output"]
+[sub_resource type="Resource" id="Resource_harvest"]
 script = ExtResource("1_bdysv")
-port_id = &"output_1"
-role = 1
+port_id = &"harvest"
+role = 3
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("2_r51aw")
@@ -18,5 +18,5 @@ item = ExtResource("3_gefdp")
 [resource]
 script = ExtResource("5_mngei")
 machine_name = &"Clay Deposit"
-cells = Array[ExtResource("1_bdysv")]([SubResource("Resource_output")])
+cells = Array[ExtResource("1_bdysv")]([SubResource("Resource_harvest")])
 construction_materials = Array[ExtResource("2_r51aw")]([SubResource("Resource_construction_iron")])

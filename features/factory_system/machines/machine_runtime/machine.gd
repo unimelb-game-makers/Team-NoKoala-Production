@@ -239,7 +239,7 @@ func allows_stacked_input_at_cell(
 	_item: FactoryItemDefinition,
 	_cell: Vector3i,
 ) -> bool:
-	return false
+	return true
 
 
 func get_delivered_input_amount(
