@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_amount"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_recipe"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_rpgns"]
+[ext_resource type="Resource" uid="uid://bon16jw641eju" path="res://features/factory_system/factory_items/item_definitions/doll_wooden.tres" id="2_rpgns"]
 [ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_rpgns"]
 
 [sub_resource type="Resource" id="Resource_input_1"]
@@ -13,6 +13,6 @@ item = ExtResource("2_rpgns")
 [resource]
 script = ExtResource("2_recipe")
 recipe_id = &"demo_offering"
-display_name = "Iron Ore Offering"
+display_name = "Offering Stage 1"
 duration_seconds = 0.1
 inputs = Array[ExtResource("1_amount")]([SubResource("Resource_input_1")])

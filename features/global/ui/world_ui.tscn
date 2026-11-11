@@ -8,8 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://b6ifjm6dc03c4" path="res://features/map/map.tscn" id="6_vc2pu"]
 [ext_resource type="PackedScene" path="res://features/tutorial/ui/tutorial_overlay.tscn" id="6_tutorial"]
 [ext_resource type="PackedScene" path="res://features/inventory/ui/item_stack_list_panel.tscn" id="6_itemst"]
+[ext_resource type="Script" path="res://features/cutscene/cutscene_player.gd" id="7_cutscene"]
 
-[node name="WorldUI" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar", "map", "tutorial_overlay", "item_stack_list_panel")]
+[node name="WorldUI" type="Node" unique_id=2084672617 node_paths=PackedStringArray("faith_progress_bar", "machine_ui", "build_menu_button", "build_selection_panel", "hotbar", "map", "tutorial_overlay", "item_stack_list_panel", "cutscene_player")]
 script = ExtResource("1_jhgwm")
 faith_progress_bar = NodePath("FaithProgressBar")
 machine_ui = NodePath("CanvasLayer/MachineUI")
@@ -19,6 +20,7 @@ hotbar = NodePath("Hotbar")
 map = NodePath("CanvasLayer/Map")
 tutorial_overlay = NodePath("CanvasLayer/TutorialOverlay")
 item_stack_list_panel = NodePath("CanvasLayer/ItemStackListPanel")
+cutscene_player = NodePath("CutsceneLayer/CutscenePlayer")
 
 [node name="FaithProgressBar" parent="." unique_id=889199016 instance=ExtResource("2_vc2pu")]
 
@@ -50,3 +52,18 @@ visible = false
 [node name="TutorialOverlay" parent="CanvasLayer" instance=ExtResource("6_tutorial")]
 
 [node name="ItemStackListPanel" parent="CanvasLayer" instance=ExtResource("6_itemst")]
+
+[node name="CutsceneLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 20
+
+[node name="CutscenePlayer" type="VideoStreamPlayer" parent="CutsceneLayer"]
+script = ExtResource("7_cutscene")
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand = true

@@ -85,6 +85,13 @@ func configure_dependencies() -> void:
 		world_services.feature_gate,
 	)
 	spring_arm.configure(player, world_services.feature_gate)
+	for node in find_children("*", "", true, false):
+		if node is PlayerEntryCutsceneTrigger:
+			node.configure(world_ui)
+		elif node is OnReadyCutsceneTrigger:
+			node.configure(world_ui)
+		elif node is PlayerEntryDialogueTrigger and node.dialogue_coordinator == null:
+			node.configure(world_services.dialogue_coordinator)
 	world_services.tutorial_director.configure(
 		world_services.feature_gate,
 		world_services.factory_manager,

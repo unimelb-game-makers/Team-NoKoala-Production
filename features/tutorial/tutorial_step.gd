@@ -9,6 +9,8 @@ extends Resource
 @export var dialogue_cue: StringName
 ## Features the player may use during this step. Everything else is blocked.
 @export var allowed_features: Array[GameFeature.Id] = []
+## Machines the player may select for building during this step. Empty allows every machine.
+@export var allowed_machines: Array[MachineDefinition] = []
 ## Optional group name of a Control to spotlight. Add the Control to this group.
 @export var highlight_group: StringName
 ## Finishes the step. A step without one completes immediately.

@@ -1,75 +1,63 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c4frd1r85qu6h"]
 
-[ext_resource type="Script" path="res://features/factory_system/machines/ui/offering_stages_panel.gd" id="1_panel"]
+[ext_resource type="Script" uid="uid://dwvkcpbisj1l7" path="res://features/factory_system/machines/ui/offering_stages_panel.gd" id="1_panel"]
 
-[node name="OfferingStagesPanel" type="HBoxContainer" node_paths=PackedStringArray("stages_list", "stage_title", "stage_status", "offering_label", "rewards_list")]
-layout_mode = 2
+[node name="OfferingStagesPanel" type="HBoxContainer" unique_id=1738451593 node_paths=PackedStringArray("stages_list", "stage_title", "stage_status", "rewards_list")]
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 script = ExtResource("1_panel")
 stages_list = NodePath("Left/Stages/Items")
 stage_title = NodePath("Right/Title")
 stage_status = NodePath("Right/Status")
-offering_label = NodePath("Right/Offering")
 rewards_list = NodePath("Right/Rewards/Items")
 tab_title = "Offerings"
 
-[node name="Left" type="VBoxContainer" parent="."]
+[node name="Left" type="VBoxContainer" parent="." unique_id=1225732823]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="Heading" type="Label" parent="Left"]
+[node name="Heading" type="Label" parent="Left" unique_id=1476530339]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Stages"
 
-[node name="Stages" type="ScrollContainer" parent="Left"]
+[node name="Stages" type="ScrollContainer" parent="Left" unique_id=1506726682]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Items" type="VBoxContainer" parent="Left/Stages"]
+[node name="Items" type="VBoxContainer" parent="Left/Stages" unique_id=2091220383]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
-[node name="Right" type="VBoxContainer" parent="."]
+[node name="Right" type="VBoxContainer" parent="." unique_id=1277152227]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 7
 
-[node name="Title" type="Label" parent="Right"]
+[node name="Title" type="Label" parent="Right" unique_id=896534302]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-autowrap_mode = 3
 text = "Stage"
-
-[node name="Status" type="Label" parent="Right"]
-layout_mode = 2
-text = "Unlocked"
-
-[node name="Offering" type="Label" parent="Right"]
-layout_mode = 2
 autowrap_mode = 3
-text = "Offer"
 
-[node name="Separator" type="HSeparator" parent="Right"]
+[node name="Status" type="Label" parent="Right" unique_id=48383660]
+layout_mode = 2
+text = "Locked"
+
+[node name="Separator" type="HSeparator" parent="Right" unique_id=1997078862]
 layout_mode = 2
 
-[node name="RewardsHeading" type="Label" parent="Right"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "Unlocks these recipes"
-
-[node name="Rewards" type="ScrollContainer" parent="Right"]
+[node name="Rewards" type="ScrollContainer" parent="Right" unique_id=1061243736]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Items" type="VBoxContainer" parent="Right/Rewards"]
+[node name="Items" type="VBoxContainer" parent="Right/Rewards" unique_id=73896294]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8

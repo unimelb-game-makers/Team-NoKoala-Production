@@ -84,7 +84,7 @@ func _enter_step(index: int, forward := true) -> void:
 		return
 	_index = index
 	_step = sequence.steps[index]
-	_gate.restrict_to(_step.allowed_features)
+	_gate.restrict_to(_step.allowed_features, _step.allowed_machines)
 	step_started.emit(_step, index)
 
 	if forward and not _step.dialogue_cue.is_empty() and _ctx.dialogue_coordinator != null:
