@@ -11,7 +11,7 @@
 script = ExtResource("1_py1aj")
 port_id = &"input_1"
 item = ExtResource("2_py1aj")
-amount = 4
+amount = 5
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_d0114"]
@@ -35,7 +35,7 @@ metadata/_custom_type_script = "uid://hneks0cpqqvj"
 script = ExtResource("5_q5nto")
 recipe_id = &"3"
 display_name = "Clay Bead Necklace"
-duration_seconds = 2.0
+duration_seconds = 4.0
 inputs = Array[ExtResource("1_py1aj")]([SubResource("Resource_oul80"), SubResource("Resource_d0114")])
 outputs = Array[ExtResource("1_py1aj")]([SubResource("Resource_kpv2k")])
 work_requirements = Array[ExtResource("6_h8ibe")]([SubResource("Resource_ejjkk")])

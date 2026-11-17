@@ -20,6 +20,7 @@ enum FactoryItemID {
 	DOLL_WOODEN,
 	GETA_WOODEN,
 	NECKLACE_CLAY,
+	TORO_LANTERN,
 }
 
 static var factory_item_definitions = {
