@@ -4,7 +4,9 @@
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="2_wde8h"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="3_xqg8u"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_snwk8"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="4_xqg8u"]
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="5_id3e4"]
+[ext_resource type="Resource" uid="uid://riy7ph7mjy0e" path="res://features/factory_system/factory_items/item_definitions/bamboo_joint.tres" id="5_snwk8"]
 
 [sub_resource type="Resource" id="Resource_structure"]
 script = ExtResource("1_4uvx6")
@@ -15,8 +17,22 @@ role = 2
 script = ExtResource("2_wde8h")
 item = ExtResource("3_xqg8u")
 
+[sub_resource type="Resource" id="Resource_4uvx6"]
+script = ExtResource("2_wde8h")
+item = ExtResource("4_xqg8u")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_wde8h"]
+script = ExtResource("2_wde8h")
+item = ExtResource("5_snwk8")
+amount = 2
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
 [resource]
 script = ExtResource("5_id3e4")
 machine_name = &"Item Filter"
+machine_description = &"A machine that only allows certain items to pass through."
 cells = Array[ExtResource("1_4uvx6")]([SubResource("Resource_structure")])
-construction_materials = Array[ExtResource("2_wde8h")]([SubResource("Resource_construction_iron")])
+construction_time_seconds = 2.0
+construction_materials = Array[ExtResource("2_wde8h")]([SubResource("Resource_construction_iron"), SubResource("Resource_4uvx6"), SubResource("Resource_wde8h")])
