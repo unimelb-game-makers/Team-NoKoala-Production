@@ -7,7 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_input_1"]
 script = ExtResource("1_amount")
-port_id = &"input_1"
+port_id = &"input_3"
 item = ExtResource("2_rpgns")
 
 [resource]

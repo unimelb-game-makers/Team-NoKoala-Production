@@ -26,6 +26,12 @@ resource_local_to_scene = true
 script = ExtResource("3_f3bu2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(2, 0, 0), Vector3i(4, 0, 0)])
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gb4cy"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6hk5w"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
@@ -41,7 +47,7 @@ recipe = ExtResource("7_offering")
 
 [sub_resource type="Resource" id="Resource_58ohm"]
 script = ExtResource("13_gb4cy")
-port_id = &"input_1"
+port_id = &"input_2"
 item = ExtResource("14_mp18g")
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
@@ -95,12 +101,12 @@ transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.51789236, 0.653, 1
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
+material = SubResource("StandardMaterial3D_gb4cy")
 
 [node name="Input2" type="CSGBox3D" parent="Block" unique_id=1341695618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 0)
 size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
+material = SubResource("StandardMaterial3D_6hk5w")
 
 [node name="Input3" type="CSGBox3D" parent="Block" unique_id=916090133]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.1, 0)
@@ -122,10 +128,9 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
 shape = SubResource("BoxShape3D_shrine_structure")
 
-[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
 script = ExtResource("11_block_gizmo")
 block = NodePath("..")
-grid = NodePath("")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
 
 [node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
@@ -133,11 +138,12 @@ script = ExtResource("12_block_registration")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("input_tiles", "input_shadow", "debug_active_indicator")]
 script = ExtResource("3_machine")
 stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage"), SubResource("Resource_mp18g"), SubResource("Resource_sqtru")])
+input_tiles = [NodePath("../Block/Input3"), NodePath("../Block/Input2"), NodePath("../Block/Input1")]
+input_shadow = NodePath("../MachineInputShadows")
 definition = ExtResource("4_vg41c")
-job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
 
@@ -145,11 +151,10 @@ debug_active_indicator = NodePath("../DebugLight")
 script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
-[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
 script = ExtResource("10_evuxr")
 machine = NodePath("..")
 block = NodePath("../../Block")
-grid = NodePath("")
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
@@ -163,3 +168,4 @@ spot_angle = 15.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 
 [node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9997, 0, 0)
