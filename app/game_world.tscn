@@ -76,6 +76,9 @@ uv1_world_triplanar = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_bamboo_reach"]
 size = Vector3(3, 2, 3)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
+size = Vector3(4.996582, 1.9276123, 2.4279785)
+
 [sub_resource type="Resource" id="Resource_qi48s"]
 resource_local_to_scene = true
 script = ExtResource("17_5ria3")
@@ -215,6 +218,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 3.5)
 
 [node name="OfferingMachine" parent="Machines" unique_id=10305540 instance=ExtResource("25_w16nj")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.5, 0, -4.5)
+
+[node name="TutorialReachArea" type="Area3D" parent="Machines/OfferingMachine" unique_id=663468483 groups=["tutorial_offering"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.009456, 0, 4.7683716e-07)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Machines/OfferingMachine/TutorialReachArea" unique_id=1721250913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.998291, 0.46380615, 0.05627823)
+shape = SubResource("BoxShape3D_8ts2w")
 
 [node name="telescope" parent="Machines" unique_id=491409680 instance=ExtResource("35_u2esi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0.5)

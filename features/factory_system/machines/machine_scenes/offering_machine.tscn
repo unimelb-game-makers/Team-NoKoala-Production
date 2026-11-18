@@ -13,12 +13,15 @@
 [ext_resource type="PackedScene" uid="uid://c4frd1r85qu6h" path="res://features/factory_system/machines/ui/offering_stages_panel.tscn" id="10_ui"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
+[ext_resource type="Resource" uid="uid://dxe1fjmvn1w4a" path="res://features/factory_system/recipes/recipe_definitions/doll_wooden_recipe.tres" id="12_mp18g"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="13_gb4cy"]
 [ext_resource type="Script" uid="uid://d0jg6yoemhfiu" path="res://features/factory_system/offerings/offering_stage.gd" id="13_stage"]
 [ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="14_6hk5w"]
 [ext_resource type="Resource" uid="uid://c35j3qqrnmoj5" path="res://features/factory_system/factory_items/item_definitions/toro_lantern.tres" id="14_mp18g"]
 [ext_resource type="Resource" uid="uid://skhypiiy5j3r" path="res://features/factory_system/factory_items/item_definitions/necklace_clay.tres" id="15_mp18g"]
+[ext_resource type="Resource" uid="uid://dj6gc5icugcix" path="res://features/factory_system/recipes/recipe_definitions/toro_lantern.tres" id="16_rxemh"]
 [ext_resource type="PackedScene" uid="uid://bmtxmh0aalqcm" path="res://assets/buildings/big shrine.glb" id="17_l1dge"]
+[ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="18_puit2"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/components/machine_input_shadows.tscn" id="18_shadows"]
 
 [sub_resource type="Resource" id="Resource_gn37f"]
@@ -44,6 +47,7 @@ size = Vector3(37, 17.3, 19.3)
 [sub_resource type="Resource" id="Resource_stage"]
 script = ExtResource("13_stage")
 recipe = ExtResource("7_offering")
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("12_mp18g")])
 
 [sub_resource type="Resource" id="Resource_58ohm"]
 script = ExtResource("13_gb4cy")
@@ -54,7 +58,7 @@ metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 [sub_resource type="Resource" id="Resource_l1dge"]
 script = ExtResource("6_recipe")
 recipe_id = &"offering_stage_2"
-display_name = "Offering Stage 2"
+display_name = "Offering of Light"
 duration_seconds = 0.1
 inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_58ohm")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"
@@ -62,6 +66,7 @@ metadata/_custom_type_script = "uid://djx2t543fmev8"
 [sub_resource type="Resource" id="Resource_mp18g"]
 script = ExtResource("13_stage")
 recipe = SubResource("Resource_l1dge")
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("16_rxemh")])
 metadata/_custom_type_script = "uid://d0jg6yoemhfiu"
 
 [sub_resource type="Resource" id="Resource_gb4cy"]
@@ -73,13 +78,14 @@ metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 [sub_resource type="Resource" id="Resource_kyiwd"]
 script = ExtResource("6_recipe")
 recipe_id = &"offering_stage_3"
-display_name = "Offering Stage 3"
+display_name = "Offering of Adornment"
 inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_gb4cy")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"
 
 [sub_resource type="Resource" id="Resource_sqtru"]
 script = ExtResource("13_stage")
 recipe = SubResource("Resource_kyiwd")
+recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("18_puit2")])
 metadata/_custom_type_script = "uid://d0jg6yoemhfiu"
 
 [node name="OfferingMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "progress_bar")]

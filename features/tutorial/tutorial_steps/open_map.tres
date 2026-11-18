@@ -13,6 +13,6 @@ metadata/_custom_type_script = "uid://dh3kkg1acuidu"
 script = ExtResource("3_d2fdc")
 id = &"open_map"
 objective_text = "Press M to open the map."
-allowed_features = Array[int]([0, 2])
+allowed_features = Array[int]([0, 2, 7])
 complete_when = SubResource("Resource_woego")
 metadata/_custom_type_script = "uid://kpagy4pl22fg"

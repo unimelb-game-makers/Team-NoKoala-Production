@@ -30,7 +30,7 @@ offset_bottom = -73.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2089302302]
 
-[node name="MachineUI" parent="CanvasLayer" unique_id=378136023 instance=ExtResource("4_wyqub")]
+[node name="MachineUI" parent="CanvasLayer" unique_id=378136023 groups=["tutorial_machine_ui"] instance=ExtResource("4_wyqub")]
 visible = false
 
 [node name="BuildMenuButton" type="Button" parent="CanvasLayer" unique_id=1933539879 groups=["tutorial_build_menu_button"]]
