@@ -1,0 +1,27 @@
+[gd_resource type="Environment" format=3 uid="uid://b02t1vjlcj3wb"]
+
+[ext_resource type="Shader" uid="uid://7r4ik2dgnyrf" path="res://shaders/aurora_sky.gdshader" id="1_gcbxl"]
+[ext_resource type="Texture2D" uid="uid://ibli1l2h47jx" path="res://assets/third_party/_0009_AllSkyFree_Screen_01.jpg" id="2_ihfc1"]
+
+[sub_resource type="Gradient" id="Gradient_b384s"]
+offsets = PackedFloat32Array(0, 0.5093655, 1)
+colors = PackedColorArray(1, 0.47000003, 1, 1, 0, 1, 0.95000005, 1, 0.00999999, 1, 0.32349992, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ihfc1"]
+gradient = SubResource("Gradient_b384s")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rfyvl"]
+shader = ExtResource("1_gcbxl")
+shader_parameter/equirectangular_sky_texture = ExtResource("2_ihfc1")
+shader_parameter/color_gradient = SubResource("GradientTexture1D_ihfc1")
+shader_parameter/brightness = 1.625
+shader_parameter/speed = 0.325
+shader_parameter/height = 49.585
+shader_parameter/scale = 1.54
+
+[sub_resource type="Sky" id="Sky_world"]
+sky_material = SubResource("ShaderMaterial_rfyvl")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_world")

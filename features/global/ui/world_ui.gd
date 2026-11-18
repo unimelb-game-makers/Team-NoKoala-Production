@@ -88,7 +88,6 @@ func toggle_map() -> void:
 	map.fade_in_discovered_queue()
 	
 func _update_map(id: StringName) -> void:
-	print("unlocked " + id + "!!")
 	map.discover_region(id)
 
 func _unhandled_input(event: InputEvent) -> void:

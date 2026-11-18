@@ -5,4 +5,5 @@ extends Resource
 @export var label: Texture2D
 @export var icon: Texture2D
 @export var undiscovered: Texture2D
+@export var player_icon: Texture2D
 @export var discovered_by_default: bool = false
