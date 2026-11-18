@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://cjnpm7vdaj5jy"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_oj6kw"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_sru43"]
+[ext_resource type="Resource" uid="uid://frst0vm5nmon" path="res://features/tutorial/tutorial_steps/open_map.tres" id="3_77fg8"]
+[ext_resource type="Resource" uid="uid://daj5nfovnefow" path="res://features/tutorial/tutorial_steps/inspect_map.tres" id="4_48dng"]
+[ext_resource type="Resource" uid="uid://drn3rye4tqbll" path="res://features/tutorial/tutorial_steps/discover_bamboo_forest.tres" id="5_h4t0c"]
+
+[resource]
+script = ExtResource("1_oj6kw")
+id = &"map"
+steps = Array[ExtResource("2_sru43")]([ExtResource("3_77fg8"), ExtResource("4_48dng"), ExtResource("5_h4t0c")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"

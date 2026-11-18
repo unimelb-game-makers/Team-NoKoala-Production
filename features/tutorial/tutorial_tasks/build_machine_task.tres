@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://bqjxrlly13djb"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_wmfgy"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_llt3g"]
+[ext_resource type="Resource" uid="uid://caw3mega0wbh3" path="res://features/tutorial/tutorial_steps/open_menu.tres" id="3_a16aj"]
+[ext_resource type="Resource" uid="uid://gvy1qiw3tt47" path="res://features/tutorial/tutorial_steps/press_build.tres" id="4_iwm3u"]
+[ext_resource type="Resource" uid="uid://dq57d4tllkb7n" path="res://features/tutorial/tutorial_steps/place_machine.tres" id="5_6yqjk"]
+[ext_resource type="Resource" uid="uid://cpmno71lxd4aa" path="res://features/tutorial/tutorial_steps/build_machine.tres" id="6_1rsvc"]
+
+[resource]
+script = ExtResource("1_wmfgy")
+id = &"build_machine"
+steps = Array[ExtResource("2_llt3g")]([ExtResource("3_a16aj"), ExtResource("4_iwm3u"), ExtResource("5_6yqjk"), ExtResource("6_1rsvc")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"

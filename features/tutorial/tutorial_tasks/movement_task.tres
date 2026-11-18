@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://sn55qr270n8l"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_38g67"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_m0253"]
+[ext_resource type="Resource" uid="uid://qrisf5566w46" path="res://features/tutorial/tutorial_steps/move.tres" id="3_mp4t0"]
+[ext_resource type="Resource" uid="uid://cpe8ntlvs41ke" path="res://features/tutorial/tutorial_steps/camera.tres" id="4_1n3tp"]
+
+[resource]
+script = ExtResource("1_38g67")
+id = &"move_camera"
+steps = Array[ExtResource("2_m0253")]([ExtResource("3_mp4t0"), ExtResource("4_1n3tp")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
