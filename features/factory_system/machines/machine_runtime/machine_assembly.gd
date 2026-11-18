@@ -135,7 +135,8 @@ func _apply_constructed_state() -> void:
 		progress_bar.machine = machine
 	if blueprint != null:
 		blueprint.disable()
-	machine.enable()
+	if machine.has_method("enable"):
+		machine.enable()
 	block.set_blueprint_layer(false)
 	block.set_appearence(Block.Appearance.NORMAL)
 
