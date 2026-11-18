@@ -199,7 +199,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
 toggle_blueprint = false
 
 [node name="OfferingMachine" parent="Machines" unique_id=10305540 instance=ExtResource("25_w16nj")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.5, 0, -5.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.5, 0, -4.4783983)
 
 [node name="telescope" parent="Machines" unique_id=491409680 instance=ExtResource("35_u2esi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0.5)
