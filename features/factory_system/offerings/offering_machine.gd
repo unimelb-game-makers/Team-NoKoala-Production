@@ -109,11 +109,12 @@ func _activate_current_stage() -> void:
 		elif not definition.is_recipe_valid(stage.recipe):
 			for error in definition.get_recipe_validation_errors(stage.recipe):
 				push_error("Offering stage %d: %s" % [current_stage_index + 1, error])
-		elif not _has_valid_rewards(stage):
-			push_error(
-				"Offering stage %d needs external recipe resources for all unlock rewards"
-				% [current_stage_index + 1]
-			)
+		## MVP lets all recipes be unlocked by default
+		#elif not _has_valid_rewards(stage):
+			#push_error(
+				#"Offering stage %d needs external recipe resources for all unlock rewards"
+				#% [current_stage_index + 1]
+			#)
 		else:
 			recipes.append(stage.recipe)
 	set_enabled_recipes(recipes)

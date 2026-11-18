@@ -10,7 +10,7 @@
 
 [resource]
 script = ExtResource("6_icume")
-title = "Tier 3 Repair"
+title = "Teir 3 Repair"
 details = "Final Structural Repair"
 recipe = ExtResource("1_ahjc5")
 view_scene = ExtResource("7_h0eht")
