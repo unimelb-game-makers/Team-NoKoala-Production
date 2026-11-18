@@ -1,16 +1,17 @@
 [gd_resource type="Resource" script_class="TelescopeStage" format=3 uid="uid://b6c4skmcx3mc8"]
 
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_haqmv"]
 [ext_resource type="Resource" uid="uid://yps3nfbdsk8u" path="res://features/telescope/recipes/telescope_stage1_recipe.tres" id="1_rtr0e"]
+[ext_resource type="Resource" uid="uid://bkro7wjpeunww" path="res://features/factory_system/machines/machine_definitions/cordier_bench.tres" id="2_0hvc4"]
 [ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="2_nbeci"]
 [ext_resource type="PackedScene" uid="uid://leg41jabuhbu" path="res://features/telescope/overlay/views/telescope_stage1_view.tscn" id="3_gb7ch"]
-
-[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/conveyor.tres" id="4_unlock"]
+[ext_resource type="Resource" uid="uid://de4l0osan2lf3" path="res://features/factory_system/machines/machine_definitions/spirit_ritual.tres" id="3_mlepk"]
 
 [resource]
 script = ExtResource("2_nbeci")
-title = "Recreate Scaffolding"
-details = "Tier 1 Structural Repair"
+title = "Tier 1 Repair"
+details = "Broken Lens"
 recipe = ExtResource("1_rtr0e")
 view_scene = ExtResource("3_gb7ch")
-machine_unlocks = [ExtResource("4_unlock")]
+machine_unlocks = Array[ExtResource("1_haqmv")]([ExtResource("2_0hvc4"), ExtResource("3_mlepk")])
 metadata/_custom_type_script = "uid://bcnv01v3q4v3c"

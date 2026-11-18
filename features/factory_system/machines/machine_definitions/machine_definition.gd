@@ -2,7 +2,7 @@
 class_name MachineDefinition
 extends Resource
 
-@export var machine_name : StringName = &"demomachine"
+@export var machine_name : StringName = &""
 @export var machine_description : StringName = &""
 
 @export var cells: Array[MachineCellDefinition] = []:

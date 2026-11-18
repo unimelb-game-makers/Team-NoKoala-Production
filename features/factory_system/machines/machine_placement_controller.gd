@@ -77,7 +77,8 @@ func configure(
 	_bind_gate(gate)
 	_allowed_machine_definitions = machine_factory.get_machine_definitions() if machine_factory != null else []
 	if _progression_manager != null and machine_factory != null and _unlocked_machines.is_empty():
-		unlock_machine(machine_factory.get_default_machine_definition())
+		for definition in machine_factory.get_default_machine_definitions():
+			unlock_machine(definition)
 	_select_initial_definition()
 
 func _bind_progression_manager() -> void:
@@ -228,6 +229,7 @@ func _on_telescope_stage_advanced(stage: TelescopeStage) -> void:
 
 func unlock_machine(definition: MachineDefinition) -> void:
 	if definition != null and not _unlocked_machines.has(definition):
+		print("unlocked " + definition.machine_name)
 		_unlocked_machines.append(definition)
 
 
