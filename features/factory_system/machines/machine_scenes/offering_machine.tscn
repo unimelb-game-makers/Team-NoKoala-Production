@@ -25,7 +25,6 @@
 resource_local_to_scene = true
 script = ExtResource("3_f3bu2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(2, 0, 0), Vector3i(4, 0, 0)])
-is_placed = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
@@ -110,8 +109,16 @@ material = SubResource("StandardMaterial3D_5gudi")
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=390414599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0885181, 0.32014275, 0.24220467)
+shape = SubResource("BoxShape3D_structure")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=449353267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9841423, 0.46984875, 0.12110233)
+shape = SubResource("BoxShape3D_structure")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0272107, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="ShrineStructure" type="StaticBody3D" parent="Block" unique_id=2017060514]
@@ -122,9 +129,10 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
 shape = SubResource("BoxShape3D_shrine_structure")
 
-[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
+[node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block", "grid")]
 script = ExtResource("11_block_gizmo")
 block = NodePath("..")
+grid = NodePath("")
 metadata/_custom_type_script = "uid://b7prvphjsth3o"
 
 [node name="BlockGridRegistration" type="Node" parent="Block" unique_id=159894150 node_paths=PackedStringArray("block")]
@@ -144,10 +152,11 @@ debug_active_indicator = NodePath("../DebugLight")
 script = ExtResource("5_provider")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
-[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block")]
+[node name="MachineEditorSynchoniser" type="Node" parent="Machine" unique_id=338730361 node_paths=PackedStringArray("machine", "block", "grid")]
 script = ExtResource("10_evuxr")
 machine = NodePath("..")
 block = NodePath("../../Block")
+grid = NodePath("")
 
 [node name="DebugLight" type="SpotLight3D" parent="." unique_id=902636906]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, 2, 0)
