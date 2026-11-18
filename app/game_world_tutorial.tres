@@ -20,6 +20,12 @@
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="16_mpupe"]
 [ext_resource type="Script" uid="uid://bvis5qwowy42n" path="res://features/tutorial/conditions/reach_area_condition.gd" id="17_08oyj"]
 
+[sub_resource type="Resource" id="Resource_gkur6"]
+script = ExtResource("2_5y6yq")
+id = &"move_camera"
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("4_arp16"), ExtResource("5_h2hdi")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
+
 [sub_resource type="Resource" id="Resource_mpupe"]
 script = ExtResource("17_08oyj")
 area_group = &"tutorial_offering"
@@ -39,7 +45,7 @@ script = ExtResource("6_3deae")
 control_group = &"tutorial_machine_ui"
 metadata/_custom_type_script = "uid://dh3kkg1acuidu"
 
-[sub_resource type="Resource" id="Resource_arp16"]
+[sub_resource type="Resource" id="Resource_fhesy"]
 script = ExtResource("2_sd4hj")
 id = &"inspect_offering"
 objective_text = "Right click to inspect the offering stages."
@@ -48,7 +54,7 @@ allowed_machines = Array[ExtResource("16_mpupe")]([ExtResource("6_arp16")])
 complete_when = SubResource("Resource_08oyj")
 metadata/_custom_type_script = "uid://kpagy4pl22fg"
 
-[sub_resource type="Resource" id="Resource_vrctg"]
+[sub_resource type="Resource" id="Resource_k6vum"]
 script = ExtResource("6_3deae")
 control_group = &"tutorial_machine_ui"
 visible = false
@@ -59,19 +65,13 @@ script = ExtResource("2_sd4hj")
 id = &"offering_explanation"
 objective_text = "The goal of this demo is to craft all three offerings. To start, let's gather some resources to build our first machine. Press ESC to close the offering panel."
 allowed_features = Array[int]([0, 2, 7])
-complete_when = SubResource("Resource_vrctg")
+complete_when = SubResource("Resource_k6vum")
 metadata/_custom_type_script = "uid://kpagy4pl22fg"
 
 [sub_resource type="Resource" id="Resource_c3tbh"]
 script = ExtResource("2_5y6yq")
 id = &"offerings"
-steps = Array[ExtResource("2_sd4hj")]([SubResource("Resource_5k6nj"), SubResource("Resource_arp16"), SubResource("Resource_h2hdi")])
-metadata/_custom_type_script = "uid://uedu3mqw3xdb"
-
-[sub_resource type="Resource" id="Resource_gkur6"]
-script = ExtResource("2_5y6yq")
-id = &"move_camera"
-steps = Array[ExtResource("2_sd4hj")]([ExtResource("4_arp16"), ExtResource("5_h2hdi")])
+steps = Array[ExtResource("2_sd4hj")]([SubResource("Resource_5k6nj"), SubResource("Resource_fhesy"), SubResource("Resource_h2hdi")])
 metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
 [sub_resource type="Resource" id="Resource_u36qa"]
@@ -92,6 +92,53 @@ id = &"build_machine"
 steps = Array[ExtResource("2_sd4hj")]([ExtResource("12_8yw3g"), ExtResource("13_8qcf1"), ExtResource("14_hnbka"), ExtResource("7_arp16")])
 metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
+[sub_resource type="Resource" id="Resource_arp16"]
+script = ExtResource("17_08oyj")
+area_group = &"tutorial_telescope"
+metadata/_custom_type_script = "uid://bvis5qwowy42n"
+
+[sub_resource type="Resource" id="Resource_puit2"]
+script = ExtResource("2_sd4hj")
+id = &"approach_telescope"
+objective_text = "New machines can be unlocked by observing technology on earth. Approach the telescope."
+allowed_features = Array[int]([0, 2])
+highlight_group = &"tutorial_telescope"
+complete_when = SubResource("Resource_arp16")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_vrctg"]
+script = ExtResource("6_3deae")
+control_group = &"tutorial_machine_ui"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_k370d"]
+script = ExtResource("2_sd4hj")
+id = &"broken_telescope"
+objective_text = "Hmm it appears to be broken! Right click to inspect the telescope."
+allowed_features = Array[int]([0, 2, 7])
+complete_when = SubResource("Resource_vrctg")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_2q8qc"]
+script = ExtResource("6_3deae")
+control_group = &"tutorial_machine_ui"
+visible = false
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_4fw13"]
+script = ExtResource("2_sd4hj")
+id = &"close_telescope"
+objective_text = "To be able to use the telescope and unlock new machines and their recipes, it must be repaired in stages. So now, press ESC to begin your moon machine journey!"
+allowed_features = Array[int]([0, 2, 7])
+complete_when = SubResource("Resource_2q8qc")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_rxemh"]
+script = ExtResource("2_5y6yq")
+id = &"telescope"
+steps = Array[ExtResource("2_sd4hj")]([SubResource("Resource_puit2"), SubResource("Resource_k370d"), SubResource("Resource_4fw13")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"
+
 [resource]
 script = ExtResource("1_g73kd")
-tasks = Array[ExtResource("2_5y6yq")]([SubResource("Resource_c3tbh"), SubResource("Resource_gkur6"), SubResource("Resource_u36qa"), SubResource("Resource_08xrs"), SubResource("Resource_2hcay")])
+tasks = Array[ExtResource("2_5y6yq")]([SubResource("Resource_gkur6"), SubResource("Resource_c3tbh"), SubResource("Resource_u36qa"), SubResource("Resource_08xrs"), SubResource("Resource_2hcay"), SubResource("Resource_rxemh")])
