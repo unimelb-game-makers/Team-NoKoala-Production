@@ -11,7 +11,7 @@ machine_group = &"tutorial_placed_machine"
 [resource]
 script = ExtResource("3_6cfds")
 id = &"build_machine"
-objective_text = "Stand on the blueprint and press E to build the Carpenter Bench."
+objective_text = "Drop your bamboo on the blueprint and press E to build the Carpenter Bench."
 allowed_features = Array[int]([0, 2, 3])
 highlight_group = &"tutorial_placed_machine"
 complete_when = SubResource("machine_constructed")

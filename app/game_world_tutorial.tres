@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://qrisf5566w46" path="res://features/tutorial/tutorial_steps/move.tres" id="4_arp16"]
 [ext_resource type="Resource" uid="uid://cpe8ntlvs41ke" path="res://features/tutorial/tutorial_steps/camera.tres" id="5_h2hdi"]
 [ext_resource type="Resource" uid="uid://frst0vm5nmon" path="res://features/tutorial/tutorial_steps/open_map.tres" id="6_vrctg"]
+[ext_resource type="Resource" uid="uid://cpmno71lxd4aa" path="res://features/tutorial/tutorial_steps/build_machine.tres" id="7_arp16"]
 [ext_resource type="Resource" uid="uid://daj5nfovnefow" path="res://features/tutorial/tutorial_steps/inspect_map.tres" id="7_fhesy"]
 [ext_resource type="Resource" uid="uid://drn3rye4tqbll" path="res://features/tutorial/tutorial_steps/discover_bamboo_forest.tres" id="8_k370d"]
 [ext_resource type="Resource" uid="uid://doslon87upsti" path="res://features/tutorial/tutorial_steps/go_to_resource_area.tres" id="9_k6vum"]
@@ -14,11 +15,6 @@
 [ext_resource type="Resource" uid="uid://caw3mega0wbh3" path="res://features/tutorial/tutorial_steps/open_menu.tres" id="12_8yw3g"]
 [ext_resource type="Resource" uid="uid://gvy1qiw3tt47" path="res://features/tutorial/tutorial_steps/press_build.tres" id="13_8qcf1"]
 [ext_resource type="Resource" uid="uid://dq57d4tllkb7n" path="res://features/tutorial/tutorial_steps/place_machine.tres" id="14_hnbka"]
-[ext_resource type="Resource" uid="uid://d2evcw818vix5" path="res://features/tutorial/tutorial_steps/go_to_blueprint.tres" id="15_n8vg7"]
-[ext_resource type="Resource" uid="uid://cj8q7q55gxrbb" path="res://features/tutorial/tutorial_steps/faith_bar_menu.tres" id="16_n22ne"]
-[ext_resource type="Resource" uid="uid://co5ac7yr510o" path="res://features/tutorial/tutorial_steps/faith_bar_menu2.tres" id="17_nwnr2"]
-[ext_resource type="Resource" uid="uid://ct3d44cxgwop" path="res://features/tutorial/tutorial_steps/open_ritual.tres" id="18_hl541"]
-[ext_resource type="Resource" uid="uid://cua8ft1do11lf" path="res://features/tutorial/tutorial_steps/ritual_machine.tres" id="19_uqh3o"]
 
 [sub_resource type="Resource" id="Resource_gkur6"]
 script = ExtResource("2_5y6yq")
@@ -41,15 +37,9 @@ metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 [sub_resource type="Resource" id="Resource_2hcay"]
 script = ExtResource("2_5y6yq")
 id = &"build_machine"
-steps = Array[ExtResource("2_sd4hj")]([ExtResource("12_8yw3g"), ExtResource("13_8qcf1"), ExtResource("14_hnbka"), ExtResource("15_n8vg7"), ExtResource("14_hnbka")])
-metadata/_custom_type_script = "uid://uedu3mqw3xdb"
-
-[sub_resource type="Resource" id="Resource_yx75y"]
-script = ExtResource("2_5y6yq")
-id = &"faith_ritual"
-steps = Array[ExtResource("2_sd4hj")]([ExtResource("16_n22ne"), ExtResource("17_nwnr2"), ExtResource("18_hl541"), ExtResource("19_uqh3o")])
+steps = Array[ExtResource("2_sd4hj")]([ExtResource("12_8yw3g"), ExtResource("13_8qcf1"), ExtResource("14_hnbka"), ExtResource("7_arp16")])
 metadata/_custom_type_script = "uid://uedu3mqw3xdb"
 
 [resource]
 script = ExtResource("1_g73kd")
-tasks = Array[ExtResource("2_5y6yq")]([SubResource("Resource_gkur6"), SubResource("Resource_u36qa"), SubResource("Resource_08xrs"), SubResource("Resource_2hcay"), SubResource("Resource_yx75y")])
+tasks = Array[ExtResource("2_5y6yq")]([SubResource("Resource_gkur6"), SubResource("Resource_u36qa"), SubResource("Resource_08xrs"), SubResource("Resource_2hcay")])

@@ -12,5 +12,4 @@ func configure(world_ui: WorldUI) -> void:
 
 func _ready() -> void:
 	if _world_ui != null:
-		pass
-		#_world_ui.play_cutscene(cutscene)
+		_world_ui.play_cutscene(cutscene)

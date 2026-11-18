@@ -35,7 +35,7 @@ local_cell_offset = Vector3i(1, 0, 1)
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("5_amount")
 item = ExtResource("3_xc1pb")
-amount = 10
+amount = 5
 
 [resource]
 script = ExtResource("2_definition")

@@ -26,7 +26,7 @@ metadata/_custom_type_script = "uid://dc0xvu5wyufu2"
 
 [resource]
 script = ExtResource("4_uwe65")
-machine_name = &"ritual"
+machine_name = &"Faith Ritual"
 machine_description = &"Restores faith when the ritual ceremony is completed."
 cells = Array[ExtResource("1_lgo2w")]([SubResource("Resource_ls2ej"), SubResource("Resource_4cjtm"), SubResource("Resource_7mxvq")])
 recipes = Array[ExtResource("2_43jfs")]([ExtResource("3_rus5m")])
