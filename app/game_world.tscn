@@ -162,6 +162,15 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Machines/ResourceAreaMachine8/TutorialReachArea" unique_id=730584192]
 shape = SubResource("BoxShape3D_bamboo_reach")
 
+[node name="ResourceAreaMachine9" parent="Machines" unique_id=933431510 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -0.5)
+
+[node name="ResourceAreaMachine10" parent="Machines" unique_id=1198244198 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 8.5)
+
+[node name="ResourceAreaMachine11" parent="Machines" unique_id=797182927 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 5.5)
+
 [node name="ResourceAreaMachine5" parent="Machines" unique_id=817986067 instance=ExtResource("21_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 10.5)
 
@@ -173,6 +182,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, 8.5)
 
 [node name="ResourceAreaMachine4" parent="Machines" unique_id=537626089 instance=ExtResource("18_l6gi6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0, 3.5)
+
+[node name="ResourceAreaMachine7" parent="Machines" unique_id=496201982 instance=ExtResource("18_l6gi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 2.5)
+
+[node name="ResourceAreaMachine12" parent="Machines" unique_id=451063373 instance=ExtResource("18_l6gi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0, 1.5)
 
 [node name="ResourceAreaMachine6" parent="Machines" unique_id=299877802 instance=ExtResource("9_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 6.5)

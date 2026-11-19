@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="4_4tk4l"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_elu57"]
 [ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="6_c2bl3"]
+[ext_resource type="PackedScene" uid="uid://crl0lea745mvo" path="res://assets/third_party/FlowerArrangementPack/Scenes/Flower/flower_freesia_a_1.tscn" id="6_nirrd"]
 [ext_resource type="Resource" uid="uid://rt6uewf3icq0" path="res://features/resource_area/resource_area_definitions/spawner_flax_definition.tres" id="7_vbx04"]
 [ext_resource type="Resource" uid="uid://dee35jayxp0kj" path="res://features/factory_system/machines/machine_definitions/flax_area.tres" id="12_0xl1h"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="13_d3l1m"]
@@ -28,8 +29,8 @@ script = ExtResource("1_vbx04")
 block = NodePath("Block")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
-progress_bar = NodePath("BasicProgressBar")
 blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_w00xs")
@@ -38,9 +39,12 @@ transform_root = NodePath("..")
 
 [node name="Sprite3D" type="Sprite3D" parent="Block" unique_id=17269070]
 transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 0, 0.965, 0)
-billboard = 1
+visible = false
 texture_filter = 0
 texture = ExtResource("15_vbx04")
+
+[node name="Flower_Freesia_A_1" parent="Block" unique_id=1628023951 instance=ExtResource("6_nirrd")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1391666621 node_paths=PackedStringArray("block")]
 script = ExtResource("4_4tk4l")
