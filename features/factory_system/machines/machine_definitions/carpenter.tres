@@ -32,10 +32,11 @@ port_id = &"work_1"
 role = 3
 local_cell_offset = Vector3i(1, 0, 1)
 
-[sub_resource type="Resource" id="Resource_construction_iron"]
+[sub_resource type="Resource" id="Resource_6idb3"]
 script = ExtResource("5_amount")
 item = ExtResource("3_xc1pb")
 amount = 5
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [resource]
 script = ExtResource("2_definition")
@@ -44,4 +45,4 @@ machine_description = &"Used to process wood and bamboo"
 cells = Array[ExtResource("1_cell")]([SubResource("Resource_input"), SubResource("Resource_structure"), SubResource("Resource_output"), SubResource("Resource_work")])
 recipes = Array[ExtResource("3_recipe")]([ExtResource("5_xc1pb"), ExtResource("6_jp8cg"), ExtResource("7_jp8cg")])
 construction_time_seconds = 5.0
-construction_materials = Array[ExtResource("5_amount")]([SubResource("Resource_construction_iron")])
+construction_materials = Array[ExtResource("5_amount")]([SubResource("Resource_6idb3")])

@@ -13,7 +13,7 @@ count = 4
 [resource]
 script = ExtResource("4_lurm6")
 id = &"collect_bamboo"
-objective_text = "Stand on the bamboo grove and press E to harvest it. Pick up 5 bamboo by left clicking."
+objective_text = "Stand on the bamboo grove and press E to harvest it. Pick up 5 harvested bamboo by left clicking."
 allowed_features = Array[int]([0, 2, 3, 4, 6])
 highlight_group = &"tutorial_bamboo_area"
 complete_when = SubResource("held_bamboo")
