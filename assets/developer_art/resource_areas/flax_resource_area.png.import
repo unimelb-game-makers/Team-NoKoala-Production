@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxlw3xc3x8wwu"
-path.s3tc="res://.godot/imported/BASE COLOR_Plastic.png-0064649bb6f3bdf314df666430edf11d.s3tc.ctex"
-path.etc2="res://.godot/imported/BASE COLOR_Plastic.png-0064649bb6f3bdf314df666430edf11d.etc2.ctex"
+uid="uid://dq5ujh0dam4h"
+path.s3tc="res://.godot/imported/flax_resource_area.png-65638c2778b16741aee6368945d9eed0.s3tc.ctex"
+path.etc2="res://.godot/imported/flax_resource_area.png-65638c2778b16741aee6368945d9eed0.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/third_party/FlowerArrangementPack/Textures/Plastic/BASE COLOR_Plastic.png"
-dest_files=["res://.godot/imported/BASE COLOR_Plastic.png-0064649bb6f3bdf314df666430edf11d.s3tc.ctex", "res://.godot/imported/BASE COLOR_Plastic.png-0064649bb6f3bdf314df666430edf11d.etc2.ctex"]
+source_file="res://assets/developer_art/resource_areas/flax_resource_area.png"
+dest_files=["res://.godot/imported/flax_resource_area.png-65638c2778b16741aee6368945d9eed0.s3tc.ctex", "res://.godot/imported/flax_resource_area.png-65638c2778b16741aee6368945d9eed0.etc2.ctex"]
 
 [params]
 
