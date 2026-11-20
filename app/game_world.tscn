@@ -223,7 +223,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, 0, 15.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.5, 0, 15.5)
 
 [node name="ResourceAreaMachine30" parent="Machines" unique_id=679445885 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, -1, 24.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 24.5)
 
 [node name="ResourceAreaMachine31" parent="Machines" unique_id=76377298 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 0, 18.5)
@@ -241,13 +241,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 0, 15.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0, 11.5)
 
 [node name="ResourceAreaMachine36" parent="Machines" unique_id=784632936 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, -1, -1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 0, -1.5)
 
 [node name="ResourceAreaMachine37" parent="Machines" unique_id=204513186 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, -1, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 0.5)
 
 [node name="ResourceAreaMachine38" parent="Machines" unique_id=1477650216 groups=["tutorial_bamboo_area"] instance=ExtResource("16_jn2gv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, -1, 4.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 0, 4.5)
 
 [node name="ResourceAreaMachine5" parent="Machines" unique_id=817986067 instance=ExtResource("21_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 10.5)
