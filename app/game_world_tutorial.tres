@@ -63,12 +63,12 @@ metadata/_custom_type_script = "uid://kpagy4pl22fg"
 [sub_resource type="Resource" id="held_bamboo"]
 script = ExtResource("12_held")
 item_definition = ExtResource("13_bamboo")
-count = 4
+count = 10
 
 [sub_resource type="Resource" id="step_collect_bamboo"]
 script = ExtResource("2_sd4hj")
 id = &"collect_bamboo"
-objective_text = "Stand on the bamboo grove and press E to work it. Pick up 4 bamboo culms with F."
+objective_text = "Stand on the bamboo grove and press E to work it. Pick up 10 bamboo culms with F."
 allowed_features = Array[int]([0, 2, 3, 4, 6])
 highlight_group = &"tutorial_bamboo_area"
 complete_when = SubResource("held_bamboo")

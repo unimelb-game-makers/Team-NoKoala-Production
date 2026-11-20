@@ -24,9 +24,6 @@
 [ext_resource type="PackedScene" path="res://features/telescope/UI/telescope_panel.tscn" id="19_k1cjg"]
 [ext_resource type="Resource" uid="uid://dokdyo7v1driu" path="res://features/telescope/stages/telescope_stage3.tres" id="20_fopis"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
-height = 1.46
-
 [sub_resource type="Resource" id="Resource_4akha"]
 script = ExtResource("5_ps3n2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(0, 0, 1)])
@@ -36,22 +33,16 @@ metadata/_custom_type_script = "uid://ygqk0vj2ah23"
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_offao"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
-[node name="telescope" type="Node3D" unique_id=491409680 node_paths=PackedStringArray("telescope", "block", "machine")]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3juyr"]
+height = 1.46
+
+[node name="telescope" type="Node3D" unique_id=491409680 node_paths=PackedStringArray("telescope", "block", "machine", "progress_bar")]
 script = ExtResource("1_4j276")
 telescope = NodePath("telescope")
 block = NodePath("Block")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("19_k1cjg")])
-
-[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay")]
-script = ExtResource("1_pmcgo")
-stages = Array[ExtResource("17_m8qp3")]([ExtResource("19_4j276"), ExtResource("18_k0tq0"), ExtResource("20_fopis")])
-telescope_machine = NodePath("../Machine")
-overlay = NodePath("../TelescopeOverlay")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
-shape = SubResource("CapsuleShape3D_3juyr")
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="TelescopeViews" type="Node3D" parent="." unique_id=930598009]
 
@@ -106,3 +97,13 @@ machine = NodePath("../Machine")
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.6444027, 0)
 billboard = 1
 texture = ExtResource("1_wfmd0")
+
+[node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay")]
+script = ExtResource("1_pmcgo")
+stages = Array[ExtResource("17_m8qp3")]([ExtResource("19_4j276"), ExtResource("18_k0tq0"), ExtResource("20_fopis")])
+telescope_machine = NodePath("../Machine")
+overlay = NodePath("../TelescopeOverlay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="telescope" unique_id=292451193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56826, 0)
+shape = SubResource("CapsuleShape3D_3juyr")

@@ -1,13 +1,18 @@
 [gd_resource type="Resource" script_class="TelescopeStage" format=3 uid="uid://dokdyo7v1driu"]
 
 [ext_resource type="Resource" uid="uid://d3dui5mif2gh7" path="res://features/telescope/recipes/telescope_stage3_recipe.tres" id="1_ahjc5"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_sqtru"]
+[ext_resource type="Resource" uid="uid://befthcl6u56s2" path="res://features/factory_system/machines/machine_definitions/artisan_bench.tres" id="2_kyiwd"]
+[ext_resource type="Resource" uid="uid://dfchswr13gf2u" path="res://features/factory_system/machines/machine_definitions/item_dock.tres" id="3_7c6i4"]
+[ext_resource type="Resource" uid="uid://b1ygruv6esqa3" path="res://features/factory_system/machines/machine_definitions/item_filter.tres" id="4_y6y7x"]
 [ext_resource type="Script" uid="uid://bcnv01v3q4v3c" path="res://features/telescope/telescope_stage.gd" id="6_icume"]
 [ext_resource type="PackedScene" uid="uid://cnm35elm6hhe1" path="res://features/telescope/overlay/views/telescope_stage3_view.tscn" id="7_h0eht"]
 
 [resource]
 script = ExtResource("6_icume")
-title = "Embrace Nature"
-details = "Tier 3 Recognize Beauty"
+title = "Teir 3 Repair"
+details = "Final Structural Repair"
 recipe = ExtResource("1_ahjc5")
 view_scene = ExtResource("7_h0eht")
+machine_unlocks = Array[ExtResource("1_sqtru")]([ExtResource("2_kyiwd"), ExtResource("3_7c6i4"), ExtResource("4_y6y7x")])
 metadata/_custom_type_script = "uid://bcnv01v3q4v3c"

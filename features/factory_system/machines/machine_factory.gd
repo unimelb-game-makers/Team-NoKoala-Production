@@ -3,7 +3,7 @@ extends Node
 
 ## Scenes are the editor-authored catalog. Callers use definitions.
 @export var machine_scenes: Array[PackedScene] = []
-@export var default_machine_definition: MachineDefinition
+@export var default_machine_definitions: Array[MachineDefinition]
 
 var _scenes_by_definition_path: Dictionary[String, PackedScene] = {}
 var _definitions: Array[MachineDefinition] = []
@@ -18,11 +18,19 @@ func get_machine_definitions() -> Array[MachineDefinition]:
 func has_machine_definition(definition: MachineDefinition) -> bool:
 	return get_machine_scene(definition) != null
 
-func get_default_machine_definition() -> MachineDefinition:
+func get_default_machine_definitions() -> Array[MachineDefinition]:
 	_ensure_index()
-	if has_machine_definition(default_machine_definition):
-		return default_machine_definition
-	return _definitions[0] if not _definitions.is_empty() else null
+	var result: Array[MachineDefinition] = []
+	for definition in default_machine_definitions:
+		if has_machine_definition(definition) and not result.has(definition):
+			result.append(definition)
+	if result.is_empty() and not _definitions.is_empty():
+		result.append(_definitions[0])
+	return result
+
+func get_default_machine_definition() -> MachineDefinition:
+	var defaults := get_default_machine_definitions()
+	return defaults[0] if not defaults.is_empty() else null
 
 func get_machine_scene(definition: MachineDefinition) -> PackedScene:
 	_ensure_index()

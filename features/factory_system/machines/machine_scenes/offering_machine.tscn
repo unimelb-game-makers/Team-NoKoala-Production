@@ -13,13 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://c4frd1r85qu6h" path="res://features/factory_system/machines/ui/offering_stages_panel.tscn" id="10_ui"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="11_block_gizmo"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="12_block_registration"]
-[ext_resource type="Resource" uid="uid://ciepsong8tv3p" path="res://features/factory_system/recipes/recipe_definitions/necklace_clay_recipe.tres" id="12_mp18g"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="13_gb4cy"]
 [ext_resource type="Script" uid="uid://d0jg6yoemhfiu" path="res://features/factory_system/offerings/offering_stage.gd" id="13_stage"]
 [ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="14_6hk5w"]
-[ext_resource type="Resource" uid="uid://bon16jw641eju" path="res://features/factory_system/factory_items/item_definitions/doll_wooden.tres" id="14_mp18g"]
+[ext_resource type="Resource" uid="uid://c35j3qqrnmoj5" path="res://features/factory_system/factory_items/item_definitions/toro_lantern.tres" id="14_mp18g"]
 [ext_resource type="Resource" uid="uid://skhypiiy5j3r" path="res://features/factory_system/factory_items/item_definitions/necklace_clay.tres" id="15_mp18g"]
-[ext_resource type="Resource" uid="uid://bkk3ogsfwh6to" path="res://features/factory_system/recipes/recipe_definitions/geta_wooden_recipe.tres" id="17_bp2oh"]
 [ext_resource type="PackedScene" uid="uid://bmtxmh0aalqcm" path="res://assets/buildings/big shrine.glb" id="17_l1dge"]
 [ext_resource type="PackedScene" path="res://features/factory_system/machines/components/machine_input_shadows.tscn" id="18_shadows"]
 
@@ -27,12 +25,18 @@
 resource_local_to_scene = true
 script = ExtResource("3_f3bu2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(2, 0, 0), Vector3i(4, 0, 0)])
-is_placed = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gb4cy"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6hk5w"]
+albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gudi"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+size = Vector3(5.0117188, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_shrine_structure"]
 size = Vector3(37, 17.3, 19.3)
@@ -40,18 +44,11 @@ size = Vector3(37, 17.3, 19.3)
 [sub_resource type="Resource" id="Resource_stage"]
 script = ExtResource("13_stage")
 recipe = ExtResource("7_offering")
-recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("12_mp18g")])
 
-[sub_resource type="Resource" id="Resource_gb4cy"]
-script = ExtResource("13_gb4cy")
-port_id = &"input_1"
-item = ExtResource("14_mp18g")
-metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
-
-[sub_resource type="Resource" id="Resource_bp2oh"]
+[sub_resource type="Resource" id="Resource_58ohm"]
 script = ExtResource("13_gb4cy")
 port_id = &"input_2"
-item = ExtResource("15_mp18g")
+item = ExtResource("14_mp18g")
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_l1dge"]
@@ -59,13 +56,30 @@ script = ExtResource("6_recipe")
 recipe_id = &"offering_stage_2"
 display_name = "Offering Stage 2"
 duration_seconds = 0.1
-inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_gb4cy"), SubResource("Resource_bp2oh")])
+inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_58ohm")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"
 
 [sub_resource type="Resource" id="Resource_mp18g"]
 script = ExtResource("13_stage")
 recipe = SubResource("Resource_l1dge")
-recipes_to_unlock = Array[ExtResource("6_recipe")]([ExtResource("17_bp2oh")])
+metadata/_custom_type_script = "uid://d0jg6yoemhfiu"
+
+[sub_resource type="Resource" id="Resource_gb4cy"]
+script = ExtResource("13_gb4cy")
+port_id = &"input_1"
+item = ExtResource("15_mp18g")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_kyiwd"]
+script = ExtResource("6_recipe")
+recipe_id = &"offering_stage_3"
+display_name = "Offering Stage 3"
+inputs = Array[ExtResource("13_gb4cy")]([SubResource("Resource_gb4cy")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"
+
+[sub_resource type="Resource" id="Resource_sqtru"]
+script = ExtResource("13_stage")
+recipe = SubResource("Resource_kyiwd")
 metadata/_custom_type_script = "uid://d0jg6yoemhfiu"
 
 [node name="OfferingMachine" type="Node3D" unique_id=1962970161 node_paths=PackedStringArray("block", "machine", "progress_bar")]
@@ -87,12 +101,12 @@ transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.51789236, 0.653, 1
 [node name="Input1" type="CSGBox3D" parent="Block" unique_id=1903094071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
+material = SubResource("StandardMaterial3D_gb4cy")
 
 [node name="Input2" type="CSGBox3D" parent="Block" unique_id=1341695618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 0)
 size = Vector3(1, 0.1, 1)
-material = SubResource("StandardMaterial3D_5gudi")
+material = SubResource("StandardMaterial3D_6hk5w")
 
 [node name="Input3" type="CSGBox3D" parent="Block" unique_id=916090133]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.1, 0)
@@ -103,7 +117,7 @@ material = SubResource("StandardMaterial3D_5gudi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.97864866, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="ShrineStructure" type="StaticBody3D" parent="Block" unique_id=2017060514]
@@ -124,11 +138,12 @@ script = ExtResource("12_block_registration")
 block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
-[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
+[node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("input_tiles", "input_shadow", "debug_active_indicator")]
 script = ExtResource("3_machine")
-stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage"), SubResource("Resource_mp18g")])
+stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage"), SubResource("Resource_mp18g"), SubResource("Resource_sqtru")])
+input_tiles = [NodePath("../Block/Input3"), NodePath("../Block/Input2"), NodePath("../Block/Input1")]
+input_shadow = NodePath("../MachineInputShadows")
 definition = ExtResource("4_vg41c")
-job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
 
@@ -153,3 +168,4 @@ spot_angle = 15.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
 
 [node name="MachineInputShadows" parent="." unique_id=1605987609 instance=ExtResource("18_shadows")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9997, 0, 0)
