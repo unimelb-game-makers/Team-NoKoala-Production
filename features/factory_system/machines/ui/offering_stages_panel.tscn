@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwvkcpbisj1l7" path="res://features/factory_system/machines/ui/offering_stages_panel.gd" id="1_panel"]
 
-[node name="OfferingStagesPanel" type="HBoxContainer" unique_id=1738451593 node_paths=PackedStringArray("stages_list", "stage_title", "stage_status", "rewards_list")]
+[node name="OfferingStagesPanel" type="HBoxContainer" unique_id=1738451593 node_paths=PackedStringArray("stages_list", "stage_title", "stage_status", "rewards_list") groups=["tutorial_offering_ui"]]
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 script = ExtResource("1_panel")

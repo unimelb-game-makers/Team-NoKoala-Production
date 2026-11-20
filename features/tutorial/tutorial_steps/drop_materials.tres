@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://bwwjuabn80wjo"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_yp3vr"]
+[ext_resource type="Script" uid="uid://b1yo1h05851xg" path="res://features/tutorial/conditions/blueprint_supplied_condition.gd" id="2_p4cqv"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_rfpbj"]
+
+[sub_resource type="Resource" id="blueprint_supplied"]
+script = ExtResource("2_p4cqv")
+machine_group = &"tutorial_placed_machine"
+
+[resource]
+script = ExtResource("3_rfpbj")
+id = &"drop_materials"
+objective_text = "Stand on the blueprint and press Q to drop the bamboo culms."
+allowed_features = Array[int]([0, 2, 4, 6])
+highlight_group = &"tutorial_placed_machine"
+complete_when = SubResource("blueprint_supplied")

@@ -17,6 +17,8 @@ func has_progress() -> bool:
 func start(ctx: TutorialContext) -> void:
 	_ctx = ctx
 	_ratio = -1.0
+	for n in ctx.tree.get_nodes_in_group(machine_group):
+		print("group member: ", n.get_path(), " ", n)
 	_assembly = ctx.tree.get_first_node_in_group(machine_group) as MachineAssembly
 	if _assembly == null:
 		push_error("BlueprintSuppliedCondition: no MachineAssembly in group '%s'" % machine_group)

@@ -75,9 +75,8 @@ func _rebuild() -> void:
 		button.toggle_mode = true
 		button.button_pressed = index == _selected_stage_index
 		button.tooltip_text = _stage_name(_offering.stages[index])
-		button.text = "%02d  %s\n%s" % [
+		button.text = "%02d  %s" % [
 			index + 1,
-			_short_stage_name(_offering.stages[index]),
 			_stage_state(index),
 		]
 		button.add_theme_color_override("font_color", _stage_color(index))
@@ -147,6 +146,8 @@ func _show_empty_state(message: String) -> void:
 
 
 func _stage_state(index: int) -> String:
+	if index == _offering.current_stage_index:
+		return "In Progress"
 	if index < _offering.current_stage_index:
 		return "Completed"
 	return "Locked"
@@ -168,7 +169,7 @@ func _stage_name(stage: OfferingStage) -> String:
 
 func _short_stage_name(stage: OfferingStage) -> String:
 	var name := _stage_name(stage)
-	return name if name.length() <= 17 else "%s…" % name.substr(0, 16)
+	return name if name.length() <= 30 else "%s…" % name.substr(0, 16)
 
 
 func _recipe_name(recipe: ProductionRecipe) -> String:

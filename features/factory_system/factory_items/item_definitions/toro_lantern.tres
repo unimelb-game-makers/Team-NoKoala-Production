@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FactoryItemDefinition" format=3 uid="uid://c35j3qqrnmoj5"]
+
+[ext_resource type="Script" uid="uid://h0igrbsvxkh0" path="res://features/factory_system/factory_items/item_definitions/factory_item_definition.gd" id="1_1yfjl"]
+[ext_resource type="Texture2D" uid="uid://cpye2ysny3882" path="res://assets/developer_art/lantern.png" id="2_frgqd"]
+
+[resource]
+script = ExtResource("1_1yfjl")
+item_key = 13
+item_name = "Toro Lantern"
+texture = ExtResource("2_frgqd")
+metadata/_custom_type_script = "uid://h0igrbsvxkh0"

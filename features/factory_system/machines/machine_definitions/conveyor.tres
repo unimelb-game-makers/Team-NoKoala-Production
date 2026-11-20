@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="2_def"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_vfdht"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="3_construction_amount"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="4_construction_item"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_ycrep"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="4_fhs42"]
 
 [sub_resource type="Resource" id="Resource_structure"]
 script = ExtResource("1_cell")
@@ -13,10 +14,18 @@ role = 2
 
 [sub_resource type="Resource" id="Resource_construction_iron"]
 script = ExtResource("3_construction_amount")
-item = ExtResource("4_construction_item")
+item = ExtResource("3_ycrep")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_xyu7w"]
+script = ExtResource("3_construction_amount")
+item = ExtResource("4_fhs42")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [resource]
 script = ExtResource("2_def")
 machine_name = &"Conveyor"
+machine_description = &"A machine to items from one place to another."
 cells = Array[ExtResource("1_cell")]([SubResource("Resource_structure")])
-construction_materials = Array[ExtResource("3_construction_amount")]([SubResource("Resource_construction_iron")])
+construction_time_seconds = 2.0
+construction_materials = Array[ExtResource("3_construction_amount")]([SubResource("Resource_construction_iron"), SubResource("Resource_xyu7w")])

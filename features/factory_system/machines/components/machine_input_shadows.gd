@@ -12,6 +12,8 @@ var factory_manager: FactoryManager
 var _elapsed := 0.0
 var _shadows: Dictionary = {}
 
+var position_override: Variant = null
+
 
 func configure(p_machine: Machine, p_factory_manager: FactoryManager) -> void:
 	machine = p_machine
@@ -60,6 +62,11 @@ func _refresh() -> void:
 			var world_position := factory_manager.grid.cell_to_world(cell)
 			world_position.y += height_above_cell
 			world_position += global_transform.basis.x.normalized() * offset
+			
+			# specifically for offering machine
+			if position_override != null:
+				world_position.x = position_override.x
+				world_position.z = position_override.z
 			sprite.global_position = world_position
 
 

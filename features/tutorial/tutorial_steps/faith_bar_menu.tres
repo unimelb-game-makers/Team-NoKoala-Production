@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://cj8q7q55gxrbb"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_0x4k8"]
+[ext_resource type="Resource" uid="uid://rj3vso2ud1w" path="res://features/factory_system/machines/machine_definitions/carpenter.tres" id="2_b5xak"]
+[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="3_n2463"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="4_n2o6u"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="5_5wcy8"]
+
+[sub_resource type="Resource" id="Resource_4fw13"]
+script = ExtResource("4_n2o6u")
+control_group = &"tutorial_build_panel"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[resource]
+script = ExtResource("5_5wcy8")
+id = &"faith_bar_menu_closed"
+objective_text = "Faith is your energy system and slowly depletes as your spirits work away at different tasks. Let's restore some faith! Open the machines menu and build a 'ritual' machine."
+allowed_features = Array[int]([0, 2, 8])
+allowed_machines = Array[ExtResource("1_0x4k8")]([ExtResource("2_b5xak"), ExtResource("3_n2463")])
+highlight_group = &"tutorial_faith_bar"
+complete_when = SubResource("Resource_4fw13")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
