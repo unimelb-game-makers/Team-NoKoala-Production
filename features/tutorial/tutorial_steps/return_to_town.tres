@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://c5758brpgekb7"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_l3dmu"]
+[ext_resource type="Script" uid="uid://bvis5qwowy42n" path="res://features/tutorial/conditions/reach_area_condition.gd" id="2_a2ex0"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_gqux0"]
+
+[sub_resource type="Resource" id="Resource_n8vg7"]
+script = ExtResource("2_a2ex0")
+area_group = &"tutorial_town"
+metadata/_custom_type_script = "uid://bvis5qwowy42n"
+
+[resource]
+script = ExtResource("3_gqux0")
+id = &"return_to_town"
+objective_text = "Return to the town with your bamboo culms."
+allowed_features = Array[int]([0, 2, 6])
+complete_when = SubResource("Resource_n8vg7")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

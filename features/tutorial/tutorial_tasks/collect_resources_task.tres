@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://df3goh1ipe4p5"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_plk3y"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_iv7ts"]
+[ext_resource type="Resource" uid="uid://doslon87upsti" path="res://features/tutorial/tutorial_steps/go_to_resource_area.tres" id="3_21imy"]
+[ext_resource type="Resource" uid="uid://b3k4ksdvq0i3d" path="res://features/tutorial/tutorial_steps/collect_bamboo.tres" id="4_62csc"]
+[ext_resource type="Resource" uid="uid://c5758brpgekb7" path="res://features/tutorial/tutorial_steps/return_to_town.tres" id="5_ben0j"]
+
+[resource]
+script = ExtResource("1_plk3y")
+id = &"collect_resource"
+steps = Array[ExtResource("2_iv7ts")]([ExtResource("3_21imy"), ExtResource("4_62csc"), ExtResource("5_ben0j")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"

@@ -3,4 +3,3 @@ extends Resource
 
 
 @export var worker_capability: WorkerCapability
-

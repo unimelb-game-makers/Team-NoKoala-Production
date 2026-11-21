@@ -95,6 +95,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+collision_layer = 20
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39941406, 0)

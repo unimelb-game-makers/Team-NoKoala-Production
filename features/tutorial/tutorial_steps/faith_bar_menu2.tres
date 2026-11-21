@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://co5ac7yr510o"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_ygmvq"]
+[ext_resource type="Resource" uid="uid://bubj718ypkuw3" path="res://features/factory_system/machines/machine_definitions/ritual.tres" id="2_s5uqx"]
+[ext_resource type="Resource" uid="uid://rj3vso2ud1w" path="res://features/factory_system/machines/machine_definitions/carpenter.tres" id="3_etc1n"]
+[ext_resource type="Script" uid="uid://ct0spxhayuwae" path="res://features/tutorial/conditions/machine_placed_condition.gd" id="4_b0aq3"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="5_yfrv4"]
+
+[sub_resource type="Resource" id="Resource_vrctg"]
+script = ExtResource("4_b0aq3")
+machine_definition = ExtResource("2_s5uqx")
+tag_group = &"tutorial_ritual_machine"
+metadata/_custom_type_script = "uid://ct0spxhayuwae"
+
+[resource]
+script = ExtResource("5_yfrv4")
+id = &"faith_bar_menu_open"
+objective_text = "Let's restore some faith! Build a 'ritual' machine."
+allowed_features = Array[int]([0, 2, 8, 9])
+allowed_machines = Array[ExtResource("1_ygmvq")]([ExtResource("2_s5uqx"), ExtResource("3_etc1n")])
+highlight_group = &"tutorial_faith_bar_restored"
+complete_when = SubResource("Resource_vrctg")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"

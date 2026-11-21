@@ -5,6 +5,8 @@ signal stage_completed(stage_index: int, stage: OfferingStage)
 signal all_stages_completed
 
 @export var stages: Array[OfferingStage] = []
+@export var input_tiles: Array[CSGBox3D]
+@export var input_shadow: Node3D
 
 var current_stage_index := 0
 var _warned_missing_unlocks := false
@@ -84,7 +86,7 @@ func _on_recipe_completed(
 	var completed_stage_index := current_stage_index
 	current_stage_index += 1
 	_activate_current_stage()
-
+	
 	for recipe in stage.recipes_to_unlock:
 		if recipe != null and recipe_unlocks != null:
 			recipe_unlocks.unlock_recipe(recipe)
@@ -92,6 +94,13 @@ func _on_recipe_completed(
 	stage_completed.emit(completed_stage_index, stage)
 	if is_complete():
 		all_stages_completed.emit()
+		
+	# visual handling
+	input_tiles[current_stage_index - 1].material.albedo_color = Color.REBECCA_PURPLE
+	if current_stage_index < input_tiles.size():
+		input_shadow.position_override = input_tiles[current_stage_index].global_position
+	else:
+		input_shadow.position_override = null
 	# Start the next stage on a later factory tick.
 	return false
 
@@ -109,11 +118,12 @@ func _activate_current_stage() -> void:
 		elif not definition.is_recipe_valid(stage.recipe):
 			for error in definition.get_recipe_validation_errors(stage.recipe):
 				push_error("Offering stage %d: %s" % [current_stage_index + 1, error])
-		elif not _has_valid_rewards(stage):
-			push_error(
-				"Offering stage %d needs external recipe resources for all unlock rewards"
-				% [current_stage_index + 1]
-			)
+		## MVP lets all recipes be unlocked by default
+		#elif not _has_valid_rewards(stage):
+			#push_error(
+				#"Offering stage %d needs external recipe resources for all unlock rewards"
+				#% [current_stage_index + 1]
+			#)
 		else:
 			recipes.append(stage.recipe)
 	set_enabled_recipes(recipes)

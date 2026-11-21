@@ -1,12 +1,11 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://druqqgah8dlm1"]
 
-[ext_resource type="Script" path="res://features/telescope/UI/telescope_panel.gd" id="1_panel"]
+[ext_resource type="Script" uid="uid://bwiw40bh4bgd" path="res://features/telescope/UI/telescope_panel.gd" id="1_panel"]
 [ext_resource type="PackedScene" uid="uid://5kcu8ylgwlfv" path="res://features/telescope/UI/item_progress_ui.tscn" id="2_progress"]
 
-[node name="TelescopePanel" type="VBoxContainer" node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "hint_parent", "ingredients_parent", "repair_button", "repair_progress_bar")]
+[node name="TelescopePanel" type="VBoxContainer" unique_id=53175449 node_paths=PackedStringArray("repair_title_label", "repair_details_label", "repair_texture", "hint_parent", "ingredients_parent", "repair_button", "repair_progress_bar")]
 theme_override_constants/separation = 8
 script = ExtResource("1_panel")
-tab_title = "Repair"
 item_progress_scene = ExtResource("2_progress")
 repair_title_label = NodePath("Content/LHS/RepairName")
 repair_details_label = NodePath("Content/LHS/TechnicalLabel")
@@ -15,56 +14,57 @@ hint_parent = NodePath("Content/LHS/HintBox")
 ingredients_parent = NodePath("Content/RHS")
 repair_button = NodePath("RepairButton")
 repair_progress_bar = NodePath("RepairProgress")
+tab_title = "Repair"
 
-[node name="Content" type="HBoxContainer" parent="."]
+[node name="Content" type="HBoxContainer" parent="." unique_id=1390950668]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LHS" type="VBoxContainer" parent="Content"]
+[node name="LHS" type="VBoxContainer" parent="Content" unique_id=382791628]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Content/LHS"]
+[node name="TextureRect" type="TextureRect" parent="Content/LHS" unique_id=92834056]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 4
 expand_mode = 1
 stretch_mode = 6
 
-[node name="RepairName" type="Label" parent="Content/LHS"]
+[node name="RepairName" type="Label" parent="Content/LHS" unique_id=1797244397]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="TechnicalLabel" type="Label" parent="Content/LHS"]
+[node name="TechnicalLabel" type="Label" parent="Content/LHS" unique_id=1504377313]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Content/LHS"]
+[node name="Spacer" type="Control" parent="Content/LHS" unique_id=191322665]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
-[node name="TBD" type="Label" parent="Content/LHS"]
+[node name="TBD" type="Label" parent="Content/LHS" unique_id=887562908]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "To be discovered..."
 horizontal_alignment = 1
 
-[node name="HintBox" type="HBoxContainer" parent="Content/LHS"]
+[node name="HintBox" type="HBoxContainer" parent="Content/LHS" unique_id=714286511]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 20
 
-[node name="RHS" type="VBoxContainer" parent="Content"]
+[node name="RHS" type="VBoxContainer" parent="Content" unique_id=2101102384]
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="RepairButton" type="Button" parent="."]
+[node name="RepairButton" type="Button" parent="." unique_id=766961094]
 layout_mode = 2
 focus_mode = 0
 text = "Repair"
 
-[node name="RepairProgress" type="ProgressBar" parent="."]
+[node name="RepairProgress" type="ProgressBar" parent="." unique_id=1178904252]
 visible = false
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2

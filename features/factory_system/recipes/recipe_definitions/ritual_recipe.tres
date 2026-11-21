@@ -1,14 +1,28 @@
 [gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://b3b6pw2kp432"]
 
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_k5kun"]
-[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_64p7y"]
+[ext_resource type="Resource" uid="uid://bjtuwhgjsds74" path="res://features/factory_system/factory_items/item_definitions/flax.tres" id="2_yuudg"]
+[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_4qasc"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="3_yuudg"]
 [ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="4_4qasc"]
+[ext_resource type="Resource" uid="uid://bfmnb36fa1dm" path="res://features/factory_system/factory_items/item_definitions/clay.tres" id="4_kdeau"]
 
 [sub_resource type="Resource" id="Resource_1lgse"]
 script = ExtResource("1_k5kun")
 port_id = &"input_1"
-item = ExtResource("2_64p7y")
+item = ExtResource("2_yuudg")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_rus5m"]
+script = ExtResource("1_k5kun")
+port_id = &"input_1"
+item = ExtResource("3_4qasc")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_uwe65"]
+script = ExtResource("1_k5kun")
+port_id = &"input_1"
+item = ExtResource("4_kdeau")
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [sub_resource type="Resource" id="Resource_rwktf"]
@@ -21,6 +35,6 @@ metadata/_custom_type_script = "uid://hneks0cpqqvj"
 script = ExtResource("3_yuudg")
 recipe_id = &"ritual1"
 display_name = "ritual1"
-inputs = Array[ExtResource("1_k5kun")]([SubResource("Resource_1lgse")])
+inputs = Array[ExtResource("1_k5kun")]([SubResource("Resource_1lgse"), SubResource("Resource_rus5m"), SubResource("Resource_uwe65")])
 work_requirements = Array[ExtResource("4_4qasc")]([SubResource("Resource_rwktf")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"
