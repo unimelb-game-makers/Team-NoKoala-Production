@@ -164,6 +164,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_xr00m")
 
 [node name="Kaguya" parent="." unique_id=100141511 instance=ExtResource("4_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39921927, -0.5209508)
+collision_mask = 5
 
 [node name="ResourceAreaConverter" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid")]
 script = ExtResource("26_h1ur4")
