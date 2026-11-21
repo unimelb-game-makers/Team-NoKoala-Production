@@ -100,6 +100,8 @@ billboard = 1
 texture = ExtResource("1_wfmd0")
 
 [node name="telescope" type="StaticBody3D" parent="." unique_id=1062121725 node_paths=PackedStringArray("telescope_machine", "overlay")]
+collision_layer = 20
+collision_mask = 2
 script = ExtResource("1_pmcgo")
 stages = Array[ExtResource("17_m8qp3")]([ExtResource("19_4j276"), ExtResource("18_k0tq0"), ExtResource("20_fopis")])
 telescope_machine = NodePath("../Machine")

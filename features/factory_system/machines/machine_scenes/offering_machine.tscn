@@ -28,6 +28,7 @@
 resource_local_to_scene = true
 script = ExtResource("3_f3bu2")
 footprint = Array[Vector3i]([Vector3i(0, 0, 0), Vector3i(2, 0, 0), Vector3i(4, 0, 0)])
+is_placed = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gb4cy"]
 albedo_color = Color(0.538, 1, 0.33999997, 1)
@@ -41,8 +42,17 @@ albedo_color = Color(0.538, 1, 0.33999997, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
 size = Vector3(5.0117188, 1, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_shrine_structure"]
-size = Vector3(37, 17.3, 19.3)
+[sub_resource type="BoxShape3D" id="BoxShape3D_rxemh"]
+size = Vector3(20.023384, 2.4018555, 33.600327)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ts2w"]
+size = Vector3(37.829865, 2.4018555, 32.210815)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_puit2"]
+size = Vector3(20.023384, 2.4018555, 20.0028)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_afujf"]
+size = Vector3(17.123264, 2.4018555, 29.798279)
 
 [sub_resource type="Resource" id="Resource_stage"]
 script = ExtResource("13_stage")
@@ -121,18 +131,41 @@ material = SubResource("StandardMaterial3D_5gudi")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+collision_layer = 16
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.97864866, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="ShrineStructure" type="StaticBody3D" parent="Block" unique_id=2017060514]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 8.65, -8.7)
-collision_layer = 16
-collision_mask = 0
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.51789236, 0.653, 13.6119175)
+collision_layer = 4
+collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=493789701]
-shape = SubResource("BoxShape3D_shrine_structure")
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=1949003007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.597332, -1.7356144, -12.483664)
+shape = SubResource("BoxShape3D_rxemh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=443849982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.710262, -1.4018555, -12.778004)
+shape = SubResource("BoxShape3D_rxemh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=792713533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.154954, -0.70092773, -4.9804153)
+shape = SubResource("BoxShape3D_8ts2w")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=705543761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.482288, -1.7356144, -5.684902)
+shape = SubResource("BoxShape3D_puit2")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=980118433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.160774, -1.7356144, -5.684902)
+shape = SubResource("BoxShape3D_puit2")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Block/ShrineStructure" unique_id=1306567800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.053013, -0.70092773, -13.487614)
+shape = SubResource("BoxShape3D_afujf")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
 script = ExtResource("11_block_gizmo")
