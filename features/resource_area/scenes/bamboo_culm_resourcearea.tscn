@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cwt84ayd1x3ck" path="res://features/resource_area/resource_area_machine.gd" id="3_clsrq"]
 [ext_resource type="Resource" uid="uid://eo2jjc7eb7u2" path="res://features/resource_area/resource_area_definitions/spawner_bamboo_culm_definition.tres" id="4_8fy3l"]
 [ext_resource type="Script" uid="uid://b7prvphjsth3o" path="res://features/blocks/block_cell_gizmo.gd" id="4_vy8n8"]
+[ext_resource type="PackedScene" uid="uid://c1njpek2jm8oe" path="res://assets/third_party/bamboo/bamboo.glb" id="5_7jsrb"]
 [ext_resource type="Script" uid="uid://b01yqejyrbh14" path="res://features/blocks/block_grid_registration.gd" id="5_k8uwt"]
 [ext_resource type="Resource" uid="uid://bpb8mvsbspipd" path="res://features/factory_system/machines/machine_definitions/bamboo_culm_area.tres" id="7_3q5xe"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="8_ow4k7"]
@@ -28,16 +29,28 @@ script = ExtResource("1_2r36o")
 block = NodePath("Block")
 machine = NodePath("Machine")
 ui_panels = Array[PackedScene]([ExtResource("harvest_panel")])
-progress_bar = NodePath("BasicProgressBar")
 blueprint = NodePath("Blueprint")
+progress_bar = NodePath("BasicProgressBar")
 
 [node name="Block" type="Node3D" parent="." unique_id=1151288400 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("2_h5qhg")
 block_data = SubResource("Resource_vy8n8")
 transform_root = NodePath("..")
 
+[node name="models" type="Node3D" parent="Block" unique_id=462081937]
+
+[node name="bamboo" parent="Block/models" unique_id=1259482766 instance=ExtResource("5_7jsrb")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.144736, 0.24181795)
+
+[node name="bamboo2" parent="Block/models" unique_id=1871306347 instance=ExtResource("5_7jsrb")]
+transform = Transform3D(0.061749574, 0, 0.49617234, 0, 0.5, 0, -0.49617234, 0, 0.061749574, 0, 1.144736, -0.3925383)
+
+[node name="bamboo3" parent="Block/models" unique_id=154389834 instance=ExtResource("5_7jsrb")]
+transform = Transform3D(0.37143165, 0, -0.33472157, 0, 0.5, 0, 0.33472157, 0, 0.37143165, -0.071843624, 1.144736, -0.35857368)
+
 [node name="Sprite3D" type="Sprite3D" parent="Block" unique_id=17269070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965, 0)
+visible = false
 billboard = 1
 texture_filter = 0
 texture = ExtResource("9_1tqxr")
