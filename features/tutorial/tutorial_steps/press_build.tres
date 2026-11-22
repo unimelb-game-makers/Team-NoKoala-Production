@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://gvy1qiw3tt47"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_1dc88"]
+[ext_resource type="Resource" uid="uid://rj3vso2ud1w" path="res://features/factory_system/machines/machine_definitions/carpenter.tres" id="2_570oc"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="3_ko8ih"]
+[ext_resource type="Script" uid="uid://bm7bvtdap26tu" path="res://features/tutorial/conditions/place_mode_condition.gd" id="4_0qlh3"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="5_stpme"]
+
+[sub_resource type="Resource" id="panel_closed"]
+script = ExtResource("3_ko8ih")
+control_group = &"tutorial_build_panel"
+visible = false
+
+[sub_resource type="Resource" id="place_mode_on"]
+script = ExtResource("4_0qlh3")
+
+[resource]
+script = ExtResource("5_stpme")
+id = &"press_build"
+objective_text = "Select the Carpenter Bench and press Build."
+allowed_features = Array[int]([0, 2, 8, 9])
+allowed_machines = Array[ExtResource("1_1dc88")]([ExtResource("2_570oc")])
+highlight_group = &"tutorial_build_button"
+complete_when = SubResource("place_mode_on")
+back_when = SubResource("panel_closed")

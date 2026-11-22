@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://dx8e0jcdfg56b"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_ee0oe"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_2qg1i"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="3_233wo"]
+[ext_resource type="Script" uid="uid://bvis5qwowy42n" path="res://features/tutorial/conditions/reach_area_condition.gd" id="4_aiqrd"]
+[ext_resource type="Resource" uid="uid://duaiwyjc7miy7" path="res://features/factory_system/machines/machine_definitions/demo_offering_machine.tres" id="5_brax4"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="6_l6vlw"]
+
+[sub_resource type="Resource" id="Resource_mpupe"]
+script = ExtResource("4_aiqrd")
+area_group = &"tutorial_offering"
+metadata/_custom_type_script = "uid://bvis5qwowy42n"
+
+[sub_resource type="Resource" id="Resource_5k6nj"]
+script = ExtResource("2_2qg1i")
+id = &"approach_offering"
+objective_text = "Approach the offering altar in front of the shrine."
+allowed_features = Array[int]([0, 2])
+highlight_group = &"tutorial_offering"
+complete_when = SubResource("Resource_mpupe")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_08oyj"]
+script = ExtResource("6_l6vlw")
+control_group = &"tutorial_machine_ui"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_fhesy"]
+script = ExtResource("2_2qg1i")
+id = &"inspect_offering"
+objective_text = "Right click to inspect the offering stages."
+allowed_features = Array[int]([0, 2, 7])
+allowed_machines = Array[ExtResource("3_233wo")]([ExtResource("5_brax4")])
+complete_when = SubResource("Resource_08oyj")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_k6vum"]
+script = ExtResource("6_l6vlw")
+control_group = &"tutorial_machine_ui"
+visible = false
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_h2hdi"]
+script = ExtResource("2_2qg1i")
+id = &"offering_explanation"
+objective_text = "The goal of this demo is to craft all three offerings. To start, let's gather some resources to build our first machine. Press ESC to close the offering panel."
+allowed_features = Array[int]([0, 2, 7])
+complete_when = SubResource("Resource_k6vum")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[resource]
+script = ExtResource("1_ee0oe")
+id = &"offerings"
+steps = Array[ExtResource("2_2qg1i")]([SubResource("Resource_5k6nj"), SubResource("Resource_fhesy"), SubResource("Resource_h2hdi")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"

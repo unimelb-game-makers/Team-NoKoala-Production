@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="ProductionRecipe" format=3 uid="uid://dj6gc5icugcix"]
+
+[ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_cotrt"]
+[ext_resource type="Resource" uid="uid://c35j3qqrnmoj5" path="res://features/factory_system/factory_items/item_definitions/toro_lantern.tres" id="2_hykcv"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="2_nn0yl"]
+[ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="2_y5fso"]
+[ext_resource type="Resource" uid="uid://dunfadbhgpgor" path="res://features/factory_system/factory_items/item_definitions/stone_brick.tres" id="3_bfxlk"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="3_hykcv"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="4_75hnn"]
+[ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="5_6yv37"]
+
+[sub_resource type="Resource" id="Resource_22r2p"]
+script = ExtResource("1_cotrt")
+port_id = &"input_1"
+item = ExtResource("2_nn0yl")
+amount = 3
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_bfpcn"]
+script = ExtResource("1_cotrt")
+port_id = &"input_1"
+item = ExtResource("3_bfxlk")
+amount = 5
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_bfxlk"]
+script = ExtResource("1_cotrt")
+port_id = &"input_1"
+item = ExtResource("4_75hnn")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_75hnn"]
+script = ExtResource("1_cotrt")
+port_id = &"input_1"
+item = ExtResource("5_6yv37")
+amount = 3
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_0ikxi"]
+script = ExtResource("1_cotrt")
+item = ExtResource("2_hykcv")
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_50ns5"]
+script = ExtResource("3_hykcv")
+work_type = 2
+metadata/_custom_type_script = "uid://hneks0cpqqvj"
+
+[resource]
+script = ExtResource("2_y5fso")
+recipe_id = &"1"
+display_name = "Toro Lantern"
+duration_seconds = 5.0
+inputs = Array[ExtResource("1_cotrt")]([SubResource("Resource_22r2p"), SubResource("Resource_bfpcn"), SubResource("Resource_bfxlk"), SubResource("Resource_75hnn")])
+outputs = Array[ExtResource("1_cotrt")]([SubResource("Resource_0ikxi")])
+work_requirements = Array[ExtResource("3_hykcv")]([SubResource("Resource_50ns5")])
+metadata/_custom_type_script = "uid://djx2t543fmev8"

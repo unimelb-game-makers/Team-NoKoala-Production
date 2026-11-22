@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c2728dserg8cb"]
 
-[ext_resource type="Script" path="res://features/tutorial/ui/tutorial_overlay.gd" id="1_overlay"]
+[ext_resource type="Script" uid="uid://dp7ljs3mhen75" path="res://features/tutorial/ui/tutorial_overlay.gd" id="1_overlay"]
 
-[node name="TutorialOverlay" type="Control" node_paths=PackedStringArray("objective_panel", "objective_label", "progress_bar", "skip_button", "highlight")]
+[node name="TutorialOverlay" type="Control" unique_id=1909205960 node_paths=PackedStringArray("objective_panel", "objective_label", "progress_bar", "skip_button", "highlight")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,12 +17,12 @@ progress_bar = NodePath("ObjectivePanel/VBox/ProgressBar")
 skip_button = NodePath("ObjectivePanel/VBox/SkipButton")
 highlight = NodePath("Highlight")
 
-[node name="Highlight" type="Panel" parent="."]
+[node name="Highlight" type="Panel" parent="." unique_id=1297781330]
 visible = false
 layout_mode = 0
 mouse_filter = 2
 
-[node name="ObjectivePanel" type="PanelContainer" parent="."]
+[node name="ObjectivePanel" type="PanelContainer" parent="." unique_id=349967874]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -32,24 +32,25 @@ offset_top = 16.0
 offset_right = 240.0
 offset_bottom = 90.0
 grow_horizontal = 2
+mouse_filter = 2
 
-[node name="VBox" type="VBoxContainer" parent="ObjectivePanel"]
+[node name="VBox" type="VBoxContainer" parent="ObjectivePanel" unique_id=1706267282]
 layout_mode = 2
 
-[node name="ObjectiveLabel" type="Label" parent="ObjectivePanel/VBox"]
+[node name="ObjectiveLabel" type="Label" parent="ObjectivePanel/VBox" unique_id=1287170569]
 custom_minimum_size = Vector2(440, 0)
 layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ProgressBar" type="ProgressBar" parent="ObjectivePanel/VBox"]
+[node name="ProgressBar" type="ProgressBar" parent="ObjectivePanel/VBox" unique_id=639060361]
 visible = false
 layout_mode = 2
 max_value = 1.0
 step = 0.001
 show_percentage = false
 
-[node name="SkipButton" type="Button" parent="ObjectivePanel/VBox"]
+[node name="SkipButton" type="Button" parent="ObjectivePanel/VBox" unique_id=439617445]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Skip tutorial"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TutorialStep" format=3 uid="uid://qrisf5566w46"]
+
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="1_iqkg3"]
+[ext_resource type="Script" uid="uid://c3cf0f8fgww6c" path="res://features/tutorial/conditions/distance_moved_condition.gd" id="2_fsvos"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="3_rn2cm"]
+
+[sub_resource type="Resource" id="walk"]
+script = ExtResource("2_fsvos")
+
+[resource]
+script = ExtResource("3_rn2cm")
+id = &"move"
+objective_text = "Use WASD to walk around. Press Shift to toggle sprint."
+allowed_features = Array[int]([0, 2])
+complete_when = SubResource("walk")

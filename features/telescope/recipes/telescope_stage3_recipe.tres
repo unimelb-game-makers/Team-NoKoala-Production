@@ -2,19 +2,38 @@
 
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="1_8s3ej"]
 [ext_resource type="Resource" uid="uid://ys7p1dumi3c" path="res://features/factory_system/factory_items/item_definitions/iron_ore.tres" id="2_xxvnr"]
-[ext_resource type="Resource" uid="uid://b0lgfvmfrlodi" path="res://features/factory_system/factory_items/item_definitions/bamboo_culm.tres" id="3_nwwef"]
+[ext_resource type="Resource" uid="uid://basoalot4vele" path="res://features/factory_system/factory_items/item_definitions/bamboo_plank.tres" id="2_yqx3r"]
+[ext_resource type="Resource" uid="uid://d3d5gsnumey66" path="res://features/factory_system/factory_items/item_definitions/flax_rope.tres" id="4_5lnir"]
 [ext_resource type="Script" uid="uid://djx2t543fmev8" path="res://features/factory_system/recipes/production_recipe.gd" id="4_34ehx"]
+[ext_resource type="Script" uid="uid://hneks0cpqqvj" path="res://features/factory_system/recipes/recipe_work_requirement.gd" id="5_ceavv"]
+[ext_resource type="Resource" uid="uid://dunfadbhgpgor" path="res://features/factory_system/factory_items/item_definitions/stone_brick.tres" id="5_w8ym7"]
 
-[sub_resource type="Resource" id="Resource_dvsbd"]
+[sub_resource type="Resource" id="Resource_pag2f"]
 script = ExtResource("1_8s3ej")
-item = ExtResource("2_xxvnr")
-amount = 5
+port_id = &"input_1"
+item = ExtResource("2_yqx3r")
+amount = 2
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
-[sub_resource type="Resource" id="Resource_agebt"]
+[sub_resource type="Resource" id="Resource_w1g01"]
 script = ExtResource("1_8s3ej")
-item = ExtResource("3_nwwef")
+port_id = &"input_1"
+item = ExtResource("2_xxvnr")
 amount = 3
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_nksc3"]
+script = ExtResource("1_8s3ej")
+port_id = &"input_1"
+item = ExtResource("4_5lnir")
+amount = 4
+metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
+
+[sub_resource type="Resource" id="Resource_p7hy3"]
+script = ExtResource("1_8s3ej")
+port_id = &"input_1"
+item = ExtResource("5_w8ym7")
+amount = 4
 metadata/_custom_type_script = "uid://bm0lxjhofdrjf"
 
 [resource]
@@ -22,5 +41,5 @@ script = ExtResource("4_34ehx")
 recipe_id = &"telescope_tier3"
 display_name = "Tier 3"
 duration_seconds = 2.0
-inputs = Array[ExtResource("1_8s3ej")]([SubResource("Resource_dvsbd"), SubResource("Resource_agebt")])
+inputs = Array[ExtResource("1_8s3ej")]([SubResource("Resource_pag2f"), SubResource("Resource_w1g01"), SubResource("Resource_nksc3"), SubResource("Resource_p7hy3")])
 metadata/_custom_type_script = "uid://djx2t543fmev8"

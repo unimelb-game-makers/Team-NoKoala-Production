@@ -11,8 +11,7 @@
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5u5lm"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="10_jkubp"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="14_3d8wi"]
-
-[ext_resource type="Script" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
+[ext_resource type="Script" uid="uid://bdam2sxwbk5sb" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
 
 [sub_resource type="Resource" id="Resource_c2e4d"]
 resource_local_to_scene = true
@@ -194,14 +193,13 @@ _data = {
 }
 point_count = 2
 
-[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("dismantle_component", "block", "machine", "blueprint")]
+[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine", "dismantle_component", "blueprint")]
 script = ExtResource("4_asm")
 block = NodePath("Block")
 machine = NodePath("ConveyorBelt")
+dismantle_component = NodePath("DismantleComponent")
 blueprint = NodePath("Blueprint")
 toggle_blueprint = true
-
-dismantle_component = NodePath("DismantleComponent")
 
 [node name="Block" type="Node3D" parent="." unique_id=1197696269 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_block")
@@ -240,6 +238,8 @@ block = NodePath("..")
 metadata/_custom_type_script = "uid://b01yqejyrbh14"
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=718292071]
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1320480007]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40063477, 0)
@@ -290,5 +290,5 @@ disabled = false
 script = ExtResource("14_3d8wi")
 metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
-[node name="DismantleComponent" type="Node" parent="."]
+[node name="DismantleComponent" type="Node" parent="." unique_id=1706240185]
 script = ExtResource("dismantle_component")

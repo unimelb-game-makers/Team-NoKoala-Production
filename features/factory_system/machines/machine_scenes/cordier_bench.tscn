@@ -36,6 +36,7 @@ albedo_color = Color(1, 0.19, 0.19, 1)
 albedo_color = Color(0.1, 0.42, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_structure"]
+size = Vector3(1.9884033, 1, 1)
 
 [sub_resource type="Resource" id="Resource_pk8c8"]
 script = ExtResource("12_4a3oh")
@@ -84,9 +85,11 @@ transform = Transform3D(-2.6226834e-08, 0, -0.6, 0, 0.6, 0, 0.6, 0, -2.6226834e-
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Block" unique_id=1235367596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+collision_layer = 20
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Block/StaticBody3D" unique_id=1226706884]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.49420166, 0.5, 0)
 shape = SubResource("BoxShape3D_structure")
 
 [node name="BlockCellGizmo" type="Node3D" parent="Block" unique_id=1551666163 node_paths=PackedStringArray("block")]
