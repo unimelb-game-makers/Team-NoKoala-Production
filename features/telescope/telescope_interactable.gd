@@ -8,6 +8,7 @@ extends StaticBody3D
 var current_stage : int = 0
 var in_discovery : bool = false
 var is_max_progress : bool = false
+var progression_manager: ProgressionManager
 
 var _views: Array[TelescopeView] = []
 
@@ -15,6 +16,11 @@ var _views: Array[TelescopeView] = []
 signal stage_advanced(stage: TelescopeStage)
 ## Emitted when the stage the player is working towards changes, or the last one is done.
 signal stage_changed
+
+
+func configure(p_progression_manager: ProgressionManager) -> void:
+	progression_manager = p_progression_manager
+
 
 func _ready() -> void:
 	if telescope_machine == null or stages.is_empty():
@@ -25,7 +31,7 @@ func _ready() -> void:
 		recipes.append(stage.recipe)
 	telescope_machine.recipes = recipes
 	telescope_machine.repair_completed.connect(_enter_discovery)
-	
+
 	for stage in stages:
 		var view = stage.view_scene.instantiate() as TelescopeView
 		view.hide()
@@ -65,7 +71,10 @@ func _enter_discovery() -> void:
 	in_discovery = true
 
 func _advance_stage() -> void:
-	stage_advanced.emit(stages[current_stage])
+	var stage := stages[current_stage]
+	stage_advanced.emit(stage)
+	if progression_manager != null:
+		progression_manager.advance_stage(stage)
 	if current_stage + 1 >= stages.size():
 		is_max_progress = true
 		stage_changed.emit()

@@ -24,7 +24,6 @@ func configure(
 	machines_root: Node,
 	mobs_root: Node,
 	items_root: Node,
-	telescope: TelescopeAssembly,
 ) -> void:
 	factory_manager.configure(grid, fixed_clock, faith_manager, item_spawner, recipe_unlocks)
 	item_spawner.configure(items_root, factory_manager)
@@ -42,6 +41,5 @@ func configure(
 		feature_gate,
 		progression_manager,
 	)
-	progression_manager.configure(telescope)
 	item_spawn_controller.configure(spring_arm, grid, item_spawner, feature_gate)
 	spirit_spawner.configure(mobs_root, fixed_clock, job_board, reservation_manager, grid, faith_manager)

@@ -28,7 +28,6 @@
 [ext_resource type="Texture2D" uid="uid://bo6nfkwxmtb0w" path="res://assets/third_party/Stylized_GrassAndDirt/JPEG/Stylized_HandpaintedGrass_02/Stylized_HandpaintedGrass_02_normal.jpg" id="15_jn2gv"]
 [ext_resource type="PackedScene" uid="uid://be82o1ojr2xs7" path="res://features/resource_area/scenes/bamboo_culm_resourcearea.tscn" id="16_jn2gv"]
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="16_qi48s"]
-[ext_resource type="Script" uid="uid://bmfs7248bdrbd" path="res://testbeds/progression_manager.gd" id="17_7hq8t"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="17_ym6vy"]
 [ext_resource type="PackedScene" uid="uid://lofjesxlwu6q" path="res://features/resource_area/scenes/flax_resourcearea.tscn" id="18_l6gi6"]
 [ext_resource type="PackedScene" uid="uid://djd6jtv6fotlw" path="res://features/resource_area/scenes/stone_resourcearea.tscn" id="21_bgpye"]
@@ -90,7 +89,7 @@ size = Vector3(3, 2, 3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_dialogue_trigger"]
 size = Vector3(4, 3, 4)
 
-[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui", "telescope")]
+[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui", "telescope_assembly")]
 script = ExtResource("1_world")
 world_services = NodePath("WorldServices")
 grid = NodePath("GridMap")
@@ -101,25 +100,21 @@ machines_root = NodePath("Machines")
 buildings_root = NodePath("Buildings")
 items_root = NodePath("Items")
 world_ui = NodePath("WorldUI")
-telescope = NodePath("Machines/Telescope")
+telescope_assembly = NodePath("Machines/Telescope")
 
 [node name="WorldUI" parent="." unique_id=1811817518 node_paths=PackedStringArray("map_regions") instance=ExtResource("27_world_ui")]
 map_regions = NodePath("../MapAreas")
 
-[node name="WorldServices" parent="." unique_id=64125197 node_paths=PackedStringArray("progression_manager") instance=ExtResource("3_ed0w8")]
-progression_manager = NodePath("ProgressManager")
+[node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("3_ed0w8")]
 
 [node name="MachineFactory" parent="WorldServices" index="0" unique_id=331273636]
 default_machine_definitions = Array[ExtResource("13_f4igb")]([ExtResource("14_y8uev"), ExtResource("15_7hq8t")])
 
-[node name="RecipeUnlocks" parent="WorldServices" index="3"]
+[node name="RecipeUnlocks" parent="WorldServices" index="3" unique_id=1356267312]
 initially_unlocked = Array[ExtResource("4_rrkfe")]([ExtResource("11_woego"), ExtResource("6_m45of"), ExtResource("8_woego"), ExtResource("8_66m8t"), ExtResource("10_ythrj"), ExtResource("5_w16nj"), ExtResource("10_ox12a"), ExtResource("12_p544r"), ExtResource("16_qi48s"), ExtResource("17_ym6vy")])
 
 [node name="TutorialDirector" parent="WorldServices" index="13" unique_id=2133003940]
 sequence = ExtResource("4_l6gi6")
-
-[node name="ProgressManager" type="Node" parent="WorldServices" unique_id=783395947]
-script = ExtResource("17_7hq8t")
 
 [node name="GridMap" parent="." unique_id=1236146167 instance=ExtResource("3_grid")]
 mesh_library = ExtResource("8_4h5x5")
