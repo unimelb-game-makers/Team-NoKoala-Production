@@ -114,7 +114,13 @@ func _on_backdrop_gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not active or event.is_echo() or not event.is_action_pressed(&"ui_accept"):
+	if not active or event.is_echo():
+		return
+	if event.is_action_pressed(&"skip"):
+		_finish()
+		get_viewport().set_input_as_handled()
+		return
+	if not event.is_action_pressed(&"ui_accept"):
 		return
 	if _current_line != null and not responses_menu.visible:
 		_handle_advance_input()
@@ -136,6 +142,8 @@ func _finish() -> void:
 	_current_line = null
 	_advancing = false
 	_waiting_for_input = false
+	# Stop typing first, otherwise the label keeps processing a null line.
+	dialogue_label.is_typing = false
 	dialogue_label.dialogue_line = null
 	responses_menu.responses = []
 	responses_menu.hide()
