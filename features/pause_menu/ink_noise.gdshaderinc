@@ -1,26 +1,16 @@
-// Value noise and fBm shared by the pause menu ink shaders.
+// Noise shared by the pause menu ink shaders.
+//
+// fBm used to be computed procedurally (5 octaves of hashed value noise per
+// call), which was most of the pause menu's GPU cost. It is now one lookup into
+// a pre-baked, seamless fractal NoiseTexture2D (generated in-engine, see
+// pause_menu.tscn). One texture tile spans 4 noise units.
 
-float ink_hash(vec2 p) {
-	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-}
+uniform sampler2D ink_noise_texture : repeat_enable, filter_linear_mipmap;
 
-float ink_value_noise(vec2 p) {
-	vec2 i = floor(p);
-	vec2 f = fract(p);
-	vec2 u = f * f * (3.0 - 2.0 * f);
-	return mix(
-		mix(ink_hash(i), ink_hash(i + vec2(1.0, 0.0)), u.x),
-		mix(ink_hash(i + vec2(0.0, 1.0)), ink_hash(i + vec2(1.0, 1.0)), u.x),
-		u.y);
-}
+// Squeezes the full 0..1 texture range toward 0.5 to match the softer
+// contrast of the old procedural fBm.
+const float INK_NOISE_CONTRAST = 0.7;
 
 float ink_fbm(vec2 p) {
-	float v = 0.0;
-	float a = 0.5;
-	for (int i = 0; i < 5; i++) {
-		v += a * ink_value_noise(p);
-		p = p * 2.03 + vec2(1.7, 9.2);
-		a *= 0.5;
-	}
-	return v;
+	return mix(0.5, texture(ink_noise_texture, p * 0.25).r, INK_NOISE_CONTRAST);
 }

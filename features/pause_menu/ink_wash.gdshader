@@ -9,7 +9,7 @@ shader_type canvas_item;
 
 #include "res://features/pause_menu/ink_noise.gdshaderinc"
 
-uniform sampler2D screen_texture : hint_screen_texture, filter_linear;
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform float strength : hint_range(0.0, 1.0) = 0.0;
 uniform float anim_time = 0.0;
 uniform float aspect = 1.7778;
@@ -48,16 +48,16 @@ float luminance(vec3 c) {
 	return dot(c, vec3(0.299, 0.587, 0.114));
 }
 
-// Golden-angle disk blur of the screen luminance.
+// Cheap blur: four samples from a lower screen mip level, offset diagonally,
+// instead of many full-resolution taps.
 float blurred_lum(vec2 uv, vec2 pixel) {
-	const int SAMPLES = 16;
-	float sum = 0.0;
-	for (int i = 0; i < SAMPLES; i++) {
-		float r = sqrt((float(i) + 0.5) / float(SAMPLES)) * blur_radius;
-		float a = float(i) * 2.39996;
-		sum += luminance(texture(screen_texture, uv + vec2(cos(a), sin(a)) * r * pixel).rgb);
-	}
-	return sum / float(SAMPLES);
+	float lod = max(log2(max(blur_radius, 1.0)) - 1.0, 0.0);
+	vec2 o = pixel * blur_radius * 0.5;
+	return 0.25 * (
+		luminance(textureLod(screen_texture, uv + vec2(o.x, o.y), lod).rgb)
+		+ luminance(textureLod(screen_texture, uv + vec2(-o.x, o.y), lod).rgb)
+		+ luminance(textureLod(screen_texture, uv + vec2(o.x, -o.y), lod).rgb)
+		+ luminance(textureLod(screen_texture, uv + vec2(-o.x, -o.y), lod).rgb));
 }
 
 vec3 palette(float q) {
@@ -66,7 +66,7 @@ vec3 palette(float q) {
 }
 
 void fragment() {
-	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
+	vec3 original = textureLod(screen_texture, SCREEN_UV, 0.0).rgb;
 	vec2 p = vec2(SCREEN_UV.x * aspect, SCREEN_UV.y) * 6.0;
 	float t = anim_time * flow_speed;
 
