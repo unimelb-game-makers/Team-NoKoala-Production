@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://features/pause_menu/pause_menu.gd" id="1_pause"]
+[ext_resource type="Shader" path="res://features/pause_menu/ink_spread.gdshader" id="2_ink"]
+[ext_resource type="Shader" path="res://features/pause_menu/ink_wash.gdshader" id="3_wash"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wash"]
+shader = ExtResource("3_wash")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ink"]
+shader = ExtResource("2_ink")
+
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("backdrop", "ink")]
+process_mode = 3
+layer = 110
+script = ExtResource("1_pause")
+backdrop = NodePath("Backdrop")
+ink = NodePath("Ink")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wash")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Ink" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ink")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

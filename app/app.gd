@@ -35,6 +35,7 @@ func load_world(world_scene: PackedScene):
 	#bind: replaceable dependency that pair with an unbind 
 	world.configure_world()
 	game_ui.bind_world(world.context)
+	game_ui.pause_menu.toggled.connect(world.world_ui.set_hud_hidden)
 
 	#_ready only triggers after a node enters the tree.
 	add_child(world)
@@ -50,6 +51,7 @@ func unload_world() -> void:
 
 	#unbind world
 	game_ui.unbind_world()
+	game_ui.pause_menu.toggled.disconnect(current_world.world_ui.set_hud_hidden)
 	
 	#unload world
 	current_world.shutdown()

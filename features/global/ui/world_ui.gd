@@ -14,6 +14,8 @@ extends Node
 
 var _gate: FeatureGate
 var _was_paused := false
+## Visibility of each HUD node before it was hidden, restored on show.
+var _hud_visibility: Dictionary[Node, bool] = {}
 
 
 func _ready() -> void:
@@ -95,3 +97,32 @@ func _unhandled_input(event: InputEvent) -> void:
 		toggle_map()
 		get_viewport().set_input_as_handled()
 		
+
+
+## Hides every HUD element (hotbar, faith bar, build button, panels, tutorial...)
+## except the cutscene layer, and restores each one's previous visibility.
+func set_hud_hidden(hidden: bool) -> void:
+	if hidden:
+		if not _hud_visibility.is_empty():
+			return
+		for node in _hud_nodes():
+			_hud_visibility[node] = node.visible
+			node.visible = false
+	else:
+		for node: Node in _hud_visibility:
+			if is_instance_valid(node):
+				node.visible = _hud_visibility[node]
+		_hud_visibility.clear()
+
+
+func _hud_nodes() -> Array[Node]:
+	var cutscene_layer := cutscene_player.get_parent()
+	var nodes: Array[Node] = []
+	for child in get_children():
+		if child is CanvasItem:
+			nodes.append(child)
+	# CanvasLayers don't inherit visibility from their parents, so collect them all.
+	for layer in find_children("*", "CanvasLayer", true, false):
+		if layer != cutscene_layer:
+			nodes.append(layer)
+	return nodes

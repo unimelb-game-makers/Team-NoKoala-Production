@@ -6,6 +6,7 @@ signal finished
 @export var characters: Array[DialogueCharacterDefinition] = []
 
 @onready var backdrop: Control = %Backdrop
+@onready var background: TextureRect = $Backdrop/Background
 @onready var portrait: TextureRect = %Portrait
 @onready var nameplate: PanelContainer = %Nameplate
 @onready var character_label: Label = %CharacterLabel
@@ -20,6 +21,8 @@ var _advancing := false
 var _waiting_for_input := false
 var _previous_focus_owner: Control
 var _characters_by_key: Dictionary[String, DialogueCharacterDefinition] = {}
+## Original modulate of each overlay node hidden by set_overlay_hidden.
+var _hidden_overlay: Dictionary[CanvasItem, Color] = {}
 
 
 func _ready() -> void:
@@ -153,3 +156,24 @@ func _finish() -> void:
 		_previous_focus_owner.grab_focus()
 	_previous_focus_owner = null
 	finished.emit()
+
+
+## Hides the text box, nameplate, choices and hints while keeping the
+## background and character portrait on screen (used by the pause menu).
+## Uses modulate rather than visible so the dialogue flow's own show/hide calls
+## are left untouched.
+func set_overlay_hidden(hidden: bool) -> void:
+	if hidden:
+		if not _hidden_overlay.is_empty():
+			return
+		for child in backdrop.get_children():
+			var item := child as CanvasItem
+			if item == null or item == portrait or item == background:
+				continue
+			_hidden_overlay[item] = item.modulate
+			item.modulate.a = 0.0
+	else:
+		for item: CanvasItem in _hidden_overlay:
+			if is_instance_valid(item):
+				item.modulate = _hidden_overlay[item]
+		_hidden_overlay.clear()

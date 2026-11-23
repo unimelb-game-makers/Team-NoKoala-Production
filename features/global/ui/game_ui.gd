@@ -3,6 +3,7 @@ extends Node
 
 
 @export var dialogue_ui: DialogueUI
+@export var pause_menu: PauseMenu
 
 var _context: WorldContext
 var _requested_cue: StringName
@@ -12,6 +13,8 @@ func _ready() -> void:
 	assert(dialogue_ui != null, "GameUI requires a DialogueUI")
 	dialogue_ui.hide()
 	dialogue_ui.finished.connect(_on_dialogue_finished)
+	assert(pause_menu != null, "GameUI requires a PauseMenu")
+	pause_menu.toggled.connect(_on_pause_toggled)
 
 
 func bind_world(context: WorldContext) -> void:
@@ -52,3 +55,7 @@ func _on_dialogue_finished() -> void:
 	_requested_cue = &""
 	if _context != null and not cue.is_empty():
 		_context.dialogue_coordinator.notify_finished(cue)
+
+
+func _on_pause_toggled(is_paused: bool) -> void:
+	dialogue_ui.set_overlay_hidden(is_paused)
