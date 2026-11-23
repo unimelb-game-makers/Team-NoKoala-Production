@@ -10,7 +10,7 @@ extends Node3D
 @export var buildings_root: Node
 @export var items_root: Node
 @export var world_ui: WorldUI
-@export var telescope: TelescopeAssembly
+@export var telescope_assembly: TelescopeAssembly
 
 var context: WorldContext
 var _composed := false
@@ -66,7 +66,8 @@ func compose_world_context() -> WorldContext:
 
 
 func configure_dependencies() -> void:
-	world_services.configure(grid, spring_arm, machines_root, mobs_root, items_root, telescope)
+	world_services.configure(grid, spring_arm, machines_root, mobs_root, items_root)
+	telescope_assembly.telescope.configure(world_services.progression_manager)
 	world_ui.configure(
 		world_services.faith_manager,
 		world_services.machine_placement_controller,

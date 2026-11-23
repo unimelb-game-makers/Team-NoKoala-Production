@@ -7,15 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://clv3kam55eeyc" path="res://assets/third_party/kenney_prototype-textures/PNG/Dark/texture_05.png" id="11_pjfmc"]
 [ext_resource type="PackedScene" uid="uid://brotbmlwb1jik" path="res://features/telescope/telescope_interactable.tscn" id="15_wk6gm"]
 [ext_resource type="Script" uid="uid://bmfs7248bdrbd" path="res://testbeds/progression_manager.gd" id="16_0cvnq"]
-
-[ext_resource type="PackedScene" path="res://features/global/world_services.tscn" id="17_services"]
-[ext_resource type="PackedScene" path="res://features/global/ui/world_ui.tscn" id="18_ui"]
-
-[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="20_demo"]
-[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_scenes/conveyor_belt.tscn" id="21_conveyor"]
-[ext_resource type="PackedScene" path="res://features/factory_system/machines/machine_scenes/faith_ritual.tscn" id="22_ritual"]
-[ext_resource type="PackedScene" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="23_resource"]
-[ext_resource type="Resource" path="res://features/factory_system/machines/machine_definitions/demo_machine.tres" id="24_default"]
+[ext_resource type="PackedScene" uid="uid://dv3umk5dytxh3" path="res://features/global/world_services.tscn" id="17_services"]
+[ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://features/global/ui/world_ui.tscn" id="18_ui"]
+[ext_resource type="PackedScene" uid="uid://dt6eaahia1xnc" path="res://features/factory_system/machines/machine_scenes/demo_machine.tscn" id="20_demo"]
+[ext_resource type="PackedScene" uid="uid://bhwdm7kxqsbfm" path="res://features/factory_system/machines/machine_scenes/conveyor_belt.tscn" id="21_conveyor"]
+[ext_resource type="PackedScene" uid="uid://cs7maerb8evpm" path="res://features/factory_system/machines/machine_scenes/faith_ritual.tscn" id="22_ritual"]
+[ext_resource type="PackedScene" uid="uid://cligl3h5yap8e" path="res://features/resource_area/scenes/iron_ore_resourcearea.tscn" id="23_resource"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_machine"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -40,23 +37,21 @@ uv1_world_triplanar = true
 material = SubResource("GroundMaterial_machine")
 size = Vector2(1000, 1000)
 
-[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("world_services", "grid", "spring_arm", "player", "machines_root", "items_root", "world_ui", "progression_manager", "telescope_assembly")]
+[node name="TestMachine" type="Node3D" unique_id=1256172161 node_paths=PackedStringArray("world_services", "grid", "spring_arm", "player", "world_ui", "items_root", "machines_root", "telescope_assembly")]
 script = ExtResource("1_7ip8x")
 world_services = NodePath("WorldServices")
-world_ui = NodePath("WorldUI")
-items_root = NodePath("Processables")
 grid = NodePath("GridMap")
 spring_arm = NodePath("SpringArm3D")
 player = NodePath("Kaguya")
+world_ui = NodePath("WorldUI")
+items_root = NodePath("Processables")
 machines_root = NodePath("Machines")
-progression_manager = NodePath("ProgressManager")
 telescope_assembly = NodePath("Machines/telescope")
 
-[node name="WorldServices" parent="." instance=ExtResource("17_services")]
+[node name="WorldServices" parent="." unique_id=497157506 instance=ExtResource("17_services")]
 
-[node name="MachineFactory" parent="WorldServices" index="0"]
+[node name="MachineFactory" parent="WorldServices" index="0" unique_id=331273636]
 machine_scenes = Array[PackedScene]([ExtResource("20_demo"), ExtResource("21_conveyor"), ExtResource("22_ritual"), ExtResource("23_resource")])
-default_machine_definition = ExtResource("24_default")
 
 [node name="GridMap" parent="." unique_id=1300501605 instance=ExtResource("7_axws4")]
 
@@ -65,7 +60,7 @@ default_machine_definition = ExtResource("24_default")
 [node name="Kaguya" parent="." unique_id=21341859 instance=ExtResource("9_rvlk2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2785904, 0)
 
-[node name="WorldUI" parent="." instance=ExtResource("18_ui")]
+[node name="WorldUI" parent="." unique_id=1282178678 instance=ExtResource("18_ui")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1357055124]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)

@@ -34,3 +34,5 @@ texture = ExtResource("2_1bsx1")
 [node name="StackDebugLabel" type="Label3D" parent="." unique_id=623548694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5723, -0.0237)
 billboard = 1
+no_depth_test = true
+render_priority = 10

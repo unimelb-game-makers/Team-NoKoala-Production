@@ -11,6 +11,7 @@ signal removing_from_world
 @export var progress_bar: Node3D
 
 @export var toggle_blueprint: bool
+@export var directonal_arrow: Sprite3D
 
 const BLUEPRINT_UI_PANEL := preload(
 	"res://features/factory_system/machines/ui/blueprint_panel.tscn"
@@ -147,6 +148,8 @@ func register_machines(
 	if dismantle_component != null:
 		dismantle_component.configure(self, factory_manager)
 	machine.center_position = center_cell
+	if directonal_arrow != null:
+		directonal_arrow.visible = false
 	if not toggle_blueprint:
 		return factory_manager.register_machine(machine)
 

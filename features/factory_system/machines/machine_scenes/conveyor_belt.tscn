@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bsm5tu4x6k6uf" path="res://assets/developer_art/models/machines/new/conveyor_belt_GameCube - The Legend of Zelda_ The Wind Waker - Locations - Island Textures.png" id="6_d3e65"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="9_5u5lm"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="10_jkubp"]
+[ext_resource type="Texture2D" uid="uid://dwwnucl2ee1mc" path="res://assets/developer_art/item_dock/item_dock_arrow.png" id="13_upvuo"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="14_3d8wi"]
 [ext_resource type="Script" uid="uid://bdam2sxwbk5sb" path="res://features/factory_system/machines/components/dismantle_component.gd" id="dismantle_component"]
 
@@ -193,13 +194,14 @@ _data = {
 }
 point_count = 2
 
-[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine", "dismantle_component", "blueprint")]
+[node name="DemoConveyorBelt" type="Node3D" unique_id=1444147165 node_paths=PackedStringArray("block", "machine", "dismantle_component", "blueprint", "directonal_arrow")]
 script = ExtResource("4_asm")
 block = NodePath("Block")
 machine = NodePath("ConveyorBelt")
 dismantle_component = NodePath("DismantleComponent")
 blueprint = NodePath("Blueprint")
 toggle_blueprint = true
+directonal_arrow = NodePath("Arrow")
 
 [node name="Block" type="Node3D" parent="." unique_id=1197696269 node_paths=PackedStringArray("transform_root")]
 script = ExtResource("3_block")
@@ -292,3 +294,11 @@ metadata/_custom_type_script = "uid://bgxakqgck66y6"
 
 [node name="DismantleComponent" type="Node" parent="." unique_id=1706240185]
 script = ExtResource("dismantle_component")
+
+[node name="Arrow" type="Sprite3D" parent="." unique_id=1989387374]
+transform = Transform3D(-0.99999994, 8.742277e-08, 3.821371e-15, 0, -4.3711385e-08, 1, 8.742277e-08, 0.99999994, 4.371139e-08, 0, 0.9309647, 0)
+modulate = Color(1, 1, 1, 0.60784316)
+pixel_size = 0.005
+no_depth_test = true
+render_priority = 10
+texture = ExtResource("13_upvuo")

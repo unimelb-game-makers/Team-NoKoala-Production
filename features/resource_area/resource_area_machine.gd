@@ -21,6 +21,8 @@ const HARVEST_PORT := &"harvest"
 @export var min_launch_up_speed := 1.0
 @export var max_launch_up_speed := 1.5
 
+@export var show_harvest_text: bool = false
+
 ## Items still to harvest for the current order; ignored when harvesting forever.
 var harvest_target := 0
 var harvest_forever := false
@@ -71,7 +73,7 @@ func get_processing_progress() -> float:
 
 
 func get_progress_text() -> String:
-	if get_progress_phase() != ProgressPhase.WORK:
+	if get_progress_phase() != ProgressPhase.WORK or !show_harvest_text:
 		return ""
 	return "Harvest %d%%" % roundi(get_processing_progress() * 100.0)
 
