@@ -1,0 +1,148 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://features/options_menu/options_menu.gd" id="1_script"]
+[ext_resource type="Shader" path="res://features/options_menu/screen_blur.gdshader" id="2_blur"]
+[ext_resource type="Texture2D" uid="uid://dpfyhbf1qeuy4" path="res://assets/ui/options/OptionsBackground.png" id="3_bg"]
+[ext_resource type="Texture2D" uid="uid://cuscr5wms1cs5" path="res://assets/ui/options/OptionsTitle.png" id="4_title"]
+[ext_resource type="Texture2D" uid="uid://xlu3tbwqe6de" path="res://assets/ui/options/OptionsButton.png" id="5_button"]
+[ext_resource type="Texture2D" uid="uid://bky5u5ph77not" path="res://assets/ui/options/OptionsButtonSelected.png" id="6_button_selected"]
+[ext_resource type="Texture2D" uid="uid://nb3phdy2fcjd" path="res://assets/ui/options/OptionsSlider.png" id="7_slider"]
+[ext_resource type="Texture2D" uid="uid://belq76r7d74vu" path="res://assets/ui/options/OptionsSliderThumb.png" id="8_thumb"]
+[ext_resource type="Texture2D" uid="uid://c3l1sbdsykkf3" path="res://assets/ui/options/OptionsSliderThumbSelected.png" id="9_thumb_selected"]
+[ext_resource type="FontFile" uid="uid://dikmrvbncnbrn" path="res://assets/fonts/Cardo/Cardo-Bold.ttf" id="10_font"]
+[ext_resource type="Script" path="res://features/options_menu/texture_slider.gd" id="11_slider"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blur"]
+shader = ExtResource("2_blur")
+
+[sub_resource type="StyleBoxTexture" id="StyleBox_button"]
+texture = ExtResource("5_button")
+
+[sub_resource type="StyleBoxTexture" id="StyleBox_button_selected"]
+texture = ExtResource("6_button_selected")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBox_empty"]
+
+[sub_resource type="Theme" id="Theme_options"]
+default_font = ExtResource("10_font")
+default_font_size = 34
+Button/colors/font_color = Color(0.12, 0.08, 0.05, 1)
+Button/colors/font_focus_color = Color(0.12, 0.08, 0.05, 1)
+Button/colors/font_hover_color = Color(0.12, 0.08, 0.05, 1)
+Button/colors/font_hover_pressed_color = Color(0.12, 0.08, 0.05, 1)
+Button/colors/font_pressed_color = Color(0.12, 0.08, 0.05, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 10
+Button/styles/disabled = SubResource("StyleBox_button")
+Button/styles/focus = SubResource("StyleBox_empty")
+Button/styles/hover = SubResource("StyleBox_button")
+Button/styles/hover_pressed = SubResource("StyleBox_button")
+Button/styles/normal = SubResource("StyleBox_button")
+Button/styles/pressed = SubResource("StyleBox_button")
+HSlider/styles/focus = SubResource("StyleBox_empty")
+HSlider/styles/grabber_area = SubResource("StyleBox_empty")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBox_empty")
+HSlider/styles/slider = SubResource("StyleBox_empty")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0.24, 0.16, 0.08, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.5)
+Label/constants/outline_size = 12
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 2
+Label/constants/shadow_outline_size = 0
+
+[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("layout", "volume_slider", "volume_value_label", "apply_button", "back_button")]
+process_mode = 3
+layer = 120
+script = ExtResource("1_script")
+layout = NodePath("Layout")
+volume_slider = NodePath("Layout/VolumeSlider")
+volume_value_label = NodePath("Layout/VolumeValue")
+apply_button = NodePath("Layout/ApplyButton")
+back_button = NodePath("Layout/BackButton")
+button_style = SubResource("StyleBox_button")
+button_selected_style = SubResource("StyleBox_button_selected")
+
+[node name="Blur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_blur")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_bg")
+expand_mode = 1
+
+[node name="Layout" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1404.0
+offset_bottom = 848.0
+mouse_filter = 2
+theme = SubResource("Theme_options")
+
+[node name="Title" type="TextureRect" parent="Layout"]
+layout_mode = 0
+offset_left = 611.0
+offset_top = 108.0
+offset_right = 793.0
+offset_bottom = 214.0
+mouse_filter = 2
+texture = ExtResource("4_title")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VolumeLabel" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 300.0
+offset_right = 640.0
+offset_bottom = 354.0
+text = "Music Volume"
+vertical_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="Layout"]
+layout_mode = 0
+offset_left = 686.0
+offset_top = 304.0
+offset_right = 986.0
+offset_bottom = 350.0
+value = 100.0
+rounded = true
+script = ExtResource("11_slider")
+track_texture = ExtResource("7_slider")
+thumb_texture = ExtResource("8_thumb")
+thumb_selected_texture = ExtResource("9_thumb_selected")
+
+[node name="VolumeValue" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 1012.0
+offset_top = 300.0
+offset_right = 1082.0
+offset_bottom = 354.0
+text = "100"
+vertical_alignment = 1
+
+[node name="ApplyButton" type="Button" parent="Layout"]
+layout_mode = 0
+offset_left = 521.0
+offset_top = 560.0
+offset_right = 882.0
+offset_bottom = 634.0
+text = "Apply"
+
+[node name="BackButton" type="Button" parent="Layout"]
+layout_mode = 0
+offset_left = 521.0
+offset_top = 640.0
+offset_right = 882.0
+offset_bottom = 714.0
+text = "Back"

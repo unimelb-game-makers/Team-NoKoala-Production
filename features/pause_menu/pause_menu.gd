@@ -14,6 +14,7 @@ signal toggled(is_open: bool)
 @export var resume_button: PauseMenuItem
 @export var options_button: PauseMenuItem
 @export var exit_button: PauseMenuItem
+@export var options_menu: OptionsMenu
 @export var open_duration := 0.9
 @export var close_duration := 0.45
 ## How far (px) the menu slides in from the right while it fades in.
@@ -55,6 +56,8 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if options_menu.visible:
+		return
 	# Arrow keys with nothing focused (e.g. after clicking the backdrop) select
 	# the first item again.
 	if is_open and (event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down")):
@@ -132,6 +135,7 @@ func _setup_buttons() -> void:
 	resume_button.pressed.connect(close)
 	options_button.pressed.connect(_on_options_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
+	options_menu.closed.connect(_on_options_closed)
 
 	var buttons := _buttons()
 	for i in buttons.size():
@@ -156,8 +160,22 @@ func _set_menu_interactive(interactive: bool) -> void:
 
 
 func _on_options_pressed() -> void:
-	# TODO: open the options menu once it exists.
-	pass
+	# The options screen has its own background, so hide the ink layers under it.
+	_set_menu_interactive(false)
+	_set_effects_visible(false)
+	options_menu.open()
+
+
+func _on_options_closed() -> void:
+	_set_effects_visible(true)
+	_set_menu_interactive(true)
+	options_button.grab_focus()
+
+
+func _set_effects_visible(effects_visible: bool) -> void:
+	backdrop.visible = effects_visible
+	ink.visible = effects_visible
+	menu.visible = effects_visible
 
 
 func _on_exit_pressed() -> void:

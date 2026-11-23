@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://features/pause_menu/pause_menu.gd" id="1_pause"]
 [ext_resource type="Shader" path="res://features/pause_menu/ink_spread.gdshader" id="2_ink"]
 [ext_resource type="Shader" path="res://features/pause_menu/ink_wash.gdshader" id="3_wash"]
 [ext_resource type="PackedScene" path="res://features/pause_menu/pause_menu_item.tscn" id="4_item"]
+[ext_resource type="PackedScene" path="res://features/options_menu/options_menu.tscn" id="5_options"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ink"]
 noise_type = 3
@@ -24,7 +25,7 @@ shader_parameter/ink_noise_texture = SubResource("NoiseTexture2D_ink")
 shader = ExtResource("2_ink")
 shader_parameter/ink_noise_texture = SubResource("NoiseTexture2D_ink")
 
-[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("backdrop", "ink", "menu", "resume_button", "options_button", "exit_button")]
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("backdrop", "ink", "menu", "resume_button", "options_button", "exit_button", "options_menu")]
 process_mode = 3
 layer = 110
 script = ExtResource("1_pause")
@@ -34,6 +35,7 @@ menu = NodePath("Menu")
 resume_button = NodePath("Menu/ResumeButton")
 options_button = NodePath("Menu/OptionsButton")
 exit_button = NodePath("Menu/ExitButton")
+options_menu = NodePath("OptionsMenu")
 
 [node name="Backdrop" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_wash")
@@ -78,3 +80,5 @@ title = "Options"
 [node name="ExitButton" parent="Menu" instance=ExtResource("4_item")]
 layout_mode = 2
 title = "Exit Game"
+
+[node name="OptionsMenu" parent="." instance=ExtResource("5_options")]

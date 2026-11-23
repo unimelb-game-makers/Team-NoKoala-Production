@@ -395,5 +395,6 @@ cutscene = ExtResource("24_rfyvl")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1992962174]
 stream = ExtResource("23_l6gi6")
 autoplay = true
+bus = &"Music"
 
 [editable path="WorldServices"]

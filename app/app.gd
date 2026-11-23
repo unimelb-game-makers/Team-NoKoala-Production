@@ -13,6 +13,7 @@ var current_world: GameWorld
 
 
 func _ready() -> void:
+	GameSettings.load_settings()
 	assert(game_ui != null, "App requires a GameUI")
 	assert(initial_world_scene != null, "App requires a world scene")
 	load_world(initial_world_scene)
