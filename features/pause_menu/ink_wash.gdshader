@@ -7,7 +7,17 @@ shader_type canvas_item;
 // darker rim along each edge, the way watercolor dries.
 // `strength` blends from the original image (0) to the full effect (1).
 
-#include "res://features/pause_menu/ink_noise.gdshaderinc"
+// Shared noise (kept inline: web builds don't run the shader preprocessor, so
+// include and define directives fail there). Keep in sync with the other ink shader.
+// One lookup into a pre-baked, seamless fractal NoiseTexture2D (see
+// pause_menu.tscn); one texture tile spans 4 noise units. The contrast factor
+// squeezes the 0..1 range toward 0.5 for softer variation.
+uniform sampler2D ink_noise_texture : repeat_enable, filter_linear_mipmap;
+const float INK_NOISE_CONTRAST = 0.7;
+
+float ink_fbm(vec2 p) {
+	return mix(0.5, texture(ink_noise_texture, p * 0.25).r, INK_NOISE_CONTRAST);
+}
 
 uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform float strength : hint_range(0.0, 1.0) = 0.0;

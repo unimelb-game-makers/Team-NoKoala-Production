@@ -14,7 +14,17 @@ uniform float noise_scale = 3.0;
 uniform vec4 ink_color : source_color = vec4(0.96, 0.92, 0.85, 1.0);
 uniform vec4 pool_color : source_color = vec4(0.88, 0.82, 0.72, 1.0);
 
-#include "res://features/pause_menu/ink_noise.gdshaderinc"
+// Shared noise (kept inline: web builds don't run the shader preprocessor, so
+// include and define directives fail there). Keep in sync with the other ink shader.
+// One lookup into a pre-baked, seamless fractal NoiseTexture2D (see
+// pause_menu.tscn); one texture tile spans 4 noise units. The contrast factor
+// squeezes the 0..1 range toward 0.5 for softer variation.
+uniform sampler2D ink_noise_texture : repeat_enable, filter_linear_mipmap;
+const float INK_NOISE_CONTRAST = 0.7;
+
+float ink_fbm(vec2 p) {
+	return mix(0.5, texture(ink_noise_texture, p * 0.25).r, INK_NOISE_CONTRAST);
+}
 
 void fragment() {
 	float t = anim_time * flow_speed;
