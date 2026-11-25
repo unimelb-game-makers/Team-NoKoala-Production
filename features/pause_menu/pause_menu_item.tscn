@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://cqigphew8es6n"]
+
+[ext_resource type="Script" uid="uid://diojrpporxw6" path="res://features/pause_menu/pause_menu_item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://dgsek5uqivurl" path="res://assets/ui/pause_menu/PauseMenuItem.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://f2i3cox1llrl" path="res://assets/ui/pause_menu/PauseMenuItemSelected.png" id="3_bg_selected"]
+[ext_resource type="FontFile" uid="uid://dhs2s2brth8ai" path="res://assets/fonts/Cardo/Cardo-Regular.ttf" id="4_qlnn8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBox_empty"]
+
+[node name="PauseMenuItem" type="Button" unique_id=647712912]
+custom_minimum_size = Vector2(388, 98)
+theme_override_styles/normal = SubResource("StyleBox_empty")
+theme_override_styles/pressed = SubResource("StyleBox_empty")
+theme_override_styles/hover = SubResource("StyleBox_empty")
+theme_override_styles/hover_pressed = SubResource("StyleBox_empty")
+theme_override_styles/disabled = SubResource("StyleBox_empty")
+theme_override_styles/focus = SubResource("StyleBox_empty")
+script = ExtResource("1_item")
+
+[node name="Visual" type="Control" parent="." unique_id=1343500275]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="Visual" unique_id=1091369416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+
+[node name="SelectedBackground" type="TextureRect" parent="Visual" unique_id=958372616]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_bg_selected")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Visual" unique_id=1133003042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("4_qlnn8")
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1

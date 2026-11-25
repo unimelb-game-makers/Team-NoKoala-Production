@@ -47,9 +47,6 @@ func _process(_delta: float) -> void:
 	if place_mode and Input.is_action_just_pressed("next_item"):
 		select_next_machine()
 
-	if place_mode and Input.is_action_just_pressed("ui_cancel"):
-		place_mode = !place_mode
-
 	if spring_arm == null:
 		return
 
@@ -71,6 +68,10 @@ func _process(_delta: float) -> void:
 		placement_grid.set_cursor(hit.position)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if place_mode and event.is_action_pressed("ui_cancel"):
+		place_mode = false
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			_place_machine(event.shift_pressed)
