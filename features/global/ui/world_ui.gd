@@ -3,6 +3,7 @@ extends Node
 
 @export var faith_progress_bar: FaithProgressBar
 @export var machine_ui: MachineUI
+@export var spirit_ui: SpiritUI
 @export var build_menu_button: Button
 @export var build_selection_panel: MachineBuildSelectionPanel
 @export var hotbar: Hotbar

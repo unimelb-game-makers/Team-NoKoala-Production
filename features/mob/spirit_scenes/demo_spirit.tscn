@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dppq0jc4q4srt" path="res://features/mob/npc.gd" id="1_pkmol"]
 [ext_resource type="Resource" uid="uid://b7retm6o3fpqt" path="res://features/mob/npc_definitions/worker_npc.tres" id="2_22a45"]
 [ext_resource type="Texture2D" uid="uid://contalhobgcse" path="res://assets/characters/spirits/porter 2.png" id="3_o2l4q"]
+[ext_resource type="PackedScene" uid="uid://nf082e8dil64" path="res://features/mob/ui/spirit_panel.tscn" id="3_wvfjm"]
 [ext_resource type="Script" uid="uid://b3wo3jleh8jbk" path="res://features/mob/ai/job/job_consumer.gd" id="4_7lx0k"]
 [ext_resource type="Script" uid="uid://byobdql8wp8yt" path="res://features/mob/ai/job/providers/idle_job_provider.gd" id="5_nnbgk"]
 [ext_resource type="Script" uid="uid://c8p3sixfla6lw" path="res://features/mob/movement/movement.gd" id="6_gq6mq"]
@@ -20,6 +21,7 @@ idle_job_provider = NodePath("WanderJobProvider")
 movement = NodePath("Movement")
 inventory_owner = NodePath("InventoryOwner")
 definition = ExtResource("2_22a45")
+ui_panels = Array[PackedScene]([ExtResource("3_wvfjm")])
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1362271164]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35006487, 0)

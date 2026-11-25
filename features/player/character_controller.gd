@@ -32,6 +32,7 @@ func configure(
 	factory: FactoryManager,
 	hotbar: Hotbar,
 	machine_ui: MachineUI,
+	spirit_ui: SpiritUI,
 	item_stack_list_panel: ItemStackListPanel,
 	gate: FeatureGate = null,
 ) -> void:
@@ -42,6 +43,7 @@ func configure(
 		placement,
 		jobs,
 		machine_ui,
+		spirit_ui,
 		grid,
 		factory,
 		item_stack_list_panel,

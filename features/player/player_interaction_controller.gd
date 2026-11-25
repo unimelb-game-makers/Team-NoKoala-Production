@@ -15,6 +15,7 @@ var _selected_consumer: JobConsumer
 var _context_menu: ContextMenu
 var _selection_box: SelectionBox
 var _machine_ui: MachineUI
+var _spirit_ui: SpiritUI
 var _gate: FeatureGate
 var _grid: Grid
 var _factory_manager: FactoryManager
@@ -30,6 +31,7 @@ func configure(
 	machine_placement_controller: MachinePlacementController,
 	job_board: JobBoard,
 	machine_ui: MachineUI,
+	spirit_ui: SpiritUI,
 	grid: Grid,
 	factory_manager: FactoryManager,
 	item_stack_list_panel: ItemStackListPanel,
@@ -39,6 +41,7 @@ func configure(
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_machine_ui = machine_ui
+	_spirit_ui = spirit_ui
 	_grid = grid
 	_factory_manager = factory_manager
 	_item_stack_list_panel = item_stack_list_panel
@@ -141,6 +144,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _try_open_telescope():
 			return
 		if FeatureGate.check(_gate, GameFeature.Id.MACHINE_UI):
+			if _try_open_spirit_ui():
+				print("opened UI")
+				return
 			_try_open_machine_ui()
 
 func _try_open_telescope() -> bool:
@@ -164,6 +170,14 @@ func _try_open_machine_ui() -> void:
 	_machine_ui.open(assembly)
 	get_viewport().set_input_as_handled()
 
+func _try_open_spirit_ui() -> bool:
+	var npc := _node_at_mouse() as Npc
+	if npc == null or _spirit_ui == null:
+		return false
+	
+	_spirit_ui.open(npc)
+	get_viewport().set_input_as_handled()
+	return true
 
 func _close_machine_ui() -> void:
 	if _machine_ui != null:
@@ -269,7 +283,6 @@ func _item_from_node(node: Node) -> FactoryItem:
 		node = node.get_parent()
 	return null
 
-
 func _consumer_from_node(node: Node) -> JobConsumer:
 	while node != null:
 		var consumer := NodeUtils.get_child_by_type(node, JobConsumer)
@@ -287,7 +300,6 @@ func _provider_from_node(node: Node) -> JobProvider:
 	if machine == null:
 		return null
 	return machine.job_provider
-
 
 func _assembly_from_node(node: Node) -> MachineAssembly:
 	while node != null:
