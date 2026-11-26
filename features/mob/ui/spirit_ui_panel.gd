@@ -8,6 +8,7 @@ const CELL_SCENE := preload(
 signal close_requested
 
 @export var container: VBoxContainer
+@export var name_label: Label
 @export var close_button: Button
 
 
@@ -37,6 +38,7 @@ func close() -> void:
 	defintion = null
 
 func _on_open() -> void:
+	name_label.text = str(npc.name)
 	npc.enabled_work_types_changed.connect(_rebuild_work_types)
 	_rebuild_work_types()
 	show()
