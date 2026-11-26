@@ -6,21 +6,30 @@ const CELL_SCENE := preload(
 )
 
 signal close_requested
+signal wander_requested(npc: Npc)
 
 @export var container: VBoxContainer
 @export var name_label: Label
 @export var current_job_label: Label
 @export var close_button: Button
+@export var jobs_list: VBoxContainer
+@export var wander_button: Button
 
 
 var npc: Npc
 var defintion: NPCDefinition
 var _selected: int = -1
 var _cells: Array[WorkTypeCell] = []
+var _job_board: JobBoard
 
 func _ready() -> void:
 	close_button.pressed.connect(close)
+	wander_button.pressed.connect(wander)
 	hide()
+
+func bind(job_board: JobBoard) -> void:
+	_job_board = job_board
+	_refresh()
 	
 func open(target: Npc) -> void:
 	close()
@@ -43,6 +52,7 @@ func _on_open() -> void:
 	name_label.text = str(npc.name)
 	npc.enabled_work_types_changed.connect(_rebuild_work_types)
 	_rebuild_work_types()
+	_rebuild_requests()
 	show()
 
 func _on_close() -> void:
@@ -52,6 +62,7 @@ func _on_close() -> void:
 	):
 		npc.enabled_work_types_changed.disconnect(_rebuild_work_types)
 	_clear_grid()
+	_clear_requests()
 	hide()
 
 
@@ -100,3 +111,32 @@ func _rebuild_work_types() -> void:
 	if not allowed.has(_selected):
 		_selected = allowed[0] if not allowed.is_empty() else -1
 	_refresh()
+
+func _rebuild_requests() -> void:
+	_clear_requests()
+	if npc == null or _job_board == null:
+		return
+	for request in _job_board.get_available_requests(npc.job_consumer):
+		if request.job_type() == "wander":
+			continue
+		# TO DO: update this to a button
+		var label := Label.new()
+		label.text = str(request.job_type())
+		jobs_list.add_child(label)
+	
+	if jobs_list.get_child_count() == 0:
+		var label := Label.new()
+		label.text = "No available jobs"
+		jobs_list.add_child(label)
+
+func _clear_requests() -> void:
+	for child in jobs_list.get_children():
+		jobs_list.remove_child(child)
+		child.queue_free()
+
+func wander() -> void:
+	if npc == null:
+		return
+	wander_requested.emit(npc)
+	current_job_label.text = "Current Job: " + npc.get_current_job_string()
+	_rebuild_requests()

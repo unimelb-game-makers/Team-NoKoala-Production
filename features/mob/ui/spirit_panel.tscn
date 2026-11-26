@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://contalhobgcse" path="res://assets/characters/spirits/porter 2.png" id="1_6xwks"]
 [ext_resource type="Script" uid="uid://cio1o1x45286w" path="res://features/mob/ui/spirit_ui_panel.gd" id="1_a5nne"]
 
-[node name="SpiritUI" type="Control" unique_id=1446155834 node_paths=PackedStringArray("container", "name_label", "current_job_label", "close_button")]
+[node name="SpiritUI" type="Control" unique_id=1446155834 node_paths=PackedStringArray("container", "name_label", "current_job_label", "close_button", "jobs_list", "wander_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,8 @@ container = NodePath("Panel/Margin/SpiritPanel/Content/LHS/WorkTypes")
 name_label = NodePath("Panel/Margin/SpiritPanel/Content/LHS/SpiritName")
 current_job_label = NodePath("Panel/Margin/SpiritPanel/Content/LHS/TechnicalLabel")
 close_button = NodePath("Panel/Margin/SpiritPanel/Header/Close")
+jobs_list = NodePath("Panel/Margin/SpiritPanel/Content/RHS")
+wander_button = NodePath("Panel/Margin/SpiritPanel/ChangeJobButton")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1396334572]
 custom_minimum_size = Vector2(440, 413.79)
@@ -100,9 +102,9 @@ theme_override_constants/separation = 2
 
 [node name="RHS" type="VBoxContainer" parent="Panel/Margin/SpiritPanel/Content" unique_id=2101102384]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 1
 
 [node name="ChangeJobButton" type="Button" parent="Panel/Margin/SpiritPanel" unique_id=766961094]
 layout_mode = 2
 focus_mode = 0
-text = "Update"
+text = "Wander"

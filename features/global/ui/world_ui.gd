@@ -52,6 +52,7 @@ func _exit_tree() -> void:
 func configure(
 	faith: FaithManager,
 	placement: MachinePlacementController,
+	job_board: JobBoard,
 	gate: FeatureGate = null,
 	tutorial: TutorialDirector = null,
 ) -> void:
@@ -59,6 +60,8 @@ func configure(
 	build_selection_panel.configure(placement)
 	_bind_gate(gate)
 	tutorial_overlay.bind(tutorial)
+	spirit_ui.bind(job_board)
+	spirit_ui.wander_requested.connect(_on_wander_requested)
 
 
 func _bind_gate(gate: FeatureGate) -> void:
@@ -85,6 +88,10 @@ func _on_build_menu_pressed() -> void:
 		build_selection_panel.close()
 	else:
 		build_selection_panel.open()
+		
+func _on_wander_requested(target: Npc) -> void:
+	if is_instance_valid(target):
+		target.wander()
 
 func toggle_map() -> void:
 	map.visible = not map.visible

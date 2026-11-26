@@ -46,3 +46,6 @@ func get_current_job_string() -> String:
 	if current is WorkJob:
 		return current.JOB_TYPE
 	return "Wandering"
+
+func wander() -> void:
+	job_consumer.interrupt_job()

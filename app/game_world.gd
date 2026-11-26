@@ -71,6 +71,7 @@ func configure_dependencies() -> void:
 	world_ui.configure(
 		world_services.faith_manager,
 		world_services.machine_placement_controller,
+		world_services.job_board,
 		world_services.feature_gate,
 		world_services.tutorial_director,
 	)
