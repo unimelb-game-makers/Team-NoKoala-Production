@@ -40,3 +40,9 @@ func work_types_changed(type: WorkType.Value) -> void:
 	
 func get_ui_panels() -> Array[PackedScene]:
 	return ui_panels
+	
+func get_current_job_string() -> String:
+	var current = job_consumer.current_job
+	if current is WorkJob:
+		return current.JOB_TYPE
+	return "Wandering"

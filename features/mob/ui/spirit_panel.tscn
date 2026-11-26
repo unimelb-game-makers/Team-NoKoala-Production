@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://contalhobgcse" path="res://assets/characters/spirits/porter 2.png" id="1_6xwks"]
 [ext_resource type="Script" uid="uid://cio1o1x45286w" path="res://features/mob/ui/spirit_ui_panel.gd" id="1_a5nne"]
 
-[node name="SpiritUI" type="Control" unique_id=1446155834 node_paths=PackedStringArray("container", "name_label", "close_button")]
+[node name="SpiritUI" type="Control" unique_id=1446155834 node_paths=PackedStringArray("container", "name_label", "current_job_label", "close_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_a5nne")
 container = NodePath("Panel/Margin/SpiritPanel/Content/LHS/WorkTypes")
 name_label = NodePath("Panel/Margin/SpiritPanel/Content/LHS/SpiritName")
+current_job_label = NodePath("Panel/Margin/SpiritPanel/Content/LHS/TechnicalLabel")
 close_button = NodePath("Panel/Margin/SpiritPanel/Header/Close")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1396334572]
