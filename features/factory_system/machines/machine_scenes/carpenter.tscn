@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://dwaidgtqyhe3j" path="res://features/factory_system/recipes/recipe_definitions/bamboo_plank_recipe.tres" id="11_2oja4"]
 [ext_resource type="Script" uid="uid://bgxakqgck66y6" path="res://features/mob/ai/job/providers/machine_job_provider.gd" id="12_aet1u"]
 [ext_resource type="Resource" uid="uid://vch4e1gga1gw" path="res://features/factory_system/recipes/recipe_definitions/bamboo_joint_recipe.tres" id="12_uik1x"]
+[ext_resource type="Resource" uid="uid://dxe1fjmvn1w4a" path="res://features/factory_system/recipes/recipe_definitions/doll_wooden_recipe.tres" id="13_3ysjs"]
 [ext_resource type="Script" uid="uid://bm0lxjhofdrjf" path="res://features/factory_system/recipes/recipe_item_amount.gd" id="13_gyvjp"]
 [ext_resource type="Script" uid="uid://c0aghoj2775l1" path="res://features/factory_system/machines/components/machine_synchronizer.gd" id="13_ha0hm"]
 [ext_resource type="Script" uid="uid://b0nrxawvi5lsd" path="res://features/factory_system/machines/machine_runtime/blueprint_machine.gd" id="14_0ww30"]
@@ -99,7 +100,7 @@ metadata/_custom_type_script = "uid://b01yqejyrbh14"
 [node name="Machine" type="Node" parent="." unique_id=971752522 node_paths=PackedStringArray("job_provider", "debug_active_indicator")]
 script = ExtResource("8_iq3yl")
 definition = ExtResource("9_e1kpp")
-enabled_recipes = Array[ExtResource("10_b7kl6")]([ExtResource("11_2oja4"), ExtResource("12_uik1x")])
+enabled_recipes = Array[ExtResource("10_b7kl6")]([ExtResource("11_2oja4"), ExtResource("12_uik1x"), ExtResource("13_3ysjs")])
 job_provider = NodePath("MachineJobProvider")
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
