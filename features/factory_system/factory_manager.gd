@@ -88,7 +88,7 @@ func _on_faith_depleted() -> void:
 		if (
 			_can_tick(machine)
 			and machine.is_active
-			and machine.faith_drain_rate > 0.0
+			and machine.get_effective_faith_drain_rate() > 0.0
 		):
 			machine.force_shutdown()
 

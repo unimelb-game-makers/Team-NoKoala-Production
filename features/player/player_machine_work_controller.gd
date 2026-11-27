@@ -16,18 +16,10 @@ func configure(grid: Grid, factory_manager: FactoryManager, gate: FeatureGate = 
 	_grid = grid
 	_factory_manager = factory_manager
 	_gate = gate
+	if capability != null:
+		capability.consumes_faith = false
 	if _gate != null and not _gate.changed.is_connected(_on_gate_changed):
 		_gate.changed.connect(_on_gate_changed)
-	_connect_faith_manager()
-
-func _connect_faith_manager() -> void:
-	if faith_manager == null:
-		return
-	if not faith_manager.faith_depleted.is_connected(_on_faith_depleted):
-		faith_manager.faith_depleted.connect(_on_faith_depleted)
-
-func _on_faith_depleted() -> void:
-	_stop_working()
 
 
 func _on_gate_changed() -> void:
@@ -37,6 +29,8 @@ func _on_gate_changed() -> void:
 
 func _ready() -> void:
 	_player = get_parent() as Player
+	if capability != null:
+		capability.consumes_faith = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
