@@ -51,6 +51,7 @@ func _physics_process(_delta: float) -> void:
 		not is_instance_valid(_working_machine)
 		or _working_machine.disabled
 		or _working_machine.is_shut_down
+		or _player.target_move_direction.length_squared() > 0.001
 		or _get_player_cell() != _working_cell
 	):
 		_stop_working()
