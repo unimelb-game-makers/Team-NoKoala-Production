@@ -29,8 +29,12 @@ func _process(delta: float) -> void:
 
 
 func apply_delta(amount: float) -> void:
+	set_faith(current_faith + amount)
+
+
+func set_faith(value: float) -> void:
 	var old_faith := current_faith
-	current_faith = clamp(current_faith + amount, 0.0, max_faith)
+	current_faith = clamp(value, 0.0, max_faith)
 	if current_faith != old_faith:
 		faith_changed.emit(current_faith, max_faith)
 	_check_empty()
@@ -68,7 +72,3 @@ func _check_empty() -> bool:
 		return false
 	
 	return is_empty
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_add_faith"):
-		apply_delta(10.0)
