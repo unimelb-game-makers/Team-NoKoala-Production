@@ -60,9 +60,20 @@ func has_selection() -> bool:
 
 func is_full() -> bool:
 	for item in slots:
-		if item == null or not item.stack.is_full():
+		if item == null or item.stack == null or not item.stack.is_full():
 			return false
 	return true
+
+
+func can_add(item: FactoryItem) -> bool:
+	if item == null or item.stack == null or item.stack.is_empty():
+		return false
+	for slot_item in slots:
+		if slot_item == null:
+			return true
+		if slot_item != item and slot_item.stack != null and slot_item.stack.can_merge_with(item.stack):
+			return true
+	return false
 
 
 # merges the item into compatible stacks (selected slot first), then places
