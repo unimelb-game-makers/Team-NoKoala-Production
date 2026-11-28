@@ -55,7 +55,7 @@ visible = false
 
 [node name="ItemStackListPanel" parent="CanvasLayer" unique_id=375215455 instance=ExtResource("6_itemst")]
 
-[node name="SpiritUI" parent="CanvasLayer" unique_id=1446155834 instance=ExtResource("9_pacug")]
+[node name="SpiritUI" parent="CanvasLayer" unique_id=1446155834 groups=["tutorial_spirit_ui"] instance=ExtResource("9_pacug")]
 
 [node name="CutsceneLayer" type="CanvasLayer" parent="." unique_id=1891303320]
 process_mode = 3

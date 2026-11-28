@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bx750qvvwqw6j" path="res://features/tutorial/tutorial_sequence.gd" id="1_g73kd"]
 [ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="2_5y6yq"]
+[ext_resource type="Resource" uid="uid://dwa8iit20cm8" path="res://features/tutorial/tutorial_tasks/spirit_task.tres" id="3_kriyg"]
 [ext_resource type="Resource" uid="uid://sn55qr270n8l" path="res://features/tutorial/tutorial_tasks/movement_task.tres" id="3_wsv3p"]
 [ext_resource type="Resource" uid="uid://dx8e0jcdfg56b" path="res://features/tutorial/tutorial_tasks/offering_task.tres" id="4_kriyg"]
 [ext_resource type="Resource" uid="uid://cjnpm7vdaj5jy" path="res://features/tutorial/tutorial_tasks/map_task.tres" id="5_hkskw"]
@@ -11,4 +12,4 @@
 
 [resource]
 script = ExtResource("1_g73kd")
-tasks = Array[ExtResource("2_5y6yq")]([ExtResource("3_wsv3p"), ExtResource("4_kriyg"), ExtResource("5_hkskw"), ExtResource("6_g73kd"), ExtResource("7_sd4hj"), ExtResource("8_pgi4i")])
+tasks = Array[ExtResource("2_5y6yq")]([ExtResource("3_wsv3p"), ExtResource("4_kriyg"), ExtResource("5_hkskw"), ExtResource("6_g73kd"), ExtResource("7_sd4hj"), ExtResource("3_kriyg"), ExtResource("8_pgi4i")])

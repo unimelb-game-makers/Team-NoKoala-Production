@@ -41,7 +41,6 @@
 [ext_resource type="Script" uid="uid://dk6ro3ymqhxn8" path="res://features/resource_area/resource_area_converter.gd" id="26_h1ur4"]
 [ext_resource type="PackedScene" uid="uid://edwc1nabnbno" path="res://features/global/ui/world_ui.tscn" id="27_world_ui"]
 [ext_resource type="PackedScene" uid="uid://brotbmlwb1jik" path="res://features/telescope/telescope_interactable.tscn" id="35_u2esi"]
-[ext_resource type="PackedScene" uid="uid://bpma6ownlsdnt" path="res://features/factory_system/machines/machine_scenes/carpenter.tscn" id="37_ythrj"]
 [ext_resource type="Script" uid="uid://ovdm25kftv6d" path="res://testbeds/map_area_trigger.gd" id="50_u2esi"]
 
 [sub_resource type="ConvexPolygonShape3D" id="GroundShape_world"]
@@ -161,7 +160,7 @@ metadata/_custom_type_script = "uid://dk6ro3ymqhxn8"
 
 [node name="Mobs" type="Node" parent="." unique_id=2142726113]
 
-[node name="DemoNpc" parent="Mobs" unique_id=1051193038 instance=ExtResource("10_npc")]
+[node name="Kodama" parent="Mobs" unique_id=1051193038 groups=["tutorial_spirit"] instance=ExtResource("10_npc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1576493, 1.0040001, 0.38231874)
 
 [node name="DemoNpc2" parent="Mobs" unique_id=898216268 instance=ExtResource("10_npc")]
@@ -376,10 +375,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5, 0, -2.5)
 
 [node name="IronResourceArea4" parent="Machines" unique_id=9234231 instance=ExtResource("9_bgpye")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.5, 0, -5.5)
-
-[node name="DemoMachine" parent="Machines" unique_id=1471987588 instance=ExtResource("37_ythrj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 2.5)
-toggle_blueprint = false
 
 [node name="Buildings" type="Node" parent="." unique_id=525340973]
 
