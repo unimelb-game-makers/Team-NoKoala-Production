@@ -63,6 +63,7 @@ func _on_close() -> void:
 	):
 		npc.enabled_work_types_changed.disconnect(_rebuild_work_types)
 	npc.change_movement()
+	close_requested.emit()
 	_clear_grid()
 	hide()
 

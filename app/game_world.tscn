@@ -372,7 +372,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5, 0, -2.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.5, 0, -5.5)
 
 [node name="DemoMachine" parent="Machines" unique_id=1471987588 instance=ExtResource("37_ythrj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47824526, 0, 2.0647802)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 2.5)
 toggle_blueprint = false
 
 [node name="Buildings" type="Node" parent="." unique_id=525340973]

@@ -41,12 +41,12 @@ func configure(
 	_machine_placement_controller = machine_placement_controller
 	_job_board = job_board
 	_machine_ui = machine_ui
-	_spirit_ui = spirit_ui
 	_grid = grid
 	_factory_manager = factory_manager
 	_item_stack_list_panel = item_stack_list_panel
 	_bind_gate(gate)
 	_bind_placement_controller()
+	_bind_spirit_ui(spirit_ui)
 
 
 func _ready() -> void:
@@ -77,6 +77,11 @@ func _on_gate_changed() -> void:
 	if not FeatureGate.check(_gate, GameFeature.Id.NPC_COMMAND):
 		_clear_consumer_selection()
 		_context_menu.close()
+
+func _bind_spirit_ui(spirit_ui: SpiritUI) -> void:
+	_spirit_ui = spirit_ui
+	if _spirit_ui != null:
+		_spirit_ui.close_requested.connect(_on_spirit_ui_closed)
 
 
 func _process(_delta: float) -> void:
@@ -145,7 +150,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if FeatureGate.check(_gate, GameFeature.Id.MACHINE_UI):
 			if _try_open_spirit_ui():
-				print("opened UI")
 				return
 			_try_open_machine_ui()
 
@@ -176,6 +180,8 @@ func _try_open_spirit_ui() -> bool:
 		return false
 	
 	_spirit_ui.open(npc)
+	
+	_select_consumer(npc.job_consumer)
 	get_viewport().set_input_as_handled()
 	return true
 
@@ -452,3 +458,6 @@ func _bind_placement_controller() -> void:
 		_machine_placement_controller.place_mode_changed.connect(
 			_on_place_mode_changed,
 		)
+
+func _on_spirit_ui_closed() -> void:
+	_clear_consumer_selection()
