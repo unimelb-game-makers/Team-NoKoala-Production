@@ -473,7 +473,12 @@ func _on_spirit_ui_closed() -> void:
 
 func _whistle_spirits() -> void:
 	whistled.emit()
-	var player_cell: Vector3i = _grid.world_to_cell(player.global_position)
-	for spirit in _mobs_root.get_children():
-		if spirit.global_position.distance_to(player.global_position) >= whistle_radius:
-			spirit.whistled(player_cell, whistle_radius)
+	if _mobs_root == null:
+		return
+	var center := player.global_position
+	for child in _mobs_root.get_children():
+		var spirit := child as Npc
+		if spirit == null:
+			continue
+		if spirit.global_position.distance_to(center) >= whistle_radius:
+			spirit.whistled(center, whistle_radius)

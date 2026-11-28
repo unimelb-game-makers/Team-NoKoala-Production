@@ -3,25 +3,23 @@ extends Node
 
 
 @export var whistle_sfx: AudioStreamWAV
+@export var sfx_player: AudioStreamPlayer
 
 var _player: Player
-var _sfx_player: AudioStreamPlayer
 
-func configure(
-	player: Player,
-	sfx_player: AudioStreamPlayer,
-) -> void:
+
+func configure(player: Player) -> void:
 	_player = player
-	_sfx_player = sfx_player
-	if _player != null:
+	if _player != null and not _player.interaction_controller.whistled.is_connected(_on_whistled):
 		_player.interaction_controller.whistled.connect(_on_whistled)
-		
-		
+
+
 func _play(stream: AudioStream) -> void:
-	if stream == null:
+	if stream == null or sfx_player == null:
 		return
-	_sfx_player.stream = stream
-	_sfx_player.play()
-	
+	sfx_player.stream = stream
+	sfx_player.play()
+
+
 func _on_whistled() -> void:
 	_play(whistle_sfx)

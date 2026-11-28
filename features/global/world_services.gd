@@ -16,7 +16,7 @@ extends Node
 @export var feature_gate: FeatureGate
 @export var tutorial_director: TutorialDirector
 @export var progression_manager: ProgressionManager
-@export var sfx_player: AudioStreamPlayer
+@export var sfx_manager: SFXManager
 
 
 func configure(
