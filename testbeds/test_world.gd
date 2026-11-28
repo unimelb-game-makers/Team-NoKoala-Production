@@ -44,6 +44,8 @@ func configure_dependencies() -> void:
 			world_services.factory_manager,
 			world_ui.hotbar if world_ui != null else null,
 			world_ui.machine_ui if world_ui != null else null,
+			world_ui.spirit_ui if world_ui != null else null,
+			mobs_root,
 			world_ui.item_stack_list_panel if world_ui != null else null,
 			world_services.feature_gate,
 		)
@@ -91,6 +93,7 @@ func configure_dependencies() -> void:
 		world_ui.configure(
 			world_services.faith_manager,
 			world_services.machine_placement_controller,
+			world_services.job_board,
 			world_services.feature_gate,
 			world_services.tutorial_director,
 		)
@@ -98,4 +101,7 @@ func configure_dependencies() -> void:
 	if telescope_assembly != null:
 		telescope_assembly.telescope.configure(world_services.progression_manager)
 	
+	if player != null:
+		world_services.sfx_manager.configure(player)
+
 	print(world_services.factory_manager._machines.size())

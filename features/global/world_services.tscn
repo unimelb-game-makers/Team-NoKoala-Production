@@ -23,12 +23,14 @@
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="19_ritual"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="20_ritual2"]
 [ext_resource type="Script" uid="uid://bmfs7248bdrbd" path="res://testbeds/progression_manager.gd" id="23_53iow"]
+[ext_resource type="Script" uid="uid://byerck3mh84mc" path="res://features/sfx_manager.gd" id="24_sfx"]
+[ext_resource type="AudioStream" uid="uid://dlhqxwowti4nr" path="res://assets/sfx/whistle_sfx.wav" id="25_whistle"]
 
 [sub_resource type="Resource" id="Resource_dfq7n"]
 script = ExtResource("9_yu6gr")
 metadata/_custom_type_script = "uid://h0igrbsvxkh0"
 
-[node name="WorldServices" type="Node" unique_id=64125197 node_paths=PackedStringArray("fixed_clock", "factory_manager", "recipe_unlocks", "machine_factory", "item_spawner", "spirit_spawner", "faith_manager", "job_board", "reservation_manager", "machine_placement_controller", "item_spawn_controller", "dialogue_coordinator", "feature_gate", "tutorial_director", "progression_manager")]
+[node name="WorldServices" type="Node" unique_id=64125197 node_paths=PackedStringArray("fixed_clock", "factory_manager", "recipe_unlocks", "machine_factory", "item_spawner", "spirit_spawner", "faith_manager", "job_board", "reservation_manager", "machine_placement_controller", "item_spawn_controller", "dialogue_coordinator", "feature_gate", "tutorial_director", "progression_manager", "sfx_manager")]
 script = ExtResource("1_gcxo1")
 fixed_clock = NodePath("FixedClock")
 factory_manager = NodePath("FactoryManager")
@@ -45,6 +47,7 @@ dialogue_coordinator = NodePath("DialogueCoordinator")
 feature_gate = NodePath("FeatureGate")
 tutorial_director = NodePath("TutorialDirector")
 progression_manager = NodePath("ProgressManager")
+sfx_manager = NodePath("SFXManager")
 
 [node name="MachineFactory" parent="." unique_id=331273636 instance=ExtResource("1_s7ysm")]
 
@@ -95,3 +98,11 @@ script = ExtResource("17_director")
 
 [node name="ProgressManager" type="Node" parent="." unique_id=841714833]
 script = ExtResource("23_53iow")
+
+[node name="SFXManager" type="Node" parent="." unique_id=660953730 node_paths=PackedStringArray("sfx_player")]
+script = ExtResource("24_sfx")
+whistle_sfx = ExtResource("25_whistle")
+sfx_player = NodePath("SFXPlayer")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="SFXManager" unique_id=459249462]
+bus = &"SFX"

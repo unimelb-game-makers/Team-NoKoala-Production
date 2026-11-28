@@ -19,6 +19,7 @@ extends Node
 @export var avoid_strength: float = 0.6
 
 var status: Status = Status.STOPPED
+var _paused: bool = false
 
 var character_body: CharacterBody3D
 var next_node: Vector3
@@ -50,7 +51,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if status != Status.MOVING:
+	if status != Status.MOVING or _paused:
 		return
 
 	if replan_interval > 0.0:
@@ -187,3 +188,14 @@ func _steer_around_agents(desired: Vector3) -> Vector3:
 		push = push.normalized()
 	var steered := desired + push * avoid_strength
 	return steered.normalized() if steered.length() > 0.01 else desired
+
+func is_paused() -> bool:
+	return _paused
+
+func resume_movement() -> void:
+	_paused = false
+
+func pause_movement() -> void:
+	_paused = true
+	if is_instance_valid(character_body):
+		character_body.velocity = Vector3.ZERO

@@ -71,6 +71,7 @@ func configure_dependencies() -> void:
 	world_ui.configure(
 		world_services.faith_manager,
 		world_services.machine_placement_controller,
+		world_services.job_board,
 		world_services.feature_gate,
 		world_services.tutorial_director,
 	)
@@ -83,6 +84,8 @@ func configure_dependencies() -> void:
 		world_services.factory_manager,
 		world_ui.hotbar,
 		world_ui.machine_ui,
+		world_ui.spirit_ui,
+		mobs_root,
 		world_ui.item_stack_list_panel,
 		world_services.feature_gate,
 	)
@@ -122,6 +125,7 @@ func configure_dependencies() -> void:
 				mobs_root,
 				grid
 			)
+	world_services.sfx_manager.configure(player)
 
 
 func shutdown() -> void:

@@ -10,3 +10,9 @@ func can_perform(work_type: WorkType.Value) -> bool:
 		if allowed_type != null and allowed_type == work_type:
 			return true
 	return false
+	
+func change_work_type(type: WorkType.Value):
+	if allowed_work_types.has(type):
+		allowed_work_types.erase(type)
+	else:
+		allowed_work_types.append(type)

@@ -7,6 +7,9 @@ extends CharacterBody3D
 @export var inventory_owner: InventoryOwner
 
 @export var definition: NPCDefinition
+@export var ui_panels: Array[PackedScene] = []
+
+signal enabled_work_types_changed
 
 func configure(
 	clock: FixedClock,
@@ -15,6 +18,8 @@ func configure(
 	grid: Grid,
 	faith_manager: FaithManager,
 ) -> void:
+	# ensures all npcs get unique definition
+	definition = definition.duplicate(true)
 	job_consumer.configure(
 		self,
 		movement,
@@ -28,3 +33,36 @@ func configure(
 	)
 	idle_job_provider.configure(jobs)
 	movement.configure(grid.pathfinder)
+	
+func work_types_changed(type: WorkType.Value) -> void:
+	definition.worker_capability.change_work_type(type)
+	enabled_work_types_changed.emit()
+	
+func get_ui_panels() -> Array[PackedScene]:
+	return ui_panels
+	
+func get_current_job_string() -> String:
+	var current = job_consumer.current_job
+	if current is WorkJob:
+		return current.JOB_TYPE
+	return "Wandering"
+
+func wander() -> void:
+	job_consumer.interrupt_job()
+
+## Temporarily stops/starts the npc's wandering
+func change_movement() -> void:
+	if get_current_job_string() != "Wandering":
+		return
+	if movement.is_paused():
+		movement.resume_movement()
+	else:
+		movement.pause_movement()
+
+## Moves towards closest point on circle around the player
+func whistled(center: Vector3, radius: float) -> void:
+	var offset := global_position - center
+	offset.y = 0.0  # keep the circle flat on the ground
+	var dest := center + offset.normalized() * radius
+	dest.y = global_position.y
+	job_consumer.command_move_to(dest)

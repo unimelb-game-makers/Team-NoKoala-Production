@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="TutorialTask" format=3 uid="uid://dwa8iit20cm8"]
+
+[ext_resource type="Script" uid="uid://uedu3mqw3xdb" path="res://features/tutorial/tutorial_task.gd" id="1_alql0"]
+[ext_resource type="Script" uid="uid://kpagy4pl22fg" path="res://features/tutorial/tutorial_step.gd" id="2_r4kfw"]
+[ext_resource type="Script" uid="uid://cxu884kmx2bg1" path="res://features/factory_system/machines/machine_definitions/machine_definition.gd" id="3_4xqyr"]
+[ext_resource type="Script" uid="uid://0q75epbw3nai" path="res://features/tutorial/conditions/action_pressed_condition.gd" id="4_cmhgn"]
+[ext_resource type="Script" uid="uid://dh3kkg1acuidu" path="res://features/tutorial/conditions/control_visible_condition.gd" id="5_r4kfw"]
+
+[sub_resource type="Resource" id="Resource_66m8t"]
+script = ExtResource("4_cmhgn")
+action = &"whistle"
+metadata/_custom_type_script = "uid://0q75epbw3nai"
+
+[sub_resource type="Resource" id="Resource_m45of"]
+script = ExtResource("2_r4kfw")
+id = &"whistle_spirit"
+objective_text = "You may have noticed some spirits floating around town. Kodama spirits are here to help you but such curious spirits sometimes wander off! Press Q to whistle them back to you."
+allowed_features = Array[int]([0, 2])
+complete_when = SubResource("Resource_66m8t")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_alql0"]
+script = ExtResource("5_r4kfw")
+control_group = &"tutorial_spirit_ui"
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_2oq34"]
+script = ExtResource("2_r4kfw")
+id = &"inspect_spirit"
+objective_text = "Right click a spirit to check in on them."
+allowed_features = Array[int]([0, 2, 7])
+highlight_group = &"tutorial_spirit"
+complete_when = SubResource("Resource_alql0")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_r4kfw"]
+script = ExtResource("5_r4kfw")
+control_group = &"tutorial_spirit_ui"
+visible = false
+metadata/_custom_type_script = "uid://dh3kkg1acuidu"
+
+[sub_resource type="Resource" id="Resource_4xqyr"]
+script = ExtResource("2_r4kfw")
+id = &"explain_spirit"
+objective_text = "Here you can change a spirit's roles, affecting which jobs they can be assigned to and will automatically pick up. Close this panel."
+allowed_features = Array[int]([0, 2, 7])
+complete_when = SubResource("Resource_r4kfw")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[sub_resource type="Resource" id="Resource_ppw74"]
+script = ExtResource("4_cmhgn")
+action = &"pickup_item"
+metadata/_custom_type_script = "uid://0q75epbw3nai"
+
+[sub_resource type="Resource" id="Resource_cmhgn"]
+script = ExtResource("2_r4kfw")
+id = &"click_spirit"
+objective_text = "If you ever want to assign a spirit to a specific job, left-click the spirit to select them and then left-click the related item or machine."
+allowed_features = Array[int]([0, 2, 5])
+complete_when = SubResource("Resource_ppw74")
+metadata/_custom_type_script = "uid://kpagy4pl22fg"
+
+[resource]
+script = ExtResource("1_alql0")
+id = &"tutorial_spirit"
+steps = Array[ExtResource("2_r4kfw")]([SubResource("Resource_m45of"), SubResource("Resource_2oq34"), SubResource("Resource_4xqyr"), SubResource("Resource_cmhgn")])
+metadata/_custom_type_script = "uid://uedu3mqw3xdb"

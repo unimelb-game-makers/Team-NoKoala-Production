@@ -16,6 +16,8 @@ var current_driver: JobDriver = null
 var current_provider: JobProvider = null
 var current_request: JobRequest = null
 var capability: WorkerCapability
+## True while walking to a commanded destination; job finding waits until it ends.
+var _commanded_move := false
 
 func configure(
 	p_actor: Node3D,
@@ -55,6 +57,11 @@ func _ready() -> void:
 
 
 func _on_tick(delta: float, _ticks_due: int, _tick_count: int) -> void:
+	if _commanded_move:
+		if movement.status == Movement.Status.MOVING:
+			return
+		_commanded_move = false
+
 	if current_job == null:
 		find_new_job()
 		return
@@ -110,6 +117,14 @@ func cancel_job() -> void:
 func interrupt_job() -> void:
 	if current_job != null:
 		cancel_job()
+
+
+## Drops the current job and walks to `destination`. Normal job finding resumes
+## once the move ends (arrived or failed).
+func command_move_to(destination: Vector3) -> void:
+	interrupt_job()
+	_commanded_move = true
+	movement.start_moving_to(destination)
 
 
 ## Assign a specific provider request, transferring it from another consumer

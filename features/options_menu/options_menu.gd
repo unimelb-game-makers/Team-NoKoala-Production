@@ -1,12 +1,12 @@
 class_name OptionsMenu
 extends CanvasLayer
 
-## Options screen opened from the pause menu. Exactly one element (the volume
+## Options screen opened from the pause menu. Exactly one element (a volume
 ## slider or a button) is selected at a time: selection follows keyboard focus,
 ## and hovering with the mouse moves focus. Up/down move between elements,
 ## left/right adjust the slider.
 ##
-## The slider previews the volume live. Apply saves it; Back (or Esc) returns
+## The sliders preview the volume live. Apply saves it; Back (or Esc) returns
 ## to the pause menu and reverts anything not applied.
 
 signal closed
@@ -17,6 +17,8 @@ const DESIGN_SIZE := Vector2(1404, 848)
 @export var layout: Control
 @export var volume_slider: HSlider
 @export var volume_value_label: Label
+@export var sfx_slider: HSlider
+@export var sfx_value_label: Label
 @export var apply_button: Button
 @export var back_button: Button
 @export var button_style: StyleBox
@@ -31,10 +33,11 @@ func _ready() -> void:
 	_fit_layout()
 
 	volume_slider.value_changed.connect(_on_volume_changed)
+	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	apply_button.pressed.connect(_on_apply_pressed)
 	back_button.pressed.connect(close)
 
-	var items: Array[Control] = [volume_slider, apply_button, back_button]
+	var items: Array[Control] = [volume_slider, sfx_slider, apply_button, back_button]
 	for i in items.size():
 		var item := items[i]
 		var prev := items[(i - 1 + items.size()) % items.size()]
@@ -55,7 +58,8 @@ func _ready() -> void:
 
 func open() -> void:
 	volume_slider.set_value_no_signal(GameSettings.music_volume)
-	_update_value_label()
+	sfx_slider.set_value_no_signal(GameSettings.sfx_volume)
+	_update_value_labels()
 	show()
 	volume_slider.grab_focus()
 
@@ -65,6 +69,7 @@ func close() -> void:
 		return
 	# Drop any unapplied preview.
 	GameSettings.apply_music_volume(GameSettings.music_volume)
+	GameSettings.apply_sfx_volume(GameSettings.sfx_volume)
 	var focus := get_viewport().gui_get_focus_owner()
 	if focus != null and is_ancestor_of(focus):
 		focus.release_focus()
@@ -107,14 +112,21 @@ func _set_item_selected(item: Control, selected: bool) -> void:
 
 
 func _on_volume_changed(value: float) -> void:
-	_update_value_label()
+	_update_value_labels()
 	GameSettings.apply_music_volume(int(value))
 
 
-func _update_value_label() -> void:
+func _on_sfx_volume_changed(value: float) -> void:
+	_update_value_labels()
+	GameSettings.apply_sfx_volume(int(value))
+
+
+func _update_value_labels() -> void:
 	volume_value_label.text = str(int(volume_slider.value))
+	sfx_value_label.text = str(int(sfx_slider.value))
 
 
 func _on_apply_pressed() -> void:
 	GameSettings.music_volume = int(volume_slider.value)
+	GameSettings.sfx_volume = int(sfx_slider.value)
 	GameSettings.save_settings()

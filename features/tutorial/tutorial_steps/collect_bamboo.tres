@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="held_bamboo"]
 script = ExtResource("3_r2u8c")
 item_definition = ExtResource("2_is57e")
-count = 4
+count = 5
 
 [resource]
 script = ExtResource("4_lurm6")

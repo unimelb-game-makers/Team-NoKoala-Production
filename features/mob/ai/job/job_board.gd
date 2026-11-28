@@ -28,3 +28,9 @@ func clear() -> void:
 		if is_instance_valid(provider):
 			provider.deactivate()
 	_providers.clear()
+
+func get_available_requests(consumer: JobConsumer) -> Array[JobRequest]:
+	var result: Array[JobRequest] = []
+	for provider in _providers:
+		result.append_array(provider.get_available_requests(consumer))
+	return result

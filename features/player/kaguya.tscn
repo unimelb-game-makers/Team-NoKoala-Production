@@ -130,10 +130,31 @@ transform = Transform3D(0.99431854, 0.0907039, 0.055700034, -0.05441118, -0.0166
 [node name="GeneralSkeleton" parent="KaguyaModel/Armature" index="0" unique_id=940447012]
 
 [node name="LeftLowerArmCollision" parent="KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(502972077, 126443671) index="0" unique_id=1012435759]
-transform = Transform3D(-89.846954, 13.571422, -41.75329, -19.316284, -97.62246, 9.834722, -39.425873, 16.90138, 90.33234, 24.127102, 80.4104, 4.4641585)
+transform = Transform3D(-89.5864, 17.878386, -40.677326, -20.348036, -97.89151, 1.7888128, -39.499813, 9.87957, 91.335365, 25.201078, 79.745995, 4.1667547)
 
 [node name="RightLowerArmCollision" parent="KaguyaModel/Armature/GeneralSkeleton/SpringBoneSimulator3D" parent_id_path=PackedInt32Array(502972077, 126443671) index="1" unique_id=1774903563]
-transform = Transform3D(-74.3643, 0.6772373, 66.854256, 5.810332, -99.55102, 7.4714785, 66.6047, 9.440568, 73.99109, -4.7515817, 77.54653, -0.85236955)
+transform = Transform3D(-75.47953, -3.160998, 65.51985, 5.73495, -99.8193, 1.7909518, 65.34485, 5.109335, 75.5244, -5.1060405, 76.85164, -0.9599548)
+
+[node name="J_Bip_L_LowerArm" parent="KaguyaModel/Armature/GeneralSkeleton" index="4" unique_id=537307850]
+transform = Transform3D(-0.8418432, 0.2197029, -0.4929818, 0.48504692, -0.0926176, -0.8695692, -0.23670577, -0.97116005, -0.028596878, 0.14346395, 0.009910629, 1.0936738)
+
+[node name="J_Bip_L_UpperArm" parent="KaguyaModel/Armature/GeneralSkeleton" index="5" unique_id=200518938]
+transform = Transform3D(-0.83694893, 0.2915959, -0.46312916, 0.4935845, 0.03662646, -0.86892575, -0.23641253, -0.9558397, -0.17458183, 0.079355836, 0.0018581813, 1.3038177)
+
+[node name="J_Bip_R_Hand" parent="KaguyaModel/Armature/GeneralSkeleton" index="6" unique_id=466816034]
+transform = Transform3D(-0.97723985, -0.18311052, 0.10711157, -0.045734525, -0.3111881, -0.9492469, 0.20714879, -0.9325406, 0.29573086, -0.15027432, 0.030257326, 0.84866506)
+
+[node name="J_Bip_R_LowerArm" parent="KaguyaModel/Armature/GeneralSkeleton" index="7" unique_id=1881175521]
+transform = Transform3D(-0.81602687, 0.01616893, 0.5777879, -0.57801336, -0.024213016, -0.8156675, 0.00080139167, -0.9995756, 0.029104307, -0.15375102, 0.035467356, 1.0632588)
+
+[node name="J_Bip_R_UpperArm" parent="KaguyaModel/Armature/GeneralSkeleton" index="8" unique_id=1081626969]
+transform = Transform3D(-0.8091731, -0.11474118, 0.5762582, -0.5875691, 0.15610692, -0.79397255, 0.0011433177, -0.98105264, -0.1937359, -0.1285248, 0.0011468749, 1.2789458)
+
+[node name="J_Bip_C_UpperChest" parent="KaguyaModel/Armature/GeneralSkeleton" index="9" unique_id=242803729]
+transform = Transform3D(0.99011135, -0.14019139, -0.005101015, 0.027435865, 0.22917122, -0.97299904, 0.13757516, 0.9632374, 0.23075128, -0.012363321, -0.0137477135, 1.2121267)
+
+[node name="J_Bip_C_Spine" parent="KaguyaModel/Armature/GeneralSkeleton" index="10" unique_id=269855792]
+transform = Transform3D(0.99956346, -0.027245896, 0.011426403, 0.006583462, -0.17162317, -0.98514056, 0.028802078, 0.9847858, -0.17136888, -5.508568e-10, -0.016093485, 0.9912775)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=624202998]
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0.8, 0)
@@ -161,6 +182,7 @@ metadata/_custom_type_script = "uid://cfhdxwnq6250f"
 
 [node name="PlayerInteractionController" type="Node" parent="." unique_id=1743538725]
 script = ExtResource("5_2ohs6")
+whistle_radius = 3.0
 metadata/_custom_type_script = "uid://whob5vilplfq"
 
 [node name="PathAgent" type="Node" parent="." unique_id=1743538726]
