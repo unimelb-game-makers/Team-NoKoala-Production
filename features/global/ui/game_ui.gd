@@ -4,6 +4,7 @@ extends Node
 
 @export var dialogue_ui: DialogueUI
 @export var pause_menu: PauseMenu
+@export var debug_ui: DebugUI
 
 var _context: WorldContext
 var _requested_cue: StringName
@@ -15,6 +16,7 @@ func _ready() -> void:
 	dialogue_ui.finished.connect(_on_dialogue_finished)
 	assert(pause_menu != null, "GameUI requires a PauseMenu")
 	pause_menu.toggled.connect(_on_pause_toggled)
+	assert(debug_ui != null, "GameUI requires a DebugUI")
 
 
 func bind_world(context: WorldContext) -> void:
@@ -24,10 +26,12 @@ func bind_world(context: WorldContext) -> void:
 	unbind_world()
 	_context = context
 	context.dialogue_coordinator.dialogue_requested.connect(_on_dialogue_requested)
+	debug_ui.bind_world(context)
 
 
 func unbind_world() -> void:
 	_context = null
+	debug_ui.unbind_world()
 
 
 func start_dialogue(resource: DialogueResource, cue: String = "") -> bool:
@@ -59,3 +63,4 @@ func _on_dialogue_finished() -> void:
 
 func _on_pause_toggled(is_paused: bool) -> void:
 	dialogue_ui.set_overlay_hidden(is_paused)
+	debug_ui.set_overlay_hidden(is_paused)

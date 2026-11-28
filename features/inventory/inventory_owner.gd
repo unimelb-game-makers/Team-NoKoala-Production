@@ -45,18 +45,30 @@ func try_pick_up_item(item: FactoryItem) -> bool:
 		return false
 	if actor.global_position.distance_to(item.global_position) > pickup_distance:
 		return false
+	if not inventory.can_add(item):
+		return false
+
+	var was_dropped := item.is_dropped()
+	var drop_position := item.get_drop_world_position() if was_dropped else item.global_position
 	if not item.try_claim(actor):
 		return false
 
 	var index := inventory.try_add(item)
 	if index == -1:
-		item.release_claim()
+		if was_dropped:
+			item.drop_at(drop_position)
+		else:
+			item.release_claim()
 		return false # every slot is holding something incompatible/full
 
 	if item.stack.is_empty():
 		item.queue_free() # fully merged into an existing stack
 	elif inventory.get_slot(index) != item:
-		item.release_claim() # partially merged, the rest stays on the ground
+		# partially merged, the rest stays on the ground
+		if was_dropped:
+			item.drop_at(drop_position)
+		else:
+			item.release_claim()
 	elif index == inventory.selected_index:
 		_show_item(item)
 	else:
