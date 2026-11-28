@@ -51,13 +51,15 @@ Label/constants/shadow_offset_x = 0
 Label/constants/shadow_offset_y = 2
 Label/constants/shadow_outline_size = 0
 
-[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("layout", "volume_slider", "volume_value_label", "apply_button", "back_button")]
+[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("layout", "volume_slider", "volume_value_label", "sfx_slider", "sfx_value_label", "apply_button", "back_button")]
 process_mode = 3
 layer = 120
 script = ExtResource("1_script")
 layout = NodePath("Layout")
 volume_slider = NodePath("Layout/VolumeSlider")
 volume_value_label = NodePath("Layout/VolumeValue")
+sfx_slider = NodePath("Layout/SfxSlider")
+sfx_value_label = NodePath("Layout/SfxValue")
 apply_button = NodePath("Layout/ApplyButton")
 back_button = NodePath("Layout/BackButton")
 button_style = SubResource("StyleBox_button")
@@ -128,6 +130,37 @@ offset_left = 1012.0
 offset_top = 300.0
 offset_right = 1082.0
 offset_bottom = 354.0
+text = "100"
+vertical_alignment = 1
+
+[node name="SfxLabel" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 380.0
+offset_right = 640.0
+offset_bottom = 434.0
+text = "Sound FX"
+vertical_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="Layout"]
+layout_mode = 0
+offset_left = 686.0
+offset_top = 384.0
+offset_right = 986.0
+offset_bottom = 430.0
+value = 100.0
+rounded = true
+script = ExtResource("11_slider")
+track_texture = ExtResource("7_slider")
+thumb_texture = ExtResource("8_thumb")
+thumb_selected_texture = ExtResource("9_thumb_selected")
+
+[node name="SfxValue" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 1012.0
+offset_top = 380.0
+offset_right = 1082.0
+offset_bottom = 434.0
 text = "100"
 vertical_alignment = 1
 
