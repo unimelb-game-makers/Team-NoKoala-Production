@@ -183,6 +183,7 @@ stages = Array[ExtResource("13_stage")]([SubResource("Resource_stage"), SubResou
 input_tiles = [NodePath("../Block/Input3"), NodePath("../Block/Input2"), NodePath("../Block/Input1")]
 input_shadow = NodePath("../MachineInputShadows")
 definition = ExtResource("4_vg41c")
+enabled_recipes = Array[ExtResource("6_recipe")]([ExtResource("7_offering")])
 faith_drain_rate = 60.0
 debug_active_indicator = NodePath("../DebugLight")
 

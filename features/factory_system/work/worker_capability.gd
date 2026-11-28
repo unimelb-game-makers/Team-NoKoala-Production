@@ -2,6 +2,7 @@ class_name WorkerCapability
 extends Resource
 
 @export var allowed_work_types: Array[WorkType.Value] = []
+@export var consumes_faith: bool = true
 
 
 func can_perform(work_type: WorkType.Value) -> bool:

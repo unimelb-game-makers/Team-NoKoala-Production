@@ -1,0 +1,106 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/debug/debug_ui.gd" id="1_debug"]
+
+[node name="DebugUI" type="CanvasLayer" node_paths=PackedStringArray("toggle_button", "panel", "close_button", "faith_value_label", "faith_spinbox", "set_faith_button", "item_list", "spawn_item_button")]
+layer = 10
+script = ExtResource("1_debug")
+toggle_button = NodePath("ToggleButton")
+panel = NodePath("PanelContainer")
+close_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/HeaderRow/CloseButton")
+faith_value_label = NodePath("PanelContainer/MarginContainer/VBoxContainer/FaithHeaderRow/FaithValueLabel")
+faith_spinbox = NodePath("PanelContainer/MarginContainer/VBoxContainer/FaithInputRow/FaithSpinBox")
+set_faith_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/FaithInputRow/SetFaithButton")
+item_list = NodePath("PanelContainer/MarginContainer/VBoxContainer/ItemList")
+spawn_item_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/SpawnItemButton")
+
+[node name="ToggleButton" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -116.0
+offset_top = 60.0
+offset_right = -16.0
+offset_bottom = 92.0
+grow_horizontal = 0
+tooltip_text = "Toggle Debug UI (F3)"
+text = "Debug (F3)"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -316.0
+offset_top = 100.0
+offset_right = -16.0
+offset_bottom = 460.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Debug Tools"
+
+[node name="CloseButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HeaderRow"]
+layout_mode = 2
+text = "X"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FaithHeaderRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FaithLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FaithHeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Faith"
+
+[node name="FaithValueLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FaithHeaderRow"]
+layout_mode = 2
+text = "0 / 0"
+
+[node name="FaithInputRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FaithSpinBox" type="SpinBox" parent="PanelContainer/MarginContainer/VBoxContainer/FaithInputRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1000.0
+step = 10.0
+
+[node name="SetFaithButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/FaithInputRow"]
+layout_mode = 2
+text = "Set"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpawnItemLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spawn Item"
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_vertical = 3
+fixed_icon_size = Vector2i(24, 24)
+
+[node name="SpawnItemButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spawn Selected Item"

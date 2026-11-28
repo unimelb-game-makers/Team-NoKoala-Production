@@ -22,11 +22,6 @@ func configure(
 	_gate = gate
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("spawn_factory_item") and FeatureGate.check(_gate, GameFeature.Id.ITEM_SPAWN):
-		spawn_factory_item_at_mouse(item_definition.item_key)
-
-
 func spawn_factory_item_at_mouse(
 	item_definition: FactoryItemDefinition.FactoryItemID,
 ) -> FactoryItem:

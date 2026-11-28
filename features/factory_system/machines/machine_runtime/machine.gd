@@ -394,6 +394,12 @@ func _on_work_port_allocation_changed(
 	port: WorkPort,
 	worker: WorkerCapability,
 ) -> void:
+	if is_active and faith_manager != null:
+		var effective_drain := get_effective_faith_drain_rate()
+		if effective_drain > 0.0 and not faith_manager.try_drain():
+			force_shutdown()
+		else:
+			faith_manager.update_drain_rate(self, effective_drain)
 	work_port_allocation_changed.emit(port, worker)
 
 
@@ -443,15 +449,31 @@ func _get_cells_for_role(
 	return result
 
 
+func get_effective_faith_drain_rate(
+	drain_rate: float = faith_drain_rate,
+) -> float:
+	if drain_rate <= 0.0 or work_ports.is_empty():
+		return drain_rate
+	for port in work_ports:
+		if port.worker != null and port.worker.consumes_faith:
+			return drain_rate
+	return 0.0
+
+
 func register_active(drain_rate: float = 0.0) -> void:
+	var effective_drain := get_effective_faith_drain_rate(drain_rate)
 	if is_active:
+		if effective_drain > 0.0 and not faith_manager.try_drain():
+			force_shutdown()
+			return
+		faith_manager.update_drain_rate(self, effective_drain)
 		return
-	if drain_rate > 0.0 and not faith_manager.try_drain():
+	if effective_drain > 0.0 and not faith_manager.try_drain():
 		# Out of faith: shut down rather than run for free. FactoryManager
 		# reactivates shut-down machines once faith is restored.
 		force_shutdown()
 		return
-	faith_manager.register_drain(self, drain_rate)
+	faith_manager.register_drain(self, effective_drain)
 	is_active = true
 	_set_debug_indicator(true)
 
