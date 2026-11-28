@@ -215,7 +215,6 @@ func can_add_item_at_cell(
 		if (
 			factory_item != null
 			and factory_item.stack != null
-			and factory_item.stack.item_definition == item
 			and not factory_item.stack.is_full()
 		):
 			for machine in get_machines_at(cell):

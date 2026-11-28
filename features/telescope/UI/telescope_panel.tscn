@@ -57,7 +57,7 @@ theme_override_constants/separation = 20
 
 [node name="RHS" type="VBoxContainer" parent="Content" unique_id=2101102384]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 80
 
 [node name="RepairButton" type="Button" parent="." unique_id=766961094]
 layout_mode = 2
