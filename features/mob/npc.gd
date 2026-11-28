@@ -49,3 +49,12 @@ func get_current_job_string() -> String:
 
 func wander() -> void:
 	job_consumer.interrupt_job()
+
+## Temporarily stops/starts the npc's wandering
+func change_movement() -> void:
+	if get_current_job_string() != "Wandering":
+		return
+	if movement.is_paused():
+		movement.resume_movement()
+	else:
+		movement.pause_movement()

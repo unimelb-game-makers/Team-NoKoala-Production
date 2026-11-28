@@ -51,6 +51,7 @@ func _on_open() -> void:
 	current_job_label.text = "Current Job: " + npc.get_current_job_string()
 	name_label.text = str(npc.name)
 	npc.enabled_work_types_changed.connect(_rebuild_work_types)
+	npc.change_movement()
 	_rebuild_work_types()
 	#_rebuild_requests()
 	show()
@@ -61,8 +62,8 @@ func _on_close() -> void:
 		and npc.enabled_work_types_changed.is_connected(_rebuild_work_types)
 	):
 		npc.enabled_work_types_changed.disconnect(_rebuild_work_types)
+	npc.change_movement()
 	_clear_grid()
-	_clear_requests()
 	hide()
 
 
@@ -112,31 +113,8 @@ func _rebuild_work_types() -> void:
 		_selected = allowed[0] if not allowed.is_empty() else -1
 	_refresh()
 
-func _rebuild_requests() -> void:
-	_clear_requests()
-	if npc == null or _job_board == null:
-		return
-	for request in _job_board.get_available_requests(npc.job_consumer):
-		if request.job_type() == "wander":
-			continue
-		# TO DO: update this to a button
-		var label := Label.new()
-		label.text = str(request.job_type())
-		jobs_list.add_child(label)
-	
-	if jobs_list.get_child_count() == 0:
-		var label := Label.new()
-		label.text = "No available jobs"
-		jobs_list.add_child(label)
-
-func _clear_requests() -> void:
-	for child in jobs_list.get_children():
-		jobs_list.remove_child(child)
-		child.queue_free()
-
 func wander() -> void:
 	if npc == null:
 		return
 	wander_requested.emit(npc)
 	current_job_label.text = "Current Job: " + npc.get_current_job_string()
-	# _rebuild_requests()
