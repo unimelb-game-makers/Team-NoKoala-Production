@@ -58,3 +58,12 @@ func change_movement() -> void:
 		movement.resume_movement()
 	else:
 		movement.pause_movement()
+
+## Moves towards closest point on circle around the player
+func whistled(target: Vector3i, radius: float) -> void:
+	var center = Vector3(target)
+	var offset = global_position - center
+	offset.y = 0.0  # keep the circle flat on the ground
+	
+	var dest: Vector3 = center + offset.normalized() * radius
+	movement.start_moving_to(dest.round())

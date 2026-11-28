@@ -11,6 +11,7 @@ extends Node3D
 @export var items_root: Node
 @export var world_ui: WorldUI
 @export var telescope_assembly: TelescopeAssembly
+@export var sfx_manager: SFXManager
 
 var context: WorldContext
 var _composed := false
@@ -85,6 +86,7 @@ func configure_dependencies() -> void:
 		world_ui.hotbar,
 		world_ui.machine_ui,
 		world_ui.spirit_ui,
+		mobs_root,
 		world_ui.item_stack_list_panel,
 		world_services.feature_gate,
 	)
@@ -124,6 +126,7 @@ func configure_dependencies() -> void:
 				mobs_root,
 				grid
 			)
+	sfx_manager.configure(player, world_services.sfx_player)
 
 
 func shutdown() -> void:

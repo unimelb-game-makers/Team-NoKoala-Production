@@ -5,7 +5,10 @@ const NO_JOB_TEXT := "No available job"
 const ALL_COLLISION_LAYERS := 0xFFFFFFFF
 const GROUND_COLLISION_MASK := 1 << 3
 
+signal whistled
+
 @export var spring_arm: CameraController
+@export var whistle_radius: float = 5.0
 
 var player: Node3D
 var _inventory_owner: InventoryOwner
@@ -20,6 +23,7 @@ var _gate: FeatureGate
 var _grid: Grid
 var _factory_manager: FactoryManager
 var _item_stack_list_panel: ItemStackListPanel
+var _mobs_root: Node
 ## Pickable item stacks on the cell under the mouse.
 var _hovered_items: Array[FactoryItem] = []
 var _hovered_cell: Variant = null
@@ -32,6 +36,7 @@ func configure(
 	job_board: JobBoard,
 	machine_ui: MachineUI,
 	spirit_ui: SpiritUI,
+	mobs_root: Node,
 	grid: Grid,
 	factory_manager: FactoryManager,
 	item_stack_list_panel: ItemStackListPanel,
@@ -44,6 +49,7 @@ func configure(
 	_grid = grid
 	_factory_manager = factory_manager
 	_item_stack_list_panel = item_stack_list_panel
+	_mobs_root = mobs_root
 	_bind_gate(gate)
 	_bind_placement_controller()
 	_bind_spirit_ui(spirit_ui)
@@ -142,6 +148,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed(&"pickup_item") and not _hovered_items.is_empty():
 		_try_pick_up_selected_item()
+		return
+	if event.is_action_pressed(&"whistle"):
+		_whistle_spirits()
 		return
 	if not event is InputEventMouseButton or not event.pressed:
 		return
@@ -461,3 +470,10 @@ func _bind_placement_controller() -> void:
 
 func _on_spirit_ui_closed() -> void:
 	_clear_consumer_selection()
+
+func _whistle_spirits() -> void:
+	whistled.emit()
+	var player_cell: Vector3i = _grid.world_to_cell(player.global_position)
+	for spirit in _mobs_root.get_children():
+		if spirit.global_position.distance_to(player.global_position) >= whistle_radius:
+			spirit.whistled(player_cell, whistle_radius)

@@ -30,6 +30,8 @@
 [ext_resource type="Resource" uid="uid://b3b6pw2kp432" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe.tres" id="16_qi48s"]
 [ext_resource type="Resource" uid="uid://5esfvqn6ij18" path="res://features/factory_system/recipes/recipe_definitions/ritual_recipe2.tres" id="17_ym6vy"]
 [ext_resource type="PackedScene" uid="uid://lofjesxlwu6q" path="res://features/resource_area/scenes/flax_resourcearea.tscn" id="18_l6gi6"]
+[ext_resource type="Script" uid="uid://byerck3mh84mc" path="res://features/sfx_manager.gd" id="19_ox12a"]
+[ext_resource type="AudioStream" uid="uid://dlhqxwowti4nr" path="res://assets/sfx/whistle_sfx.wav" id="20_woego"]
 [ext_resource type="PackedScene" uid="uid://djd6jtv6fotlw" path="res://features/resource_area/scenes/stone_resourcearea.tscn" id="21_bgpye"]
 [ext_resource type="PackedScene" uid="uid://bexx4moxjtpcb" path="res://features/resource_area/scenes/clay_resourcearea.tscn" id="22_l6gi6"]
 [ext_resource type="AudioStream" uid="uid://b53eb7g5jb101" path="res://assets/musics/desolateness.ogg" id="23_l6gi6"]
@@ -90,7 +92,7 @@ size = Vector3(3, 2, 3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_dialogue_trigger"]
 size = Vector3(4, 3, 4)
 
-[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui", "telescope_assembly")]
+[node name="GameWorld" type="Node3D" unique_id=109266780 node_paths=PackedStringArray("world_services", "grid", "player", "spring_arm", "mobs_root", "machines_root", "buildings_root", "items_root", "world_ui", "telescope_assembly", "sfx_manager")]
 script = ExtResource("1_world")
 world_services = NodePath("WorldServices")
 grid = NodePath("GridMap")
@@ -102,11 +104,13 @@ buildings_root = NodePath("Buildings")
 items_root = NodePath("Items")
 world_ui = NodePath("WorldUI")
 telescope_assembly = NodePath("Machines/Telescope")
+sfx_manager = NodePath("WorldServices/SFXManager")
 
 [node name="WorldUI" parent="." unique_id=1811817518 node_paths=PackedStringArray("map_regions") instance=ExtResource("27_world_ui")]
 map_regions = NodePath("../MapAreas")
 
-[node name="WorldServices" parent="." unique_id=64125197 instance=ExtResource("3_ed0w8")]
+[node name="WorldServices" parent="." unique_id=64125197 node_paths=PackedStringArray("sfx_player") instance=ExtResource("3_ed0w8")]
+sfx_player = NodePath("../SFXPlayer")
 
 [node name="MachineFactory" parent="WorldServices" index="0" unique_id=331273636]
 default_machine_definitions = Array[ExtResource("13_f4igb")]([ExtResource("14_y8uev"), ExtResource("15_7hq8t")])
@@ -116,6 +120,10 @@ initially_unlocked = Array[ExtResource("4_rrkfe")]([ExtResource("11_woego"), Ext
 
 [node name="TutorialDirector" parent="WorldServices" index="13" unique_id=2133003940]
 sequence = ExtResource("4_l6gi6")
+
+[node name="SFXManager" type="Node" parent="WorldServices" unique_id=660953730]
+script = ExtResource("19_ox12a")
+whistle_sfx = ExtResource("20_woego")
 
 [node name="GridMap" parent="." unique_id=1236146167 instance=ExtResource("3_grid")]
 mesh_library = ExtResource("8_4h5x5")
@@ -145,8 +153,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_xr00m")
 [node name="Kaguya" parent="." unique_id=100141511 instance=ExtResource("4_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39921927, -0.5209508)
 collision_mask = 5
-can_jump = null
-max_move_speed = null
 
 [node name="ResourceAreaConverter" type="Node" parent="." unique_id=367166861 node_paths=PackedStringArray("grid")]
 script = ExtResource("26_h1ur4")
@@ -399,7 +405,10 @@ debug_color = Color(1, 0.18333334, 0, 1)
 script = ExtResource("23_rfyvl")
 cutscene = ExtResource("24_rfyvl")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1992962174]
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=459249462]
+bus = &"Music"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1992962174]
 stream = ExtResource("23_l6gi6")
 autoplay = true
 bus = &"Music"
