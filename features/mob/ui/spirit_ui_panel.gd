@@ -52,7 +52,7 @@ func _on_open() -> void:
 	name_label.text = str(npc.name)
 	npc.enabled_work_types_changed.connect(_rebuild_work_types)
 	_rebuild_work_types()
-	_rebuild_requests()
+	#_rebuild_requests()
 	show()
 
 func _on_close() -> void:
@@ -139,4 +139,4 @@ func wander() -> void:
 		return
 	wander_requested.emit(npc)
 	current_job_label.text = "Current Job: " + npc.get_current_job_string()
-	_rebuild_requests()
+	# _rebuild_requests()
